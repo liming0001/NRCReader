@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="ipad10_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WechatIMG" translatesAutoresizingMaskIntoConstraints="NO" id="nJ2-Wa-dAT">
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="5Pf-5I-VyP"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BhL-M0-pnD"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="DRh-Oc-8d6"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="TpD-a6-yYe"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Yu4-Yg-gAF"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="sVi-Bq-5A9"/>
+                            <constraint firstItem="nJ2-Wa-dAT" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="uTY-tj-XvR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-133" y="17"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="WechatIMG" width="768" height="1024"/>
+    </resources>
+</document>

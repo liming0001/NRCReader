@@ -1,0 +1,62 @@
+//
+//  NFCReader.pch
+//  NFCReader
+//
+//  Created by 李黎明 on 2019/4/12.
+//  Copyright © 2019 李黎明. All rights reserved.
+//
+
+#ifndef NFCReader_pch
+#define NFCReader_pch
+
+#import <Masonry/Masonry.h>
+#import <UIColor_Utilities/UIColor+Expanded.h>
+#import "EPService.h"
+// ReactiveCocoa
+#import <ReactiveObjC/ReactiveObjC.h>
+#import "EPToast.h"
+#import "EPStr.h"
+#import <YYModel/YYModel.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "NRChipInfoModel.h"
+#import "NSString+EPExtention.h"
+#import "NRCRCString.h"
+#import "NRCommand.h"
+#import "EPSound.h"
+#import "YRJSONAdapter.h"
+#import "EPStr.h"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef DEBUG
+#define DLOG(...) NSLog(__VA_ARGS__)
+#else
+#define DLOG(...) do {} while (0)
+#endif
+
+typedef void(^EPFeedbackBlock)(BOOL success);
+typedef void(^EPFeedbackWithErrorCodeBlock)(BOOL success,NSString *msg,EPSreviceError error);
+
+#define  kScreenHeight   [UIScreen mainScreen].bounds.size.height
+#define  kScreenWidth     CGRectGetWidth([UIScreen mainScreen].bounds)
+
+#define kEPFontNamePingFangSC @"PingFangSC-Regular"
+
+#define WeakSelf __weak typeof(self) weakSelf = self;
+
+/**
+ 设备UUID
+ */
+#define PMServiceUUID @"FFE0"
+
+//蓝牙连接状态的定义
+#define kCONNECTED_UNKNOWN_STATE @"未知蓝牙状态"
+#define kCONNECTED_RESET         @"蓝牙重置"
+#define kCONNECTED_UNSUPPORTED   @"该设备不支持蓝牙"
+#define kCONNECTED_UNAUTHORIZED  @"未授权蓝牙权限"
+#define kCONNECTED_POWERED_OFF   @"蓝牙已关闭"
+#define kCONNECTED_POWERD_ON     @"蓝牙已打开"
+#define kCONNECTED_ERROR         @"未知的蓝牙错误"
+
+#endif /* NFCReader_pch */

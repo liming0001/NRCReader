@@ -1,0 +1,76 @@
+kEPStr    中文    英文    日文    韩文
+kEPWashNumber    客人洗码号 Guest number    客人洗码号 លេខកាតសម្គាល់របស់ភ្ញៀវ    客人洗码号 លេខកាតសម្គាល់របស់ភ្ញៀវ    客人洗码号 លេខកាតសម្គាល់របស់ភ្ញៀវ
+kEPWinStatus    输赢状态 Win or lose state    输赢状态 មួយណាឈ្នះ    输赢状态 មួយណាឈ្នះ    输赢状态 មួយណាឈ្នះ
+kEPBetch    下注 Bet    下注 បិទការចាក់    下注 បិទការចាក់    下注 បិទការចាក់
+kEPCompensate    应赔 Should pay    应赔 ត្រូវតែសង    应赔 ត្រូវតែសង    应赔 ត្រូវតែសង
+kEPshouldShazhu    应杀注 Should pay    应杀注 ប្រមូលទាំងអស់    应杀注 ប្រមូលទាំងអស់    应杀注 ប្រមូលទាំងអស់
+kEPReadChipMoney    Record amount    ត្រូវតែស៊ី    ត្រូវតែស៊ី    ត្រូវតែស៊ី
+kEPRealCompensate    实际赔付 Actual payment    实际赔付 សងអស់ប៉ុន្មាន    实际赔付 សងអស់ប៉ុន្មាន    实际赔付 សងអស់ប៉ុន្មាន
+kEPAllChip    总码 Total amount    总码 សរុបកាក់ទាំងអស់    总码 សរុបកាក់ទាំងអស់    总码 សរុបកាក់ទាំងអស់
+kEPChangeXueci    Change card    ប្តូរស៊ូបៀ    ប្តូរស៊ូបៀ    ប្តូរស៊ូបៀ
+kEPBindChip    Binding    កត់លេខកាតរបស់ភ្ញៀវ    កត់លេខកាតរបស់ភ្ញៀវ    កត់លេខកាតរបស់ភ្ញៀវ
+kEPCancellationChip    Unbind    លុបចោលកាតរបស់ភ្ញៀវ    លុបចោលកាតរបស់ភ្ញៀវ    លុបចោលកាតរបស់ភ្ញៀវ
+kEPEntry    Input system    កត់ចូលសីស្ទឹម    កត់ចូលសីស្ទឹម    កត់ចូលសីស្ទឹម
+kEPNewGame    New round    ហ្គេមថ្មី    ហ្គេមថ្មី    ហ្គេមថ្មី
+kEPWin    赢 Win    赢 ឈ្នះ    赢 ឈ្នះ    赢 ឈ្នះ
+kEPLose    输 Lost    输 ចាញ់    输 ចាញ់    输 ចាញ់
+kEPZhuang    庄 Banker    庄 មេ    庄 មេ    庄 មេ
+kEPXian    闲 Player    闲 កូន    闲 កូន    闲 កូន
+kEPZhuangDuizi    庄对子 B.Pair    庄对子 ផែ មេ    庄对子 ផែ មេ    庄对子 ផែ មេ
+kEPXianDuizi    闲对子 P.Pair    闲对子 ផែ កូន    闲对子 ផែ កូន    闲对子 ផែ កូន
+kEPHe    和 Tie    和 ស្មើ    和 ស្មើ    和 ស្មើ
+kEPBaoxian    保险 Insurance    保险 អីនស៊ូរេន    保险 អីនស៊ូរេន    保险 អីនស៊ូរេន
+kEPSixWin    幸运6点赢 Lucky 6 Win    幸运6点赢 Super 6    幸运6点赢 Super 6    幸运6点赢 Super 6
+kEPZhuangSixWin    庄6点赢 Banker.6Win    庄6点赢 មេ6គ្រប់ឈ្នះ    庄6点赢 មេ6គ្រប់ឈ្នះ    庄6点赢 មេ6គ្រប់ឈ្នះ
+kEPTipsInfo    Prompt message    បង្ហាញសារ    បង្ហាញសារ    បង្ហាញសារ
+kEPReadSucceed    识别成功 Successful record    识别成功 សម្រេចរាល់កិច្ចការ    识别成功 សម្រេចរាល់កិច្ចការ    识别成功 សម្រេចរាល់កិច្ចការ
+kEPNextTips    Please double check the above information to confirm whether to proceed to the next step.    សូមយកចិត្តទុកដាក់មើលសារ បញ្ចាក់ថាត្រូវបន្តទៅជំហានបន្ទាប់    សូមយកចិត្តទុកដាក់មើលសារ បញ្ចាក់ថាត្រូវបន្តទៅជំហានបន្ទាប់    សូមយកចិត្តទុកដាក់មើលសារ បញ្ចាក់ថាត្រូវបន្តទៅជំហានបន្ទាប់
+kEPConfirm    确定 Determine    确定 សម្រេច    确定 សម្រេច    确定 សម្រេច
+kEPCancel    取消 Cancel    取消 ថយក្រោយ    取消 ថយក្រោយ    取消 ថយក្រោយ
+kEPShazhuSucceed    杀注成功 payment successful    杀注成功 កាស៊ីបានជោគជ័យ    杀注成功 កាស៊ីបានជោគជ័យ    杀注成功 កាស៊ីបានជោគជ័យ
+kEPZhuangWin    庄赢 B.win    庄赢 មេឈ្នះ    庄赢 មេឈ្នះ    庄赢 មេឈ្នះ
+kEPXianWin    闲赢 P.win    闲赢 កូន ឈ្នះ    闲赢 កូន ឈ្នះ    闲赢 កូន ឈ្នះ
+kEPHeju    和局 Tie    和局 ស្មើ     和局 ស្មើ     和局 ស្មើ
+kEPZhuangDui    庄对 B.Pair    庄对 ផែ មេ    庄对 ផែ មេ    庄对 ផែ មេ
+kEPXianDui    闲对 P.pair    闲对 ផែ កូន    闲对 ផែ កូន    闲对 ផែ កូន
+kEPChooseResult    Please enter the result.    សូមជ្រើសរើសហ្គេមក្តាមុន    សូមជ្រើសរើសហ្គេមក្តាមុន    សូមជ្រើសរើសហ្គេមក្តាមុន
+kEPResultCacheSucceed    结果录入成功 Result entered successfully    结果录入成功 លិទ្ធផលបញ្ចូលបានជោគជ័យ    结果录入成功 លិទ្ធផលបញ្ចូលបានជោគជ័យ    结果录入成功 លិទ្ធផលបញ្ចូលបានជោគជ័យ
+kEPSureNextGame    Are you sure you want to go to the next round?    តើអ្នកប្រាកដថានិងបើកហ្គេមថ្មីមែនអត់់    តើអ្នកប្រាកដថានិងបើកហ្គេមថ្មីមែនអត់់    តើអ្នកប្រាកដថានិងបើកហ្គេមថ្មីមែនអត់់
+kEPComfirmChangeXueci    Are you sure you want to change your cards?    ចុចហើយរឺនៅពេលប្តូរបៀ    ចុចហើយរឺនៅពេលប្តូរបៀ    ចុចហើយរឺនៅពេលប្តូរបៀ
+kEPChangeXueciSucceed    更换靴次成功 Successful replacement!    更换靴次成功 ចុចរួចហើយ    更换靴次成功 ចុចរួចហើយ    更换靴次成功 ចុចរួចហើយ
+kEPEntryWashNumber    请输入洗码号 Please enter the guest number    请输入洗码号 សូមបញ្ចូលID    请输入洗码号 សូមបញ្ចូលID    请输入洗码号 សូមបញ្ចូលID
+kEPBenjin    本金 Original amount    本金 លុយតែមួយ    本金 លុយតែមួយ    本金 លុយតែមួយ
+kEPDashui    打水 Commission    打水 លុយអោយទឹក    打水 លុយអោយទឹក    打水 លុយអោយទឹក
+kEPPeifuChip    Amount already paid    សងកាក់រួច    សងកាក់រួច    សងកាក់រួច
+kEPNoChip    未检测到筹码 No chip detected    未检测到筹码 អត់មានកាក់    未检测到筹码 អត់មានកាក់    未检测到筹码 អត់មានកាក់
+
+kEPSuperDouble    超级翻倍 Super double    超级翻倍 ស៊ុបពើ នីវ    超级翻倍 ស៊ុបពើ នីវ    超级翻倍 ស៊ុបពើ នីវ
+kEPDouble    翻倍 Double    翻倍 ចាក់ទឹក    翻倍 ចាក់ទឹក    翻倍 ចាក់ទឹក
+kEPPingTimes    平倍 Equal    平倍 ចាក់ ស្មើ    平倍 ចាក់ ស្មើ    平倍 ចាក់ ស្មើ
+kEPNiuniu    牛牛    នីវ នីវ    នីវ នីវ    នីវ នីវ
+kEPFiveCow    五花牛    អុង 5    អុង 5    អុង 5
+kEPBomb    炸弹    ការ៉េ    ការ៉េ    ការ៉េ
+kEPSmallCow    五小牛    បៀ 5 សន្លឹក 10 គ្រាប់    បៀ 5 សន្លឹក 10 គ្រាប់    បៀ 5 សន្លឹក 10 គ្រាប់
+kEPNoCow    无牛 No cow    无牛 បៀអត់ចេញ    无牛 បៀអត់ចេញ    无牛 បៀអត់ចេញ
+kEPAddChip    应加赔 Should increase the payment    应加赔 ត្រូវតែបន្ថែម    应加赔 ត្រូវតែបន្ថែម    应加赔 ត្រូវតែបន្ថែម
+kEPDragon    龙 Dragon    龙 នាគ    龙 នាគ    龙 នាគ
+kEPTiger    虎 Tiger    虎 ខ្លា    虎 ខ្លា    虎 ខ្លា
+kEPTigerHe    和 Tie    和 ស្មើ    和 ស្មើ    和 ស្មើ
+kEPAllKill    全杀 Pay all    全杀 សីុទាំងអស់    全杀 សីុទាំងអស់    全杀 សីុទាំងអស់
+kEPHalfKill    杀一半 Pay half    杀一半 ស៊ីកន្លះលុយ    杀一半 ស៊ីកន្លះលុយ    杀一半 ស៊ីកន្លះលុយ
+kEPBindChipConfirm    Please confirm that the guest number is correct？    តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?     តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?    តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?
+kEPBindChipSucceed    绑定成功 Binding success    绑定成功 ចងដោយជោគជ័យ!    绑定成功 ចងដោយជោគជ័យ!    绑定成功 ចងដោយជោគជ័យ!
+kEPClearWashNumberConfirm    Are you sure to clear the guest number?    តើអ្នកប្រាកដថាលុបលេខរបស់អតិថិជនមែនទេ?    តើអ្នកប្រាកដថាលុបលេខរបស់អតិថិជនមែនទេ?    តើអ្នកប្រាកដថាលុបលេខរបស់អតិថិជនមែនទេ?
+kEPclearSucceed    清除成功 Cleared successfully    清除成功 បានជម្រះដោយជោគជ័យ!    清除成功 បានជម្រះដោយជោគជ័យ!    清除成功 បានជម្រះដោយជោគជ័យ!
+kEPRealpay    实赔 Actual payout    实赔 សងអស់ប៉ុន្មាន    实赔 សងអស់ប៉ុន្មាន    实赔 សងអស់ប៉ុន្មាន
+kEPShazhu    杀注 Pay    杀注 បង់    杀注 បង់    杀注 បង់
+kEPZhuangshu    庄输 B.Lost    庄输 មេ ចាញ់    庄输 មេ ចាញ់    庄输 មេ ចាញ់
+kEPXianshu    闲输 P.Lost    闲输 កូន ចាញ់    闲输 កូន ចាញ់    闲输 កូន ចាញ់
+kEPCurrentReadMoney    当前识别金额 Current amount    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា
+kEPDrgonWin    龙赢 Dragon Win    龙赢 នាគ ឈ្នះ    龙赢 នាគ ឈ្នះ    龙赢 នាគ ឈ្នះ
+kEPTigerWin    虎赢 Tiger win    虎赢 ខ្លា ឈ្នះ    虎赢 ខ្លា ឈ្នះ    虎赢 ខ្លា ឈ្នះ
+kEPLookluzhu    View Results    មើលលទ្ធផល    មើលលទ្ធផល    មើលលទ្ធផល
+kEPRecordTipsFee    Tip    បន្ទន់    បន្ទន់    បន្ទន់
+kEPDaily    Daily settlement    ដំណោះស្រាយ    ដំណោះស្រាយ    ដំណោះស្រាយ
+
+
