@@ -134,4 +134,32 @@
     }];
 }
 
+#pragma mark - 提交日结
+- (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSArray *chipList = [NSArray array];
+    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
+        chipList = self.curupdateInfo.cp_xiaofeiList;
+    }
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid,//桌子ID
+                             @"frjdate":[NRCommand getCurrentDate],//日期
+                             @"femp_num":self.curupdateInfo.femp_num,//管理员登录账号
+                             @"femp_pwd":self.curupdateInfo.femp_pwd,//登录密码
+                             @"fhg_id":self.curupdateInfo.fhg_id//荷官ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Cmpublish_checkState",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+            self.cp_fidString = @"";
+        }
+        block(suc, msg,error);
+        
+    }];
+}
+
 @end

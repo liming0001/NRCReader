@@ -19,6 +19,7 @@ enum TimeType
     NSString * _text;
     enum TimeType _time;
 }
++(EPToast *)makeText:(NSString *)text WithError:(BOOL)isError;
 +(EPToast *)makeText:(NSString *)text;
 -(void)showWithType:(enum TimeType)type;
 @end

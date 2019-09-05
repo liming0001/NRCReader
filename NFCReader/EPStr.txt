@@ -53,9 +53,9 @@ kEPBomb    炸弹    ការ៉េ    ការ៉េ    ការ៉េ
 kEPSmallCow    五小牛    បៀ 5 សន្លឹក 10 គ្រាប់    បៀ 5 សន្លឹក 10 គ្រាប់    បៀ 5 សន្លឹក 10 គ្រាប់
 kEPNoCow    无牛 No cow    无牛 បៀអត់ចេញ    无牛 បៀអត់ចេញ    无牛 បៀអត់ចេញ
 kEPAddChip    应加赔 Should increase the payment    应加赔 ត្រូវតែបន្ថែម    应加赔 ត្រូវតែបន្ថែម    应加赔 ត្រូវតែបន្ថែម
-kEPDragon    龙 Dragon    龙 នាគ    龙 នាគ    龙 នាគ
-kEPTiger    虎 Tiger    虎 ខ្លា    虎 ខ្លា    虎 ខ្លា
-kEPTigerHe    和 Tie    和 ស្មើ    和 ស្មើ    和 ស្មើ
+kEPDragon    Dragon    នាគ    នាគ    នាគ
+kEPTiger    Tiger    ខ្លា    ខ្លា    ខ្លា
+kEPTigerHe    Tie    ស្មើ    ស្មើ    ស្មើ
 kEPAllKill    全杀 Pay all    全杀 សីុទាំងអស់    全杀 សីុទាំងអស់    全杀 សីុទាំងអស់
 kEPHalfKill    杀一半 Pay half    杀一半 ស៊ីកន្លះលុយ    杀一半 ស៊ីកន្លះលុយ    杀一半 ស៊ីកន្លះលុយ
 kEPBindChipConfirm    Please confirm that the guest number is correct？    តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?     តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?    តើអ្នកប្រាកដថាអ្នកបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវទេ?
