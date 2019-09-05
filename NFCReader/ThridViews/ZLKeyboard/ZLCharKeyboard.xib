@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ZLCharKeyboard">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="389"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yS1-DN-lIY">
+                    <rect key="frame" x="14" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="6E6-I9-V7p"/>
+                        <constraint firstAttribute="width" constant="65" id="7Zj-QF-jph"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="Q" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803921568627" green="0.34509803921568627" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="t0d-LM-Ihx"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I34-bE-LYp">
+                    <rect key="frame" x="89" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="ICq-od-rLC"/>
+                        <constraint firstAttribute="width" constant="65" id="Obp-Tb-ze6"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="W" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="PmS-GV-aBp"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79O-D0-SjL">
+                    <rect key="frame" x="164" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="Lut-2l-yIE"/>
+                        <constraint firstAttribute="height" constant="75" id="bi7-bZ-R0T"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="E" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="dBv-Da-k8i"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7JE-3E-tj6">
+                    <rect key="frame" x="239" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="dRJ-xT-eFF"/>
+                        <constraint firstAttribute="height" constant="75" id="tMW-aa-snf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="R" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="a6l-2h-Ja5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHC-6Q-PZy">
+                    <rect key="frame" x="314" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="1jC-sw-fGL"/>
+                        <constraint firstAttribute="width" constant="65" id="m7G-cD-xNC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="T" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="eWU-w4-kvC"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hB0-Xi-wPM">
+                    <rect key="frame" x="389" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="4AQ-Wq-DLv"/>
+                        <constraint firstAttribute="height" constant="75" id="lG4-3P-PAK"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="Y" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="F4U-qM-G5e"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUt-dn-hFK">
+                    <rect key="frame" x="464" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="7fB-Qh-miR"/>
+                        <constraint firstAttribute="width" constant="65" id="eU8-IB-pxz"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="U" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="2p7-an-cUN"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q83-Q7-eZz">
+                    <rect key="frame" x="539" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="3iy-6Z-mlQ"/>
+                        <constraint firstAttribute="height" constant="75" id="Tu9-ln-b1O"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="I" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="PTd-dA-nI4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7V-q8-XX6">
+                    <rect key="frame" x="614" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="L4N-Wj-ynf"/>
+                        <constraint firstAttribute="width" constant="65" id="q6O-17-ebu"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="O" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="QVg-g3-boW"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzl-P0-EpP">
+                    <rect key="frame" x="689" y="23" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="8jy-P0-Bfc"/>
+                        <constraint firstAttribute="height" constant="75" id="L5B-X5-a8P"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="P" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="hl8-ef-oLb"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6K-4n-CCT">
+                    <rect key="frame" x="52" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="jyX-qX-y2J"/>
+                        <constraint firstAttribute="width" constant="65" id="mzT-DV-d6d"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="A" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="drr-6L-VPN"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0CK-qW-2ea">
+                    <rect key="frame" x="127" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="Jek-tA-zXM"/>
+                        <constraint firstAttribute="width" constant="65" id="cLB-WC-ex2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="S" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="4cz-Tr-c5M"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kO0-Ak-Mpc">
+                    <rect key="frame" x="202" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="9L8-gr-EmU"/>
+                        <constraint firstAttribute="height" constant="75" id="Ao2-IJ-Qwd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="D" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="qm8-D0-Ehp"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOZ-0G-7hQ">
+                    <rect key="frame" x="277" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="TPa-mJ-JKy"/>
+                        <constraint firstAttribute="height" constant="75" id="XBo-0q-C5i"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="F" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="aG9-iS-kCO"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoN-Y7-hhj">
+                    <rect key="frame" x="352" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="c6P-ns-9Bs"/>
+                        <constraint firstAttribute="width" constant="65" id="wMi-RI-aS8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="G" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="8IW-kl-lCl"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZeD-VF-OTB">
+                    <rect key="frame" x="427" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="jZ3-bV-A7d"/>
+                        <constraint firstAttribute="height" constant="75" id="viM-j5-ZSw"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="H" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Gtb-pq-oth"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="16" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VuC-oA-KHQ">
+                    <rect key="frame" x="502" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="5Bb-YZ-fjU"/>
+                        <constraint firstAttribute="width" constant="65" id="g3j-xa-gOR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="J" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="TDL-C7-gRU"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="17" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pu4-s9-WPN">
+                    <rect key="frame" x="577" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="Bej-IT-hRf"/>
+                        <constraint firstAttribute="height" constant="75" id="zm5-Zc-Ze2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="K" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="GLf-34-XTu"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="18" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JAA-bS-dOg">
+                    <rect key="frame" x="652" y="113" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="IC0-DY-YdM"/>
+                        <constraint firstAttribute="height" constant="75" id="RMk-6M-80w"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="L" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ry6-bg-B4J"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="19" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNk-ra-n7G">
+                    <rect key="frame" x="14" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="Qdb-Rw-TLH"/>
+                        <constraint firstAttribute="height" constant="75" id="SAy-nh-Rho"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="-" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="YgU-00-dIH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WL3-iK-Sev">
+                    <rect key="frame" x="89" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="3Np-sP-rHW"/>
+                        <constraint firstAttribute="width" constant="65" id="hUb-fP-o43"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="Z" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="jSD-BA-XKM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="21" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GE4-fn-eH8">
+                    <rect key="frame" x="164" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="EYR-gb-3nu"/>
+                        <constraint firstAttribute="width" constant="65" id="TUq-1B-oeg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="X" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="NkF-3Z-mCP"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lon-QH-civ">
+                    <rect key="frame" x="239" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="4xZ-Xo-wjD"/>
+                        <constraint firstAttribute="height" constant="75" id="hHs-ft-cgL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="C" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="dBm-hn-Hmx"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="23" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUy-kc-2OS">
+                    <rect key="frame" x="314" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="Cuz-Da-Nun"/>
+                        <constraint firstAttribute="height" constant="75" id="Iag-98-xsy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="V" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="8j8-qV-VLC"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="24" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Eu-2X-OMu">
+                    <rect key="frame" x="389" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="GSR-Ho-jBK"/>
+                        <constraint firstAttribute="width" constant="65" id="OC3-Jb-VzI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="B" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="hxH-kW-7b2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="25" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8F-Ma-OIJ">
+                    <rect key="frame" x="464" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="3gB-aN-Y9m"/>
+                        <constraint firstAttribute="width" constant="65" id="wDy-uK-UhH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="N" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Vcm-uQ-3RT"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="26" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoa-2c-jVT">
+                    <rect key="frame" x="539" y="203" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="nYg-rc-sXd"/>
+                        <constraint firstAttribute="height" constant="75" id="sRk-MF-h2i"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <state key="normal" title="M" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="xHP-3z-9Is"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="91" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wbN-h4-mIi">
+                    <rect key="frame" x="14" y="293" width="140" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="b6O-hR-0WW"/>
+                        <constraint firstAttribute="width" constant="140" id="hfY-qB-yEe"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                    <state key="normal" title="切换123" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="YJW-Fw-t74"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="92" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBe-RH-XlP">
+                    <rect key="frame" x="164" y="293" width="65" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="hEX-aO-qgb"/>
+                        <constraint firstAttribute="width" constant="65" id="hID-Ch-afL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                    <state key="normal" title="TAB" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="eYZ-eQ-V4J"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="90" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-Ga-YaZ">
+                    <rect key="frame" x="614" y="203" width="140" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="pzi-cY-m1E"/>
+                        <constraint firstAttribute="width" constant="140" id="tGi-zS-BOM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                    <state key="normal" title="         DEL" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="hKr-zC-zUt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="94" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qCl-Ux-NrO">
+                    <rect key="frame" x="614" y="293" width="140" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="Obh-nt-Yue"/>
+                        <constraint firstAttribute="height" constant="75" id="yud-BK-rn0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                    <state key="normal" title="OK.确认" backgroundImage="degit_btn_p">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="sXL-MD-z4f"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="93" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="goE-8Y-eQk">
+                    <rect key="frame" x="239" y="293" width="365" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                    <state key="normal" title="空格" backgroundImage="alphe_entrybg">
+                        <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="alphe_normalbg"/>
+                    <connections>
+                        <action selector="alpheBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="kGw-Sb-MRG"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="keyboard_back_icon" translatesAutoresizingMaskIntoConstraints="NO" id="aK6-HR-F2R">
+                    <rect key="frame" x="635" y="225" width="40" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="7ph-q3-VZI"/>
+                        <constraint firstAttribute="height" constant="30" id="j7M-hS-3c3"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Lon-QH-civ" firstAttribute="leading" secondItem="GE4-fn-eH8" secondAttribute="trailing" constant="10" id="181-m0-zya"/>
+                <constraint firstItem="wbN-h4-mIi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="20T-JD-6Hl"/>
+                <constraint firstItem="goE-8Y-eQk" firstAttribute="leading" secondItem="nBe-RH-XlP" secondAttribute="trailing" constant="10" id="4Zt-g7-S9M"/>
+                <constraint firstItem="7JE-3E-tj6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="5By-l6-BBc"/>
+                <constraint firstItem="aoN-Y7-hhj" firstAttribute="leading" secondItem="lOZ-0G-7hQ" secondAttribute="trailing" constant="10" id="5fm-I6-TGr"/>
+                <constraint firstItem="aK6-HR-F2R" firstAttribute="top" secondItem="pu4-s9-WPN" secondAttribute="bottom" constant="37" id="6Xw-Qd-gj2"/>
+                <constraint firstItem="wbN-h4-mIi" firstAttribute="top" secondItem="hNk-ra-n7G" secondAttribute="bottom" constant="15" id="6dZ-79-4re"/>
+                <constraint firstAttribute="trailing" secondItem="7NE-Ga-YaZ" secondAttribute="trailing" constant="14" id="78f-mc-DKL"/>
+                <constraint firstItem="WL3-iK-Sev" firstAttribute="top" secondItem="O6K-4n-CCT" secondAttribute="bottom" constant="15" id="874-QQ-lIz"/>
+                <constraint firstItem="L8F-Ma-OIJ" firstAttribute="top" secondItem="ZeD-VF-OTB" secondAttribute="bottom" constant="15" id="88E-ak-J1H"/>
+                <constraint firstItem="KUy-kc-2OS" firstAttribute="top" secondItem="lOZ-0G-7hQ" secondAttribute="bottom" constant="15" id="8Bs-p3-hIH"/>
+                <constraint firstItem="aK6-HR-F2R" firstAttribute="leading" secondItem="aoa-2c-jVT" secondAttribute="trailing" constant="31" id="8Q2-Px-HYG"/>
+                <constraint firstItem="I34-bE-LYp" firstAttribute="leading" secondItem="yS1-DN-lIY" secondAttribute="trailing" constant="10" id="8rs-Ed-DwR"/>
+                <constraint firstItem="JAA-bS-dOg" firstAttribute="top" secondItem="P7V-q8-XX6" secondAttribute="bottom" constant="15" id="9m9-Sg-4gS"/>
+                <constraint firstItem="hB0-Xi-wPM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="BJa-jm-kaS"/>
+                <constraint firstItem="hB0-Xi-wPM" firstAttribute="leading" secondItem="eHC-6Q-PZy" secondAttribute="trailing" constant="10" id="BKB-55-sXa"/>
+                <constraint firstItem="O6K-4n-CCT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="52" id="CCs-GS-ksq"/>
+                <constraint firstItem="yS1-DN-lIY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="DFs-4s-M0I"/>
+                <constraint firstItem="6Eu-2X-OMu" firstAttribute="leading" secondItem="KUy-kc-2OS" secondAttribute="trailing" constant="10" id="Dlh-UQ-fTG"/>
+                <constraint firstItem="xUt-dn-hFK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="E2j-E8-MDn"/>
+                <constraint firstItem="eHC-6Q-PZy" firstAttribute="leading" secondItem="7JE-3E-tj6" secondAttribute="trailing" constant="10" id="EB4-75-eYk"/>
+                <constraint firstItem="7NE-Ga-YaZ" firstAttribute="top" secondItem="JAA-bS-dOg" secondAttribute="bottom" constant="15" id="FSw-Pr-dKk"/>
+                <constraint firstItem="L8F-Ma-OIJ" firstAttribute="leading" secondItem="6Eu-2X-OMu" secondAttribute="trailing" constant="10" id="ICW-ji-h0P"/>
+                <constraint firstItem="79O-D0-SjL" firstAttribute="leading" secondItem="I34-bE-LYp" secondAttribute="trailing" constant="10" id="Jg7-qz-oXr"/>
+                <constraint firstItem="kO0-Ak-Mpc" firstAttribute="leading" secondItem="0CK-qW-2ea" secondAttribute="trailing" constant="10" id="OZr-Wb-Ned"/>
+                <constraint firstItem="0CK-qW-2ea" firstAttribute="leading" secondItem="O6K-4n-CCT" secondAttribute="trailing" constant="10" id="Qhq-hw-uCZ"/>
+                <constraint firstItem="6Eu-2X-OMu" firstAttribute="top" secondItem="aoN-Y7-hhj" secondAttribute="bottom" constant="15" id="Qxt-JK-aZw"/>
+                <constraint firstItem="lOZ-0G-7hQ" firstAttribute="leading" secondItem="kO0-Ak-Mpc" secondAttribute="trailing" constant="10" id="Rg4-rd-QHu"/>
+                <constraint firstItem="P7V-q8-XX6" firstAttribute="leading" secondItem="q83-Q7-eZz" secondAttribute="trailing" constant="10" id="Tbg-xD-hKo"/>
+                <constraint firstItem="nBe-RH-XlP" firstAttribute="leading" secondItem="wbN-h4-mIi" secondAttribute="trailing" constant="10" id="TsD-jB-Htv"/>
+                <constraint firstItem="KUy-kc-2OS" firstAttribute="leading" secondItem="Lon-QH-civ" secondAttribute="trailing" constant="10" id="UoL-I0-6rM"/>
+                <constraint firstItem="Hzl-P0-EpP" firstAttribute="leading" secondItem="P7V-q8-XX6" secondAttribute="trailing" constant="10" id="XAP-qj-PAh"/>
+                <constraint firstItem="VuC-oA-KHQ" firstAttribute="leading" secondItem="ZeD-VF-OTB" secondAttribute="trailing" constant="10" id="XfD-AR-wCM"/>
+                <constraint firstItem="P7V-q8-XX6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="XgR-go-0UE"/>
+                <constraint firstItem="q83-Q7-eZz" firstAttribute="leading" secondItem="xUt-dn-hFK" secondAttribute="trailing" constant="10" id="Xtc-Wj-Q5t"/>
+                <constraint firstItem="0CK-qW-2ea" firstAttribute="top" secondItem="I34-bE-LYp" secondAttribute="bottom" constant="15" id="Xyj-hB-2jc"/>
+                <constraint firstItem="pu4-s9-WPN" firstAttribute="leading" secondItem="VuC-oA-KHQ" secondAttribute="trailing" constant="10" id="Z5u-P9-yLR"/>
+                <constraint firstAttribute="trailing" secondItem="qCl-Ux-NrO" secondAttribute="trailing" constant="14" id="cRv-sx-0sr"/>
+                <constraint firstItem="O6K-4n-CCT" firstAttribute="top" secondItem="yS1-DN-lIY" secondAttribute="bottom" constant="15" id="clm-DC-gI8"/>
+                <constraint firstItem="Hzl-P0-EpP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="ddo-zK-7bN"/>
+                <constraint firstItem="qCl-Ux-NrO" firstAttribute="top" secondItem="7NE-Ga-YaZ" secondAttribute="bottom" constant="15" id="els-r8-gCX"/>
+                <constraint firstItem="goE-8Y-eQk" firstAttribute="top" secondItem="Lon-QH-civ" secondAttribute="bottom" constant="15" id="eu6-NP-NH0"/>
+                <constraint firstItem="yS1-DN-lIY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="fCU-QA-1kk"/>
+                <constraint firstItem="q83-Q7-eZz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="gAa-G0-ETe"/>
+                <constraint firstItem="qCl-Ux-NrO" firstAttribute="leading" secondItem="goE-8Y-eQk" secondAttribute="trailing" constant="10" id="hPU-91-DcQ"/>
+                <constraint firstItem="hNk-ra-n7G" firstAttribute="top" secondItem="O6K-4n-CCT" secondAttribute="bottom" constant="15" id="hQK-hw-WZy"/>
+                <constraint firstItem="hNk-ra-n7G" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="hln-Wc-uk0"/>
+                <constraint firstItem="kO0-Ak-Mpc" firstAttribute="top" secondItem="79O-D0-SjL" secondAttribute="bottom" constant="15" id="iaI-0Q-cTo"/>
+                <constraint firstItem="eHC-6Q-PZy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="jPc-cQ-ojl"/>
+                <constraint firstItem="GE4-fn-eH8" firstAttribute="top" secondItem="0CK-qW-2ea" secondAttribute="bottom" constant="15" id="jlh-Es-mSR"/>
+                <constraint firstItem="aoa-2c-jVT" firstAttribute="top" secondItem="VuC-oA-KHQ" secondAttribute="bottom" constant="15" id="kEh-pF-xO1"/>
+                <constraint firstItem="GE4-fn-eH8" firstAttribute="leading" secondItem="WL3-iK-Sev" secondAttribute="trailing" constant="10" id="mQx-9H-yI2"/>
+                <constraint firstItem="ZeD-VF-OTB" firstAttribute="leading" secondItem="aoN-Y7-hhj" secondAttribute="trailing" constant="10" id="nHd-qM-4UW"/>
+                <constraint firstItem="ZeD-VF-OTB" firstAttribute="top" secondItem="hB0-Xi-wPM" secondAttribute="bottom" constant="15" id="naA-2c-BUK"/>
+                <constraint firstItem="7JE-3E-tj6" firstAttribute="leading" secondItem="79O-D0-SjL" secondAttribute="trailing" constant="10" id="o2S-Vi-a2e"/>
+                <constraint firstItem="aoN-Y7-hhj" firstAttribute="top" secondItem="eHC-6Q-PZy" secondAttribute="bottom" constant="15" id="rE9-E1-csD"/>
+                <constraint firstItem="I34-bE-LYp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="sTH-rt-TzZ"/>
+                <constraint firstItem="pu4-s9-WPN" firstAttribute="top" secondItem="q83-Q7-eZz" secondAttribute="bottom" constant="15" id="tCR-eH-IjJ"/>
+                <constraint firstItem="aoa-2c-jVT" firstAttribute="leading" secondItem="L8F-Ma-OIJ" secondAttribute="trailing" constant="10" id="tJb-77-I8j"/>
+                <constraint firstItem="JAA-bS-dOg" firstAttribute="leading" secondItem="pu4-s9-WPN" secondAttribute="trailing" constant="10" id="thE-wJ-dqU"/>
+                <constraint firstItem="nBe-RH-XlP" firstAttribute="top" secondItem="GE4-fn-eH8" secondAttribute="bottom" constant="15" id="tqK-Z7-T3c"/>
+                <constraint firstItem="WL3-iK-Sev" firstAttribute="leading" secondItem="hNk-ra-n7G" secondAttribute="trailing" constant="10" id="tuc-Tz-ge4"/>
+                <constraint firstItem="VuC-oA-KHQ" firstAttribute="top" secondItem="xUt-dn-hFK" secondAttribute="bottom" constant="15" id="uR8-NI-GeN"/>
+                <constraint firstItem="Lon-QH-civ" firstAttribute="top" secondItem="kO0-Ak-Mpc" secondAttribute="bottom" constant="15" id="xdA-cW-3UY"/>
+                <constraint firstItem="xUt-dn-hFK" firstAttribute="leading" secondItem="hB0-Xi-wPM" secondAttribute="trailing" constant="10" id="ysS-X4-eY2"/>
+                <constraint firstItem="79O-D0-SjL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="yuE-nB-6dp"/>
+                <constraint firstItem="lOZ-0G-7hQ" firstAttribute="top" secondItem="7JE-3E-tj6" secondAttribute="bottom" constant="15" id="zju-NT-nr8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-106.4748201438849" y="-70.413669064748206"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="alphe_entrybg" width="65" height="75"/>
+        <image name="alphe_normalbg" width="65" height="75"/>
+        <image name="degit_btn_p" width="176" height="107"/>
+        <image name="keyboard_back_icon" width="34.5" height="25"/>
+    </resources>
+</document>
