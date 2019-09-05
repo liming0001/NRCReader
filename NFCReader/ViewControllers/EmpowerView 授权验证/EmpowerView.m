@@ -18,8 +18,21 @@
 }
 */
 - (IBAction)OKAction:(id)sender {
+    if ([[self.accountNameTF.text NullToBlankString]length]==0) {
+        [[EPToast makeText:@"请输入账户名" WithError:YES]showWithType:ShortTime];
+        return;
+    }
+    if ([[self.passwordTF.text NullToBlankString]length]==0) {
+        [[EPToast makeText:@"请输入密码" WithError:YES]showWithType:ShortTime];
+        return;
+    }
+    if (_sureActionBlock) {
+        _sureActionBlock(self.accountNameTF.text,self.passwordTF.text);
+    }
+    [self removeFromSuperview];
 }
 - (IBAction)closeAction:(id)sender {
+    [self removeFromSuperview];
 }
 
 @end

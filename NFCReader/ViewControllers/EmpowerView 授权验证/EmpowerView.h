@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *accountNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTF;
 
+@property(nonatomic,copy)void (^sureActionBlock)(NSString *adminName,NSString *password);
+
 @end
 
 NS_ASSUME_NONNULL_END

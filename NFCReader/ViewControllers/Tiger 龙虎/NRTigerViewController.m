@@ -35,11 +35,15 @@
 #import "IQKeyboardManager.h"
 
 #import "TableDataInfoView.h"
+#import "EmpowerView.h"
 
 @interface NRTigerViewController ()<GCDAsyncSocketDelegate>
 
 //台桌数据
 @property (nonatomic, strong) TableDataInfoView *tableDataInfoV;
+
+//授权验证
+@property (nonatomic, strong) EmpowerView *empowerView;
 
 //顶部选项卡
 @property (nonatomic, strong) UIImageView *topBarImageV;
@@ -796,6 +800,14 @@
     return _tableDataInfoV;
 }
 
+- (EmpowerView *)empowerView{
+    if (!_empowerView) {
+        _empowerView = [[[NSBundle mainBundle]loadNibNamed:@"EmpowerView" owner:nil options:nil]lastObject];
+        _empowerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }
+    return _empowerView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -1317,18 +1329,19 @@
 #pragma mark - 更换靴次
 - (void)changexueciAction{
     [EPSound playWithSoundName:@"click_sound"];
-    [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"确定更换靴次？\n%@",[EPStr getStr:kEPComfirmChangeXueci note:@"确定更换靴次？"]] handler:^(int buttonType) {
-        if (buttonType==0) {
-            self.xueciCount +=1;
-            self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
-            if (self.xueciCount<10) {
-                self.xueciLab.text = [NSString stringWithFormat:@"靴次:0%d",self.xueciCount];
-            }
-            [self showLognMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"]];
-            //响警告声音
-            [EPSound playWithSoundName:@"succeed_sound"];
-        }
-    }];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.empowerView];
+//    [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"确定更换靴次？\n%@",[EPStr getStr:kEPComfirmChangeXueci note:@"确定更换靴次？"]] handler:^(int buttonType) {
+//        if (buttonType==0) {
+//            self.xueciCount +=1;
+//            self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+//            if (self.xueciCount<10) {
+//                self.xueciLab.text = [NSString stringWithFormat:@"靴次:0%d",self.xueciCount];
+//            }
+//            [self showLognMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"]];
+//            //响警告声音
+//            [EPSound playWithSoundName:@"succeed_sound"];
+//        }
+//    }];
 }
 
 #pragma mark - 绑定筹码
