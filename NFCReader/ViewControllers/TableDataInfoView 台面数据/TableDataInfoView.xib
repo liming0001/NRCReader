@@ -20,7 +20,7 @@
                     <color key="backgroundColor" red="0.23921568627450979" green="0.33725490196078434" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qc8-1j-7Cg">
-                    <rect key="frame" x="114" y="258" width="540" height="595"/>
+                    <rect key="frame" x="114" y="200" width="540" height="595"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sB-6N-bJD">
                             <rect key="frame" x="61" y="64" width="418" height="250"/>
@@ -714,7 +714,7 @@
                 <constraint firstItem="8dp-ui-mvM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="EsF-5j-VxM"/>
                 <constraint firstItem="8dp-ui-mvM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HH2-rG-rur"/>
                 <constraint firstAttribute="bottom" secondItem="8dp-ui-mvM" secondAttribute="bottom" id="NCc-Y6-yTs"/>
-                <constraint firstItem="Qc8-1j-7Cg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="258" id="kjv-gP-Wec"/>
+                <constraint firstItem="Qc8-1j-7Cg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="200" id="kjv-gP-Wec"/>
                 <constraint firstAttribute="trailing" secondItem="8dp-ui-mvM" secondAttribute="trailing" id="ndu-Ge-esY"/>
                 <constraint firstItem="Qc8-1j-7Cg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="114" id="ze9-Xv-KWT"/>
             </constraints>
@@ -745,6 +745,6 @@
         <image name="customer_dollar" width="16" height="14"/>
         <image name="customer_dollarCash" width="16" height="10"/>
         <image name="上升箭头ICO" width="7" height="10"/>
-        <image name="关闭按钮BG" width="110" height="25"/>
+        <image name="关闭按钮BG" width="150" height="40"/>
     </resources>
 </document>

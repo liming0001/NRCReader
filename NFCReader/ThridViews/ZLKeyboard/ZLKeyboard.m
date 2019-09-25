@@ -106,6 +106,7 @@
             weakSelf.numberKeyboard.hidden = NO;
             weakSelf.charKeyboard.hidden = YES;
         } else if (key == KeyConfirm) {
+            [weakSelf.zlTextField resignFirstResponder];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"sureEntryCustomerInfo" object:nil];
         } else if (key == KeySpace) {
             weakSelf.zlTextField.text = [weakSelf.zlTextField.text stringByAppendingString:@" "];

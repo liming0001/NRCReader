@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy)void (^sureActionBlock)(NSString *adminName,NSString *password);
 
+- (void)clearAccountInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

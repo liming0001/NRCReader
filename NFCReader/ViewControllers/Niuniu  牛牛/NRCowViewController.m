@@ -34,11 +34,27 @@
 #import "NFPopupTextContainView.h"
 
 #import "TableDataInfoView.h"
+#import "EmpowerView.h"
+#import "ModificationResultsView.h"
+#import "TableJiaJiancaiView.h"
+#import "JhPageItemModel.h"
+#import "EPCowPointChooseShowView.h"
+
+#import "EPWebViewController.h"
 
 @interface NRCowViewController ()<GCDAsyncSocketDelegate>
 
 //台桌数据
 @property (nonatomic, strong) TableDataInfoView *tableDataInfoV;
+
+//授权验证
+@property (nonatomic, strong) EmpowerView *empowerView;
+
+//修改露珠
+@property (nonatomic, strong) ModificationResultsView *modifyResultsView;
+
+//加减彩
+@property (nonatomic, strong) TableJiaJiancaiView *addOrMinusView;
 
 //顶部选项卡
 @property (nonatomic, strong) UIImageView *topBarImageV;
@@ -49,6 +65,7 @@
 @property (nonatomic, strong) UIButton *daily_button;
 @property (nonatomic, strong) UIButton *nextGame_button;
 @property (nonatomic, strong) UIButton *coverBtn;
+//更多选项
 @property (nonatomic, strong) UIView *menuView;
 @property (nonatomic, strong) UIButton *changeChipBtn;
 @property (nonatomic, strong) UIButton *changeLanguageBtn;
@@ -56,15 +73,24 @@
 @property (nonatomic, strong) UIButton *changeTableBtn;
 @property (nonatomic, strong) UIButton *queryNoteBtn;
 @property (nonatomic, strong) UIButton *queryTableInfoBtn;
+@property (nonatomic, strong) UIButton *dianmaBtn;
 @property (nonatomic, strong) UIButton *jiaCaiBtn;
+@property (nonatomic, strong) UIButton *openTableBtn;
 
 //自动版视图
 @property (nonatomic, strong) UIView *automaticShowView;
 @property (nonatomic, strong) UIButton *readChipMoney_button;//识别筹码金额
 @property (nonatomic, strong) UIButton *zhuxiaochouma_button;
+
+//操作中心
+@property (nonatomic, strong) UIImageView *operateCenterImgV;
+@property (nonatomic, strong) UILabel *operateCenterLabel;
+@property (nonatomic, strong) UIView *operateCenterView;
+
 //露珠信息
 @property (nonatomic, strong) UIImageView *luzhuImgV;
 @property (nonatomic, strong) UILabel *luzhuInfoLab;
+@property (nonatomic, strong) UILabel *noDataInfoLab;
 @property (nonatomic, strong) UIView *luzhuCollectionView;
 @property (nonatomic, strong) JhPageItemView *solidView;
 @property (nonatomic, strong) NSMutableArray *luzhuInfoList;
@@ -80,15 +106,11 @@
 @property (nonatomic, assign) int puciCount;//铺次
 
 //赢
-@property (nonatomic, strong) JXButton *win_button;
+@property (nonatomic, strong) UIButton *win_button;
 @property (nonatomic, assign) BOOL winOrLose;
-@property (nonatomic, strong) NSString *winColor;
-@property (nonatomic, strong) NSString *normalColor;
-@property (nonatomic, strong) NSString *buttonNormalColor;
 
 //输
-@property (nonatomic, strong) JXButton *lose_button;
-@property (nonatomic, strong) NSString *loseColor;
+@property (nonatomic, strong) UIButton *lose_button;
 
 @property (nonatomic, strong) UIButton *superDouble_button;
 @property (nonatomic, strong) UIButton *double_button;
@@ -133,7 +155,7 @@
 
 @property (nonatomic, strong) UIButton *aTipRecordButton;//小费按钮
 
-@property (nonatomic, strong) EPPopAlertShowView *resultShowView;
+@property (nonatomic, strong) EPCowPointChooseShowView *cowPointShowView;
 
 @property (nonatomic, strong) EPPopAtipInfoView *recordTipShowView;//识别小费
 
@@ -143,6 +165,7 @@
 @property (nonatomic, assign) BOOL isResultAction;//是否
 
 @property (nonatomic,strong) ManualManagerCow *cowManager;
+@property (nonatomic, assign) BOOL isAutomicGame;//是否手动版
 
 @end
 
@@ -270,8 +293,7 @@
     if (!_menuView) {
         CGFloat button_w = (kScreenWidth -20)/5;
         _menuView = [[UIView alloc]initWithFrame:CGRectMake(10, 75, button_w-10, 0)];
-        _menuView.backgroundColor = [UIColor colorWithHexString:@"#666f79"];
-        _menuView.opaque = 0.6;
+        _menuView.backgroundColor = [UIColor colorWithRed:102/255.0 green:111/255.0 blue:121/255.0 alpha:0.9];
         
         self.changeChipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.changeChipBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
@@ -289,7 +311,7 @@
         }];
         
         UIView *lineV1 = [UIView new];
-        lineV1.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV1.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV1.alpha = 0.8;
         [self.changeChipBtn addSubview:lineV1];
         [lineV1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -315,7 +337,7 @@
         }];
         
         UIView *lineV2 = [UIView new];
-        lineV2.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV2.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV2.alpha = 0.8;
         [self.changeLanguageBtn addSubview:lineV2];
         [lineV2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -341,7 +363,7 @@
         }];
         
         UIView *lineV3 = [UIView new];
-        lineV3.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV3.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV3.alpha = 0.8;
         [self.huanbanBtn addSubview:lineV3];
         [lineV3 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -367,7 +389,7 @@
         }];
         
         UIView *lineV4 = [UIView new];
-        lineV4.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV4.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV4.alpha = 0.8;
         [self.changeTableBtn addSubview:lineV4];
         [lineV4 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -393,7 +415,7 @@
         }];
         
         UIView *lineV5 = [UIView new];
-        lineV5.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV5.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV5.alpha = 0.8;
         [self.queryNoteBtn addSubview:lineV5];
         [lineV5 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -419,7 +441,7 @@
         }];
         
         UIView *lineV6 = [UIView new];
-        lineV6.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+        lineV6.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
         lineV6.alpha = 0.8;
         [self.queryTableInfoBtn addSubview:lineV6];
         [lineV6 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -429,20 +451,73 @@
             make.height.mas_equalTo(0.5);
         }];
         
-        self.jiaCaiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.jiaCaiBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-        self.jiaCaiBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [self.jiaCaiBtn setTitle:@"台面加减彩" forState:UIControlStateNormal];
-        self.jiaCaiBtn.tag = 7;
-        [self.jiaCaiBtn setBackgroundImage:[UIImage imageNamed:@"menu_selBtn"] forState:UIControlStateHighlighted];
-        [self.jiaCaiBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_menuView addSubview:self.jiaCaiBtn];
-        [self.jiaCaiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.dianmaBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.dianmaBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+        self.dianmaBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [self.dianmaBtn setTitle:@"点码" forState:UIControlStateNormal];
+        self.dianmaBtn.tag = 7;
+        [self.dianmaBtn setBackgroundImage:[UIImage imageNamed:@"menu_selBtn"] forState:UIControlStateHighlighted];
+        [self.dianmaBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_menuView addSubview:self.dianmaBtn];
+        [self.dianmaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.queryTableInfoBtn.mas_bottom).offset(5);
             make.left.equalTo(self.menuView).offset(5);
             make.centerX.equalTo(self.menuView);
             make.height.mas_equalTo(30);
         }];
+        
+        UIView *lineV7 = [UIView new];
+        lineV7.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
+        lineV7.alpha = 0.8;
+        [self.dianmaBtn addSubview:lineV7];
+        [lineV7 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.dianmaBtn).offset(0);
+            make.left.equalTo(self.dianmaBtn).offset(5);
+            make.centerX.equalTo(self.dianmaBtn);
+            make.height.mas_equalTo(0.5);
+        }];
+        
+        self.jiaCaiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.jiaCaiBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+        self.jiaCaiBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [self.jiaCaiBtn setTitle:@"台面加减彩" forState:UIControlStateNormal];
+        self.jiaCaiBtn.tag = 8;
+        [self.jiaCaiBtn setBackgroundImage:[UIImage imageNamed:@"menu_selBtn"] forState:UIControlStateHighlighted];
+        [self.jiaCaiBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_menuView addSubview:self.jiaCaiBtn];
+        [self.jiaCaiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.dianmaBtn.mas_bottom).offset(5);
+            make.left.equalTo(self.menuView).offset(5);
+            make.centerX.equalTo(self.menuView);
+            make.height.mas_equalTo(30);
+        }];
+        
+        UIView *lineV8 = [UIView new];
+        lineV8.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1];
+        lineV8.alpha = 0.8;
+        [self.jiaCaiBtn addSubview:lineV8];
+        [lineV8 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.jiaCaiBtn).offset(0);
+            make.left.equalTo(self.jiaCaiBtn).offset(5);
+            make.centerX.equalTo(self.jiaCaiBtn);
+            make.height.mas_equalTo(0.5);
+        }];
+        
+        self.openTableBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.openTableBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+        self.openTableBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [self.openTableBtn setTitle:@"开台和收台" forState:UIControlStateNormal];
+        self.openTableBtn.tag = 9;
+        [self.openTableBtn setBackgroundImage:[UIImage imageNamed:@"menu_selBtn"] forState:UIControlStateHighlighted];
+        [self.openTableBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_menuView addSubview:self.openTableBtn];
+        [self.openTableBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.jiaCaiBtn.mas_bottom).offset(5);
+            make.left.equalTo(self.menuView).offset(5);
+            make.centerX.equalTo(self.menuView);
+            make.height.mas_equalTo(30);
+        }];
+        
         [self hideOrShowMenuButton:YES];
     }
     return _menuView;
@@ -466,129 +541,162 @@
         
         [self _setup];
         
-        CGFloat tapItem_width = (kScreenWidth-240)/2;
-        CGFloat tapItem_height = 70;
-        CGFloat item_fontsize = 20;
-        self.readChipMoney_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.readChipMoney_button.titleLabel.numberOfLines = 0;
-        self.readChipMoney_button.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [self.readChipMoney_button setBackgroundImage:[UIImage imageNamed:@"login_text_bg"] forState:UIControlStateNormal];
-        self.readChipMoney_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-        [self.readChipMoney_button addTarget:self action:@selector(queryDeviceChips) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.readChipMoney_button];
-        [self.readChipMoney_button mas_makeConstraints:^(MASConstraintMaker *make) {
+        //操作中心
+        self.operateCenterImgV = [UIImageView new];
+        self.operateCenterImgV.image = [UIImage imageNamed:@"customer_luzhu_flag"];
+        [self.automaticShowView addSubview:self.operateCenterImgV];
+        [self.operateCenterImgV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.luzhuCollectionView.mas_bottom).offset(20);
             make.left.equalTo(self.automaticShowView).offset(10);
+            make.height.mas_equalTo(30);
+            make.centerX.equalTo(self.automaticShowView);
+        }];
+        
+        self.operateCenterLabel = [UILabel new];
+        self.operateCenterLabel.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.operateCenterLabel.font = [UIFont systemFontOfSize:15];
+        self.operateCenterLabel.text = @"操作中心Dew information";
+        [self.automaticShowView addSubview:self.operateCenterLabel];
+        [self.operateCenterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.luzhuCollectionView.mas_bottom).offset(20);
+            make.left.equalTo(self.automaticShowView).offset(20);
+            make.height.mas_equalTo(30);
+            make.centerX.equalTo(self.automaticShowView);
+        }];
+        
+        self.operateCenterView = [UIView new];
+        self.operateCenterView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6];
+        [self.automaticShowView addSubview:self.operateCenterView];
+        [self.operateCenterView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.operateCenterImgV.mas_bottom).offset(0);
+            make.left.equalTo(self.operateCenterImgV).offset(0);
+            make.bottom.equalTo(self.automaticShowView);
+            make.centerX.equalTo(self.automaticShowView);
+        }];
+        
+        CGFloat tapItem_height = 145;
+        CGFloat item_fontsize = 21;
+        self.readChipMoney_button = [JXButton buttonWithType:UIButtonTypeCustom];
+        self.readChipMoney_button.titleLabel.numberOfLines = 0;
+        self.readChipMoney_button.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self.readChipMoney_button setImage:[UIImage imageNamed:@"operationCenter_readChip_n"] forState:UIControlStateNormal];
+        [self.readChipMoney_button setImage:[UIImage imageNamed:@"operationCenter_readChip_p"] forState:UIControlStateHighlighted];
+        [self.readChipMoney_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_leftBtn_bg"] forState:UIControlStateNormal];
+        self.readChipMoney_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
+        [self.readChipMoney_button addTarget:self action:@selector(queryDeviceChips) forControlEvents:UIControlEventTouchUpInside];
+        [self.operateCenterView addSubview:self.readChipMoney_button];
+        [self.readChipMoney_button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.operateCenterView).offset(15);
+            make.left.equalTo(self.operateCenterView).offset(15);
             make.height.mas_equalTo(tapItem_height);
             make.width.mas_offset(200);
         }];
         
-        self.aTipRecordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.aTipRecordButton = [JXButton buttonWithType:UIButtonTypeCustom];
         self.aTipRecordButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.aTipRecordButton.titleLabel.numberOfLines = 0;
-        [self.aTipRecordButton setBackgroundImage:[UIImage imageNamed:@"login_text_bg"] forState:UIControlStateNormal];
+        [self.aTipRecordButton setImage:[UIImage imageNamed:@"operationCenter_icon"] forState:UIControlStateNormal];
+        [self.aTipRecordButton setImage:[UIImage imageNamed:@"operationCenter_tipFee_p"] forState:UIControlStateHighlighted];
+        [self.aTipRecordButton setBackgroundImage:[UIImage imageNamed:@"operationCenter_leftBtn_bg"] forState:UIControlStateNormal];
         self.aTipRecordButton.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
         [self.aTipRecordButton addTarget:self action:@selector(recordTipMoneyAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.aTipRecordButton];
+        [self.operateCenterView addSubview:self.aTipRecordButton];
         [self.aTipRecordButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.readChipMoney_button.mas_bottom).offset(20);
-            make.left.equalTo(self.automaticShowView).offset(10);
+            make.top.equalTo(self.readChipMoney_button.mas_bottom).offset(40);
+            make.left.equalTo(self.operateCenterView).offset(10);
             make.height.mas_equalTo(tapItem_height);
             make.width.mas_offset(200);
         }];
         
-        self.zhuxiaochouma_button = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.zhuxiaochouma_button = [JXButton buttonWithType:UIButtonTypeCustom];
         self.zhuxiaochouma_button.layer.cornerRadius = 2;
         self.zhuxiaochouma_button.titleLabel.numberOfLines = 2;
         self.zhuxiaochouma_button.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [self.zhuxiaochouma_button setTitleColor:[UIColor colorWithHexString:self.normalColor] forState:UIControlStateNormal];
+        [self.zhuxiaochouma_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
         self.zhuxiaochouma_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-        self.zhuxiaochouma_button.backgroundColor = [UIColor colorWithHexString:@"#274560"];
+        [self.zhuxiaochouma_button setImage:[UIImage imageNamed:@"operationCenter_dasaiIcon"] forState:UIControlStateNormal];
+        [self.zhuxiaochouma_button setImage:[UIImage imageNamed:@"operationCenter_dasaiChip"] forState:UIControlStateHighlighted];
+        [self.zhuxiaochouma_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_leftBtn_bg"] forState:UIControlStateNormal];
         [self.zhuxiaochouma_button addTarget:self action:@selector(zhuxiaoAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.zhuxiaochouma_button];
+        [self.operateCenterView addSubview:self.zhuxiaochouma_button];
         [self.zhuxiaochouma_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.aTipRecordButton.mas_bottom).offset(20);
-            make.left.equalTo(self.automaticShowView).offset(10);
+            make.top.equalTo(self.aTipRecordButton.mas_bottom).offset(40);
+            make.left.equalTo(self.operateCenterView).offset(10);
             make.height.mas_equalTo(tapItem_height);
             make.width.mas_offset(200);
         }];
         
-        self.win_button = [JXButton buttonWithType:UIButtonTypeCustom];
-        self.win_button.layer.cornerRadius = 2;
-        [self.win_button setTitleColor:[UIColor colorWithHexString:@"#4a4a4a"] forState:UIControlStateNormal];
-        self.win_button.titleLabel.font = [UIFont systemFontOfSize:34];
-        self.win_button.backgroundColor = [UIColor colorWithHexString:self.normalColor];
-        [self.win_button setImage:[UIImage imageNamed:@"win_icon"] forState:UIControlStateNormal];
+        CGFloat result_w = (kScreenWidth -200-105)/2;
+        CGFloat result_h = 104;
+        self.win_button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.win_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+        self.win_button.titleLabel.font = [UIFont systemFontOfSize:21];
+        [self.win_button setBackgroundImage:[UIImage imageNamed:@"cow_win_selectedIcon"] forState:UIControlStateSelected];
+        [self.win_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
         [self.win_button addTarget:self action:@selector(winAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.win_button];
+        [self.operateCenterView addSubview:self.win_button];
         [self.win_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.zhuxiaochouma_button.mas_bottom).offset(20);
-            make.left.equalTo(self.automaticShowView).offset(16);
-            make.height.mas_equalTo(170);
-            make.width.mas_offset(200);
+            make.top.equalTo(self.operateCenterView).offset(15);
+            make.left.equalTo(self.readChipMoney_button.mas_right).offset(31);
+            make.height.mas_equalTo(result_h);
+            make.width.mas_offset(result_w);
         }];
         
-        self.lose_button = [JXButton buttonWithType:UIButtonTypeCustom];
-        self.lose_button.layer.cornerRadius = 2;
+        self.lose_button = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.lose_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-        self.lose_button.titleLabel.font = [UIFont systemFontOfSize:34];
-        self.lose_button.backgroundColor = [UIColor colorWithHexString:self.loseColor];
-        [self.lose_button setImage:[UIImage imageNamed:@"lose_icon_un"] forState:UIControlStateNormal];
+        self.lose_button.titleLabel.font = [UIFont systemFontOfSize:21];
+        [self.lose_button setBackgroundImage:[UIImage imageNamed:@"cow_lose_selectedIcon"] forState:UIControlStateSelected];
+        [self.lose_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
         [self.lose_button addTarget:self action:@selector(loseAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.lose_button];
+        [self.operateCenterView addSubview:self.lose_button];
         [self.lose_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.win_button.mas_bottom);
-            make.left.equalTo(self.automaticShowView).offset(16);
-            make.height.mas_equalTo(170);
-            make.width.mas_offset(200);
+            make.top.equalTo(self.operateCenterView).offset(15);
+            make.left.equalTo(self.win_button.mas_right).offset(24);
+            make.height.mas_equalTo(result_h);
+            make.width.mas_offset(result_w);
         }];
         
+        CGFloat result_double_w = kScreenWidth-200-81;
         self.superDouble_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.superDouble_button.layer.cornerRadius = 2;
-        self.superDouble_button.layer.borderColor = [UIColor colorWithHexString:self.normalColor].CGColor;
-        self.superDouble_button.layer.borderWidth = 1;
-        [self.superDouble_button setTitleColor:[UIColor colorWithHexString:self.normalColor] forState:UIControlStateNormal];
+        [self.superDouble_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
         self.superDouble_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-        self.superDouble_button.backgroundColor = [UIColor colorWithHexString:self.buttonNormalColor];
+        [self.superDouble_button setBackgroundImage:[UIImage imageNamed:@"cow_superDouble_selectedIcon"] forState:UIControlStateSelected];
+        [self.superDouble_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
         [self.superDouble_button addTarget:self action:@selector(superDoubleAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.superDouble_button];
+        [self.operateCenterView addSubview:self.superDouble_button];
         [self.superDouble_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.luzhuCollectionView.mas_bottom).offset(20);
-            make.left.equalTo(self.win_button.mas_right).offset(20);
-            make.height.mas_equalTo(tapItem_height);
-            make.width.mas_offset(tapItem_width);
+            make.top.equalTo(self.win_button.mas_bottom).offset(38);
+            make.left.equalTo(self.readChipMoney_button.mas_right).offset(31);
+            make.height.mas_equalTo(result_h);
+            make.width.mas_offset(result_double_w);
         }];
-        
+
         self.double_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.double_button.layer.cornerRadius = 2;
-        self.double_button.layer.borderColor = [UIColor colorWithHexString:self.normalColor].CGColor;
-        self.double_button.layer.borderWidth = 1;
-        [self.double_button setTitleColor:[UIColor colorWithHexString:self.normalColor] forState:UIControlStateNormal];
+        [self.double_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
         self.double_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-        self.double_button.backgroundColor = [UIColor colorWithHexString:self.buttonNormalColor];
+        [self.double_button setBackgroundImage:[UIImage imageNamed:@"cow_win_selectedIcon"] forState:UIControlStateSelected];
+        [self.double_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
         [self.double_button addTarget:self action:@selector(doubleAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.double_button];
+        [self.operateCenterView addSubview:self.double_button];
         [self.double_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.superDouble_button.mas_bottom).offset(20);
-            make.left.equalTo(self.win_button.mas_right).offset(20);
-            make.height.mas_equalTo(tapItem_height);
-            make.width.mas_offset(tapItem_width);
+            make.top.equalTo(self.superDouble_button.mas_bottom).offset(31);
+            make.left.equalTo(self.readChipMoney_button.mas_right).offset(31);
+            make.height.mas_equalTo(result_h);
+            make.width.mas_offset(result_double_w);
         }];
-        
+
         self.flat_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.flat_button.layer.cornerRadius = 2;
-        self.flat_button.layer.borderColor = [UIColor colorWithHexString:self.normalColor].CGColor;
-        self.flat_button.layer.borderWidth = 1;
-        [self.flat_button setTitleColor:[UIColor colorWithHexString:self.normalColor] forState:UIControlStateNormal];
+        [self.flat_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
         self.flat_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-        self.flat_button.backgroundColor = [UIColor colorWithHexString:self.buttonNormalColor];
+        [self.flat_button setBackgroundImage:[UIImage imageNamed:@"tiger_selectedIcon"] forState:UIControlStateSelected];
+        [self.flat_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
         [self.flat_button addTarget:self action:@selector(flatAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.automaticShowView addSubview:self.flat_button];
+        [self.operateCenterView addSubview:self.flat_button];
         [self.flat_button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.double_button.mas_bottom).offset(20);
-            make.left.equalTo(self.win_button.mas_right).offset(20);
-            make.height.mas_equalTo(tapItem_height);
-            make.width.mas_offset(tapItem_width);
+            make.top.equalTo(self.double_button.mas_bottom).offset(31);
+            make.left.equalTo(self.readChipMoney_button.mas_right).offset(31);
+            make.height.mas_equalTo(result_h);
+            make.width.mas_offset(result_double_w);
         }];
         
     }
@@ -611,6 +719,47 @@
     return _tableDataInfoV;
 }
 
+- (EmpowerView *)empowerView{
+    if (!_empowerView) {
+        _empowerView = [[[NSBundle mainBundle]loadNibNamed:@"EmpowerView" owner:nil options:nil]lastObject];
+        _empowerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }
+    return _empowerView;
+}
+
+- (ModificationResultsView *)modifyResultsView{
+    if (!_modifyResultsView) {
+        _modifyResultsView = [[[NSBundle mainBundle]loadNibNamed:@"ModificationResultsView" owner:nil options:nil]lastObject];
+        _modifyResultsView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }
+    return _modifyResultsView;
+}
+
+- (EPCowPointChooseShowView *)cowPointShowView{
+    if (!_cowPointShowView) {
+        _cowPointShowView = [[[NSBundle mainBundle]loadNibNamed:@"EPCowPointChooseShowView" owner:nil options:nil]lastObject];
+        _cowPointShowView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }
+    return _cowPointShowView;
+}
+
+- (TableJiaJiancaiView *)addOrMinusView{
+    if (!_addOrMinusView) {
+        _addOrMinusView = [[TableJiaJiancaiView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    }
+    return _addOrMinusView;
+}
+
+-(JhPageItemView *)solidView{
+    if (!_solidView) {
+        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-25-156, 232);
+        JhPageItemView *view =  [[JhPageItemView alloc]initWithFrame:femwe];
+        view.backgroundColor = [UIColor whiteColor];
+        self.solidView = view;
+    }
+    return _solidView;
+}
+
 - (void)_setup{
     //台桌信息
     self.tableInfoImgV = [UIImageView new];
@@ -627,11 +776,13 @@
     self.tableInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.tableInfoLab.font = [UIFont systemFontOfSize:12];
     self.tableInfoLab.text = @"台桌信息Table information";
+    self.tableInfoLab.textAlignment = NSTextAlignmentCenter;
     [self.automaticShowView addSubview:self.tableInfoLab];
     [self.tableInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tableInfoImgV.mas_top).offset(8);
-        make.left.equalTo(self.tableInfoImgV.mas_left).offset(5);
+        make.top.equalTo(self.tableInfoImgV.mas_top).offset(3);
+        make.left.equalTo(self.tableInfoImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
+        make.width.mas_offset(156);
     }];
     
     self.tableInfoV = [UIView new];
@@ -670,7 +821,7 @@
     self.puciLab = [UILabel new];
     self.puciLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.puciLab.font = [UIFont systemFontOfSize:10];
-    self.puciLab.text = @"铺次:10";
+    self.puciLab.text = @"铺次:0";
     [self.tableInfoV addSubview:self.puciLab];
     [self.puciLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.xueciLab.mas_bottom).offset(3);
@@ -692,11 +843,13 @@
     self.luzhuInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.luzhuInfoLab.font = [UIFont systemFontOfSize:14];
     self.luzhuInfoLab.text = @"露珠信息Dew information";
+    self.luzhuInfoLab.textAlignment = NSTextAlignmentCenter;
     [self.automaticShowView addSubview:self.luzhuInfoLab];
     [self.luzhuInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.luzhuImgV.mas_top).offset(8);
-        make.left.equalTo(self.luzhuImgV.mas_left).offset(10);
+        make.top.equalTo(self.luzhuImgV.mas_top).offset(3);
+        make.left.equalTo(self.luzhuImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
+        make.width.mas_offset(kScreenWidth-25-156);
     }];
     
     self.luzhuCollectionView = [UIView new];
@@ -709,13 +862,37 @@
     }];
     
     [self.luzhuCollectionView addSubview:self.solidView];
+    [self.solidView fellLuzhuListWithDataList:self.luzhuInfoList];
+    self.solidView.collectionView.scrollEnabled = NO;
+    
+    self.noDataInfoLab = [UILabel new];
+    self.noDataInfoLab.textColor = [UIColor colorWithHexString:@"#7b7b7b"];
+    self.noDataInfoLab.font = [UIFont systemFontOfSize:23];
+    self.noDataInfoLab.text = @"此对局无露珠信息";
+    [self.luzhuCollectionView addSubview:self.noDataInfoLab];
+    [self.noDataInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(20);
+        make.center.equalTo(self.luzhuCollectionView);
+    }];
+}
+
+- (void)luzhuList{
+    self.luzhuInfoList = [NSMutableArray array];
+    for (int i=0; i<100; i++) {
+        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+        model.img = @"";
+        model.text = @"";
+        model.luzhuType = 0;
+        model.colorString = @"#ffffff";
+        [self.luzhuInfoList addObject:model];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self topBarSetUp];
-    
+    [self luzhuList];
     self.xueciCount = 1;
     self.puciCount = 1;
     self.chipUIDData = [NSMutableData data];
@@ -733,10 +910,6 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"#1c1c1c"];
     self.winOrLose = NO;
     self.hasChipRead = NO;
-    self.winColor = @"#357522";
-    self.loseColor = @"#b0251d";
-    self.normalColor = @"#ffffff";
-    self.buttonNormalColor = @"#1c1c1c";
     self.customerInfo = [[NRCustomerInfo alloc]init];
     self.customerInfo.tipsTitle = [NSString stringWithFormat:@"提示信息\n%@",[EPStr getStr:kEPTipsInfo note:@"提示信息"]];
     self.customerInfo.tipsInfo = [NSString stringWithFormat:@"请认真核对以上信息，确认是否进行下一步操作\n%@",[EPStr getStr:kEPNextTips note:@"请认真核对以上信息，确认是否进行下一步操作"]];
@@ -749,6 +922,11 @@
     [self.view addSubview:self.cowManager];
     [self winAction];
     [self changeLanguageWithType:NO];
+    
+    //传输参数
+    [self.cowManager transLoginInfoWithLoginID:self.viewModel.loginInfo.access_token
+                                             TableID:self.viewModel.curTableInfo.fid
+                                        Serialnumber:self.serialnumber];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -776,7 +954,7 @@
         [UIView animateWithDuration:0.2 animations:^{
             [self hideOrShowMenuButton:NO];
             self.coverBtn.hidden = NO;
-            self.menuView.height = 250;
+            self.menuView.height = 320;
         } completion:^(BOOL finished) {
             
         }];
@@ -809,6 +987,7 @@
         [self.updateLuzhu_button setSelected:YES];
         [self.daily_button setSelected:NO];
         [self.nextGame_button setSelected:NO];
+        [self updateLuzhu];
     }else if (btn.tag==3){//日结
         [self.moreOptionButton setSelected:NO];
         [self.changexueci_button setSelected:NO];
@@ -833,10 +1012,14 @@
                 [self.changeChipBtn setTitle:@"切换自动版" forState:UIControlStateNormal];
                 self.cowManager.hidden = NO;
                 self.automaticShowView.hidden = YES;
+                self.isAutomicGame = YES;
+                [[MJPopTool sharedInstance]popView:self.cowManager WithFatherView:self.view animated:YES];
             }else{
                 [self.changeChipBtn setTitle:@"切换手动版" forState:UIControlStateNormal];
                 self.cowManager.hidden = YES;
                 self.automaticShowView.hidden = NO;
+                self.isAutomicGame = NO;
+                [[MJPopTool sharedInstance]popView:self.automaticShowView WithFatherView:self.view animated:YES];
             }
         }
             break;
@@ -859,11 +1042,27 @@
         }
             break;
         case 5://查看注单
+        {
+            EPWebViewController *webVC = [[EPWebViewController alloc]init];
+            webVC.webTitle = @"查看注单";
+            webVC.link = [NSString stringWithFormat:@"http://dbluo.t.zwjxt.com/admin/customerrec/all.html?access_token=%@&ftable_id=%@",self.viewModel.loginInfo.access_token,self.viewModel.curTableInfo.fid];
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
             break;
         case 6://查看台面数据
-            [[UIApplication sharedApplication].keyWindow addSubview:self.tableDataInfoV];
+            [[MJPopTool sharedInstance] popView:self.tableDataInfoV animated:YES];
             break;
-        case 7://台面加减彩
+        case 7://点码
+            [self.addOrMinusView fellListWithType:1];
+            [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
+            break;
+        case 8://台面加减彩
+            [self.addOrMinusView fellListWithType:0];
+            [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
+            break;
+        case 9://开台和收台
+            [self.addOrMinusView fellListWithType:2];
+            [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
             break;
         default:
             break;
@@ -879,6 +1078,8 @@
     self.queryNoteBtn.hidden = hide;
     self.queryTableInfoBtn.hidden = hide;
     self.jiaCaiBtn.hidden = hide;
+    self.dianmaBtn.hidden = hide;
+    self.openTableBtn.hidden = hide;
 }
 
 - (void)coverAction{
@@ -958,100 +1159,30 @@
     }
 }
 
-#pragma mark - 日结
-- (void)daliyAction{
-    [EPSound playWithSoundName:@"click_sound"];
-    NFPopupTextContainView *customView = [[NFPopupTextContainView alloc] init];
-    DSHPopupContainer *container = [[DSHPopupContainer alloc] initWithCustomPopupView:customView];
-    container.maskColor = [[UIColor blackColor] colorWithAlphaComponent:.5];
-    [container show];
-    @weakify(self);
-    customView.sureButtonClickedCompleted = ^(NSString * _Nonnull adminName, NSString * _Nonnull adminPassword) {
-        DLOG(@"adminName====%@",adminName);
-        @strongify(self);
-        [self showWaitingView];
-        self.viewModel.curupdateInfo.femp_num = adminName;
-        self.viewModel.curupdateInfo.femp_pwd = adminPassword;
-        self.viewModel.curupdateInfo.fhg_id = self.viewModel.loginInfo.fid;
-        [self.viewModel commitDailyWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-            [self hideWaitingView];
-            if (success) {
-                [self showMessage:@"日结成功"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }else{
-                NSString *messgae = [msg NullToBlankString];
-                if (messgae.length == 0) {
-                    messgae = @"网络异常";
-                }
-                [self showMessage:messgae];
-                //响警告声音
-                [EPSound playWithSoundName:@"wram_sound"];
-            }
-        }];
-    };
-}
-
-//识别水钱
-- (void)identifyAction:(UIButton *)btn{
-    [EPSound playWithSoundName:@"click_sound"];
-    if (self.isCash) {
-        return;
-    }
-    if (!self.isDashui) {
-        btn.selected = YES;
-        self.isDashui = YES;
-        [self showMessage:@"水钱识别模式开启"];
-    }else{
-        [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"当前识别水钱%@",@""] handler:^(int buttonType) {
-            if (buttonType==0) {
-                btn.selected = NO;
-                self.isDashui = NO;
-                [self showMessage:@"水钱识别模式关闭"];
-                [self.BLEUIDDataList removeAllObjects];
-                for (int i = 0; i < self.chipUIDList.count; i++) {
-                    NSString *chipUID = self.chipUIDList[i];
-                    //向指定标签中写入数据（块1）
-                    [self.clientSocket writeData:[NRCommand clearWashNumberWithChipInfo:chipUID] withTimeout:- 1 tag:0];
-                    usleep(20 * 2000);
-                }
-            }
-        }];
-    }
-}
-
 - (void)winAction{
+    
     self.winOrLose = YES;
     self.customerInfo.isWinOrLose = YES;
     self.payChipUIDList = [NSArray array];
     self.viewModel.curupdateInfo.cp_result = @"1";
-    [self.win_button setBackgroundColor:[UIColor colorWithHexString:self.winColor]];
-    [self.lose_button setBackgroundColor:[UIColor colorWithHexString:self.normalColor]];
-    
-    [self.win_button setImage:[UIImage imageNamed:@"win_icon_un"] forState:UIControlStateNormal];
-    [self.lose_button setImage:[UIImage imageNamed:@"lose_icon"] forState:UIControlStateNormal];
-    [self.win_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-    [self.lose_button setTitleColor:[UIColor colorWithHexString:@"#4a4a4a"] forState:UIControlStateNormal];
-    [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-    [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-    [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
+    [self.win_button setSelected:YES];
+    [self.lose_button setSelected:NO];
+    [self.superDouble_button setSelected:NO];
+    [self.double_button setSelected:NO];
+    [self.flat_button setSelected:NO];
 }
 
 - (void)loseAction{
-
+    [[MJPopTool sharedInstance] popView:self.cowPointShowView animated:YES];
     self.winOrLose = NO;
     self.customerInfo.isWinOrLose = NO;
     self.payChipUIDList = [NSArray array];
     self.viewModel.curupdateInfo.cp_result = @"-1";
-    [self.win_button setBackgroundColor:[UIColor colorWithHexString:self.normalColor]];
-    [self.lose_button setBackgroundColor:[UIColor colorWithHexString:self.loseColor]];
-    
-    [self.win_button setImage:[UIImage imageNamed:@"win_icon"] forState:UIControlStateNormal];
-    [self.lose_button setImage:[UIImage imageNamed:@"lose_icon_un"] forState:UIControlStateNormal];
-    [self.win_button setTitleColor:[UIColor colorWithHexString:@"#4a4a4a"] forState:UIControlStateNormal];
-    [self.lose_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-    [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-    [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-    [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
+    [self.lose_button setSelected:YES];
+    [self.win_button setSelected:NO];
+    [self.superDouble_button setSelected:NO];
+    [self.double_button setSelected:NO];
+    [self.flat_button setSelected:NO];
 }
 
 #pragma mark - 超级翻倍
@@ -1063,16 +1194,12 @@
     }
     [self ActionQueryDeviceChips];
     self.beishuType = 1;
+    [self.superDouble_button setSelected:YES];
+    [self.double_button setSelected:NO];
+    [self.flat_button setSelected:NO];
     if (self.winOrLose) {
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.winColor]];
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n超级翻倍赢",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
-//        self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@：%@",[EPStr getStr:kEPDashui note:@"打水"],@""];
     }else{
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.loseColor]];
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n超级翻倍输",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
         self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@:0",[EPStr getStr:kEPDashui note:@"打水"]];
     }
@@ -1087,16 +1214,12 @@
     }
     [self ActionQueryDeviceChips];
     self.beishuType = 2;
+    [self.superDouble_button setSelected:NO];
+    [self.double_button setSelected:YES];
+    [self.flat_button setSelected:NO];
     if (self.winOrLose) {
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.winColor]];
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n翻倍赢",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
-//        self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@：%@",[EPStr getStr:kEPDashui note:@"打水"],self.identifyValueLab.text];
     }else{
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.loseColor]];
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n翻倍输",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
         self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@:0",[EPStr getStr:kEPDashui note:@"打水"]];
     }
@@ -1111,36 +1234,15 @@
     }
     [self ActionQueryDeviceChips];
     self.beishuType = 3;
+    [self.superDouble_button setSelected:NO];
+    [self.double_button setSelected:NO];
+    [self.flat_button setSelected:YES];
     if (self.winOrLose) {
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.winColor]];
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n平倍赢",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
-//        self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@：%@",[EPStr getStr:kEPDashui note:@"打水"],self.identifyValueLab.text];
     }else{
-        [self.flat_button setBackgroundColor:[UIColor colorWithHexString:self.loseColor]];
-        [self.superDouble_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
-        [self.double_button setBackgroundColor:[UIColor colorWithHexString:self.buttonNormalColor]];
         self.customerInfo.winStatus = [NSString stringWithFormat:@"%@:\n平倍输",[EPStr getStr:kEPWinStatus note:@"输赢状态"]];
         self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%@:0",[EPStr getStr:kEPDashui note:@"打水"]];
     }
-}
-
-#pragma mark - 更换靴次
-- (void)changexueciAction{
-    [EPSound playWithSoundName:@"click_sound"];
-    [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"确定更换靴次？\n%@",[EPStr getStr:kEPComfirmChangeXueci note:@"确定更换靴次？"]] handler:^(int buttonType) {
-        if (buttonType==0) {
-            self.xueciCount +=1;
-//            self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
-//            if (self.xueciCount<10) {
-//                self.xueciLab.text = [NSString stringWithFormat:@"靴次:0%d",self.xueciCount];
-//            }
-            [self showLognMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"]];
-            //响警告声音
-            [EPSound playWithSoundName:@"succeed_sound"];
-        }
-    }];
 }
 
 - (void)changeLanguageWithType:(BOOL)isEnglish{
@@ -1155,13 +1257,13 @@
     [self.updateLuzhu_button setTitle:[NSString stringWithFormat:@"查看露珠\n%@",[EPStr getStr:kEPLookluzhu note:@"查看露珠"]] forState:UIControlStateNormal];
     [self.daily_button setTitle:[NSString stringWithFormat:@"日结\n%@",[EPStr getStr:kEPDaily note:@"日结"]] forState:UIControlStateNormal];
     [self.nextGame_button setTitle:[NSString stringWithFormat:@"新一局\n%@",[EPStr getStr:kEPNewGame note:@"新一局"]] forState:UIControlStateNormal];
-    [self.zhuxiaochouma_button setTitle:[NSString stringWithFormat:@"注销筹码\n%@",[EPStr getStr:kEPCancellationChip note:@"注销筹码"]] forState:UIControlStateNormal];
-    [self.aTipRecordButton setTitle:[NSString stringWithFormat:@"记录小费\n%@",[EPStr getStr:kEPRecordTipsFee note:@"记录小费"]] forState:UIControlStateNormal];
+    [self.zhuxiaochouma_button setTitle:@"打散" forState:UIControlStateNormal];
+    [self.aTipRecordButton setTitle:[EPStr getStr:kEPRecordTipsFee note:@"记录小费"] forState:UIControlStateNormal];
     [self.superDouble_button setTitle:[EPStr getStr:kEPSuperDouble note:@"超级翻倍"] forState:UIControlStateNormal];
     [self.double_button setTitle:[EPStr getStr:kEPDouble note:@"翻倍"] forState:UIControlStateNormal];
     [self.lose_button setTitle:[EPStr getStr:kEPLose note:@"输"] forState:UIControlStateNormal];
     [self.flat_button setTitle:[EPStr getStr:kEPPingTimes note:@"平倍 Equal"] forState:UIControlStateNormal];
-    [self.readChipMoney_button setTitle:[NSString stringWithFormat:@"识别筹码金额\n%@",[EPStr getStr:kEPReadChipMoney note:@"识别筹码金额"]] forState:UIControlStateNormal];
+    [self.readChipMoney_button setTitle:@"识别筹码" forState:UIControlStateNormal];
     [self.win_button setTitle:[EPStr getStr:kEPWin note:@"赢"] forState:UIControlStateNormal];
 }
 
@@ -1195,6 +1297,120 @@
             }];
         }else{
             [self showLognMessage:[EPStr getStr:kEPEntryWashNumber note:@"请输入洗码号"]];
+        }
+    }];
+}
+
+#pragma mark - 更换靴次
+- (void)changexueciAction{
+    [EPSound playWithSoundName:@"click_sound"];
+    [[MJPopTool sharedInstance] popView:self.empowerView animated:YES];
+    @weakify(self);
+    self.empowerView.sureActionBlock = ^(NSString * _Nonnull adminName, NSString * _Nonnull password) {
+        @strongify(self);
+        [self showWaitingView];
+        [self.viewModel authorizationAccountWitAccountName:adminName Password:password Block:^(BOOL success, NSString *msg, EPSreviceError error) {
+            [self hideWaitingView];
+            if (success) {
+                if (self.isAutomicGame) {
+                    self.cowManager.xueciCount +=1;
+                    self.cowManager.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+                    [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
+                    self.cowManager.puciCount =0;
+                    self.cowManager.prePuciCount = self.cowManager.puciCount+1;
+                    self.cowManager.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.cowManager.puciCount];
+                    //响警告声音
+                    [EPSound playWithSoundName:@"succeed_sound"];
+                }else{
+                    self.xueciCount +=1;
+                    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+                    if (self.xueciCount<10) {
+                        self.xueciLab.text = [NSString stringWithFormat:@"靴次:0%d",self.xueciCount];
+                    }
+                    [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
+                    //响警告声音
+                    [EPSound playWithSoundName:@"succeed_sound"];
+                }
+            }else{
+                NSString *messgae = [msg NullToBlankString];
+                if (messgae.length == 0) {
+                    messgae = @"网络异常";
+                }
+                [self showMessage:messgae];
+                //响警告声音
+                [EPSound playWithSoundName:@"wram_sound"];
+            }
+        }];
+    };
+}
+
+#pragma mark - 修改露珠
+- (void)updateLuzhu{
+    [self showMessage:@"暂无露珠可修改" withSuccess:NO];
+    //响警告声音
+    [EPSound playWithSoundName:@"wram_sound"];
+}
+
+#pragma mark - 日结
+- (void)daliyAction{
+    [EPSound playWithSoundName:@"click_sound"];
+    [[MJPopTool sharedInstance] popView:self.empowerView animated:YES];
+    @weakify(self);
+    self.empowerView.sureActionBlock = ^(NSString * _Nonnull adminName, NSString * _Nonnull password) {
+        @strongify(self);
+        [self showWaitingView];
+        [self.viewModel authorizationAccountWitAccountName:adminName Password:password Block:^(BOOL success, NSString *msg, EPSreviceError error) {
+            if (success) {
+                self.viewModel.curupdateInfo.femp_num = adminName;
+                self.viewModel.curupdateInfo.femp_pwd = password;
+                self.viewModel.curupdateInfo.fhg_id = self.viewModel.loginInfo.fid;
+                [self.viewModel commitDailyWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                    [self hideWaitingView];
+                    if (success) {
+                        [self showMessage:@"日结成功" withSuccess:YES];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        NSString *messgae = [msg NullToBlankString];
+                        if (messgae.length == 0) {
+                            messgae = @"网络异常";
+                        }
+                        [self showMessage:messgae];
+                        //响警告声音
+                        [EPSound playWithSoundName:@"wram_sound"];
+                    }
+                }];
+                //响警告声音
+                [EPSound playWithSoundName:@"succeed_sound"];
+            }else{
+                [self hideWaitingView];
+                NSString *messgae = [msg NullToBlankString];
+                if (messgae.length == 0) {
+                    messgae = @"网络异常";
+                }
+                [self showMessage:messgae];
+                //响警告声音
+                [EPSound playWithSoundName:@"wram_sound"];
+            }
+        }];
+    };
+}
+
+#pragma mark - 新一局
+- (void)newGameAction{
+    [EPSound playWithSoundName:@"click_sound"];
+    @weakify(self);
+    [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"是否确定开启新一局？\n%@",[EPStr getStr:kEPSureNextGame note:@"确定开启新一局？"]] handler:^(int buttonType) {
+        @strongify(self);
+        if (buttonType==0) {
+            if (self.isAutomicGame) {
+                self.cowManager.puciCount +=1;
+                self.cowManager.prePuciCount = self.cowManager.puciCount;
+                self.cowManager.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.cowManager.puciCount];
+            }else{
+                self.puciCount +=1;
+                self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
+            }
+            [self showMessage:@"开启新一局成功" withSuccess:YES];;
         }
     }];
 }
@@ -1347,104 +1563,83 @@
         self.viewModel.curupdateInfo.cp_benjin = self.curChipInfo.chipDenomination;
     }
     self.customerInfo.isCow = YES;
-    
     self.isShowingResult = YES;
-    @weakify(self);
-    self.resultShowView = [EPPopAlertShowView showInWindowWithNRCustomerInfo:self.customerInfo handler:^(int buttonType) {
-        DLOG(@"buttonType===%d",buttonType);
-        @strongify(self);
-        if (buttonType==1) {
-            //客户输赢记录
-            NSMutableArray *realChipUIDList = [NSMutableArray array];
-            if (self.isCash) {
-                self.viewModel.curupdateInfo.cp_chipType = @"0";
-            }else{
-                [realChipUIDList addObjectsFromArray:self.chipUIDList];
-                [realChipUIDList addObjectsFromArray:self.payChipUIDList];
-                self.viewModel.curupdateInfo.cp_chipType = self.curChipInfo.chipType;
-            }
-            self.viewModel.curupdateInfo.cp_ChipUidList = realChipUIDList;
-            self.viewModel.curupdateInfo.cp_beishu = [NSString stringWithFormat:@"%.2f",self.odds];
-            self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
-            self.viewModel.curupdateInfo.cp_puci = [NSString stringWithFormat:@"%d",self.puciCount];
-            self.viewModel.curupdateInfo.cp_Serialnumber = self.serialnumber;
-            [self.viewModel commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-                @strongify(self);
-                [self hideWaitingView];
-                if (success) {
-                    self.hasChipRead = NO;
-                    self.isShowingResult = NO;
-                    [self.resultShowView _hide];
-                    if (self.winOrLose) {
-                        dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
-                        dispatch_async(serialQueue, ^{
-                            for (int i = 0; i < realChipUIDList.count; i++) {
-                                self.curChipInfo.chipUID = realChipUIDList[i];
-                                //向指定标签中写入数据（块1）
-                                [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
-                                usleep(20 * 2000);
-                            }
-                        });
-                        [self showMessage:@"赔付成功"];
-                        //响警告声音
-                        [EPSound playWithSoundName:@"succeed_sound"];
-                    }else{
-                        dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
-                        dispatch_async(serialQueue, ^{
-                            for (int i = 0; i < realChipUIDList.count; i++) {
-                                NSString *chipUID = realChipUIDList[i];
-                                //向指定标签中写入数据（块1）
-                                [self.clientSocket writeData:[NRCommand clearWashNumberWithChipInfo:chipUID] withTimeout:- 1 tag:0];
-                                usleep(20 * 2000);
-                            }
-                        });
-                        [self showMessage:[EPStr getStr:kEPShazhuSucceed note:@"杀注成功"]];
-                        //响警告声音
-                        [EPSound playWithSoundName:@"succeed_sound"];
-                    }
-                    self.viewModel.curupdateInfo.cp_DashuiUidList = [NSArray array];
-                    [self winAction];
-                }else{
-                    //响警告声音
-                    [EPSound playWithSoundName:@"wram_sound"];
-                    NSString *messgae = [msg NullToBlankString];
-                    if (messgae.length == 0) {
-                        messgae = @"网络异常";
-                    }
-                    [self showMessage:messgae];
-                }
-            }];
-        }else if (buttonType==2){
-            [self getPayChipsUIDList];
-        }else if (buttonType==0){
-            self.isShowingResult = NO;
-            self.chipUIDList = nil;
-            self.payChipUIDList = nil;
-            self.tipChipUIDList = nil;
-            [self winAction];
-        }
-    }];
-}
-
-#pragma mark - 新一局
-- (void)newGameAction{
-    [EPSound playWithSoundName:@"click_sound"];
-    @weakify(self);
-    [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"是否确定开启新一局？\n%@",[EPStr getStr:kEPSureNextGame note:@"确定开启新一局？"]] handler:^(int buttonType) {
-        @strongify(self);
-        if (buttonType==0) {
-            self.serialnumber = [NSString stringWithFormat:@"%ld",(long)[NRCommand getRandomNumber:100000 to:1000000]];
-            self.puciCount +=1;
-//            self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
-//            if (self.puciCount<10) {
-//                self.puciLab.text = [NSString stringWithFormat:@"铺次:0%d",self.puciCount];
+    [[MJPopTool sharedInstance] popView:self.cowPointShowView animated:YES];
+//    @weakify(self);
+//    self.resultShowView = [EPPopAlertShowView showInWindowWithNRCustomerInfo:self.customerInfo handler:^(int buttonType) {
+//        DLOG(@"buttonType===%d",buttonType);
+//        @strongify(self);
+//        if (buttonType==1) {
+//            //客户输赢记录
+//            NSMutableArray *realChipUIDList = [NSMutableArray array];
+//            if (self.isCash) {
+//                self.viewModel.curupdateInfo.cp_chipType = @"0";
+//            }else{
+//                [realChipUIDList addObjectsFromArray:self.chipUIDList];
+//                [realChipUIDList addObjectsFromArray:self.payChipUIDList];
+//                self.viewModel.curupdateInfo.cp_chipType = self.curChipInfo.chipType;
 //            }
-            [self showMessage:@"开启新一局成功"];
-            //响警告声音
-            [EPSound playWithSoundName:@"succeed_sound"];
-        }
-    }];
-    
+//            self.viewModel.curupdateInfo.cp_ChipUidList = realChipUIDList;
+//            self.viewModel.curupdateInfo.cp_beishu = [NSString stringWithFormat:@"%.2f",self.odds];
+//            self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
+//            self.viewModel.curupdateInfo.cp_puci = [NSString stringWithFormat:@"%d",self.puciCount];
+//            self.viewModel.curupdateInfo.cp_Serialnumber = self.serialnumber;
+//            [self.viewModel commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+//                @strongify(self);
+//                [self hideWaitingView];
+//                if (success) {
+//                    self.hasChipRead = NO;
+//                    self.isShowingResult = NO;
+//                    [self.resultShowView _hide];
+//                    if (self.winOrLose) {
+//                        dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
+//                        dispatch_async(serialQueue, ^{
+//                            for (int i = 0; i < realChipUIDList.count; i++) {
+//                                self.curChipInfo.chipUID = realChipUIDList[i];
+//                                //向指定标签中写入数据（块1）
+//                                [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+//                                usleep(20 * 2000);
+//                            }
+//                        });
+//                        [self showMessage:@"赔付成功"];
+//                        //响警告声音
+//                        [EPSound playWithSoundName:@"succeed_sound"];
+//                    }else{
+//                        dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
+//                        dispatch_async(serialQueue, ^{
+//                            for (int i = 0; i < realChipUIDList.count; i++) {
+//                                NSString *chipUID = realChipUIDList[i];
+//                                //向指定标签中写入数据（块1）
+//                                [self.clientSocket writeData:[NRCommand clearWashNumberWithChipInfo:chipUID] withTimeout:- 1 tag:0];
+//                                usleep(20 * 2000);
+//                            }
+//                        });
+//                        [self showMessage:[EPStr getStr:kEPShazhuSucceed note:@"杀注成功"]];
+//                        //响警告声音
+//                        [EPSound playWithSoundName:@"succeed_sound"];
+//                    }
+//                    self.viewModel.curupdateInfo.cp_DashuiUidList = [NSArray array];
+//                    [self winAction];
+//                }else{
+//                    //响警告声音
+//                    [EPSound playWithSoundName:@"wram_sound"];
+//                    NSString *messgae = [msg NullToBlankString];
+//                    if (messgae.length == 0) {
+//                        messgae = @"网络异常";
+//                    }
+//                    [self showMessage:messgae];
+//                }
+//            }];
+//        }else if (buttonType==2){
+//            [self getPayChipsUIDList];
+//        }else if (buttonType==0){
+//            self.isShowingResult = NO;
+//            self.chipUIDList = nil;
+//            self.payChipUIDList = nil;
+//            self.tipChipUIDList = nil;
+//            [self winAction];
+//        }
+//    }];
 }
 
 - (void)ActionQueryDeviceChips{
@@ -1599,7 +1794,7 @@
                     if (self.payChipCount==0) {
                         self.payChipUIDList = nil;
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            self.resultShowView.havepayChipLab.text = [NSString stringWithFormat:@"%@:%d",[EPStr getStr:kEPPeifuChip note:@"已赔付筹码:"],0];
+//                            self.resultShowView.havepayChipLab.text = [NSString stringWithFormat:@"%@:%d",[EPStr getStr:kEPPeifuChip note:@"已赔付筹码:"],0];
                             [self showLognMessage:@"未检测到赔付筹码"];
                             //响警告声音
                             [EPSound playWithSoundName:@"wram_sound"];
@@ -1692,7 +1887,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     int benjinMoney = [self.curChipInfo.chipDenomination intValue];
                     self.curChipInfo.chipDenomination = [NSString stringWithFormat:@"%d",benjinMoney+chipAllMoney];
-                    self.resultShowView.havepayChipLab.text = [NSString stringWithFormat:@"%@:%d",[EPStr getStr:kEPPeifuChip note:@"已赔付筹码:"],chipAllMoney];
+//                    self.resultShowView.havepayChipLab.text = [NSString stringWithFormat:@"%@:%d",[EPStr getStr:kEPPeifuChip note:@"已赔付筹码:"],chipAllMoney];
                 });
                 [self showMessage:@"识别赔付筹码成功"];
                 //响警告声音

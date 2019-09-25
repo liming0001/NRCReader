@@ -19,10 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JhPageItemView : UIView
 // 数据源
 @property (nonatomic,strong) NSArray * dataArray;
-
+@property (nonatomic, strong) UICollectionView  *collectionView;
 @property (nonatomic, weak) id<JhPageItemViewDelegate> delegate;
 
-
+- (void)fellLuzhuListWithDataList:(NSArray *)list;
 
 @end
 

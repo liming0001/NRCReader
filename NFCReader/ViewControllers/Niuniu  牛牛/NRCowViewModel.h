@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)checkChipIsTrueWithChipList:(NSArray *)chipList Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交日结
 - (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 验证账号
+- (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CustomerInfo;
 @interface TigerCollectionViewCell : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *number_lab;
 @property (weak, nonatomic) IBOutlet UIImageView *customerHeadImgV;
 @property (weak, nonatomic) IBOutlet UIImageView *customerHeadIcon;
 @property (weak, nonatomic) IBOutlet UILabel *washNumberLab;

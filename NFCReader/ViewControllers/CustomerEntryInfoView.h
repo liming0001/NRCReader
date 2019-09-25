@@ -14,8 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CustomerEntryInfoView : UIView
 
 @property (weak, nonatomic) IBOutlet UITextField *washNumberTF;
+@property (weak, nonatomic) IBOutlet UIButton *cashTypeBtn;
 
+@property (weak, nonatomic) IBOutlet UILabel *cashTypeLab;
 @property (weak, nonatomic) IBOutlet UIImageView *typeIcon;
+@property (weak, nonatomic) IBOutlet UILabel *chipTypeLab;
+@property (weak, nonatomic) IBOutlet UIButton *chipTypeBtn;
 
 @property (weak, nonatomic) IBOutlet UITextField *zhuangValueTF;
 
@@ -26,9 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *heValueTF;
 @property (weak, nonatomic) IBOutlet UITextField *baoxianValueTF;
 
-@property(nonatomic,copy)void (^editTapCustomer)(CustomerInfo *curCustomer);
+
+@property(nonatomic,copy)void (^editTapCustomer)(CustomerInfo * curCustomer,BOOL hasEntry);
 
 - (void)editCurCustomerWithCustomerInfo:(CustomerInfo *)curCustomer;
+- (void)editLoginInfoWithLoginID:(NSString *)loginID;
 
 @end
 

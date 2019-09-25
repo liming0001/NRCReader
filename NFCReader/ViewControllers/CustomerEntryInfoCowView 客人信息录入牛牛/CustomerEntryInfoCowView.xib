@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -49,7 +47,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="fJR-C5-95k"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -134,6 +131,7 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" title="Win" backgroundImage="addIcon_redbg"/>
+                            <state key="highlighted" backgroundImage="addIcon_redbg"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="赢" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N1r-cs-39S">
                             <rect key="frame" x="149" y="178" width="42" height="40"/>
@@ -150,7 +148,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="7fe-VF-fp8"/>
                             </constraints>
-                            <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.15382922539999999" blue="0.1812555018" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -162,6 +160,7 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" title="Lose" backgroundImage="addIcon_xianbg"/>
+                            <state key="highlighted" backgroundImage="addIcon_xianbg"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvq-0l-ycl">
                             <rect key="frame" x="149" y="228" width="42" height="40"/>
@@ -178,7 +177,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="NwQ-l6-GKN"/>
                             </constraints>
-                            <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.14901960780000001" green="0.28235294119999998" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -271,7 +270,11 @@
                 <constraint firstItem="Pad-hY-pFD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="200" id="l4m-mH-xe0"/>
             </constraints>
             <connections>
+                <outlet property="cashTypeBtn" destination="2TZ-1V-Dg0" id="Yig-re-vfI"/>
+                <outlet property="cashTypelab" destination="qVB-Gq-NBi" id="VFy-fY-auS"/>
+                <outlet property="chipTypeBtn" destination="CJK-m5-yZM" id="Q3p-Sx-nMU"/>
                 <outlet property="chipTypeIcon" destination="fki-e7-1dT" id="vg0-ft-VMb"/>
+                <outlet property="chipTypeLab" destination="s9K-ok-cbf" id="PHy-2I-etK"/>
                 <outlet property="customerHeadIcon" destination="Rm4-wf-zyB" id="cuN-BY-RCb"/>
                 <outlet property="loseValueTF" destination="KLA-IN-u9k" id="5cK-VN-6GK"/>
                 <outlet property="washNumberTF" destination="l8Q-Vd-Qs2" id="yiq-24-Q73"/>

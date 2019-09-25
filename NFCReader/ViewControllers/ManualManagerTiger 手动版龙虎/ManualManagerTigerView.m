@@ -15,6 +15,7 @@
 #import "CustomerInfo.h"
 #import "EPPopView.h"
 #import "EPToast.h"
+#import "JhPageItemModel.h"
 
 static NSString * const reuseIdentifier = @"CustomerCell";
 static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
@@ -33,8 +34,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UILabel *tableInfoLab;
 @property (nonatomic, strong) UIView *tableInfoV;
 @property (nonatomic, strong) SFLabel *stableIDLab;
-@property (nonatomic, strong) UILabel *xueciLab;
-@property (nonatomic, strong) UILabel *puciLab;
 @property (nonatomic, strong) UIView *dragonBorderV;
 @property (nonatomic, strong) UIButton *dragonInfoBtn;
 @property (nonatomic, strong) UILabel *dragonInfoLab;
@@ -44,8 +43,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UIView *heBorderV;
 @property (nonatomic, strong) UIButton *heInfoBtn;
 @property (nonatomic, strong) UILabel *heInfoLab;
-@property (nonatomic, assign) int xueciCount;//靴次
-@property (nonatomic, assign) int puciCount;//铺次
 
 //结算台
 @property (nonatomic, strong) UIImageView *settlementImgV;
@@ -55,12 +52,24 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UIButton *tigerBtn;
 @property (nonatomic, strong) UIButton *heBtn;
 @property (nonatomic, strong) UIButton *setmentOKBtn;
+@property (nonatomic, strong) NSString *result_string;
 
 //客人信息
 @property (nonatomic, strong) UICollectionView  *collectionView;
 @property (nonatomic, assign) CGRect ViewFrame;
 @property (nonatomic, strong) UICollectionViewLayout *layout;
 @property (nonatomic, strong) NSMutableArray *customerInfoList;
+@property (nonatomic, assign) BOOL isBeganMove;
+@property (nonatomic, assign) int dragonCount;//龙赢次数
+@property (nonatomic, assign) int tigerCount;//虎赢次数
+@property (nonatomic, assign) int heCount;//和赢次数
+@property (nonatomic, assign) BOOL isEntryBox;
+
+//提交参数
+@property (nonatomic, strong) NSString *curLoginToken;
+@property (nonatomic, strong) NSString *curTableID;
+@property (nonatomic, strong) NSString *curSerialnumber;
+@property (nonatomic, strong) NSArray *curXz_setting;
 
 @end
 
@@ -73,11 +82,25 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         // Initialization code
         self.xueciCount = 1;
         self.puciCount = 0;
+        self.prePuciCount = 1;
         self.luzhuInfoList = [NSMutableArray array];
         self.customerInfoList = [NSMutableArray array];
+        [self.customerInfoList addObject:[self modelCustomerInfo]];
         [self _setup];
+        [self luzhuList];
     }
     return self;
+}
+
+- (void)luzhuList{
+    for (int i=0; i<100; i++) {
+        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+        model.img = @"";
+        model.text = @"";
+        model.luzhuType = 0;
+        model.colorString = @"#ffffff";
+        [self.luzhuInfoList addObject:model];
+    }
 }
 
 -(UICollectionViewLayout *)layout{
@@ -102,7 +125,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        CGRect Collectionframe =CGRectMake(0,285, kScreenWidth, kScreenHeight-285);
+        CGRect Collectionframe =CGRectMake(0,285, kScreenWidth, self.frame.size.height-285-10);
         _collectionView = [[UICollectionView alloc] initWithFrame:Collectionframe collectionViewLayout:self.layout];
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([TigerCollectionViewCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:reuseIdentifier];
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([TigerAddMoreCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:moreReuseIdentifier];
@@ -112,7 +135,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.pagingEnabled = NO;
-        _collectionView.bounces = NO;
+        _collectionView.bounces = YES;
         _collectionView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.collectionView];
     }
@@ -121,7 +144,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 -(JhPageItemView *)solidView{
     if (!_solidView) {
-        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-200-240, 232);
+        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-156-249, 231);
         JhPageItemView *view =  [[JhPageItemView alloc]initWithFrame:femwe];
         view.backgroundColor = [UIColor whiteColor];
         self.solidView = view;
@@ -145,12 +168,14 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.settlementLab = [UILabel new];
     self.settlementLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.settlementLab.font = [UIFont systemFontOfSize:12];
+    self.settlementLab.textAlignment = NSTextAlignmentCenter;
     self.settlementLab.text = @"结算台Settlement Desk";
     [self addSubview:self.settlementLab];
     [self.settlementLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.settlementImgV.mas_top).offset(8);
-        make.left.equalTo(self.settlementImgV.mas_left).offset(10);
+        make.top.equalTo(self.settlementImgV.mas_top).offset(3);
+        make.left.equalTo(self.settlementImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
+        make.width.mas_offset(249);
     }];
     
     self.settlementV = [UIView new];
@@ -249,12 +274,14 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.tableInfoLab = [UILabel new];
     self.tableInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.tableInfoLab.font = [UIFont systemFontOfSize:12];
+    self.tableInfoLab.textAlignment = NSTextAlignmentCenter;
     self.tableInfoLab.text = @"台桌信息Table information";
     [self addSubview:self.tableInfoLab];
     [self.tableInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tableInfoImgV.mas_top).offset(8);
-        make.left.equalTo(self.tableInfoImgV.mas_left).offset(5);
+        make.top.equalTo(self.tableInfoImgV.mas_top).offset(3);
+        make.left.equalTo(self.tableInfoImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
+        make.width.mas_offset(156);
     }];
     
     self.tableInfoV = [UIView new];
@@ -271,7 +298,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.stableIDLab = [SFLabel new];
     self.stableIDLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.stableIDLab.font = [UIFont systemFontOfSize:10];
-    self.stableIDLab.text = @"台桌ID:VIP0018";
     self.stableIDLab.layer.cornerRadius = 5;
     self.stableIDLab.backgroundColor = [UIColor colorWithHexString:@"#201f24"];
     [self.tableInfoV addSubview:self.stableIDLab];
@@ -293,7 +319,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.puciLab = [UILabel new];
     self.puciLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.puciLab.font = [UIFont systemFontOfSize:10];
-    self.puciLab.text = @"铺次:10";
+    self.puciLab.text = @"铺次:0";
     [self.tableInfoV addSubview:self.puciLab];
     [self.puciLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.xueciLab.mas_bottom).offset(3);
@@ -331,7 +357,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.dragonInfoLab = [UILabel new];
     self.dragonInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.dragonInfoLab.font = [UIFont systemFontOfSize:12];
-    self.dragonInfoLab.text = @"6";
+    self.dragonInfoLab.text = @"0";
     self.dragonInfoLab.textAlignment = NSTextAlignmentCenter;
     [self.dragonBorderV addSubview:self.dragonInfoLab];
     [self.dragonInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -434,12 +460,14 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.luzhuInfoLab = [UILabel new];
     self.luzhuInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.luzhuInfoLab.font = [UIFont systemFontOfSize:14];
+    self.luzhuInfoLab.textAlignment = NSTextAlignmentCenter;
     self.luzhuInfoLab.text = @"露珠信息Dew information";
     [self addSubview:self.luzhuInfoLab];
     [self.luzhuInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.luzhuImgV.mas_top).offset(8);
-        make.left.equalTo(self.luzhuImgV.mas_left).offset(10);
+        make.top.equalTo(self.luzhuImgV.mas_top).offset(3);
+        make.left.equalTo(self.luzhuImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
+        make.width.mas_offset(kScreenWidth-30-156-249);
     }];
     
     self.luzhuCollectionView = [UIView new];
@@ -452,16 +480,114 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     }];
     
     [self.luzhuCollectionView addSubview:self.solidView];
+    [self.solidView fellLuzhuListWithDataList:self.luzhuInfoList];
     
     [self addSubview:self.collectionView];
 }
 
+- (void)showWaitingView {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.layer.zPosition = 100;
+}
+
+- (void)hideWaitingView {
+    [MBProgressHUD hideHUDForView:self animated:YES];
+}
+
 - (void)resultAction:(UIButton *)btn{
-    
+    if (btn.tag==1) {//龙
+        [self.dragonBtn setSelected:YES];
+        [self.tigerBtn setSelected:NO];
+        [self.heBtn setSelected:NO];
+        self.result_string = @"龙赢";
+    }else if (btn.tag==2){//虎
+        [self.dragonBtn setSelected:NO];
+        [self.tigerBtn setSelected:YES];
+        [self.heBtn setSelected:NO];
+        self.result_string = @"虎赢";
+    }else if (btn.tag==3){//和
+        [self.dragonBtn setSelected:NO];
+        [self.tigerBtn setSelected:NO];
+        [self.heBtn setSelected:YES];
+        self.result_string = @"和局";
+    }
 }
 
 - (void)resultEntryAction:(UIButton *)btn{
-    
+    if (self.puciCount != self.prePuciCount) {
+        [[EPToast makeText:@"请先开启新一局"]showWithType:ShortTime];
+        //响警告声音
+        [EPSound playWithSoundName:@"wram_sound"];
+        return;
+    }
+    if (self.result_string.length==0) {
+        [[EPToast makeText:@"请选择开牌结果"]showWithType:ShortTime];
+        //响警告声音
+        [EPSound playWithSoundName:@"wram_sound"];
+        return;
+    }
+    [self showWaitingView];
+    [self commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+        if (success) {
+            [self getLUzhuINfo];
+            [[EPToast makeText:@"提交开牌结果成功" WithError:NO]showWithType:ShortTime];
+            //响警告声音
+            [EPSound playWithSoundName:@"succeed_sound"];
+            [self resertResultBtnStatus];
+            self.prePuciCount +=1;
+            [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+                customerInfo.zhuangValue = @"";
+                customerInfo.zhuangDuiValue = @"";
+                customerInfo.heValue = @"";
+                customerInfo.cashType = 0;
+            }];
+            [self.collectionView reloadData];
+        }else{
+            [self hideWaitingView];
+            [[EPToast makeText:@"提交开牌结果失败" WithError:YES]showWithType:ShortTime];
+            //响警告声音
+            [EPSound playWithSoundName:@"wram_sound"];
+            
+        }
+    }];
+}
+
+- (void)resertResultBtnStatus{
+    [self.dragonBtn setSelected:NO];
+    [self.tigerBtn setSelected:NO];
+    [self.heBtn setSelected:NO];
+    self.result_string = @"";
+}
+
+#pragma mark - 手势事件
+-(void)moveCollectionViewCell:(UILongPressGestureRecognizer *)gesture {
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            if (!self.isBeganMove) {
+                self.isBeganMove = YES;
+                //获取点击的cell的indexPath
+                NSIndexPath *selectedIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
+                
+                //开始移动对应的cell
+                [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            //移动cell
+            [self.collectionView updateInteractiveMovementTargetPosition:[gesture locationInView:self.collectionView]];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            self.isBeganMove = false;
+            //结束移动
+            [self.collectionView endInteractiveMovement];
+            break;
+        }
+        default:
+            [self.collectionView cancelInteractiveMovement];
+            break;
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -476,6 +602,16 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     }else{
         TigerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell.cellIndex = indexPath.row;
+        NSInteger curIndex = indexPath.row+1;
+        NSString *number_s = @"";
+        if (curIndex<10) {
+            number_s = [NSString stringWithFormat:@"NO.00%d",(int)curIndex];
+        }else if (curIndex<100&&curIndex>=10){
+            number_s = [NSString stringWithFormat:@"NO.0%d",(int)curIndex];
+        }else{
+            number_s = [NSString stringWithFormat:@"NO.%d",(int)curIndex];
+        }
+        cell.number_lab.text = number_s;
         [cell fellCellWithCustomerInfo:self.customerInfoList[indexPath.row]];
         @weakify(self);
         cell.deleteCustomer = ^(NSInteger curCellIndex) {
@@ -483,8 +619,20 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             [self.customerInfoList removeObjectAtIndex:curCellIndex];
             [collectionView reloadData];
         };
+        //添加长按手势
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(moveCollectionViewCell:)];
+        [cell addGestureRecognizer:longPress];
         return cell;
     }
+}
+
+-(void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    //处理数据（删除之前的位置数据，插入到新的位置）
+    CustomerInfo *selectModel = self.customerInfoList[sourceIndexPath.item];
+    [self.customerInfoList removeObjectAtIndex:sourceIndexPath.item];
+    [self.customerInfoList insertObject:selectModel atIndex:destinationIndexPath.item];
+    [collectionView reloadData];
+    //此处可以根据需要，上传给后台目前数据的顺序
 }
 
 #pragma mark - 点击事件
@@ -493,15 +641,25 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     if (indexPath.row==self.customerInfoList.count) {
         [self.customerInfoList addObject:[self modelCustomerInfo]];
         [collectionView reloadData];
-        [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.customerInfoList.count - 1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
     }else{
+        if (self.isEntryBox) {
+            return;
+        }
+        self.isEntryBox = YES;
+        CustomerInfo *info = self.customerInfoList[indexPath.row];
         TigerEditInfoView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"TigerEditInfoView" owner:nil options:nil]lastObject];
         custerEntryInfoV.frame = self.bounds;
-        custerEntryInfoV.editTapCustomer = ^(CustomerInfo * _Nonnull curCustomer) {
-            [self.customerInfoList replaceObjectAtIndex:indexPath.row withObject:curCustomer];
-            [collectionView reloadData];
+        [custerEntryInfoV editLoginInfoWithLoginID:self.curLoginToken];
+        custerEntryInfoV.editTapCustomer = ^(CustomerInfo * _Nonnull curCustomer, BOOL hasEntry) {
+            self.isEntryBox = NO;
+            if (hasEntry) {
+                [self.customerInfoList replaceObjectAtIndex:indexPath.row withObject:curCustomer];
+                [collectionView reloadData];
+            }
         };
-        [[UIApplication sharedApplication].keyWindow addSubview:custerEntryInfoV];
+        [custerEntryInfoV editCurCustomerWithCustomerInfo:info];
+        [[MJPopTool sharedInstance] popView:custerEntryInfoV animated:YES];
     }
 }
 
@@ -515,6 +673,301 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     customer.cashType = 0;
     customer.headbgImgName = @"customer_VIP_bg";
     return customer;
+}
+
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting{
+    self.curLoginToken = loginID;
+    self.curTableID = tableID;
+    self.curSerialnumber = serialnumber;
+    self.curXz_setting = xz_setting;
+    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableID];
+    
+    [self getLUzhuINfo];
+}
+
+- (void)getLUzhuINfo{
+    [self getLuzhuWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.solidView fellLuzhuListWithDataList:self.luzhuInfoList];
+                self.dragonInfoLab.text = [NSString stringWithFormat:@"%d",self.dragonCount];
+                self.tigerInfoLab.text = [NSString stringWithFormat:@"%d",self.tigerCount];
+                self.heInfoLab.text = [NSString stringWithFormat:@"%d",self.heCount];
+            });
+        }
+    }];
+}
+
+#pragma mark - 获取露珠
+- (void)getLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.curLoginToken,
+                             @"ftable_id":self.curTableID,//桌子ID
+                             @"rjdate":[NRCommand getCurrentDate],//日期
+                             @"fxueci":[NSString stringWithFormat:@"%d",self.xueciCount]//靴次
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"tablerec_luzhu",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_Public_ListWithParamter:Realparam block:^(NSArray *list, NSString *msg, EPSreviceError error, BOOL suc) {
+        [self hideWaitingView];
+        if (suc) {
+            self.realLuzhuList = list;
+            NSDictionary *lastLuzhuDict = list.lastObject;
+            self.puciCount = [[NSString stringWithFormat:@"%@",lastLuzhuDict[@"fpuci"]]intValue];
+            self.prePuciCount = self.puciCount+1;
+            self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
+            NSMutableArray *luzhuList = [NSMutableArray array];
+            [list enumerateObjectsUsingBlock:^(NSDictionary *luzhiDict, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *resultS =  luzhiDict[@"fkpresult"];
+                NSString *text = @"";
+                NSString *img = @"";
+                if ([resultS isEqualToString:@"龙赢"]||[resultS isEqualToString:@"龙"]) {
+                    img = @"1";
+                    text = @"龙";
+                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                    model.img = img;
+                    model.text = text;
+                    model.colorString = @"#ffffff";
+                    model.luzhuType = 1;
+                    [luzhuList addObject:model];
+                    self.dragonCount +=1;
+                }else if ([resultS isEqualToString:@"虎赢"]||[resultS isEqualToString:@"虎"]){
+                    img = @"7";
+                    text = @"虎";
+                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                    model.img = img;
+                    model.text = text;
+                    model.colorString = @"#ffffff";
+                    model.luzhuType = 1;
+                    [luzhuList addObject:model];
+                    self.tigerCount +=1;
+                }else if ([resultS isEqualToString:@"和局"]||[resultS isEqualToString:@"和"]){
+                    img = @"0";
+                    text = @"和";
+                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                    model.img = img;
+                    model.text = text;
+                    model.luzhuType = 1;
+                    model.colorString = @"#ffffff";
+                    [luzhuList addObject:model];
+                    self.heCount +=1;
+                }
+            }];
+            
+            for (int i=(int)list.count; i<100; i++) {
+                NSString *text = @"";
+                NSString *img = @"";
+                JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                model.img = img;
+                model.text = text;
+                model.luzhuType = 0;
+                model.colorString = @"#ffffff";
+                [luzhuList addObject:model];
+            }
+            [self.luzhuInfoList removeAllObjects];
+            [self.luzhuInfoList addObjectsFromArray:luzhuList];
+            
+        }
+        block(suc, msg,error);
+        
+    }];
+}
+
+#pragma mark - 提交客人输赢记录和台桌流水记录
+- (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    //洗码号
+    NSMutableArray *fxmh_list = [NSMutableArray array];
+    //筹码类型
+    NSMutableArray *fxz_cmtype_list = [NSMutableArray array];
+    //筹码名称
+    NSMutableArray *fhardlist_list = [NSMutableArray array];
+    //下注本金
+    NSMutableArray *fxz_money_list = [NSMutableArray array];
+    //下注名称
+    NSMutableArray *fxz_name_list = [NSMutableArray array];
+    //输赢
+    NSMutableArray *fsy_list = [NSMutableArray array];
+    //总码
+    NSMutableArray *fresult_list = [NSMutableArray array];
+    //佣金
+    NSMutableArray *fyj_list = [NSMutableArray array];
+    
+    [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0) {
+            if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
+                [fxmh_list addObject:@" "];
+            }else{
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
+            }
+            [fxmh_list addObject:@"0"];
+            [fxz_name_list addObject:@"龙"];
+            [fsy_list addObject:@"1"];
+            [fresult_list addObject:@"0"];
+        }else{
+            //龙
+            if ([curCustomer.zhuangValue integerValue]!=0) {
+                [fyj_list addObject:@"0"];
+                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
+                    [fxmh_list addObject:@" "];
+                }else{
+                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
+                }
+                [fxz_money_list addObject:curCustomer.zhuangValue];
+                [fxz_name_list addObject:@"龙赢"];
+                //赔率
+                CGFloat odds = 0;
+                CGFloat yj = 0;
+                NSArray *xz_array = self.curXz_setting;
+                if (xz_array.count>0) {
+                    odds = [xz_array[0][@"fpl"] floatValue];
+                    yj = [xz_array[0][@"fyj"] floatValue];
+                }
+                if ([self.result_string isEqualToString:@"龙赢"]) {
+                    [fsy_list addObject:[NSNumber numberWithInt:1]];
+                    CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
+                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:curCustomer.zhuangValue];
+                }else{//和
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    CGFloat resultValue = 0.5*[curCustomer.zhuangValue integerValue];
+                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                }
+                if (curCustomer.cashType==0) {//美金筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金筹码"];
+                }else if (curCustomer.cashType==1){//美金现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金现金"];
+                }else if (curCustomer.cashType==2){//人民币筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币筹码"];
+                }else if (curCustomer.cashType==3){//人民币现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币现金"];
+                }
+            }
+            if ([curCustomer.zhuangDuiValue integerValue]!=0){
+                [fyj_list addObject:@"0"];
+                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
+                    [fxmh_list addObject:@" "];
+                }else{
+                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
+                }
+                [fxz_money_list addObject:curCustomer.zhuangDuiValue];
+                [fxz_name_list addObject:@"虎"];
+                //赔率
+                CGFloat odds = 0;
+                CGFloat yj = 0;
+                NSArray *xz_array = self.curXz_setting;
+                if (xz_array.count>1) {
+                    odds = [xz_array[1][@"fpl"] floatValue];
+                    yj = [xz_array[1][@"fyj"] floatValue];
+                }
+                if ([self.result_string isEqualToString:@"龙赢"]) {
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:curCustomer.zhuangDuiValue];
+                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                    [fsy_list addObject:[NSNumber numberWithInt:1]];
+                    CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangDuiValue integerValue];
+                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                }else{
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    CGFloat resultValue = 0.5*[curCustomer.zhuangDuiValue integerValue];
+                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                }
+                if (curCustomer.cashType==0) {//美金筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金筹码"];
+                }else if (curCustomer.cashType==1){//美金现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金现金"];
+                }else if (curCustomer.cashType==2){//人民币筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币筹码"];
+                }else if (curCustomer.cashType==3){//人民币现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币现金"];
+                }
+            }
+            if([curCustomer.heValue integerValue]!=0){
+                [fyj_list addObject:@"0"];
+                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
+                    [fxmh_list addObject:@" "];
+                }else{
+                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
+                }
+                [fxz_money_list addObject:curCustomer.heValue];
+                [fxz_name_list addObject:@"和"];
+                //赔率
+                CGFloat odds = 0;
+                CGFloat yj = 0;
+                NSArray *xz_array = self.curXz_setting;
+                if (xz_array.count>2) {
+                    odds = [xz_array[2][@"fpl"] floatValue];
+                    yj = [xz_array[2][@"fyj"] floatValue];
+                }
+                if ([self.result_string isEqualToString:@"龙赢"]) {
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:curCustomer.heValue];
+                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:curCustomer.heValue];
+                }else{
+                    [fsy_list addObject:[NSNumber numberWithInt:1]];
+                    CGFloat resultValue = (1+odds-yj)*[curCustomer.heValue integerValue];
+                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                }
+                if (curCustomer.cashType==0) {//美金筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金筹码"];
+                }else if (curCustomer.cashType==1){//美金现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+                    [fhardlist_list addObject:@"美金现金"];
+                }else if (curCustomer.cashType==2){//人民币筹码
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币筹码"];
+                }else if (curCustomer.cashType==3){//人民币现金
+                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+                    [fhardlist_list addObject:@"人民币现金"];
+                }
+            }
+        }
+    }];
+    NSDictionary * param = @{
+                             @"access_token":self.curLoginToken,
+                             @"ftable_id":self.curTableID,//桌子ID
+                             @"fpcls":self.curSerialnumber,//铺次流水号，长度不超过20位，要求全局唯一
+                             @"fkpresult":self.result_string,//开牌结果
+                             @"frjdate":[NRCommand getCurrentDate],//日结日期
+                             @"fxueci":[NSString stringWithFormat:@"%d",self.xueciCount],//靴次
+                             @"fpuci":[NSString stringWithFormat:@"%d",self.puciCount],//铺次
+                             @"fxmh_list":fxmh_list,//客人洗码号
+                             @"fxz_cmtype_list":fxz_cmtype_list,//客人下注的筹码类型
+                             @"fxz_money_list":fxz_money_list,//客人下注的本金
+                             @"fxz_name_list":fxz_name_list,//下注名称，如庄、闲、庄对子…
+                             @"fsy_list":fsy_list,//输赢
+                             @"fresult_list":fresult_list,//总码
+                             @"fyj_list":fyj_list,//佣金
+                             @"fhardlist_list":fhardlist_list,//实付筹码，硬件ID值数组
+                             @"fdashui_list":[NSArray array],//打水筹码，硬件ID值数组
+                             @"fzhaohui_list":[NSArray array]//找回筹码
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_tjsyjl",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+        }
+        block(suc, msg,error);
+        
+    }];
 }
 
 @end

@@ -72,7 +72,7 @@
     self.userNameTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.userNameTextField.text = @"009";
 //    self.userNameTextField.text = @"0019";
-    [self.userNameTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
+//    [self.userNameTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
     UIView *leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.userNameTextField.leftView = leftview;
     self.userNameTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -90,7 +90,7 @@
     self.passwordTextField.layer.cornerRadius = 5;
     self.passwordTextField.text = @"123123";
     self.passwordTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
-    [self.passwordTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
+//    [self.passwordTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
     UIView *pas_leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.passwordTextField.leftView = pas_leftview;
     self.passwordTextField.leftViewMode = UITextFieldViewModeAlways;

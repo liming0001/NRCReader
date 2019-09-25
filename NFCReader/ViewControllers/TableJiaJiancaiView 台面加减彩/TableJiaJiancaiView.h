@@ -10,7 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TableJiaJiancaiView : UIView
+@interface TableJiaJiancaiView : UIView<UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic,strong) UITableView *tableView;
+
+- (void)fellListWithType:(int)type;
 
 @end
 

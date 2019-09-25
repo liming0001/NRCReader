@@ -297,208 +297,6 @@
                 [luzhuList addObject:model];
             }
             self.luzhuUpList = luzhuList;
-            
-            NSMutableArray *realListArray = [NSMutableArray arrayWithCapacity:0];
-            NSMutableArray *realDownListArray = [NSMutableArray arrayWithCapacity:0];
-            if (luzhuDownList.count==1) {
-                JhPageItemModel *model = luzhuDownList[0];
-                JhPageItemModel *realmodel = [[JhPageItemModel alloc]init];
-                realmodel.text = model.text;
-                if ([model.text isEqualToString:@"庄"]) {
-                    if (model.luzhuType==1) {
-                        realmodel.img = @"9";
-                    }else if (model.luzhuType==2){
-                        realmodel.img = @"10";
-                    }else if (model.luzhuType==3){
-                        realmodel.img = @"11";
-                    }else if (model.luzhuType==6){
-                        realmodel.img = @"16";
-                    }
-                    realmodel.colorString =@"#ec3223";
-                }else if ([model.text isEqualToString:@"闲"]){
-                    if (model.luzhuType==1) {
-                        realmodel.img = @"13";
-                    }else if (model.luzhuType==4){
-                        realmodel.img = @"15";
-                    }else if (model.luzhuType==5){
-                        realmodel.img = @"14";
-                    }else if (model.luzhuType==7){
-                        realmodel.img = @"16";
-                    }
-                    realmodel.colorString =@"#362bf5";
-                }else if ([model.text isEqualToString:@"和"]){
-                    realmodel.img = @"18";
-                }
-                [realListArray addObject:realmodel];
-            }else{
-                
-                NSMutableArray *zhuangListArray = [NSMutableArray arrayWithCapacity:0];
-                NSMutableArray *xianListArray = [NSMutableArray arrayWithCapacity:0];
-//                NSMutableArray *heListArray = [NSMutableArray arrayWithCapacity:0];
-                for (int i=0; i<luzhuDownList.count; i++) {
-                    if (i+1<luzhuDownList.count) {
-                        JhPageItemModel *model1 = luzhuDownList[i];
-                        JhPageItemModel *model2 = luzhuDownList[i+1];
-                        DLOG(@"model1===%@,model2===%@",model1.text,model2.text);
-                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                        if ([model1.text isEqualToString:@"庄"]) {
-                            if (model1.luzhuType==1) {
-                                model.img = @"9";
-                            }else if (model1.luzhuType==2){
-                                model.img = @"10";
-                            }else if (model1.luzhuType==3){
-                                model.img = @"11";
-                            }else if (model1.luzhuType==6){
-                                model.img = @"12";
-                            }
-                            model.text = model1.text;
-                            model.colorString = @"#ec3223";
-                            [zhuangListArray addObject:model];
-//                            DLOG(@"zhuangListArray = %@",zhuangListArray);
-                            if (![model2.text isEqualToString:@"庄"]) {
-                                if ([model2.text isEqualToString:@"和"]) {
-                                    JhPageItemModel *hemodel = [[JhPageItemModel alloc]init];
-                                    hemodel.img = @"18";
-                                    hemodel.colorString = @"";
-                                    hemodel.text = @"";
-                                    [zhuangListArray addObject:hemodel];
-                                }
-                                for (int j=(int)zhuangListArray.count; j<5; j++) {
-                                    NSString *text = @"";
-                                    NSString *img = @"";
-                                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                                    model.img = img;
-                                    model.text = text;
-                                    model.colorString = @"#ffffff";
-                                    [zhuangListArray addObject:model];
-                                }
-                                [realListArray addObjectsFromArray:zhuangListArray];
-                                [zhuangListArray removeAllObjects];
-                            }
-                        }else if ([model1.text isEqualToString:@"闲"]){
-                            if (model1.luzhuType==1) {
-                                model.img = @"13";
-                            }else if (model1.luzhuType==4){
-                                model.img = @"15";
-                            }else if (model1.luzhuType==5){
-                                model.img = @"14";
-                            }else if (model1.luzhuType==7){
-                                model.img = @"16";
-                            }
-                            model.colorString = @"#362bf5";
-                            model.text = model1.text;
-                            [xianListArray addObject:model];
-                            if (![model2.text isEqualToString:@"闲"]) {
-                                if ([model2.text isEqualToString:@"和"]) {
-                                    JhPageItemModel *xianmodel = [[JhPageItemModel alloc]init];
-                                    xianmodel.img = @"18";
-                                    xianmodel.colorString = @"";
-                                    xianmodel.text = @"";
-                                    [xianListArray addObject:xianmodel];
-                                }
-                                for (int j=(int)xianListArray.count; j<5; j++) {
-                                    NSString *text = @"";
-                                    NSString *img = @"";
-                                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                                    model.img = img;
-                                    model.text = text;
-                                    model.colorString = @"#ffffff";
-                                    [xianListArray addObject:model];
-                                }
-                                [realListArray addObjectsFromArray:xianListArray];
-                                [xianListArray removeAllObjects];
-                            }
-                        }
-                    }else if (i+1==luzhuDownList.count){
-                        JhPageItemModel *model1 = luzhuDownList[i];
-                        JhPageItemModel *model2 = luzhuDownList[i-1];
-                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                        if ([model1.text isEqualToString:@"庄"]) {
-                            if (model1.luzhuType==1) {
-                                model.img = @"9";
-                            }else if (model1.luzhuType==2){
-                                model.img = @"10";
-                            }else if (model1.luzhuType==3){
-                                model.img = @"11";
-                            }else if (model1.luzhuType==6){
-                                model.img = @"12";
-                            }
-                            model.text = model1.text;
-                            model.colorString = @"#ec3223";
-                            [zhuangListArray addObject:model];
-                            DLOG(@"zhuangListArray = %@",zhuangListArray);
-                            if (![model2.text isEqualToString:@"庄"]) {
-                                if ([model2.text isEqualToString:@"和"]) {
-                                    JhPageItemModel *hemodel = [[JhPageItemModel alloc]init];
-                                    hemodel.img = @"18";
-                                    hemodel.colorString = @"";
-                                    hemodel.text = @"";
-                                    [zhuangListArray addObject:hemodel];
-                                }
-                                for (int j=(int)zhuangListArray.count; j<5; j++) {
-                                    NSString *text = @"";
-                                    NSString *img = @"";
-                                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                                    model.img = img;
-                                    model.text = text;
-                                    model.colorString = @"#ffffff";
-                                    [zhuangListArray addObject:model];
-                                }
-                                [realListArray addObjectsFromArray:zhuangListArray];
-                                [zhuangListArray removeAllObjects];
-                            }else{
-                                [realListArray addObjectsFromArray:zhuangListArray];
-                            }
-                        }else if ([model1.text isEqualToString:@"闲"]){
-                            if (model1.luzhuType==1) {
-                                model.img = @"13";
-                            }else if (model1.luzhuType==4){
-                                model.img = @"15";
-                            }else if (model1.luzhuType==5){
-                                model.img = @"14";
-                            }else if (model1.luzhuType==7){
-                                model.img = @"16";
-                            }
-                            model.colorString = @"#362bf5";
-                            model.text = model1.text;
-                            [xianListArray addObject:model];
-                            if (![model2.text isEqualToString:@"闲"]) {
-                                if ([model2.text isEqualToString:@"和"]) {
-                                    JhPageItemModel *xianmodel = [[JhPageItemModel alloc]init];
-                                    xianmodel.img = @"18";
-                                    xianmodel.colorString = @"";
-                                    xianmodel.text = @"";
-                                    [xianListArray addObject:xianmodel];
-                                }
-                                for (int j=(int)xianListArray.count; j<5; j++) {
-                                    NSString *text = @"";
-                                    NSString *img = @"";
-                                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                                    model.img = img;
-                                    model.text = text;
-                                    model.colorString = @"#ffffff";
-                                    [xianListArray addObject:model];
-                                }
-                                [realListArray addObjectsFromArray:xianListArray];
-                                [xianListArray removeAllObjects];
-                            }else{
-                                [realListArray addObjectsFromArray:xianListArray];
-                            }
-                        }
-                    }
-                }
-            }
-            [realDownListArray addObjectsFromArray:realListArray];
-            for (int i=(int)realListArray.count; i<100; i++) {
-                NSString *text = @"";
-                NSString *img = @"";
-                JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                model.img = img;
-                model.text = text;
-                model.colorString = @"#ffffff";
-                [realDownListArray addObject:model];
-            }
-            self.luzhuDownList = realDownListArray;
         }
         block(suc, msg,error);
         
@@ -523,6 +321,31 @@
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
                                  @"f":@"tablerec_rijie",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+            self.cp_fidString = @"";
+        }
+        block(suc, msg,error);
+        
+    }];
+}
+
+#pragma mark - 验证账号
+- (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block{
+    NSArray *chipList = [NSArray array];
+    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
+        chipList = self.curupdateInfo.cp_xiaofeiList;
+    }
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"femp_num":accountName,
+                             @"femp_pwd":password
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"employee_chkadmin",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {

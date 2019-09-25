@@ -134,8 +134,9 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" image="结算台-龙ICON-选中" backgroundImage="addIcon_redbg"/>
+                            <state key="highlighted" image="结算台-龙ICON-选中" backgroundImage="addIcon_redbg"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="庄" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="biY-5L-adn">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="龙" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="biY-5L-adn">
                             <rect key="frame" x="149" y="178" width="42" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="5dJ-hW-pRB"/>
@@ -150,7 +151,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="O3f-Xp-vEc"/>
                             </constraints>
-                            <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.15382922539999999" blue="0.1812555018" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -162,8 +163,9 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" image="结算台-虎ICON-选中" backgroundImage="addIcon_xianbg"/>
+                            <state key="highlighted" image="结算台-虎ICON-选中" backgroundImage="addIcon_xianbg"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="闲" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXb-xQ-D9X">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="虎" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXb-xQ-D9X">
                             <rect key="frame" x="149" y="228" width="42" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="J6H-Lu-dln"/>
@@ -178,7 +180,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="Gl1-8f-o8i"/>
                             </constraints>
-                            <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.14901960780000001" green="0.28235294119999998" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -190,6 +192,7 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <state key="normal" title="T" backgroundImage="addIcon_greenbg"/>
+                            <state key="highlighted" backgroundImage="addIcon_greenbg"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="和" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgk-M5-C4Z">
                             <rect key="frame" x="149" y="278" width="42" height="40"/>
@@ -206,7 +209,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="lmQ-fs-Te3"/>
                             </constraints>
-                            <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.36470588240000001" green="0.63137254899999995" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -306,10 +309,15 @@
                 <constraint firstItem="Nc9-JH-50T" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="sjQ-59-053"/>
             </constraints>
             <connections>
+                <outlet property="cashTypeBtn" destination="TSe-D4-7rl" id="igi-1D-Ivd"/>
+                <outlet property="cashTypelab" destination="2wt-PZ-nMe" id="KrB-CG-5fN"/>
+                <outlet property="chipTypeBtn" destination="fDG-wr-pLO" id="5NP-cA-XTY"/>
                 <outlet property="chipTypeIcon" destination="6Cu-19-d7e" id="I44-rS-3c7"/>
+                <outlet property="chipTypeLab" destination="i9S-gk-eW1" id="5dD-u6-FCI"/>
                 <outlet property="drogenValueTF" destination="gca-ff-hAF" id="XEY-yE-bof"/>
                 <outlet property="tieValueTF" destination="8wW-7R-I30" id="ho1-Rd-XRe"/>
                 <outlet property="tigerValueTF" destination="zbf-C6-Ede" id="j5J-WW-ruI"/>
+                <outlet property="typeIcon" destination="6Cu-19-d7e" id="Jhz-g0-3ad"/>
                 <outlet property="washNumberTF" destination="bn5-Ri-vVG" id="NNE-Sb-3Gh"/>
             </connections>
             <point key="canvasLocation" x="17.985611510791369" y="27.517985611510792"/>

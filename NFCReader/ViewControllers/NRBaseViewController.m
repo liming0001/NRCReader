@@ -89,7 +89,7 @@
 }
 
 - (void)configureTitleBarToWhite {
-    self.titleBar.tbTintColor = [UIColor whiteColor];
+    self.titleBar.tbTintColor = [UIColor blackColor];
     self.titleBar.leftItem.contentButton.tintColor = kEPTitleBarItemColorWhite;
     self.titleBar.rightItem.contentButton.tintColor = kEPTitleBarItemColorWhite;
 }
@@ -165,6 +165,10 @@
 
 - (void)showLognMessage:(NSString *)message {
     [[EPToast makeText:message]showWithType:LongTime];
+}
+
+- (void)showMessage:(NSString *)message withSuccess:(BOOL)sucess {
+    [[EPToast makeText:message WithError:!sucess]showWithType:ShortTime];
 }
 
 - (UIView *)findWindow {

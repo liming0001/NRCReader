@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LotteryView">
+            <rect key="frame" x="0.0" y="0.0" width="530" height="118"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3h-sk-W0t">
+                    <rect key="frame" x="0.0" y="0.0" width="530" height="118"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afU-WN-kar">
+                            <rect key="frame" x="0.0" y="0.0" width="530" height="38"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sD-rC-s0T">
+                                    <rect key="frame" x="8" y="9" width="201" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加彩总额/Total lottery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Uo-ah-iSz">
+                                    <rect key="frame" x="10" y="0.0" width="157" height="38"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="4Uo-ah-iSz" secondAttribute="bottom" id="Bzh-7E-FkN"/>
+                                <constraint firstItem="4Uo-ah-iSz" firstAttribute="leading" secondItem="afU-WN-kar" secondAttribute="leading" constant="10" id="PO0-fd-Ta6"/>
+                                <constraint firstItem="4Uo-ah-iSz" firstAttribute="top" secondItem="afU-WN-kar" secondAttribute="top" id="ezv-fm-rgj"/>
+                                <constraint firstAttribute="height" constant="38" id="nWT-Bo-jWq"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vo-FD-Zze">
+                            <rect key="frame" x="10" y="53" width="95" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="KOq-vf-X0y"/>
+                                <constraint firstAttribute="width" constant="95" id="g9L-2Q-sOS"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="USD/Chip:" image="加减彩-美金筹码ICON">
+                                <color key="titleColor" red="0.36470588235294116" green="0.63137254901960782" blue="0.28627450980392155" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEJ-IL-gmx">
+                            <rect key="frame" x="296" y="53" width="95" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="95" id="P5U-JD-R7j"/>
+                                <constraint firstAttribute="height" constant="20" id="dyM-Jr-lnH"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="USD/Chip:" image="加减彩-美金筹码ICON">
+                                <color key="titleColor" red="0.36470588240000001" green="0.63137254899999995" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1v6-jE-5tu">
+                            <rect key="frame" x="396" y="53" width="56" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="5qn-PJ-aS5"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLv-Lm-QZK">
+                            <rect key="frame" x="10" y="83" width="95" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="aGl-y0-VNX"/>
+                                <constraint firstAttribute="width" constant="95" id="rtP-sq-fxQ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="USD/Chip:" image="加减彩-美金现金ICON">
+                                <color key="titleColor" red="0.36470588240000001" green="0.63137254899999995" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJw-eE-PDS">
+                            <rect key="frame" x="110" y="83" width="56" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="pvI-ej-dgR"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qac-Hy-9aE">
+                            <rect key="frame" x="296" y="83" width="95" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="6KA-vO-vqc"/>
+                                <constraint firstAttribute="width" constant="95" id="DSd-Ju-cVl"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="USD/Chip:" image="加减彩-美金筹码ICON">
+                                <color key="titleColor" red="0.36470588240000001" green="0.63137254899999995" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BiQ-ae-hWu">
+                            <rect key="frame" x="396" y="83" width="56" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="ufa-ab-ebI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGN-Rj-7vH">
+                            <rect key="frame" x="110" y="53" width="56" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="leh-1W-8TG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="0.98039215686274506" blue="0.84313725490196079" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="KEJ-IL-gmx" firstAttribute="leading" secondItem="xGN-Rj-7vH" secondAttribute="trailing" constant="130" id="1H1-Gr-oP4"/>
+                        <constraint firstItem="1v6-jE-5tu" firstAttribute="top" secondItem="afU-WN-kar" secondAttribute="bottom" constant="15" id="2cm-0k-Y8N"/>
+                        <constraint firstAttribute="trailing" secondItem="afU-WN-kar" secondAttribute="trailing" id="3Ik-A3-AK2"/>
+                        <constraint firstItem="1v6-jE-5tu" firstAttribute="leading" secondItem="KEJ-IL-gmx" secondAttribute="trailing" constant="5" id="81v-eo-PuS"/>
+                        <constraint firstItem="bLv-Lm-QZK" firstAttribute="leading" secondItem="B3h-sk-W0t" secondAttribute="leading" constant="10" id="A1a-rF-Fbk"/>
+                        <constraint firstAttribute="bottom" secondItem="bLv-Lm-QZK" secondAttribute="bottom" constant="15" id="EdW-D5-O5w"/>
+                        <constraint firstItem="TJw-eE-PDS" firstAttribute="leading" secondItem="bLv-Lm-QZK" secondAttribute="trailing" constant="5" id="FSY-mQ-Wsr"/>
+                        <constraint firstItem="Qac-Hy-9aE" firstAttribute="leading" secondItem="TJw-eE-PDS" secondAttribute="trailing" constant="130" id="KHW-rI-o9q"/>
+                        <constraint firstItem="7vo-FD-Zze" firstAttribute="top" secondItem="afU-WN-kar" secondAttribute="bottom" constant="15" id="PpD-h3-h9X"/>
+                        <constraint firstAttribute="bottom" secondItem="Qac-Hy-9aE" secondAttribute="bottom" constant="15" id="TsL-Cs-LMs"/>
+                        <constraint firstItem="7vo-FD-Zze" firstAttribute="leading" secondItem="B3h-sk-W0t" secondAttribute="leading" constant="10" id="WAY-om-Tp2"/>
+                        <constraint firstItem="KEJ-IL-gmx" firstAttribute="top" secondItem="afU-WN-kar" secondAttribute="bottom" constant="15" id="WZ3-QT-LVf"/>
+                        <constraint firstAttribute="height" constant="118" id="awA-dI-oi4"/>
+                        <constraint firstAttribute="width" constant="530" id="bs8-2Y-vKm"/>
+                        <constraint firstItem="xGN-Rj-7vH" firstAttribute="leading" secondItem="7vo-FD-Zze" secondAttribute="trailing" constant="5" id="dCQ-c9-mez"/>
+                        <constraint firstItem="xGN-Rj-7vH" firstAttribute="top" secondItem="afU-WN-kar" secondAttribute="bottom" constant="15" id="f06-sM-gZl"/>
+                        <constraint firstAttribute="bottom" secondItem="BiQ-ae-hWu" secondAttribute="bottom" constant="15" id="kWJ-Sa-LWA"/>
+                        <constraint firstAttribute="bottom" secondItem="TJw-eE-PDS" secondAttribute="bottom" constant="15" id="wER-mt-ykQ"/>
+                        <constraint firstItem="afU-WN-kar" firstAttribute="leading" secondItem="B3h-sk-W0t" secondAttribute="leading" id="wjc-oW-g3E"/>
+                        <constraint firstItem="afU-WN-kar" firstAttribute="top" secondItem="B3h-sk-W0t" secondAttribute="top" id="x2o-Hy-o8w"/>
+                        <constraint firstItem="BiQ-ae-hWu" firstAttribute="leading" secondItem="Qac-Hy-9aE" secondAttribute="trailing" constant="5" id="zlE-rt-g0u"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="B3h-sk-W0t" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xmz-aF-qP0"/>
+                <constraint firstItem="B3h-sk-W0t" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ygq-h8-o35"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="131.65467625899282" y="130.57553956834533"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="加减彩-美金现金ICON" width="16" height="10"/>
+        <image name="加减彩-美金筹码ICON" width="16" height="14"/>
+    </resources>
+</document>

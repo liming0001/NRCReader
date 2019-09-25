@@ -81,7 +81,6 @@
                                         <constraint firstAttribute="height" constant="35" id="JYx-KU-BTb"/>
                                         <constraint firstAttribute="width" constant="300" id="ugl-nH-h2A"/>
                                     </constraints>
-                                    <color key="textColor" red="0.67843137254901964" green="0.67843137254901964" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -99,7 +98,6 @@
                                         <constraint firstAttribute="height" constant="35" id="UFv-wb-JSm"/>
                                         <constraint firstAttribute="width" constant="300" id="W30-HR-ajg"/>
                                     </constraints>
-                                    <color key="textColor" red="0.67843137254901964" green="0.67843137254901964" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 </textField>
@@ -159,7 +157,7 @@
         </view>
     </objects>
     <resources>
-        <image name="关闭按钮BG" width="110" height="25"/>
+        <image name="关闭按钮BG" width="220" height="55"/>
         <image name="密码ICO" width="23.5" height="29.5"/>
         <image name="确认按钮BG" width="150" height="40"/>
         <image name="管理员数据框" width="300" height="35"/>

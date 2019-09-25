@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EPCowPointChooseShowView">
+            <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.89999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QOk-4w-jed">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                    <color key="backgroundColor" red="0.23921568630000001" green="0.33725490200000002" blue="0.38823529410000002" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69B-or-cPd">
+                    <rect key="frame" x="253" y="369" width="328" height="374"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cow_points_bg" translatesAutoresizingMaskIntoConstraints="NO" id="shQ-Ur-abM">
+                            <rect key="frame" x="0.0" y="0.0" width="328" height="374"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QqQ-ZY-OGC">
+                            <rect key="frame" x="13" y="28" width="69.5" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="69.5" id="OLU-92-73j"/>
+                                <constraint firstAttribute="height" constant="35" id="jvB-vY-VJh"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="牛牛" backgroundImage="cow_Points_unSelect">
+                                <color key="titleColor" red="0.34509803921568627" green="0.34509803921568627" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="GvG-kf-Je2"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CqX-Yv-XOF">
+                            <rect key="frame" x="90.5" y="28" width="69.5" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="69.5" id="U6N-J9-wcq"/>
+                                <constraint firstAttribute="height" constant="35" id="mM7-zP-EyO"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="五花牛" backgroundImage="cow_Points_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Oky-aa-PPi"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3To-s5-oyV">
+                            <rect key="frame" x="168" y="28" width="69.5" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="mpn-05-eqD"/>
+                                <constraint firstAttribute="width" constant="69.5" id="piA-qn-RlI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="炸弹" backgroundImage="cow_Points_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Pag-Fd-ckW"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqh-uY-kr1">
+                            <rect key="frame" x="245.5" y="28" width="69.5" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="69.5" id="1AE-9S-NvK"/>
+                                <constraint firstAttribute="height" constant="35" id="G6g-HH-7ln"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="五小牛" backgroundImage="cow_Points_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="rW3-Ts-4xn"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byp-pa-DOo">
+                            <rect key="frame" x="13" y="83" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="0Jk-KW-pQP"/>
+                                <constraint firstAttribute="width" constant="90" id="0vJ-NW-NCG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="7" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="NvN-sc-aPy"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXg-Mi-PL7">
+                            <rect key="frame" x="119" y="83" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="Jlo-Dm-eX0"/>
+                                <constraint firstAttribute="width" constant="90" id="diB-lv-KFH"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="8" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="NZI-31-Owo"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fj-qS-H6Z">
+                            <rect key="frame" x="119" y="163" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="70E-QB-Fvy"/>
+                                <constraint firstAttribute="height" constant="70" id="cOU-1w-Sd2"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="5" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="zst-60-iJJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1A-bY-exC">
+                            <rect key="frame" x="13" y="163" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="MXf-W1-GSH"/>
+                                <constraint firstAttribute="height" constant="70" id="qdy-xY-kmD"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="4" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="S9X-Vy-e6S"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdZ-Fn-UXQ">
+                            <rect key="frame" x="225" y="163" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="1zA-ni-c9q"/>
+                                <constraint firstAttribute="height" constant="70" id="IMY-y0-gLo"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="6" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="fDv-gX-gDH"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPL-zy-lao">
+                            <rect key="frame" x="13" y="243" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="EGG-a2-w3H"/>
+                                <constraint firstAttribute="height" constant="70" id="OhS-L1-o8h"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="1" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="BK3-PZ-cRJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D08-Uw-mHo">
+                            <rect key="frame" x="119" y="243" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="ABy-cs-HP1"/>
+                                <constraint firstAttribute="width" constant="90" id="sH0-0H-3q2"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="2" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="PrR-3X-F9m"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LqE-pm-CQq">
+                            <rect key="frame" x="225" y="243" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="lJN-CY-zT7"/>
+                                <constraint firstAttribute="width" constant="90" id="xTS-J2-HRv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="3" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="SxZ-3G-GsJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Txs-aq-A40">
+                            <rect key="frame" x="225" y="83" width="90" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="Drl-J6-nYA"/>
+                                <constraint firstAttribute="width" constant="90" id="vvV-mo-5ss"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="9" backgroundImage="cow_number_unSelect">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" backgroundImage="cow_Points_Select">
+                                <color key="titleColor" red="0.34509803919999998" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="cow_number_Select"/>
+                            <connections>
+                                <action selector="midCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="BIF-cP-S8v"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="99" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rXM-8d-i0M">
+                            <rect key="frame" x="0.0" y="324" width="328" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="H51-nJ-V8v"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="没牛" backgroundImage="cow_noPoints">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="noCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="kLT-WQ-nLh"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="QqQ-ZY-OGC" firstAttribute="top" secondItem="69B-or-cPd" secondAttribute="top" constant="28" id="08h-Qd-slV"/>
+                        <constraint firstItem="bdZ-Fn-UXQ" firstAttribute="leading" secondItem="6fj-qS-H6Z" secondAttribute="trailing" constant="16" id="0xg-iA-rlN"/>
+                        <constraint firstAttribute="height" constant="374" id="4sg-77-aWk"/>
+                        <constraint firstItem="D08-Uw-mHo" firstAttribute="top" secondItem="6fj-qS-H6Z" secondAttribute="bottom" constant="10" id="5OC-bc-w65"/>
+                        <constraint firstItem="Txs-aq-A40" firstAttribute="top" secondItem="3To-s5-oyV" secondAttribute="bottom" constant="20" id="5Xb-vQ-z5B"/>
+                        <constraint firstItem="byp-pa-DOo" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" constant="13" id="9Mz-cl-DpZ"/>
+                        <constraint firstItem="CqX-Yv-XOF" firstAttribute="leading" secondItem="QqQ-ZY-OGC" secondAttribute="trailing" constant="8" id="9yH-me-h7j"/>
+                        <constraint firstItem="J1A-bY-exC" firstAttribute="top" secondItem="byp-pa-DOo" secondAttribute="bottom" constant="10" id="AF4-Lf-jsd"/>
+                        <constraint firstItem="nXg-Mi-PL7" firstAttribute="top" secondItem="CqX-Yv-XOF" secondAttribute="bottom" constant="20" id="DBe-Yx-5bG"/>
+                        <constraint firstItem="bdZ-Fn-UXQ" firstAttribute="top" secondItem="Txs-aq-A40" secondAttribute="bottom" constant="10" id="Fix-xP-WVl"/>
+                        <constraint firstItem="shQ-Ur-abM" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" id="HNY-DD-b2v"/>
+                        <constraint firstAttribute="width" constant="328" id="JjS-Oc-0Km"/>
+                        <constraint firstItem="uPL-zy-lao" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" constant="13" id="Jk9-Na-c2R"/>
+                        <constraint firstItem="D08-Uw-mHo" firstAttribute="leading" secondItem="uPL-zy-lao" secondAttribute="trailing" constant="16" id="KIF-ff-Jwr"/>
+                        <constraint firstItem="LqE-pm-CQq" firstAttribute="top" secondItem="bdZ-Fn-UXQ" secondAttribute="bottom" constant="10" id="KIc-wR-aaD"/>
+                        <constraint firstItem="rXM-8d-i0M" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" id="M8t-5e-S2O"/>
+                        <constraint firstAttribute="bottom" secondItem="rXM-8d-i0M" secondAttribute="bottom" id="NWo-Ia-zug"/>
+                        <constraint firstItem="Txs-aq-A40" firstAttribute="leading" secondItem="nXg-Mi-PL7" secondAttribute="trailing" constant="16" id="OND-FW-wfe"/>
+                        <constraint firstAttribute="bottom" secondItem="shQ-Ur-abM" secondAttribute="bottom" id="VRU-aF-C2h"/>
+                        <constraint firstItem="CqX-Yv-XOF" firstAttribute="top" secondItem="69B-or-cPd" secondAttribute="top" constant="28" id="Wvc-6O-2uK"/>
+                        <constraint firstItem="shQ-Ur-abM" firstAttribute="top" secondItem="69B-or-cPd" secondAttribute="top" id="YiP-aH-1DE"/>
+                        <constraint firstAttribute="trailing" secondItem="shQ-Ur-abM" secondAttribute="trailing" id="ZLM-Oj-dAJ"/>
+                        <constraint firstItem="uPL-zy-lao" firstAttribute="top" secondItem="J1A-bY-exC" secondAttribute="bottom" constant="10" id="Zbd-KA-RFP"/>
+                        <constraint firstItem="nXg-Mi-PL7" firstAttribute="leading" secondItem="byp-pa-DOo" secondAttribute="trailing" constant="16" id="aMW-ig-Voe"/>
+                        <constraint firstItem="cqh-uY-kr1" firstAttribute="top" secondItem="69B-or-cPd" secondAttribute="top" constant="28" id="cvi-pu-Tdj"/>
+                        <constraint firstAttribute="trailing" secondItem="rXM-8d-i0M" secondAttribute="trailing" id="dJd-0w-L4C"/>
+                        <constraint firstItem="3To-s5-oyV" firstAttribute="leading" secondItem="CqX-Yv-XOF" secondAttribute="trailing" constant="8" id="gvS-dV-6Uc"/>
+                        <constraint firstItem="J1A-bY-exC" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" constant="13" id="ivS-jC-Mo6"/>
+                        <constraint firstItem="6fj-qS-H6Z" firstAttribute="top" secondItem="nXg-Mi-PL7" secondAttribute="bottom" constant="10" id="lLD-tZ-Pnl"/>
+                        <constraint firstItem="byp-pa-DOo" firstAttribute="top" secondItem="QqQ-ZY-OGC" secondAttribute="bottom" constant="20" id="mZH-2I-8uM"/>
+                        <constraint firstItem="LqE-pm-CQq" firstAttribute="leading" secondItem="D08-Uw-mHo" secondAttribute="trailing" constant="16" id="naJ-kj-EUe"/>
+                        <constraint firstItem="3To-s5-oyV" firstAttribute="top" secondItem="69B-or-cPd" secondAttribute="top" constant="28" id="p9T-Ey-Tc5"/>
+                        <constraint firstItem="6fj-qS-H6Z" firstAttribute="leading" secondItem="J1A-bY-exC" secondAttribute="trailing" constant="16" id="pvV-k3-voi"/>
+                        <constraint firstItem="cqh-uY-kr1" firstAttribute="leading" secondItem="3To-s5-oyV" secondAttribute="trailing" constant="8" id="wKR-HE-VEn"/>
+                        <constraint firstItem="QqQ-ZY-OGC" firstAttribute="leading" secondItem="69B-or-cPd" secondAttribute="leading" constant="13" id="zbq-GC-yQD"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="69B-or-cPd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0n3-dU-3BW"/>
+                <constraint firstItem="69B-or-cPd" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="9qH-5L-cj3"/>
+                <constraint firstItem="QOk-4w-jed" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="MhA-uN-PJ6"/>
+                <constraint firstAttribute="bottom" secondItem="QOk-4w-jed" secondAttribute="bottom" id="YjJ-R0-3PR"/>
+                <constraint firstAttribute="trailing" secondItem="QOk-4w-jed" secondAttribute="trailing" id="eyx-gF-C6U"/>
+                <constraint firstItem="QOk-4w-jed" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="n8p-oA-0te"/>
+            </constraints>
+            <point key="canvasLocation" x="384.89208633093529" y="-56.115107913669064"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cow_Points_Select" width="70" height="37"/>
+        <image name="cow_Points_unSelect" width="70" height="37"/>
+        <image name="cow_noPoints" width="328" height="50"/>
+        <image name="cow_number_Select" width="90" height="70"/>
+        <image name="cow_number_unSelect" width="90" height="70"/>
+        <image name="cow_points_bg" width="328" height="374"/>
+    </resources>
+</document>

@@ -12,6 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ManualManagerTigerView : UIView
 
+@property (nonatomic, strong) UILabel *xueciLab;
+@property (nonatomic, strong) UILabel *puciLab;
+@property (nonatomic, assign) int xueciCount;//靴次
+@property (nonatomic, assign) int puciCount;//铺次
+@property (nonatomic, assign) int prePuciCount;
+@property (nonatomic, strong) NSArray *realLuzhuList;
+
+@property (nonatomic, strong) void (^showResultBlock)(NSString *curResult);
+- (void)getLUzhuINfo;
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting;
+
 @end
 
 NS_ASSUME_NONNULL_END

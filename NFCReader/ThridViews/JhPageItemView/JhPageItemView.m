@@ -12,9 +12,6 @@
 
 @interface JhPageItemView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-
-@property (nonatomic, strong) UICollectionView  *collectionView;
-
 @property (nonatomic, assign) CGRect ViewFrame;
 
 @property (nonatomic, strong) UICollectionViewLayout *layout;
@@ -32,13 +29,17 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     if (self = [super initWithFrame:frame]) {
         _ViewFrame = frame;
+        [self collectionView];
     }
     return self;
 }
 
 - (void)setDataArray:(NSArray *)dataArray{
-    _dataArray = dataArray;
-    [self collectionView];
+    
+}
+
+- (void)fellLuzhuListWithDataList:(NSArray *)list{
+    _dataArray = list;
     [self.collectionView reloadData];
 }
 
@@ -51,8 +52,10 @@ static NSString * const reuseIdentifier = @"Cell";
         UICollectionViewFlowLayout *layout =[[UICollectionViewFlowLayout alloc] init];
         //设置水平滚动
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        CGFloat viewHeight = _ViewFrame.size.height;
+        CGFloat item_w = viewHeight/5;
         //设置每个cell的尺寸
-        layout.itemSize = CGSizeMake(60, 60);
+        layout.itemSize = CGSizeMake(item_w, item_w);
         //cell之间的水平间距  行间距
         layout.minimumLineSpacing = 0;
         //cell之间的垂直间距 cell间距

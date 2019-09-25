@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 检测筹码是否正确
 - (void)checkChipIsTrueWithChipList:(NSArray *)chipList Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 验证账号
+- (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
 
 @end
 

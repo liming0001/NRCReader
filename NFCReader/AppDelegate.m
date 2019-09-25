@@ -26,7 +26,6 @@
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     
     [self getCurrentLanguage];
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     NRLoginViewModel *viewModel = [[NRLoginViewModel alloc]init];
     NRLoginViewController *login = [NRLoginViewController new];
