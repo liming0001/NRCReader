@@ -30,6 +30,10 @@
     self.xianDuiValueLab.text = curCustomer.xianDuiValue;
     self.heValueLab.text = curCustomer.heValue;
     self.INSValueLab.text = curCustomer.baoxianValue;
+    if (curCustomer.isYouYong) {
+        [self.sixWInBtn setTitle:@"L" forState:UIControlStateNormal];
+        self.sixWinLab.text = @"Lucky6";
+    }
     if (curCustomer.cashType==0) {//美金筹码
         self.zhuangTypeImg.image = [UIImage imageNamed:@"customer_dollar"];
         self.zhuangDuiTypeImg.image = [UIImage imageNamed:@"customer_dollar"];

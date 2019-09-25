@@ -30,11 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *heValueTF;
 @property (weak, nonatomic) IBOutlet UITextField *baoxianValueTF;
 
+@property (weak, nonatomic) IBOutlet UIButton *sixInfoBtn;
+@property (weak, nonatomic) IBOutlet UILabel *sixWinInfoLab;
 
 @property(nonatomic,copy)void (^editTapCustomer)(CustomerInfo * curCustomer,BOOL hasEntry);
 
 - (void)editCurCustomerWithCustomerInfo:(CustomerInfo *)curCustomer;
-- (void)editLoginInfoWithLoginID:(NSString *)loginID;
+- (void)editLoginInfoWithLoginID:(NSString *)loginID IsYouYong:(BOOL)isYouYong;
 
 @end
 

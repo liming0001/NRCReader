@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *heValueLab;
 @property (weak, nonatomic) IBOutlet UIImageView *INSTypeImg;
 @property (weak, nonatomic) IBOutlet UILabel *INSValueLab;
+@property (weak, nonatomic) IBOutlet UILabel *sixWinLab;
+@property (weak, nonatomic) IBOutlet UIButton *sixWInBtn;
 
 @property (nonatomic, assign) NSInteger cellIndex;
 

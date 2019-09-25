@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *heValue;
 @property (nonatomic, strong) NSString *baoxianValue;
 @property (nonatomic, assign) int cashType;
+@property (nonatomic, assign) BOOL isYouYong;
 
 @end
 

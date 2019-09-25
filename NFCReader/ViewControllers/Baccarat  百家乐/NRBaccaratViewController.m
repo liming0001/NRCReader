@@ -1410,7 +1410,8 @@
     [self.manuaManagerView transLoginInfoWithLoginID:self.viewModel.loginInfo.access_token
                                              TableID:self.viewModel.curTableInfo.fid
                                         Serialnumber:self.serialnumber
-                                               Peilv:self.viewModel.gameInfo.xz_setting];
+                                               Peilv:self.viewModel.gameInfo.xz_setting
+                                           IsYouYong:self.isYouyong.boolValue];
     
     //默认显示自动版本视图
     [self.view addSubview:self.automaticShowView];

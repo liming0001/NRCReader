@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reloadLuzhuInfoWithLuzhuList:(NSArray *)luzhuList;
 - (void)getLUzhuINfo;
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting;
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting IsYouYong:(BOOL)isYouYong;
 @end
 
 NS_ASSUME_NONNULL_END

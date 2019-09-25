@@ -90,6 +90,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, assign) int heCount;//和赢次数
 @property (nonatomic, assign) int baoXianCount;//保险赢次数
 @property (nonatomic, assign) BOOL isEntryBox;
+@property (nonatomic, assign) BOOL isCurYouYong;
 
 @end
 
@@ -105,7 +106,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         self.prePuciCount = 1;
         self.luzhuInfoList = [NSMutableArray array];
         self.customerInfoList = [NSMutableArray array];
-        [self.customerInfoList addObject:[self modelCustomerInfo]];
+        
         self.resultList = [NSMutableArray array];
         self.resultInfoList = [NSMutableArray array];
         [self _setup];
@@ -317,22 +318,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         make.width.mas_equalTo(setBtn_w);
     }];
     
-    self.baoxianBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.baoxianBtn setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
-    [self.baoxianBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateSelected];
-    self.baoxianBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.baoxianBtn setTitle:@"INS.保险" forState:UIControlStateNormal];
-    self.baoxianBtn.tag = 7;
-    [self.baoxianBtn setBackgroundImage:[UIImage imageNamed:@"settlement_btn_n"] forState:UIControlStateNormal];
-    [self.baoxianBtn setBackgroundImage:[UIImage imageNamed:@"settlement_Tbtn_n"] forState:UIControlStateSelected];
-    [self.baoxianBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.settlementV addSubview:self.baoxianBtn];
-    [self.baoxianBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.xianDuiBtn.mas_bottom).offset(20);
-        make.left.equalTo(self.settlementV).offset(10);
-        make.height.mas_equalTo(setBtn_h);
-        make.width.mas_equalTo(setBtn_w);
-    }];
+//    self.baoxianBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.baoxianBtn setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+//    [self.baoxianBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateSelected];
+//    self.baoxianBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [self.baoxianBtn setTitle:@"INS.保险" forState:UIControlStateNormal];
+//    self.baoxianBtn.tag = 7;
+//    [self.baoxianBtn setBackgroundImage:[UIImage imageNamed:@"settlement_btn_n"] forState:UIControlStateNormal];
+//    [self.baoxianBtn setBackgroundImage:[UIImage imageNamed:@"settlement_Tbtn_n"] forState:UIControlStateSelected];
+//    [self.baoxianBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.settlementV addSubview:self.baoxianBtn];
+//    [self.baoxianBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.xianDuiBtn.mas_bottom).offset(20);
+//        make.left.equalTo(self.settlementV).offset(10);
+//        make.height.mas_equalTo(setBtn_h);
+//        make.width.mas_equalTo(setBtn_w);
+//    }];
     
     self.setmentOKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.setmentOKBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
@@ -840,7 +841,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         CustomerInfo *info = self.customerInfoList[indexPath.row];
         CustomerEntryInfoView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoView" owner:nil options:nil]lastObject];
         custerEntryInfoV.frame = self.bounds;
-        [custerEntryInfoV editLoginInfoWithLoginID:self.curLoginToken];
+        [custerEntryInfoV editLoginInfoWithLoginID:self.curLoginToken IsYouYong:self.isCurYouYong];
         custerEntryInfoV.editTapCustomer = ^(CustomerInfo * _Nonnull curCustomer, BOOL hasEntry) {
             self.isEntryBox = NO;
             if (hasEntry) {
@@ -866,6 +867,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     customer.baoxianValue = @"";
     customer.cashType = 0;
     customer.headbgImgName = @"customer_VIP_bg";
+    customer.isYouYong = self.isCurYouYong;
     return customer;
 }
 
@@ -918,13 +920,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.result_string = @"";
 }
 
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting{
+- (void)setYouyongBtnStatus{
+    if (self.isCurYouYong) {
+        [self.sixWinBtn setTitle:@"Lucky 6" forState:UIControlStateNormal];
+        [self.sixWinInfoBtn setTitle:@"Lucky 6" forState:UIControlStateNormal];
+    }
+}
+
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting IsYouYong:(BOOL)isYouYong{
     self.curLoginToken = loginID;
     self.curTableID = tableID;
     self.curSerialnumber = serialnumber;
     self.curXz_setting = xz_setting;
     self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableID];
-    
+    self.isCurYouYong = isYouYong;
+    [self setYouyongBtnStatus];
+    [self.customerInfoList addObject:[self modelCustomerInfo]];
     [self getLUzhuINfo];
 }
 

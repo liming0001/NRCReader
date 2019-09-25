@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -53,7 +51,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="kao-ta-VoH"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -333,12 +330,12 @@
                             <state key="normal" title="PP" backgroundImage="addIcon_xianbg"/>
                             <state key="highlighted" backgroundImage="addIcon_xianbg"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6点赢" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euW-i9-OZZ">
-                            <rect key="frame" x="149" y="278" width="42" height="40"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lucky6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euW-i9-OZZ">
+                            <rect key="frame" x="149" y="278" width="50" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="XZm-kX-BY4"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -438,7 +435,7 @@
                         <constraint firstAttribute="trailing" secondItem="nYo-TH-qRG" secondAttribute="trailing" constant="61" id="xRK-P4-YPL"/>
                         <constraint firstItem="pch-m3-1FB" firstAttribute="top" secondItem="GMq-i9-E7D" secondAttribute="bottom" constant="10" id="xae-wK-7Mu"/>
                         <constraint firstItem="nYo-TH-qRG" firstAttribute="leading" secondItem="KMH-AE-27A" secondAttribute="trailing" constant="60" id="xcA-EW-llG"/>
-                        <constraint firstItem="GMq-i9-E7D" firstAttribute="leading" secondItem="euW-i9-OZZ" secondAttribute="trailing" constant="5" id="xh8-b1-ogF"/>
+                        <constraint firstItem="GMq-i9-E7D" firstAttribute="leading" secondItem="euW-i9-OZZ" secondAttribute="trailing" constant="-3" id="xh8-b1-ogF"/>
                         <constraint firstItem="bXa-f4-rUf" firstAttribute="top" secondItem="4We-1g-VVq" secondAttribute="bottom" constant="14" id="xyT-ua-O6w"/>
                     </constraints>
                 </view>
@@ -460,6 +457,8 @@
                 <outlet property="chipTypeBtn" destination="EAf-6f-W8b" id="DpI-Mm-jXk"/>
                 <outlet property="chipTypeLab" destination="Wui-eJ-GdA" id="kOP-zi-UBr"/>
                 <outlet property="heValueTF" destination="kGT-MN-J48" id="Z4y-D8-23K"/>
+                <outlet property="sixInfoBtn" destination="gvb-XA-puS" id="fdi-G9-Fs6"/>
+                <outlet property="sixWinInfoLab" destination="euW-i9-OZZ" id="rEp-na-Wyd"/>
                 <outlet property="sixWinTF" destination="GMq-i9-E7D" id="NJ6-Kh-wyM"/>
                 <outlet property="typeIcon" destination="PHy-Nn-MfQ" id="Ao3-tg-2bH"/>
                 <outlet property="washNumberTF" destination="nYo-TH-qRG" id="uX0-bP-WmR"/>

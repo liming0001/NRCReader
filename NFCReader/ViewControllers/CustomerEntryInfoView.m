@@ -16,6 +16,7 @@
 @property (nonatomic, strong) CustomerInfo *customer;
 @property (nonatomic, assign) int cashType;//
 @property (nonatomic, strong) NSString *curLoginToken;
+@property (nonatomic, assign) BOOL isCurYouYong;
 
 @end
 
@@ -40,8 +41,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
 }
 
-- (void)editLoginInfoWithLoginID:(NSString *)loginID{
+- (void)editLoginInfoWithLoginID:(NSString *)loginID IsYouYong:(BOOL)isYouYong{
     self.curLoginToken = loginID;
+    self.isCurYouYong = isYouYong;
+    if (self.isCurYouYong) {
+        [self.sixInfoBtn setTitle:@"L" forState:UIControlStateNormal];
+        self.sixWinInfoLab.text = @"Lucky6";
+    }
 }
 
 #pragma mark - 根据洗码号获取用户信息
