@@ -1,8 +1,8 @@
 //
-//  ManualManagerTigerView.h
+//  NRManualMangerView.h
 //  NFCReader
 //
-//  Created by 李黎明 on 2019/9/3.
+//  Created by 李黎明 on 2019/8/26.
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ManualManagerTigerView : UIView
+@interface NRManualMangerView : UIView
 
 @property (nonatomic, strong) UILabel *xueciLab;
 @property (nonatomic, strong) UILabel *puciLab;
@@ -19,12 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int prePuciCount;
 @property (nonatomic, strong) NSArray *realLuzhuList;
 
-@property (nonatomic, strong) void (^showResultBlock)(NSString *curResult);
+- (void)reloadLuzhuInfoWithLuzhuList:(NSArray *)luzhuList;
 - (void)getLUzhuINfo;
 - (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting;
-
 - (void)restartChangeStatus;
-
 @end
 
 NS_ASSUME_NONNULL_END

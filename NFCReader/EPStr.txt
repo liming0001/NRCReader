@@ -13,7 +13,7 @@ kEPCancellationChip    Unbind    លុបចោលកាតរបស់ភ្�
 kEPEntry    Input system    កត់ចូលសីស្ទឹម    កត់ចូលសីស្ទឹម    កត់ចូលសីស្ទឹម
 kEPNewGame    New round    ហ្គេមថ្មី    ហ្គេមថ្មី    ហ្គេមថ្មី
 kEPWin    赢 Win    赢 ឈ្នះ    赢 ឈ្នះ    赢 ឈ្នះ
-kEPLose    输 Lost    输 ចាញ់    输 ចាញ់    输 ចាញ់
+kEPLose    输 Lose    输 ចាញ់    输 ចាញ់    输 ចាញ់
 kEPZhuang    庄 Banker    庄 មេ    庄 មេ    庄 មេ
 kEPXian    闲 Player    闲 កូន    闲 កូន    闲 កូន
 kEPZhuangDuizi    庄对子 B.Pair    庄对子 ផែ មេ    庄对子 ផែ មេ    庄对子 ផែ មេ
@@ -64,8 +64,8 @@ kEPClearWashNumberConfirm    Are you sure to clear the guest number?    តើ�
 kEPclearSucceed    清除成功 Cleared successfully    清除成功 បានជម្រះដោយជោគជ័យ!    清除成功 បានជម្រះដោយជោគជ័យ!    清除成功 បានជម្រះដោយជោគជ័យ!
 kEPRealpay    实赔 Actual payout    实赔 សងអស់ប៉ុន្មាន    实赔 សងអស់ប៉ុន្មាន    实赔 សងអស់ប៉ុន្មាន
 kEPShazhu    杀注 Pay    杀注 បង់    杀注 បង់    杀注 បង់
-kEPZhuangshu    庄输 B.Lost    庄输 មេ ចាញ់    庄输 មេ ចាញ់    庄输 មេ ចាញ់
-kEPXianshu    闲输 P.Lost    闲输 កូន ចាញ់    闲输 កូន ចាញ់    闲输 កូន ចាញ់
+kEPZhuangshu    庄输 B.Lose    庄输 មេ ចាញ់    庄输 មេ ចាញ់    庄输 មេ ចាញ់
+kEPXianshu    闲输 P.Lose    闲输 កូន ចាញ់    闲输 កូន ចាញ់    闲输 កូន ចាញ់
 kEPCurrentReadMoney    当前识别金额 Current amount    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា    当前识别金额 ចំនួនទឹកប្រាក់ដែលបានកត់ត្រា
 kEPDrgonWin    龙赢 Dragon Win    龙赢 នាគ ឈ្នះ    龙赢 នាគ ឈ្នះ    龙赢 នាគ ឈ្នះ
 kEPTigerWin    虎赢 Tiger win    虎赢 ខ្លា ឈ្នះ    虎赢 ខ្លា ឈ្នះ    虎赢 ខ្លា ឈ្នះ

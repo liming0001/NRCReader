@@ -1,19 +1,19 @@
 //
-//  NRTigerViewModel.m
+//  NRBaccaratViewModel.m
 //  NFCReader
 //
-//  Created by 李黎明 on 2019/5/6.
+//  Created by 李黎明 on 2019/4/15.
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRTigerViewModel.h"
+#import "NRBaccaratViewModel.h"
 #import "NRLoginInfo.h"
 #import "NRTableInfo.h"
-#import "NRGameInfo.h"
 #import "NRUpdateInfo.h"
+#import "NRGameInfo.h"
 #import "JhPageItemModel.h"
 
-@implementation NRTigerViewModel
+@implementation NRBaccaratViewModel
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo{
     self = [super init];
@@ -47,30 +47,27 @@
 - (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSArray *dashuiList = [NSArray array];
     NSArray *chipList = [NSArray array];
-    NSArray *zhaohuiList = [NSArray array];
+    if ([self.curupdateInfo.cp_result isEqualToString:@"1"]) {
+        if (self.curupdateInfo.cp_DashuiUidList.count!=0) {
+            dashuiList = self.curupdateInfo.cp_DashuiUidList;
+        }
+    }
     if (self.curupdateInfo.cp_ChipUidList.count!=0) {
         chipList = self.curupdateInfo.cp_ChipUidList;
-    }
-    if (self.curupdateInfo.cp_zhaohuiList.count!=0) {
-        zhaohuiList = self.curupdateInfo.cp_zhaohuiList;
     }
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftbrec_id":self.cp_tableIDString,//桌子ID
-                             @"fpcls":self.curupdateInfo.cp_Serialnumber,//铺次流水号，长度不超过20位，要求全局唯一
-                             @"fkpresult":[self.curupdateInfo.cp_name NullToBlankString],//开牌结果
-                             @"frjdate":[NRCommand getCurrentDate],//日结日期
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
-                             @"fxmh":self.curupdateInfo.cp_washNumber,//客人洗码号
-                             @"fxz_cmtype":self.curupdateInfo.cp_chipType,//客人下注的筹码类型
-                             @"fxz_money":self.curupdateInfo.cp_benjin,//客人下注的本金
-                             @"fxz_name":self.curupdateInfo.cp_name,//下注名称，如庄、闲、庄对子…
-                             @"fbeishu":self.curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
-                             @"fdianshu":self.curupdateInfo.cp_dianshu,//牛牛点数，非牛牛游戏传0
-                             @"fsy":self.curupdateInfo.cp_result,//判断客人的输赢：1为赢，-1为输，0为不杀不赔
-                             @"fresult":self.curupdateInfo.cp_money,//应付额
-                             @"fzhaohui":zhaohuiList,//找回z筹码
+                             @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
+                             @"fxmh":[self.curupdateInfo.cp_washNumber NullToBlankString],//客人洗码号
+                             @"fxz_cmtype":[self.curupdateInfo.cp_chipType NullToBlankString],//客人下注的筹码类型
+                             @"fxz_money":[self.curupdateInfo.cp_benjin NullToBlankString],//客人下注的本金
+                             @"fxz_name":[self.curupdateInfo.cp_name NullToBlankString],//下注名称，如庄、闲、庄对子…
+                             @"fbeishu":[self.curupdateInfo.cp_beishu NullToBlankString],//倍数，如果杀注50%填0.5
+                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传0
+                             @"fsy":[self.curupdateInfo.cp_result NullToBlankString],//判断客人的输赢：1为赢，-1为输，0为不杀不赔
+                             @"fxf":@"0",//判断客人的输赢：1为赢，-1为输，0为不杀不赔
+                             @"fresult":[self.curupdateInfo.cp_money NullToBlankString],//应付额
                              @"fyj":self.curupdateInfo.cp_commission,//佣金
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fdashui":dashuiList//打水筹码，硬件ID值数组
@@ -85,7 +82,6 @@
             self.cp_fidString = responseString;
         }
         block(suc, msg,error);
-        
     }];
 }
 
@@ -98,7 +94,7 @@
                              @"fpuci":self.curupdateInfo.cp_puci,//铺次
                              @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
                              @"fkpresult":[self.curupdateInfo.cp_name NullToBlankString],//结果
-                             @"frjdate":[NRCommand getCurrentDate]//铺次
+                             @"frjdate":[NRCommand getCurrentDate]//日期
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
@@ -147,10 +143,32 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        block(suc, msg,error);
         if (suc) {
             self.cp_fidString = @"";
         }
+        block(suc, msg,error);
+        
+    }];
+}
+
+#pragma mark - 清空露珠
+- (void)clearLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSArray *chipList = [NSArray array];
+    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
+        chipList = self.curupdateInfo.cp_xiaofeiList;
+    }
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"tablerec_luzhu_clean",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
+        
     }];
 }
 
@@ -177,38 +195,116 @@
             NSMutableArray *luzhuDownList = [NSMutableArray array];
             [list enumerateObjectsUsingBlock:^(NSDictionary *luzhiDict, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *resultS =  luzhiDict[@"fkpresult"];
+                NSArray *resultList = [resultS componentsSeparatedByString:@","];
                 NSString *text = @"";
                 NSString *img = @"";
-                if ([resultS isEqualToString:@"龙赢"]) {
-                    img = @"1";
-                    text = @"龙";
-                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                    model.img = img;
-                    model.text = text;
-                    model.colorString = @"#ffffff";
-                    model.luzhuType = 1;
-                    [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
-                }else if ([resultS isEqualToString:@"虎赢"]){
-                    img = @"7";
-                    text = @"虎";
-                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                    model.img = img;
-                    model.text = text;
-                    model.colorString = @"#ffffff";
-                    model.luzhuType = 1;
-                    [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
-                }else if ([resultS isEqualToString:@"和局"]){
-                    img = @"0";
-                    text = @"和";
-                    JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                    model.img = img;
-                    model.text = text;
-                    model.luzhuType = 1;
-                    model.colorString = @"#ffffff";
-                    [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
+                if (resultList.count==1) {
+                    NSString *resultName = resultList[0];
+                    if ([resultName isEqualToString:@"庄赢"]||[resultName isEqualToString:@"庄对"]) {
+                        img = @"1";
+                        text = @"庄";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.colorString = @"#ffffff";
+                        model.luzhuType = 1;
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultName isEqualToString:@"闲赢"]||[resultName isEqualToString:@"闲对"]){
+                        img = @"7";
+                        text = @"闲";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.colorString = @"#ffffff";
+                        model.luzhuType = 1;
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultName isEqualToString:@"和局"]){
+                        img = @"0";
+                        text = @"和";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 1;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }
+                }else if (resultList.count==2){
+                    if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]) {
+                        img = @"2";
+                        text = @"庄";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 2;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"闲对"]){
+                        img = @"3";
+                        text = @"庄";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.colorString = @"#ffffff";
+                        model.luzhuType = 3;
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"闲对"]){
+                        img = @"6";
+                        text = @"闲";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 4;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"庄对"]){
+                        img = @"5";
+                        text = @"闲";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 5;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                        img = @"4";
+                        text = @"庄";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 6;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }
+                }else if (resultList.count==3){
+                    if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]) {
+                        img = @"4";
+                        text = @"庄";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 6;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                        img = @"8";
+                        text = @"闲";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 7;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                        [luzhuDownList addObject:model];
+                    }
                 }
             }];
             for (int i=(int)list.count; i<100; i++) {
@@ -228,6 +324,7 @@
     }];
 }
 
+
 #pragma mark - 提交日结
 - (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSArray *chipList = [NSArray array];
@@ -244,34 +341,13 @@
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
-                                 @"f":@"Cmpublish_checkState",
+                                 @"f":@"tablerec_rijie",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         if (suc) {
             self.cp_fidString = @"";
         }
-        block(suc, msg,error);
-        
-    }];
-}
-
-#pragma mark - 清空露珠
-- (void)clearLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
-    NSArray *chipList = [NSArray array];
-    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
-        chipList = self.curupdateInfo.cp_xiaofeiList;
-    }
-    NSDictionary * param = @{
-                             @"access_token":self.loginInfo.access_token,
-                             @"ftable_id":self.curTableInfo.fid//桌子ID
-                             };
-    NSArray *paramList = @[param];
-    NSDictionary * Realparam = @{
-                                 @"f":@"tablerec_luzhu_clean",
-                                 @"p":[paramList JSONString]
-                                 };
-    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         block(suc, msg,error);
         
     }];

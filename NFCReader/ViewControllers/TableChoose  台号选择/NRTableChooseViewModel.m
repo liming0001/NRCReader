@@ -13,6 +13,7 @@
 #import "NRCowViewModel.h"
 #import "NRTableInfo.h"
 #import "NRGameInfo.h"
+#import "NRBaccarat_workersViewModel.h"
 
 @implementation NRTableChooseViewModel
 
@@ -67,6 +68,11 @@
 
 - (NRBaccaratViewModel *)baccaratViewModelWithLoginInfo:(NRLoginInfo*)loginInfo{
     NRBaccaratViewModel *viewModel = [[NRBaccaratViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
+    return viewModel;
+}
+
+- (NRBaccarat_workersViewModel *)baccarat_workersViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;{
+    NRBaccarat_workersViewModel *viewModel = [[NRBaccarat_workersViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
     return viewModel;
 }
 

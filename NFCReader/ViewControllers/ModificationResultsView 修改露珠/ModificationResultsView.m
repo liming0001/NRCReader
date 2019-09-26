@@ -473,6 +473,20 @@
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
+                            }else if ([customer_resultName isEqualToString:@"Lucky6"]){
+                                //赔率
+                                CGFloat odds = 0;
+                                CGFloat yj = 0;
+                                NSArray *xz_array = self.curXz_setting;
+                                if (xz_array.count>7) {
+                                    odds = [xz_array[7][@"fpl"] floatValue];
+                                    yj = [xz_array[7][@"fyj"] floatValue]/100;
+                                }
+                                [self.fsy_list addObject:[NSNumber numberWithInt:1]];
+                                CGFloat resultValue = (1+odds-yj)*[customer_money integerValue];
+                                [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
+                                CGFloat yjValue = yj*[customer_money integerValue];
+                                [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];

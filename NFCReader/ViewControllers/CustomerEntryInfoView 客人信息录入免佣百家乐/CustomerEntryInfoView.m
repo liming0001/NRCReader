@@ -1,36 +1,45 @@
 //
-//  TigerEditInfoView.m
+//  CustomerEntryInfoView.m
 //  NFCReader
 //
-//  Created by 李黎明 on 2019/9/3.
+//  Created by 李黎明 on 2019/8/30.
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "TigerEditInfoView.h"
+#import "CustomerEntryInfoView.h"
 #import "ZLKeyboard.h"
-#import "CustomerInfo.h"
 #import "IQKeyboardManager.h"
+#import "CustomerInfo.h"
 
-@interface TigerEditInfoView ()
+@interface CustomerEntryInfoView ()
 
 @property (nonatomic, strong) CustomerInfo *customer;
 @property (nonatomic, assign) int cashType;//
+@property (nonatomic, assign) int sixType;//
 @property (nonatomic, strong) NSString *curLoginToken;
 
 @end
 
-@implementation TigerEditInfoView
+@implementation CustomerEntryInfoView
 
+
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
     [ZLKeyboard bindKeyboard:self.washNumberTF];
-    [ZLKeyboard bindKeyboard:self.drogenValueTF];
-    [ZLKeyboard bindKeyboard:self.tigerValueTF];
-    [ZLKeyboard bindKeyboard:self.tieValueTF];
+    [ZLKeyboard bindKeyboard:self.zhuangValueTF];
+    [ZLKeyboard bindKeyboard:self.zhuangDuiValueTF];
+    [ZLKeyboard bindKeyboard:self.sixWinTF];
+    [ZLKeyboard bindKeyboard:self.luckyValueTF];
+    [ZLKeyboard bindKeyboard:self.xianTF];
+    [ZLKeyboard bindKeyboard:self.xianDuiValueTF];
+    [ZLKeyboard bindKeyboard:self.heValueTF];
+    [ZLKeyboard bindKeyboard:self.baoxianValueTF];
     [self.washNumberTF becomeFirstResponder];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryTigerCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
 }
 
 - (void)editLoginInfoWithLoginID:(NSString *)loginID{
@@ -63,8 +72,8 @@
 }
 
 #pragma mark - /---------------------- notifications ----------------------/
--(void)sureEntryTigerCustomerInfo:(NSNotification *)ntf {
-    if ([self.drogenValueTF.text intValue]==0&&[self.tigerValueTF.text intValue]==0&&[self.tieValueTF.text intValue]==0) {
+-(void)sureEntryCustomerInfo:(NSNotification *)ntf {
+    if ([self.washNumberTF.text intValue]==0&&[self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.sixWinTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
         [self removeFromSuperview];
     }else{
         [self showWaitingView];
@@ -73,9 +82,14 @@
             if (success) {
                 CustomerInfo  * editCustomer = [[CustomerInfo alloc]init];
                 editCustomer.washNumberValue = self.washNumberTF.text;
-                editCustomer.zhuangValue = self.drogenValueTF.text;
-                editCustomer.zhuangDuiValue = self.tigerValueTF.text;
-                editCustomer.heValue = self.tieValueTF.text;
+                editCustomer.zhuangValue = self.zhuangValueTF.text;
+                editCustomer.zhuangDuiValue = self.zhuangDuiValueTF.text;
+                editCustomer.sixWinValue = self.sixWinTF.text;
+                editCustomer.luckyValue = self.luckyValueTF.text;
+                editCustomer.xianValue = self.xianTF.text;
+                editCustomer.xianDuiValue = self.xianDuiValueTF.text;
+                editCustomer.heValue = self.heValueTF.text;
+                editCustomer.baoxianValue = self.baoxianValueTF.text;
                 editCustomer.cashType = self.cashType;
                 if (self.editTapCustomer) {
                     self.editTapCustomer(editCustomer,YES);
@@ -95,18 +109,24 @@
 - (void)editCurCustomerWithCustomerInfo:(CustomerInfo *)curCustomer{
     self.customer = curCustomer;
     self.washNumberTF.text = self.customer.washNumberValue;
-    self.drogenValueTF.text = self.customer.zhuangValue;
-    self.tigerValueTF.text = self.customer.zhuangDuiValue;
-    self.tieValueTF.text = self.customer.heValue;
+    self.zhuangValueTF.text = self.customer.zhuangValue;
+    self.zhuangDuiValueTF.text = self.customer.zhuangDuiValue;
+    self.sixWinTF.text = self.customer.sixWinValue;
+    self.luckyValueTF.text = self.customer.luckyValue;
+    self.xianTF.text = self.customer.xianValue;
+    self.xianDuiValueTF.text = self.customer.xianDuiValue;
+    self.heValueTF.text = self.customer.heValue;
+    self.baoxianValueTF.text = self.customer.baoxianValue;
     self.cashType = self.customer.cashType;
+     self.sixType = self.customer.sixValueType;
     if (self.cashType==0) {
         [self.cashTypeBtn setSelected:YES];
-        self.cashTypelab.text = @"USD";
+        self.cashTypeLab.text = @"USD";
         self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
     }else if (self.cashType==1){
         [self.cashTypeBtn setSelected:YES];
         [self.chipTypeBtn setSelected:YES];
-        self.cashTypelab.text = @"USD";
+        self.cashTypeLab.text = @"USD";
         self.chipTypeLab.text = @"CASH";
         self.typeIcon.image = [UIImage imageNamed:@"customer_dollarCash"];
     }else if (self.cashType==3){
@@ -116,13 +136,30 @@
     }else if (self.cashType==2){
         self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
     }
+    if (self.sixType==1) {
+        [self.twoPageBtn setSelected:YES];
+        [self.threePageBtn setSelected:NO];
+    }else{
+        [self.twoPageBtn setSelected:NO];
+        [self.threePageBtn setSelected:YES];
+    }
+}
+- (IBAction)twoPageAction:(id)sender {
+    self.sixType = 1;
+    [self.twoPageBtn setSelected:YES];
+    [self.threePageBtn setSelected:NO];
+}
+- (IBAction)threePageAction:(id)sender {
+    self.sixType = 2;
+    [self.twoPageBtn setSelected:NO];
+    [self.threePageBtn setSelected:YES];
 }
 
-- (IBAction)cashTypeAction:(id)sender {
+- (IBAction)RMBChangeAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
     btn.selected = !btn.selected;
     if (btn.selected) {
-        self.cashTypelab.text = @"USD";
+        self.cashTypeLab.text = @"USD";
         if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
             self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
             self.cashType = 0;//美金筹码
@@ -132,7 +169,7 @@
         }
         
     }else{
-        self.cashTypelab.text = @"RMB";
+       self.cashTypeLab.text = @"RMB";
         if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
             self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
             self.cashType = 2;//RMB筹码
@@ -142,12 +179,12 @@
         }
     }
 }
-- (IBAction)chipTypeAction:(id)sender {
+- (IBAction)CHIPChangeAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.chipTypeLab.text = @"CASH";
-        if ([self.cashTypelab.text isEqualToString:@"RMB"]) {
+        if ([self.cashTypeLab.text isEqualToString:@"RMB"]) {
             self.typeIcon.image = [UIImage imageNamed:@"customer_RMBCash"];
             self.cashType = 3;//RMB现金
         }else{
@@ -156,7 +193,7 @@
         }
     }else{
         self.chipTypeLab.text = @"CHIP";
-        if ([self.cashTypelab.text isEqualToString:@"RMB"]) {
+        if ([self.cashTypeLab.text isEqualToString:@"RMB"]) {
             self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
             self.cashType = 2;//RMB筹码
         }else{
@@ -171,12 +208,16 @@
         [self removeFromSuperview];
     }
 }
-- (IBAction)reputAction:(id)sender {
+- (IBAction)reInputAction:(id)sender {
     self.washNumberTF.text = @"";
-    self.drogenValueTF.text = @"";
-    self.tigerValueTF.text = @"";
-    self.tieValueTF.text = @"";
+    self.zhuangValueTF.text = @"";
+    self.zhuangDuiValueTF.text = @"";
+    self.sixWinTF.text = @"";
+    self.xianTF.text = @"";
+    self.xianDuiValueTF.text = @"";
+    self.heValueTF.text = @"";
+    self.baoxianValueTF.text = @"";
+    self.luckyValueTF.text = @"";
 }
-
 
 @end

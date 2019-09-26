@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NRBaccaratViewModel,NRDealerManagerViewModel,NRLoginInfo,NRTigerViewModel,NRCowViewModel,NRTableInfo,NRGameInfo;
+@class NRBaccaratViewModel,NRDealerManagerViewModel,NRLoginInfo,NRTigerViewModel,NRCowViewModel,NRTableInfo,NRGameInfo,NRBaccarat_workersViewModel;
 @interface NRTableChooseViewModel : RVMViewModel
 
 @property (nonatomic, strong) NSMutableArray *tableList;
@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NRBaccaratViewModel *)baccaratViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;
 - (NRTigerViewModel *)tigerViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;
 - (NRCowViewModel *)cowViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;
+- (NRBaccarat_workersViewModel *)baccarat_workersViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;
 
 
 @end

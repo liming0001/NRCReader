@@ -15,6 +15,8 @@
 #import "NRCowViewController.h"
 #import "NRTableInfo.h"
 
+#import "NRBaccaratView_workersController.h"
+
 @interface NRTableChooseViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *tablesCollectionView;
@@ -92,29 +94,29 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"您当前软件界面语言为:中文";
+    self.languageLab.text = @"当前版本V1.3";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-60);
-        make.centerX.equalTo(self.view).offset(-35);
+        make.centerX.equalTo(self.view).offset(0);
         make.height.mas_equalTo(20);
     }];
     
-    self.changeLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.changeLanguageButton.layer.cornerRadius = 5;
-    [self.changeLanguageButton setTitle:@"更换" forState:UIControlStateNormal];
-    [self.changeLanguageButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-    self.changeLanguageButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
-    self.changeLanguageButton.backgroundColor = [UIColor colorWithHexString:@"#347622"];
-    [self.changeLanguageButton addTarget:self action:@selector(changeLanguageAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.changeLanguageButton];
-    [self.changeLanguageButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-60);
-        make.left.equalTo(self.languageLab.mas_right).offset(10);
-        make.height.mas_equalTo(20);
-        make.width.mas_offset(60);
-    }];
+//    self.changeLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    self.changeLanguageButton.layer.cornerRadius = 5;
+//    [self.changeLanguageButton setTitle:@"更换" forState:UIControlStateNormal];
+//    [self.changeLanguageButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+//    self.changeLanguageButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+//    self.changeLanguageButton.backgroundColor = [UIColor colorWithHexString:@"#347622"];
+//    [self.changeLanguageButton addTarget:self action:@selector(changeLanguageAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.changeLanguageButton];
+//    [self.changeLanguageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.view).offset(-60);
+//        make.left.equalTo(self.languageLab.mas_right).offset(10);
+//        make.height.mas_equalTo(20);
+//        make.width.mas_offset(60);
+//    }];
     
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.logoutButton.layer.cornerRadius = 5;
@@ -200,15 +202,16 @@
     [self.viewModel chooseTableWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
         [self hideWaitingView];
         if (success) {
-            if ([info.fqptype isEqualToString:@"1"]||[info.fqptype isEqualToString:@"2"]) {//有佣百家乐
-                BOOL isYJ = NO;
-                if ([info.fqptype isEqualToString:@"2"]) {
-                    isYJ = YES;
-                }
+            if ([info.fqptype isEqualToString:@"1"]) {//免佣百家乐
                 //百家乐
                 NRBaccaratViewController *vc = [NRBaccaratViewController new];
                 vc.viewModel = [self.viewModel baccaratViewModelWithLoginInfo:self.viewModel.loginInfo];
-                [vc setValue:[NSNumber numberWithBool:isYJ] forKey:@"isYouyong"];
+                [self.navigationController pushViewController:vc animated:YES];
+            
+            }else if ([info.fqptype isEqualToString:@"2"]){//有佣百家乐
+                //百家乐
+                NRBaccaratView_workersController *vc = [NRBaccaratView_workersController new];
+                vc.viewModel = [self.viewModel baccarat_workersViewModelWithLoginInfo:self.viewModel.loginInfo];
                 [self.navigationController pushViewController:vc animated:YES];
             
             }else if ([info.fqptype isEqualToString:@"3"]){//牛牛

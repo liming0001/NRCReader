@@ -76,6 +76,7 @@
     self.washNumberTF.text = self.customer.washNumberValue;
     self.winValueTF.text = self.customer.zhuangValue;
     self.loseValueTF.text = self.customer.zhuangDuiValue;
+    self.cashType = self.customer.cashType;
     if (self.cashType==0) {
         [self.cashTypeBtn setSelected:YES];
         self.cashTypelab.text = @"USD";

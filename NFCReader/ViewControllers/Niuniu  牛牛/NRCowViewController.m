@@ -1314,7 +1314,7 @@
             if (success) {
                 if (self.isAutomicGame) {
                     self.cowManager.xueciCount +=1;
-                    self.cowManager.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+                    self.cowManager.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.cowManager.xueciCount];
                     [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
                     self.cowManager.puciCount =0;
                     self.cowManager.prePuciCount = self.cowManager.puciCount+1;
@@ -1410,7 +1410,9 @@
                 self.puciCount +=1;
                 self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
             }
-            [self showMessage:@"开启新一局成功" withSuccess:YES];;
+            [self showMessage:@"开启新一局成功" withSuccess:YES];
+            //响警告声音
+            [EPSound playWithSoundName:@"succeed_sound"];
         }
     }];
 }

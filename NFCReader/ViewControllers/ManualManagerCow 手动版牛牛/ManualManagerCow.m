@@ -57,6 +57,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) NSString *curSerialnumber;
 @property (nonatomic, strong) NSString *result_string;
 
+@property (nonatomic,strong) NSMutableArray *fxz_cmtype_list;
+
 @end
 
 @implementation ManualManagerCow
@@ -339,7 +341,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
                 customerInfo.zhuangValue = @"";
                 customerInfo.zhuangDuiValue = @"";
-                customerInfo.cashType = 0;
+                customerInfo.cashType = 1;
             }];
             [self.collectionView reloadData];
         }else{
@@ -467,9 +469,20 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     customer.washNumberValue = @"";
     customer.zhuangValue = @"";
     customer.zhuangDuiValue = @"";
-    customer.cashType = 0;
+    customer.cashType = 1;
     customer.headbgImgName = @"customer_VIP_bg";
     return customer;
+}
+- (void)fengzhuangChipTypeWith:(CustomerInfo *)curCustomer{
+    if (curCustomer.cashType==0) {//美金筹码
+        [self.fxz_cmtype_list addObject:[NSNumber numberWithInt:9]];
+    }else if (curCustomer.cashType==1){//美金现金
+        [self.fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
+    }else if (curCustomer.cashType==2){//人民币筹码
+        [self.fxz_cmtype_list addObject:[NSNumber numberWithInt:8]];
+    }else if (curCustomer.cashType==3){//人民币现金
+        [self.fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
+    }
 }
 
 #pragma mark - 提交客人输赢记录和台桌流水记录
@@ -477,9 +490,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     //洗码号
     NSMutableArray *fxmh_list = [NSMutableArray array];
     //筹码类型
-    NSMutableArray *fxz_cmtype_list = [NSMutableArray array];
-    //筹码名称
-    NSMutableArray *fhardlist_list = [NSMutableArray array];
+    self.fxz_cmtype_list = [NSMutableArray array];
     //下注本金
     NSMutableArray *fxz_money_list = [NSMutableArray array];
     //下注名称
@@ -519,20 +530,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.result_string = @"赢";
                 [fsy_list addObject:[NSNumber numberWithInt:1]];
                 [fresult_list addObject:[NSNumber numberWithInteger:winRealResultValue]];
-                if (curCustomer.cashType==0) {//美金筹码
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
-                    [fhardlist_list addObject:@"美金筹码"];
-                }else if (curCustomer.cashType==1){//美金现金
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
-                    [fhardlist_list addObject:@"美金现金"];
-                }else if (curCustomer.cashType==2){//人民币筹码
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
-                    [fhardlist_list addObject:@"人民币筹码"];
-                }else if (curCustomer.cashType==3){//人民币现金
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
-                    [fhardlist_list addObject:@"人民币现金"];
-                }
-                
+                [self fengzhuangChipTypeWith:curCustomer];
             }
             if (loseRealResultValue > 0){
                 [fyj_list addObject:@"0"];
@@ -546,19 +544,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.result_string = @"输";
                 [fsy_list addObject:[NSNumber numberWithInt:-1]];
                 [fresult_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
-                if (curCustomer.cashType==0) {//美金筹码
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
-                    [fhardlist_list addObject:@"美金筹码"];
-                }else if (curCustomer.cashType==1){//美金现金
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:7]];
-                    [fhardlist_list addObject:@"美金现金"];
-                }else if (curCustomer.cashType==2){//人民币筹码
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
-                    [fhardlist_list addObject:@"人民币筹码"];
-                }else if (curCustomer.cashType==3){//人民币现金
-                    [fxz_cmtype_list addObject:[NSNumber numberWithInt:6]];
-                    [fhardlist_list addObject:@"人民币现金"];
-                }
+                [self fengzhuangChipTypeWith:curCustomer];
             }
         }
     }];
@@ -571,13 +557,13 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                              @"fxueci":[NSString stringWithFormat:@"%d",self.xueciCount],//靴次
                              @"fpuci":[NSString stringWithFormat:@"%d",self.puciCount],//铺次
                              @"fxmh_list":fxmh_list,//客人洗码号
-                             @"fxz_cmtype_list":fxz_cmtype_list,//客人下注的筹码类型
+                             @"fxz_cmtype_list":self.fxz_cmtype_list,//客人下注的筹码类型
                              @"fxz_money_list":fxz_money_list,//客人下注的本金
                              @"fxz_name_list":fxz_name_list,//下注名称，如庄、闲、庄对子…
                              @"fsy_list":fsy_list,//输赢
                              @"fresult_list":fresult_list,//总码
                              @"fyj_list":fyj_list,//佣金
-                             @"fhardlist_list":fhardlist_list,//实付筹码，硬件ID值数组
+                             @"fhardlist_list":[NSArray array],//实付筹码，硬件ID值数组
                              @"fdashui_list":[NSArray array],//打水筹码，硬件ID值数组
                              @"fzhaohui_list":[NSArray array]//找回筹码
                              };
