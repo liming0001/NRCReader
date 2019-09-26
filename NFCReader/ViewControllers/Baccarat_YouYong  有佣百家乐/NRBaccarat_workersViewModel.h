@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class NRLoginInfo,NRTableInfo,NRUpdateInfo,NRGameInfo;
-@interface NRBaccaratViewModel : RVMViewModel
+@interface NRBaccarat_workersViewModel : RVMViewModel
 
 @property (nonatomic, strong) NSString *cp_fidString;
 @property (nonatomic, strong) NRLoginInfo *loginInfo;
@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)commitTipResultWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 获取露珠
 - (void)getLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 清空露珠
+- (void)clearLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交日结
 - (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 

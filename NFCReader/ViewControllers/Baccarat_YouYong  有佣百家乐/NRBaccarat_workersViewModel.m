@@ -6,14 +6,14 @@
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRBaccaratViewModel.h"
+#import "NRBaccarat_workersViewModel.h"
 #import "NRLoginInfo.h"
 #import "NRTableInfo.h"
 #import "NRUpdateInfo.h"
 #import "NRGameInfo.h"
 #import "JhPageItemModel.h"
 
-@implementation NRBaccaratViewModel
+@implementation NRBaccarat_workersViewModel
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo{
     self = [super init];
@@ -146,6 +146,27 @@
         if (suc) {
             self.cp_fidString = @"";
         }
+        block(suc, msg,error);
+        
+    }];
+}
+
+#pragma mark - 清空露珠
+- (void)clearLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSArray *chipList = [NSArray array];
+    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
+        chipList = self.curupdateInfo.cp_xiaofeiList;
+    }
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"tablerec_luzhu_clean",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         block(suc, msg,error);
         
     }];

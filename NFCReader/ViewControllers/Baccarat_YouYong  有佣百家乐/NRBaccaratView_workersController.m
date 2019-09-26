@@ -6,14 +6,14 @@
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRBaccaratViewController.h"
+#import "NRBaccaratView_workersController.h"
 #import "EPPopAlertShowView.h"
 #import "NRCustomerInfo.h"
 #import "EPPopView.h"
 #import "JXButton.h"
 #import "EPService.h"
 #import "NRLoginInfo.h"
-#import "NRBaccaratViewModel.h"
+#import "NRBaccarat_workersViewModel.h"
 #import "EPResultShowView.h"
 #import "NRChipResultInfo.h"
 #import "NRTableInfo.h"
@@ -32,7 +32,7 @@
 #import "GCDAsyncSocket.h"
 #import "BLEIToll.h"
 #import "SFLabel.h"
-#import "NRManualMangerView.h"
+#import "NRManualManger_workers.h"
 #import "IQKeyboardManager.h"
 
 #import "TableDataInfoView.h"
@@ -49,7 +49,7 @@
 
 #import "EPWebViewController.h"
 
-@interface NRBaccaratViewController ()<GCDAsyncSocketDelegate>
+@interface NRBaccaratView_workersController ()<GCDAsyncSocketDelegate>
 
 //台桌数据
 @property (nonatomic, strong) TableDataInfoView *tableDataInfoV;
@@ -147,7 +147,7 @@
 @property (nonatomic, assign) int puciCount;//铺次
 
 //手动版视图
-@property (nonatomic, strong) NRManualMangerView *manuaManagerView;
+@property (nonatomic, strong) NRManualManger_workers *manuaManagerView;
 @property (nonatomic, strong) UIButton *aTipRecordButton;//小费按钮
 @property (nonatomic, assign) BOOL isAutomicGame;//是否手动版
 
@@ -220,7 +220,7 @@
 
 @end
 
-@implementation NRBaccaratViewController
+@implementation NRBaccaratView_workersController
 
 #pragma mark - 设置顶部top
 - (void)topBarSetUp{
@@ -781,29 +781,8 @@
             make.top.equalTo(self.he_button.mas_bottom).offset(42);
             make.left.equalTo(self.readChipMoney_button.mas_right).offset(15);
             make.height.mas_equalTo(result_h);
-            if (self.isYouyong.boolValue) {
-                make.width.mas_offset(kScreenWidth-65-200);
-            }else{
-                make.width.mas_offset(result_w);
-            }
+            make.width.mas_offset(kScreenWidth-65-200);
         }];
-
-        if (!self.isYouyong.boolValue) {
-            self.zhuangsix_button = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.zhuangsix_button.tag = 6;
-            [self.zhuangsix_button setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-            self.zhuangsix_button.titleLabel.font = [UIFont systemFontOfSize:item_fontsize];
-            [self.zhuangsix_button setBackgroundImage:[UIImage imageNamed:@"lucky_selecedIcon"] forState:UIControlStateSelected];
-            [self.zhuangsix_button setBackgroundImage:[UIImage imageNamed:@"operationCenter_btnbg_n"] forState:UIControlStateNormal];
-            [self.zhuangsix_button addTarget:self action:@selector(resultBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-            [self.automaticShowView addSubview:self.zhuangsix_button];
-            [self.zhuangsix_button mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.baoxian_button.mas_bottom).offset(42);
-                make.left.equalTo(self.luckysix_button.mas_right).offset(10);
-                make.height.mas_equalTo(result_h);
-                make.width.mas_offset(result_w);
-            }];
-        }
     }
     return _automaticShowView;
 }
@@ -1290,9 +1269,9 @@
     [self.luzhuCollectionView addSubview:self.solidItemView];
 }
 
-- (NRManualMangerView *)manuaManagerView{
+- (NRManualManger_workers *)manuaManagerView{
     if (!_manuaManagerView) {
-        _manuaManagerView = [[NRManualMangerView alloc]initWithFrame:CGRectMake(0,94, kScreenWidth, kScreenHeight-94)];
+        _manuaManagerView = [[NRManualManger_workers alloc]initWithFrame:CGRectMake(0,94, kScreenWidth, kScreenHeight-94)];
         _manuaManagerView.hidden = YES;
     }
     return _manuaManagerView;
@@ -1410,8 +1389,7 @@
     [self.manuaManagerView transLoginInfoWithLoginID:self.viewModel.loginInfo.access_token
                                              TableID:self.viewModel.curTableInfo.fid
                                         Serialnumber:self.serialnumber
-                                               Peilv:self.viewModel.gameInfo.xz_setting
-                                           IsYouYong:self.isYouyong.boolValue];
+                                               Peilv:self.viewModel.gameInfo.xz_setting];
     
     //默认显示自动版本视图
     [self.view addSubview:self.automaticShowView];
@@ -2007,18 +1985,34 @@
         @strongify(self);
         [self showWaitingView];
         [self.viewModel authorizationAccountWitAccountName:adminName Password:password Block:^(BOOL success, NSString *msg, EPSreviceError error) {
-            [self hideWaitingView];
+            
             if (success) {
                 if (self.isAutomicGame) {
-                    self.manuaManagerView.xueciCount +=1;
-                    self.manuaManagerView.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
-                    [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
-                    self.manuaManagerView.puciCount =0;
-                    self.manuaManagerView.prePuciCount = self.manuaManagerView.puciCount+1;
-                    self.manuaManagerView.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.manuaManagerView.puciCount];
-                    //响警告声音
-                    [EPSound playWithSoundName:@"succeed_sound"];
+                    [self.viewModel clearLuzhuWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                        [self hideWaitingView];
+                        if (success) {
+                            self.manuaManagerView.xueciCount +=1;
+                            self.manuaManagerView.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.manuaManagerView.xueciCount];
+                            [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
+                            self.manuaManagerView.puciCount =0;
+                            self.manuaManagerView.prePuciCount = self.manuaManagerView.puciCount+1;
+                            self.manuaManagerView.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.manuaManagerView.puciCount];
+                            [self.manuaManagerView restartChangeStatus];
+                            [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
+                            //响警告声音
+                            [EPSound playWithSoundName:@"succeed_sound"];
+                        }else{
+                            NSString *messgae = [msg NullToBlankString];
+                            if (messgae.length == 0) {
+                                messgae = @"网络异常";
+                            }
+                            [self showMessage:messgae];
+                            //响警告声音
+                            [EPSound playWithSoundName:@"wram_sound"];
+                        }
+                    }];
                 }else{
+                    [self hideWaitingView];
                     self.xueciCount +=1;
                     self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
                     if (self.xueciCount<10) {
@@ -2029,6 +2023,7 @@
                     [EPSound playWithSoundName:@"succeed_sound"];
                 }
             }else{
+                [self hideWaitingView];
                 NSString *messgae = [msg NullToBlankString];
                 if (messgae.length == 0) {
                     messgae = @"网络异常";

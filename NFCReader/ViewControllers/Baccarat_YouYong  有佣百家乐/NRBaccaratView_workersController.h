@@ -10,11 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NRBaccaratViewModel;
-@interface NRBaccaratViewController : NRBaseViewController
+@class NRBaccarat_workersViewModel;
+@interface NRBaccaratView_workersController : NRBaseViewController
 
-@property (nonatomic, strong) NRBaccaratViewModel *viewModel;
-@property (nonatomic, strong) NSNumber *isYouyong;//是否有佣
+@property (nonatomic, strong) NRBaccarat_workersViewModel *viewModel;
 
 @end
 
