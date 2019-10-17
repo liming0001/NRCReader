@@ -1366,6 +1366,11 @@
     // Do any additional setup after loading the view.
     [self topBarSetUp];
     
+    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",self.viewModel.curTableInfo.fid]];
+    if (xueciNumber.intValue!=0) {
+        self.viewModel.curXueci = xueciNumber.intValue;
+    }
+    
     self.xueciCount = 1;
     self.puciCount = 0;
     self.isAutomicGame = YES;
@@ -1404,13 +1409,18 @@
     [self.manuaManagerView transLoginInfoWithLoginID:self.viewModel.loginInfo.access_token
                                              TableID:self.viewModel.curTableInfo.fid
                                         Serialnumber:self.serialnumber
-                                               Peilv:self.viewModel.gameInfo.xz_setting];
+                                               Peilv:self.viewModel.gameInfo.xz_setting
+                                           TableName:self.viewModel.curTableInfo.ftbname];
     
     //默认显示自动版本视图
     [self.view addSubview:self.automaticShowView];
     [self.view addSubview:self.manuaManagerView];
     [self lookLuzhuAction];
     [self changeLanguageWithType:NO];
+    
+    self.manuaManagerView.hidden = NO;
+    self.automaticShowView.hidden = YES;
+    self.isAutomicGame = YES;
 }
 
 - (void)configureTitleBar {
@@ -1502,19 +1512,20 @@
 - (void)menuAction:(UIButton *)btn{
     switch (btn.tag) {
         case 1:{
-            if ([self.changeChipBtn.titleLabel.text isEqualToString:@"切换手动版"]) {
-                [self.changeChipBtn setTitle:@"切换自动版" forState:UIControlStateNormal];
-                self.manuaManagerView.hidden = NO;
-                self.automaticShowView.hidden = YES;
-                self.isAutomicGame = YES;
-                [[MJPopTool sharedInstance]popView:self.manuaManagerView WithFatherView:self.view animated:YES];
-            }else{
-                self.isAutomicGame = NO;
-                [self.changeChipBtn setTitle:@"切换手动版" forState:UIControlStateNormal];
-                self.manuaManagerView.hidden = YES;
-                self.automaticShowView.hidden = NO;
-                [[MJPopTool sharedInstance]popView:self.automaticShowView WithFatherView:self.view animated:YES];
-            }
+            [self showMessage:@"功能暂未开放" withSuccess:NO];
+//            if ([self.changeChipBtn.titleLabel.text isEqualToString:@"切换手动版"]) {
+//                [self.changeChipBtn setTitle:@"切换自动版" forState:UIControlStateNormal];
+//                self.manuaManagerView.hidden = NO;
+//                self.automaticShowView.hidden = YES;
+//                self.isAutomicGame = YES;
+//                [[MJPopTool sharedInstance]popView:self.manuaManagerView WithFatherView:self.view animated:YES];
+//            }else{
+//                self.isAutomicGame = NO;
+//                [self.changeChipBtn setTitle:@"切换手动版" forState:UIControlStateNormal];
+//                self.manuaManagerView.hidden = YES;
+//                self.automaticShowView.hidden = NO;
+//                [[MJPopTool sharedInstance]popView:self.automaticShowView WithFatherView:self.view animated:YES];
+//            }
         }
             break;
         case 2:{
@@ -1539,20 +1550,56 @@
         {
             EPWebViewController *webVC = [[EPWebViewController alloc]init];
             webVC.webTitle = @"查看注单";
-            webVC.link = [NSString stringWithFormat:@"http://dbluo.t.zwjxt.com/admin/customerrec/all.html?access_token=%@&ftable_id=%@",self.viewModel.loginInfo.access_token,self.viewModel.curTableInfo.fid];
+            webVC.link = [NSString stringWithFormat:@"http://%@/admin/customerrec/all.html?access_token=%@&ftable_id=%@",kHTTPCookieDomain,self.viewModel.loginInfo.access_token,self.viewModel.curTableInfo.fid];
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
         case 6://查看台面数据
-            [[MJPopTool sharedInstance] popView:self.tableDataInfoV animated:YES];
+            {
+                [self showWaitingView];
+                [self.viewModel queryTableDataWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                    [self hideWaitingView];
+                    if (success) {
+                        [[MJPopTool sharedInstance] popView:self.tableDataInfoV animated:YES];
+                        [self.tableDataInfoV fellTableInfoDataWithTableList:self.viewModel.tableDataDict];
+                    }else{
+                        //响警告声音
+                        NSString *messgae = [msg NullToBlankString];
+                        if (messgae.length == 0) {
+                            messgae = @"网络异常";
+                        }
+                        [self showMessage:messgae];
+                        //响警告声音
+                        [EPSound playWithSoundName:@"wram_sound"];
+                    }
+                }];
+            }
             break;
         case 7://点码
             [self.addOrMinusView fellListWithType:1];
             [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
             break;
         case 8://台面加减彩
-            [self.addOrMinusView fellListWithType:0];
-            [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
+            {
+                [self showWaitingView];
+                [self.viewModel queryOperate_listWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                    [self hideWaitingView];
+                    if (success) {
+                        [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid];
+                        [self.addOrMinusView fellListWithType:0];
+                        [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
+                    }else{
+                        //响警告声音
+                        NSString *messgae = [msg NullToBlankString];
+                        if (messgae.length == 0) {
+                            messgae = @"网络异常";
+                        }
+                        [self showMessage:messgae];
+                        //响警告声音
+                        [EPSound playWithSoundName:@"wram_sound"];
+                    }
+                }];
+            }
             break;
         case 9://开台和收台
             [self.addOrMinusView fellListWithType:2];
@@ -2007,6 +2054,9 @@
                         if (success) {
                             self.manuaManagerView.xueciCount +=1;
                             self.manuaManagerView.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.manuaManagerView.xueciCount];
+                            self.viewModel.curXueci = self.manuaManagerView.xueciCount;
+                            [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInt:self.manuaManagerView.xueciCount] forKey:[NSString stringWithFormat:@"%@_Xueci",self.viewModel.curTableInfo.fid]];
+                            [[NSUserDefaults standardUserDefaults]synchronize];
                             [self showMessage:[EPStr getStr:kEPChangeXueciSucceed note:@"更换靴次成功"] withSuccess:YES];
                             self.manuaManagerView.puciCount =0;
                             self.manuaManagerView.prePuciCount = self.manuaManagerView.puciCount+1;
@@ -2121,6 +2171,9 @@
                 [self.viewModel commitDailyWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
                     [self hideWaitingView];
                     if (success) {
+                        self.viewModel.curXueci = 1;
+                        [[NSUserDefaults standardUserDefaults]setObject:@1 forKey:[NSString stringWithFormat:@"%@_Xueci",self.viewModel.curTableInfo.fid]];
+                        [[NSUserDefaults standardUserDefaults]synchronize];
                         [self showMessage:@"日结成功" withSuccess:YES];
                         [self.navigationController popViewControllerAnimated:YES];
                     }else{
@@ -2152,6 +2205,12 @@
 #pragma mark - 新一局
 - (void)newGameAction{
     [EPSound playWithSoundName:@"click_sound"];
+    if (self.isAutomicGame) {
+        if (self.manuaManagerView.prePuciCount==self.manuaManagerView.puciCount) {
+            [self showMessage:@"请先提交开牌结果" withSuccess:NO];
+            return;
+        }
+    }
     @weakify(self);
     [EPPopView showInWindowWithMessage:[NSString stringWithFormat:@"是否确定开启新一局？\n%@",[EPStr getStr:kEPSureNextGame note:@"确定开启新一局？"]] handler:^(int buttonType) {
         @strongify(self);
@@ -2237,30 +2296,6 @@
 //            }];
 //        }
 //    }];
-}
-
-#pragma mark - 提交客人输赢记录(手动版)
-- (void)commitCustomerInfoByManual{
-    @weakify(self);
-    [self.viewModel commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-        @strongify(self);
-        [self hideWaitingView];
-        if (success) {
-            //响警告声音
-            [EPSound playWithSoundName:@"succeed_sound"];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self researtResultButtonStatus];
-            });
-        }else{
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [self showMessage:messgae];
-        }
-    }];
 }
 
 #pragma mark - 绑定筹码

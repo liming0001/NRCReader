@@ -14,7 +14,7 @@
 #import "NRTigerViewController.h"
 #import "NRCowViewController.h"
 #import "NRTableInfo.h"
-
+#import <CoreBluetooth/CoreBluetooth.h>
 #import "NRBaccaratView_workersController.h"
 
 @interface NRTableChooseViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -94,7 +94,7 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"当前版本V1.3";
+    self.languageLab.text = @"当前版本V1.11";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -196,6 +196,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    __block CBPeripheral *peripheral = nil;
     NRTableInfo *info = self.viewModel.tableList[indexPath.row];
     self.viewModel.selectTableInfo = info;
     [self showWaitingView];
@@ -203,23 +204,18 @@
         [self hideWaitingView];
         if (success) {
             if ([info.fqptype isEqualToString:@"1"]) {//免佣百家乐
-                //百家乐
                 NRBaccaratViewController *vc = [NRBaccaratViewController new];
                 vc.viewModel = [self.viewModel baccaratViewModelWithLoginInfo:self.viewModel.loginInfo];
                 [self.navigationController pushViewController:vc animated:YES];
-            
             }else if ([info.fqptype isEqualToString:@"2"]){//有佣百家乐
-                //百家乐
                 NRBaccaratView_workersController *vc = [NRBaccaratView_workersController new];
                 vc.viewModel = [self.viewModel baccarat_workersViewModelWithLoginInfo:self.viewModel.loginInfo];
                 [self.navigationController pushViewController:vc animated:YES];
-            
             }else if ([info.fqptype isEqualToString:@"3"]){//牛牛
                 //牛牛
                 NRCowViewController *vc = [NRCowViewController new];
                 vc.viewModel = [self.viewModel cowViewModelWithLoginInfo:self.viewModel.loginInfo];
                 [self.navigationController pushViewController:vc animated:YES];
-            
             }else if ([info.fqptype isEqualToString:@"4"]){
                 //龙虎
                 NRTigerViewController *vc = [NRTigerViewController new];

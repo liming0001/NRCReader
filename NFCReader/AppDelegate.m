@@ -12,8 +12,13 @@
 #import "NRLoginViewModel.h"
 #import "NRNavigationViewController.h"
 #import "EPAppData.h"
+#import "AsyncUdpSocketN.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) AsyncUdpSocketN *sendSocket;
+@property (nonatomic, strong) AsyncUdpSocketN *recvSocket;
+@property (nonatomic, copy) NSString *serviceAddress;
 
 @end
 
@@ -34,9 +39,48 @@
     self.window.rootViewController = loginController;
     [self.window makeKeyAndVisible];
     
-    
+//    [self createSender];
     
     return YES;
+}
+
+#pragma mark - 创建发送
+- (void) createSender{
+    NSError *error = nil;
+    self.sendSocket = [[AsyncUdpSocketN alloc] initWithDelegate:self];
+    [self.sendSocket enableBroadcast:YES error:&error];
+    [self.sendSocket bindToPort:65535 error:&error];
+    [self.sendSocket receiveWithTimeout: -1 tag: 0];
+    
+    [self sendMsg:@""];
+}
+
+- (void)sendMsg:(NSString *) msg{
+    // 我想给ip的机器发送消息msg
+//    NSData *msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
+    [self.sendSocket sendData:[NRCommand stringToByte:@"58"] toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:0];
+}
+
+- (BOOL) onUdpSocket:(AsyncUdpSocketN *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
+    // data 对方出过来的数据
+    // tag == 200
+    // host从哪里来数据 ip
+    // port 对象的端口
+        
+    NSLog(@"recv data from %@:%d", host, port);
+//    if (tag == 200) {
+        NSString *sData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"recv data : %@", sData);
+        [sock receiveWithTimeout:-1 tag:tag];
+        
+        // 此处处理接受到的数据
+        
+//    }
+    return YES;
+}
+
+- (void)onUdpSocket:(AsyncUdpSocketN *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error{
+    NSLog(@"didNotReceiveDataWithTag = %@", error);
 }
 
 - (void)getCurrentLanguage

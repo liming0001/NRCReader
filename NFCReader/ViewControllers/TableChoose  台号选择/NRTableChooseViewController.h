@@ -10,10 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NRTableChooseViewModel,NRLoginInfo;
+@class NRTableChooseViewModel,NRLoginInfo,BLEModel;
 @interface NRTableChooseViewController : NRBaseViewController
 
 @property (nonatomic, strong) NRTableChooseViewModel *viewModel;
+@property (nonatomic, strong) BLEModel *manager;
+
+@property (nonatomic, strong) NSMutableArray *peripheralDataArray;
 
 @end
 

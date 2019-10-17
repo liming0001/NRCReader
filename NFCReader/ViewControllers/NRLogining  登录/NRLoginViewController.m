@@ -11,6 +11,7 @@
 #import "NRLoginViewModel.h"
 #import "NRLoginInfo.h"
 #import "DealerManagementViewController.h"
+#import "BLEIToll.h"
 
 @interface NRLoginViewController ()
 
@@ -117,6 +118,10 @@
         make.height.mas_equalTo(50);
         make.left.equalTo(self.view).offset(150);
     }];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 
 - (void)configureTitleBar {

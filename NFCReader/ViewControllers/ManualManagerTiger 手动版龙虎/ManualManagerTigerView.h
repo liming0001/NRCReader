@@ -19,9 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int prePuciCount;
 @property (nonatomic, strong) NSArray *realLuzhuList;
 
-@property (nonatomic, strong) void (^showResultBlock)(NSString *curResult);
 - (void)getLUzhuINfo;
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting;
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName;
 
 - (void)restartChangeStatus;
 

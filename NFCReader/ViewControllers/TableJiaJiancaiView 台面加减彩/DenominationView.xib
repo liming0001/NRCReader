@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -139,7 +137,7 @@
                                 <constraint firstAttribute="width" constant="25" id="T4A-uT-TUC"/>
                                 <constraint firstAttribute="height" constant="25" id="eCk-ul-YcG"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="oneValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="yve-q8-C2t"/>
                             </connections>
@@ -149,7 +147,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="Nie-S2-oM0"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -159,7 +156,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMG-Wp-nzg">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMG-Wp-nzg">
                             <rect key="frame" x="0.0" y="58" width="150" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,7 +167,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="iBv-hp-HZf"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -180,7 +176,7 @@
                                 <constraint firstAttribute="width" constant="25" id="U2P-ak-rfx"/>
                                 <constraint firstAttribute="height" constant="25" id="nmV-OS-dR1"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="twoValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Igd-Rm-Uph"/>
                             </connections>
@@ -191,7 +187,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2j4-uh-HPw">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2j4-uh-HPw">
                             <rect key="frame" x="0.0" y="86" width="150" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -199,7 +195,6 @@
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iAM-xJ-nE1">
                             <rect key="frame" x="156" y="89" width="188" height="24"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -209,7 +204,7 @@
                                 <constraint firstAttribute="height" constant="25" id="bZo-lC-kLI"/>
                                 <constraint firstAttribute="width" constant="25" id="x4t-z0-19g"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="threeValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="xs0-zB-v20"/>
                             </connections>
@@ -220,7 +215,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gq-MF-ZaK">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gq-MF-ZaK">
                             <rect key="frame" x="0.0" y="115" width="150" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -228,7 +223,6 @@
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GB0-o9-jjr">
                             <rect key="frame" x="156" y="118" width="188" height="24"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -238,7 +232,7 @@
                                 <constraint firstAttribute="height" constant="25" id="UcO-Vi-OYn"/>
                                 <constraint firstAttribute="width" constant="25" id="bud-X7-YKr"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="thridValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="hbN-fg-zaK"/>
                             </connections>
@@ -249,7 +243,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYA-IV-9qh">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYA-IV-9qh">
                             <rect key="frame" x="0.0" y="144" width="150" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -260,7 +254,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="DK4-lX-yOe"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -270,7 +263,7 @@
                                 <constraint firstAttribute="height" constant="25" id="P7m-6O-kdh"/>
                                 <constraint firstAttribute="width" constant="25" id="gen-6Q-vSa"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="fiveValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="f8l-5M-AYb"/>
                             </connections>
@@ -281,7 +274,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uO-Uh-DvI">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uO-Uh-DvI">
                             <rect key="frame" x="0.0" y="173" width="150" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -292,7 +285,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="OFl-wT-o9I"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -302,7 +294,7 @@
                                 <constraint firstAttribute="width" constant="25" id="BEa-kS-t5a"/>
                                 <constraint firstAttribute="height" constant="25" id="RfV-EF-3oS"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="sixValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="S4s-Qo-MeL"/>
                             </connections>
@@ -313,7 +305,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdz-kH-3WS">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdz-kH-3WS">
                             <rect key="frame" x="0.0" y="203" width="150" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -325,14 +317,13 @@
                                 <constraint firstAttribute="height" constant="25" id="Y1v-dV-cR3"/>
                                 <constraint firstAttribute="width" constant="25" id="g60-xV-Ezi"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="sevenValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Pa8-g6-5DE"/>
                             </connections>
                         </button>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jN-9c-UqK">
                             <rect key="frame" x="156" y="205" width="188" height="24"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -342,7 +333,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2e-l3-5bh">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2e-l3-5bh">
                             <rect key="frame" x="0.0" y="232" width="150" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -353,7 +344,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="KKc-RD-eK9"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -363,7 +353,7 @@
                                 <constraint firstAttribute="width" constant="25" id="WqK-WY-s5s"/>
                                 <constraint firstAttribute="height" constant="25" id="bPm-GE-4yu"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="eightValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="nV5-Ga-7Rp"/>
                             </connections>
@@ -374,7 +364,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHE-y3-CGo">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHE-y3-CGo">
                             <rect key="frame" x="0.0" y="260" width="150" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -385,7 +375,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="Wyy-n6-bVM"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -395,7 +384,7 @@
                                 <constraint firstAttribute="height" constant="25" id="K3M-Fe-PLH"/>
                                 <constraint firstAttribute="width" constant="25" id="tAb-mM-Uay"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="nineValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Cou-tH-d7Z"/>
                             </connections>
@@ -406,7 +395,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTm-7b-nRd">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTm-7b-nRd">
                             <rect key="frame" x="0.0" y="290" width="150" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -414,7 +403,6 @@
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FKC-3H-nCz">
                             <rect key="frame" x="156" y="292" width="188" height="24"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -424,7 +412,7 @@
                                 <constraint firstAttribute="width" constant="25" id="Tyc-rl-TNm"/>
                                 <constraint firstAttribute="height" constant="25" id="gJO-ub-36h"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="tenValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="x3l-U5-Iwg"/>
                             </connections>
@@ -435,7 +423,7 @@
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e58-xX-1zi">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e58-xX-1zi">
                             <rect key="frame" x="0.0" y="319" width="150" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -447,7 +435,7 @@
                                 <constraint firstAttribute="height" constant="25" id="Mo5-xZ-JcM"/>
                                 <constraint firstAttribute="width" constant="25" id="WRm-MB-3OK"/>
                             </constraints>
-                            <state key="normal" image="输入ico"/>
+                            <state key="normal" image="entry_Icon"/>
                             <connections>
                                 <action selector="evlevenValueAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="GoV-ed-tAw"/>
                             </connections>
@@ -460,7 +448,6 @@
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tCV-HA-2a5">
                             <rect key="frame" x="156" y="321" width="188" height="24"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -716,6 +703,6 @@
         </view>
     </objects>
     <resources>
-        <image name="输入ico" width="25" height="25"/>
+        <image name="entry_Icon" width="16" height="16"/>
     </resources>
 </document>

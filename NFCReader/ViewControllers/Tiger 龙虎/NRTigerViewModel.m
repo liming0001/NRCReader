@@ -12,11 +12,13 @@
 #import "NRGameInfo.h"
 #import "NRUpdateInfo.h"
 #import "JhPageItemModel.h"
+#import "NRTableDataModel.h"
 
 @implementation NRTigerViewModel
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo{
     self = [super init];
+    self.curXueci = 1;
     self.loginInfo = loginInfo;
     self.curTableInfo = tableInfo;
     self.gameInfo = gameInfo;
@@ -156,10 +158,6 @@
 
 #pragma mark - 获取露珠
 - (void)getLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
-    NSArray *chipList = [NSArray array];
-    if (self.curupdateInfo.cp_xiaofeiList.count!=0) {
-        chipList = self.curupdateInfo.cp_xiaofeiList;
-    }
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftable_id":self.curTableInfo.fid,//桌子ID
@@ -173,13 +171,14 @@
                                  };
     [EPService nr_Public_ListWithParamter:Realparam block:^(NSArray *list, NSString *msg, EPSreviceError error, BOOL suc) {
         if (suc) {
+            NSDictionary *lastLuzhuDict = list.lastObject;
+            self.lastPuciCount = [[NSString stringWithFormat:@"%@",lastLuzhuDict[@"fpuci"]]intValue];
             NSMutableArray *luzhuList = [NSMutableArray array];
-            NSMutableArray *luzhuDownList = [NSMutableArray array];
             [list enumerateObjectsUsingBlock:^(NSDictionary *luzhiDict, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *resultS =  luzhiDict[@"fkpresult"];
                 NSString *text = @"";
                 NSString *img = @"";
-                if ([resultS isEqualToString:@"龙赢"]) {
+                if ([resultS isEqualToString:@"龙"]) {
                     img = @"1";
                     text = @"龙";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -188,8 +187,8 @@
                     model.colorString = @"#ffffff";
                     model.luzhuType = 1;
                     [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
-                }else if ([resultS isEqualToString:@"虎赢"]){
+                    self.dragonCount +=1;
+                }else if ([resultS isEqualToString:@"虎"]){
                     img = @"7";
                     text = @"虎";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -198,8 +197,8 @@
                     model.colorString = @"#ffffff";
                     model.luzhuType = 1;
                     [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
-                }else if ([resultS isEqualToString:@"和局"]){
+                    self.tigerCount +=1;
+                }else if ([resultS isEqualToString:@"和"]){
                     img = @"0";
                     text = @"和";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -208,7 +207,7 @@
                     model.luzhuType = 1;
                     model.colorString = @"#ffffff";
                     [luzhuList addObject:model];
-                    [luzhuDownList addObject:model];
+                    self.heCount +=1;
                 }
             }];
             for (int i=(int)list.count; i<100; i++) {
@@ -299,6 +298,41 @@
         }
         block(suc, msg,error);
         
+    }];
+}
+
+#pragma mark - 查看台面数据
+- (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid,//桌子ID
+                             @"fxueci":[NSString stringWithFormat:@"%d",self.curXueci],
+                             @"frjdate":[NRCommand getCurrentDate],//日期
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_tmsj",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        self.tableDataDict = responseDict;
+        block(suc, msg,error);
+    }];
+}
+
+#pragma mark - 台面操作记录列表
+- (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_operate_list",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
     }];
 }
 

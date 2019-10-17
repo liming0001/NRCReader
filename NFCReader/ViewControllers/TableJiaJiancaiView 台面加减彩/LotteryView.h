@@ -11,6 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LotteryView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *USDChipValueLav;
+@property (weak, nonatomic) IBOutlet UILabel *RMBChipValueLab;
+@property (weak, nonatomic) IBOutlet UILabel *USDCashValueLab;
+@property (weak, nonatomic) IBOutlet UILabel *RMBCashValueLab;
 
 @end
 

@@ -8,7 +8,7 @@
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "WechatIMG1257的副本 7.png",
+      "filename" : "ipad_20@2x.png",
       "scale" : "2x"
     },
     {
@@ -19,7 +19,7 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "WechatIMG1257的副本 6.png",
+      "filename" : "ipad_29@2x.png",
       "scale" : "2x"
     },
     {
@@ -30,7 +30,7 @@
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "WechatIMG1257的副本.png",
+      "filename" : "ipad_40@2x.png",
       "scale" : "2x"
     },
     {
@@ -39,20 +39,21 @@
       "scale" : "1x"
     },
     {
-      "idiom" : "ipad",
       "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "ipad_76@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "WechatIMG1257的副本 4.png",
+      "filename" : "ipad_83@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "WechatIMG1257的副本 5.png",
+      "filename" : "ipad_1024.png",
       "scale" : "1x"
     }
   ],

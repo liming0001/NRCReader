@@ -53,7 +53,7 @@ static NSString * const reuseIdentifier = @"Cell";
         //设置水平滚动
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         CGFloat viewHeight = _ViewFrame.size.height;
-        CGFloat item_w = viewHeight/5;
+        CGFloat item_w = viewHeight/6;
         //设置每个cell的尺寸
         layout.itemSize = CGSizeMake(item_w, item_w);
         //cell之间的水平间距  行间距

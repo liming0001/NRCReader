@@ -65,7 +65,10 @@
 #pragma mark - /---------------------- notifications ----------------------/
 -(void)sureEntryTigerCustomerInfo:(NSNotification *)ntf {
     if ([self.drogenValueTF.text intValue]==0&&[self.tigerValueTF.text intValue]==0&&[self.tieValueTF.text intValue]==0) {
-        [self removeFromSuperview];
+        if (self.editTapCustomer) {
+            self.editTapCustomer([CustomerInfo new],NO);
+            [self removeFromSuperview];
+        }
     }else{
         [self showWaitingView];
         [self getInfoByXmhWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {

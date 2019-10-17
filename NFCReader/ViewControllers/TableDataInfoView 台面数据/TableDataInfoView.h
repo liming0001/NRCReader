@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *rmbCashBootValueLab;
 @property (weak, nonatomic) IBOutlet UILabel *usdCashBootValueLab;
 
+- (void)fellTableInfoDataWithTableList:(NSDictionary *)tableDict;
 
 @end
 

@@ -37,17 +37,17 @@ static EPToast * _EPToast = nil;
         
         self.headbgImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 250, 85)];
         if (isError) {
-            self.headbgImg.image = [UIImage imageNamed:@"错误提示头部"];
+            self.headbgImg.image = [UIImage imageNamed:@"error_topTip"];
         }else{
-            self.headbgImg.image = [UIImage imageNamed:@"正确提示头部"];
+            self.headbgImg.image = [UIImage imageNamed:@"true_topTip"];
         }
         [headV addSubview:self.headbgImg];
         
         self.headbgIcon = [[UIImageView alloc]initWithFrame:CGRectMake(105, 14, 40, 40)];
         if (isError) {
-            self.headbgIcon.image = [UIImage imageNamed:@"错误提示ICO"];
+            self.headbgIcon.image = [UIImage imageNamed:@"error_tipIcon"];
         }else{
-            self.headbgIcon.image = [UIImage imageNamed:@"正确提示ICO"];
+            self.headbgIcon.image = [UIImage imageNamed:@"true_tipIcon"];
         }
         [headV addSubview:self.headbgIcon];
         

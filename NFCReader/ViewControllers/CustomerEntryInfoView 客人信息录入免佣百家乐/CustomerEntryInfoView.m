@@ -31,7 +31,6 @@
     [ZLKeyboard bindKeyboard:self.washNumberTF];
     [ZLKeyboard bindKeyboard:self.zhuangValueTF];
     [ZLKeyboard bindKeyboard:self.zhuangDuiValueTF];
-    [ZLKeyboard bindKeyboard:self.sixWinTF];
     [ZLKeyboard bindKeyboard:self.luckyValueTF];
     [ZLKeyboard bindKeyboard:self.xianTF];
     [ZLKeyboard bindKeyboard:self.xianDuiValueTF];
@@ -73,7 +72,7 @@
 
 #pragma mark - /---------------------- notifications ----------------------/
 -(void)sureEntryCustomerInfo:(NSNotification *)ntf {
-    if ([self.washNumberTF.text intValue]==0&&[self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.sixWinTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
+    if ([self.washNumberTF.text intValue]==0&&[self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
         [self removeFromSuperview];
     }else{
         [self showWaitingView];
@@ -84,7 +83,6 @@
                 editCustomer.washNumberValue = self.washNumberTF.text;
                 editCustomer.zhuangValue = self.zhuangValueTF.text;
                 editCustomer.zhuangDuiValue = self.zhuangDuiValueTF.text;
-                editCustomer.sixWinValue = self.sixWinTF.text;
                 editCustomer.luckyValue = self.luckyValueTF.text;
                 editCustomer.xianValue = self.xianTF.text;
                 editCustomer.xianDuiValue = self.xianDuiValueTF.text;
@@ -111,7 +109,6 @@
     self.washNumberTF.text = self.customer.washNumberValue;
     self.zhuangValueTF.text = self.customer.zhuangValue;
     self.zhuangDuiValueTF.text = self.customer.zhuangDuiValue;
-    self.sixWinTF.text = self.customer.sixWinValue;
     self.luckyValueTF.text = self.customer.luckyValue;
     self.xianTF.text = self.customer.xianValue;
     self.xianDuiValueTF.text = self.customer.xianDuiValue;
@@ -212,7 +209,6 @@
     self.washNumberTF.text = @"";
     self.zhuangValueTF.text = @"";
     self.zhuangDuiValueTF.text = @"";
-    self.sixWinTF.text = @"";
     self.xianTF.text = @"";
     self.xianDuiValueTF.text = @"";
     self.heValueTF.text = @"";

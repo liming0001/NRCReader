@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *zhuangValueTF;
 
 @property (weak, nonatomic) IBOutlet UITextField *zhuangDuiValueTF;
-@property (weak, nonatomic) IBOutlet UITextField *sixWinTF;
 @property (weak, nonatomic) IBOutlet UITextField *luckyValueTF;
 
 @property (weak, nonatomic) IBOutlet UITextField *xianTF;

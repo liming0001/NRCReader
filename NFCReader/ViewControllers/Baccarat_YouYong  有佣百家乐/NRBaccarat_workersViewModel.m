@@ -17,6 +17,7 @@
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo{
     self = [super init];
+    self.curXueci = 1;
     self.loginInfo = loginInfo;
     self.curTableInfo = tableInfo;
     self.gameInfo = gameInfo;
@@ -374,7 +375,41 @@
             self.cp_fidString = @"";
         }
         block(suc, msg,error);
-        
+    }];
+}
+
+#pragma mark - 查看台面数据
+- (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid,//桌子ID
+                             @"fxueci":[NSString stringWithFormat:@"%d",self.curXueci],
+                             @"frjdate":[NRCommand getCurrentDate],//日期
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_tmsj",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        self.tableDataDict = responseDict;
+        block(suc, msg,error);
+    }];
+}
+
+#pragma mark - 台面操作记录列表
+- (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_operate_list",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
     }];
 }
 

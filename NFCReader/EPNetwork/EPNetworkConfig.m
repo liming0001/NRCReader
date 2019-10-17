@@ -8,10 +8,6 @@
 
 #import "EPNetworkConfig.h"
 
-#define kBaseURL @"http://dbluo.t.zwjxt.com/api/service/index.html"
-//#define kBaseURL @"http://test.2t6.cn/api/service/index.html"
-#define kHTTPCookieDomain @"dbluo.t.zwjxt.com"
-
 @implementation EPNetworkConfig
 
 + (EPNetworkConfig *)defaultConfig {

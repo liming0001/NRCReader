@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,25 +17,25 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WXF-sI-75N">
-                        <rect key="frame" x="10" y="10" width="40" height="40"/>
+                        <rect key="frame" x="5" y="5" width="50" height="50"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="龙" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKE-9X-bFy">
-                        <rect key="frame" x="10" y="10" width="40" height="40"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <rect key="frame" x="5" y="5" width="50" height="50"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="DKE-9X-bFy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="9uD-2I-BoI"/>
-                <constraint firstItem="DKE-9X-bFy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="VVA-iv-nuy"/>
-                <constraint firstItem="WXF-sI-75N" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="a3F-Xo-bE7"/>
-                <constraint firstAttribute="bottom" secondItem="WXF-sI-75N" secondAttribute="bottom" constant="10" id="dLs-c8-UFd"/>
-                <constraint firstAttribute="trailing" secondItem="WXF-sI-75N" secondAttribute="trailing" constant="10" id="gi8-WM-AFc"/>
-                <constraint firstItem="WXF-sI-75N" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="qOx-BE-yNj"/>
-                <constraint firstAttribute="bottom" secondItem="DKE-9X-bFy" secondAttribute="bottom" constant="10" id="rZH-9e-ldz"/>
-                <constraint firstAttribute="trailing" secondItem="DKE-9X-bFy" secondAttribute="trailing" constant="10" id="zyC-4d-EGY"/>
+                <constraint firstAttribute="trailing" secondItem="WXF-sI-75N" secondAttribute="trailing" constant="5" id="0nA-xt-H34"/>
+                <constraint firstItem="DKE-9X-bFy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="2Ie-FM-cSO"/>
+                <constraint firstItem="WXF-sI-75N" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="V9S-Ox-HSD"/>
+                <constraint firstItem="WXF-sI-75N" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="XfR-kD-qdB"/>
+                <constraint firstAttribute="bottom" secondItem="WXF-sI-75N" secondAttribute="bottom" constant="5" id="bMF-Q9-gOS"/>
+                <constraint firstAttribute="trailing" secondItem="DKE-9X-bFy" secondAttribute="trailing" constant="5" id="jjU-g4-2sS"/>
+                <constraint firstAttribute="bottom" secondItem="DKE-9X-bFy" secondAttribute="bottom" constant="5" id="keb-0d-6Bu"/>
+                <constraint firstItem="DKE-9X-bFy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="pwt-4P-Ivm"/>
             </constraints>
             <size key="customSize" width="101" height="107"/>
             <connections>

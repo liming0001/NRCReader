@@ -20,6 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NRUpdateInfo *curupdateInfo;
 @property (nonatomic, strong) NSString *cp_tableIDString;
 @property (nonatomic, strong) NSArray *luzhuUpList;
+@property (nonatomic, assign) int curXueci;
+@property (nonatomic, strong) NSDictionary *tableDataDict;
+@property (nonatomic, assign) int dragonCount;//龙赢次数
+@property (nonatomic, assign) int tigerCount;//虎赢次数
+@property (nonatomic, assign) int heCount;//和赢次数
+@property (nonatomic, assign) int lastPuciCount;//最终铺次
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -42,11 +48,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 提交日结
 - (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 查看台面数据
+- (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 
 #pragma mark - 检测筹码是否正确
 - (void)checkChipIsTrueWithChipList:(NSArray *)chipList Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 验证账号
 - (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 台面操作记录列表
+- (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)fellListWithType:(int)type;
 
+- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId;
+
 @end
 
 NS_ASSUME_NONNULL_END

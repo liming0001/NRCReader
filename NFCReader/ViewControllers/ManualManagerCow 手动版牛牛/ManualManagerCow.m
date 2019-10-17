@@ -352,11 +352,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     }];
 }
 
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber{
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber TableName:(NSString *)tableName{
+    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",tableID]];
+    if (xueciNumber.intValue!=0) {
+        self.xueciCount = xueciNumber.intValue;
+    }
+    NSNumber *puciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Puci",tableID]];
+    if (puciNumber.intValue!=0) {
+        self.puciCount = puciNumber.intValue;
+        self.prePuciCount = self.puciCount+1;
+    }
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+    self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
     self.curLoginToken = loginID;
     self.curTableID = tableID;
     self.curSerialnumber = serialnumber;
-    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableID];
+    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",tableName];
 }
 
 #pragma mark - 手势事件
@@ -505,43 +516,25 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0) {
-            if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                [fxmh_list addObject:@" "];
-            }else{
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-            }
-            self.result_string = @"赢";
-            [fxmh_list addObject:@"0"];
-            [fxz_name_list addObject:@"赢"];
-            [fsy_list addObject:@"1"];
-            [fresult_list addObject:@"0"];
         }else{
             NSInteger winRealResultValue = [curCustomer.zhuangValue integerValue]- [curCustomer.zhuangDuiValue integerValue];
             NSInteger loseRealResultValue = [curCustomer.zhuangDuiValue integerValue]- [curCustomer.zhuangValue integerValue];
             if (winRealResultValue > 0) {
                 [fyj_list addObject:@"0"];
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 [fxz_money_list addObject:[NSNumber numberWithInteger:winRealResultValue]];
                 [fxz_name_list addObject:@"赢"];
-                self.result_string = @"赢";
+                self.result_string = @"";
                 [fsy_list addObject:[NSNumber numberWithInt:1]];
-                [fresult_list addObject:[NSNumber numberWithInteger:winRealResultValue]];
+                [fresult_list addObject:[NSNumber numberWithInteger:2*winRealResultValue]];
                 [self fengzhuangChipTypeWith:curCustomer];
             }
             if (loseRealResultValue > 0){
                 [fyj_list addObject:@"0"];
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 [fxz_money_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
                 [fxz_name_list addObject:@"输"];
-                self.result_string = @"输";
+                self.result_string = @"";
                 [fsy_list addObject:[NSNumber numberWithInt:-1]];
                 [fresult_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
                 [self fengzhuangChipTypeWith:curCustomer];
@@ -573,8 +566,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
-        if (suc) {
-        }
         block(suc, msg,error);
         
     }];

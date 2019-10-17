@@ -43,9 +43,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UIView *sixWinBorderV;
 @property (nonatomic, strong) UIButton *sixWinInfoBtn;
 @property (nonatomic, strong) UILabel *sixWinInfoLab;
-@property (nonatomic, strong) UIView *luckyBorderV;
-@property (nonatomic, strong) UIButton *luckyInfoBtn;
-@property (nonatomic, strong) UILabel *luckyInfoLab;
 @property (nonatomic, strong) UIView *xianBorderV;
 @property (nonatomic, strong) UIButton *xianInfoBtn;
 @property (nonatomic, strong) UILabel *xianInfoLab;
@@ -66,7 +63,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UIButton *xianBtn;
 @property (nonatomic, strong) UIButton *xianDuiBtn;
 @property (nonatomic, strong) UIButton *heBtn;
-@property (nonatomic, strong) UIButton *luckyBtn;
 @property (nonatomic, strong) UIButton *setmentOKBtn;
 @property (nonatomic, strong) NSString *result_string;
 
@@ -82,6 +78,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 //提交参数
 @property (nonatomic, strong) NSString *curLoginToken;
 @property (nonatomic, strong) NSString *curTableID;
+@property (nonatomic, strong) NSString *curTableName;
 @property (nonatomic, strong) NSString *curSerialnumber;
 @property (nonatomic, strong) NSArray *curXz_setting;
 
@@ -91,7 +88,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, assign) int xianCount;//闲赢次数
 @property (nonatomic, assign) int xianDuiCount;//闲对赢次数
 @property (nonatomic, assign) int heCount;//和赢次数
-@property (nonatomic, assign) int luckyCount;//幸运6点次数
 @property (nonatomic, assign) BOOL isEntryBox;
 
 @property (nonatomic,strong) NSMutableArray *fxz_cmtype_list;
@@ -136,7 +132,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         //设置水平滚动
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         //设置每个cell的尺寸
-        layout.itemSize = CGSizeMake(135, 330);
+        layout.itemSize = CGSizeMake(135, 301);
         //cell之间的水平间距  行间距
         layout.minimumLineSpacing = 5;
         //cell之间的垂直间距 cell间距
@@ -152,7 +148,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        CGRect Collectionframe =CGRectMake(0,325, kScreenWidth, self.frame.size.height-325-10);
+        CGRect Collectionframe =CGRectMake(0,305, kScreenWidth, self.frame.size.height-305-10);
         _collectionView = [[UICollectionView alloc] initWithFrame:Collectionframe collectionViewLayout:self.layout];
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CustomerInfoCollectionViewCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:reuseIdentifier];
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([AddMoreCustomerCollectionViewCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:moreReuseIdentifier];
@@ -173,7 +169,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 -(JhPageItemView *)solidView{
     if (!_solidView) {
-        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-156-249, 262);
+        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-156-249, 232);
         JhPageItemView *view =  [[JhPageItemView alloc]initWithFrame:femwe];
         view.backgroundColor = [UIColor whiteColor];
         self.solidView = view;
@@ -214,7 +210,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.settlementV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.settlementImgV.mas_bottom).offset(0);
         make.right.equalTo(self).offset(-10);
-        make.height.mas_equalTo(262);
+        make.height.mas_equalTo(232);
         make.width.mas_offset(240);
     }];
     
@@ -271,23 +267,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         make.width.mas_equalTo(setBtn_w);
     }];
     
-    self.luckyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.luckyBtn setTitleColor:[UIColor colorWithHexString:@"#df4139"] forState:UIControlStateNormal];
-    [self.luckyBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateSelected];
-    self.luckyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.luckyBtn setTitle:@"L.Lucky6" forState:UIControlStateNormal];
-    self.luckyBtn.tag = 7;
-    [self.luckyBtn setBackgroundImage:[UIImage imageNamed:@"settlement_btn_n"] forState:UIControlStateNormal];
-    [self.luckyBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuangdui_p"] forState:UIControlStateSelected];
-    [self.luckyBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.settlementV addSubview:self.luckyBtn];
-    [self.luckyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.zhuangBtn.mas_bottom).offset(20);
-        make.left.equalTo(self.settlementV).offset(10);
-        make.height.mas_equalTo(setBtn_h);
-        make.width.mas_equalTo(setBtn_w);
-    }];
-    
     self.xianBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.xianBtn setTitleColor:[UIColor colorWithHexString:@"#2749f5"] forState:UIControlStateNormal];
     [self.xianBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateSelected];
@@ -300,7 +279,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.settlementV addSubview:self.xianBtn];
     [self.xianBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.zhuangBtn.mas_bottom).offset(20);
-        make.left.equalTo(self.luckyBtn.mas_right).offset(5);
+        make.left.equalTo(self.settlementV).offset(10);
         make.height.mas_equalTo(setBtn_h);
         make.width.mas_equalTo(setBtn_w);
     }];
@@ -333,8 +312,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.heBtn addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.settlementV addSubview:self.heBtn];
     [self.heBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.xianDuiBtn.mas_bottom).offset(20);
-        make.left.equalTo(self.settlementV).offset(10);
+        make.top.equalTo(self.zhuangBtn.mas_bottom).offset(20);
+        make.left.equalTo(self.xianDuiBtn.mas_right).offset(5);
         make.height.mas_equalTo(setBtn_h);
         make.width.mas_equalTo(setBtn_w);
     }];
@@ -384,13 +363,13 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.tableInfoV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tableInfoImgV.mas_bottom).offset(0);
         make.left.equalTo(self.tableInfoImgV.mas_left).offset(0);
-        make.height.mas_equalTo(262);
+        make.height.mas_equalTo(232);
         make.width.mas_offset(156);
     }];
     
     self.stableIDLab = [SFLabel new];
     self.stableIDLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-    self.stableIDLab.font = [UIFont systemFontOfSize:12];
+    self.stableIDLab.font = [UIFont systemFontOfSize:10];
     self.stableIDLab.layer.cornerRadius = 5;
     self.stableIDLab.backgroundColor = [UIColor colorWithHexString:@"#201f24"];
     [self.tableInfoV addSubview:self.stableIDLab];
@@ -533,43 +512,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         make.width.mas_equalTo(item_w_lab);
     }];
     
-    self.luckyBorderV = [UIView new];
-    self.luckyBorderV.layer.cornerRadius = 2;
-    self.luckyBorderV.backgroundColor = [UIColor clearColor];
-    self.luckyBorderV.layer.borderWidth = 0.5;
-    self.luckyBorderV.layer.borderColor = [UIColor colorWithHexString:@"#587176"].CGColor;
-    [self.tableInfoV addSubview:self.luckyBorderV];
-    [self.luckyBorderV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.sixWinBorderV.mas_bottom).offset(5);
-        make.left.equalTo(self.tableInfoV).offset(20);
-        make.height.mas_equalTo(item_result_h);
-        make.centerX.equalTo(self.tableInfoV).offset(0);
-    }];
-    
-    self.luckyInfoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.luckyInfoBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-    self.luckyInfoBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.luckyInfoBtn setTitle:@"L.Lucky6" forState:UIControlStateNormal];
-    [self.luckyInfoBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuang_bg"] forState:UIControlStateNormal];
-    [self.luckyInfoBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuang_bg"] forState:UIControlStateHighlighted];
-    [self.luckyBorderV addSubview:self.luckyInfoBtn];
-    [self.luckyInfoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.top.left.equalTo(self.luckyBorderV).offset(0);
-        make.width.mas_equalTo(item_w);
-    }];
-    
-    self.luckyInfoLab = [UILabel new];
-    self.luckyInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-    self.luckyInfoLab.font = [UIFont systemFontOfSize:12];
-    self.luckyInfoLab.text = @"0";
-    self.luckyInfoLab.textAlignment = NSTextAlignmentCenter;
-    [self.luckyBorderV addSubview:self.luckyInfoLab];
-    [self.luckyInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.luckyInfoBtn.mas_right).offset(0);
-        make.centerY.equalTo(self.luckyBorderV);
-        make.width.mas_equalTo(item_w_lab);
-    }];
-    
     self.xianBorderV = [UIView new];
     self.xianBorderV.layer.cornerRadius = 2;
     self.xianBorderV.backgroundColor = [UIColor clearColor];
@@ -577,7 +519,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.xianBorderV.layer.borderColor = [UIColor colorWithHexString:@"#587176"].CGColor;
     [self.tableInfoV addSubview:self.xianBorderV];
     [self.xianBorderV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.luckyBorderV.mas_bottom).offset(5);
+        make.top.equalTo(self.sixWinBorderV.mas_bottom).offset(5);
         make.left.equalTo(self.tableInfoV).offset(20);
         make.height.mas_equalTo(item_result_h);
         make.centerX.equalTo(self.tableInfoV).offset(0);
@@ -711,7 +653,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.luzhuCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.luzhuImgV.mas_bottom).offset(0);
         make.left.right.equalTo(self.luzhuImgV).offset(0);
-        make.height.mas_equalTo(262);
+        make.height.mas_equalTo(232);
     }];
     
     [self.luzhuCollectionView addSubview:self.solidView];
@@ -723,89 +665,255 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.luzhuInfoList removeAllObjects];
     [self luzhuList];
     [self.solidView fellLuzhuListWithDataList:self.luzhuInfoList];
+    [self resetCountStatus];
+}
+
+- (void)resetCountStatus{
     self.zhuangCount=0;//庄赢次数
     self.zhuangDuiCount=0;//庄对赢次数
     self.sixCount=0;//6点赢次数
     self.xianCount=0;//闲赢次数
     self.xianDuiCount=0;//闲对赢次数
     self.heCount=0;//和赢次数
-    self.luckyCount=0;//保险赢次数
     self.zhuangInfoLab.text = [NSString stringWithFormat:@"%d",self.zhuangCount];
     self.zhuangDuiInfoLab.text = [NSString stringWithFormat:@"%d",self.zhuangDuiCount];
     self.sixWinInfoLab.text = [NSString stringWithFormat:@"%d",self.sixCount];
     self.xianInfoLab.text = [NSString stringWithFormat:@"%d",self.xianCount];
     self.xianDuiInfoLab.text = [NSString stringWithFormat:@"%d",self.xianDuiCount];
     self.heInfoLab.text = [NSString stringWithFormat:@"%d",self.heCount];
-    self.luckyInfoLab.text = [NSString stringWithFormat:@"%d",self.luckyCount];
 }
 
 - (void)menuAction:(UIButton *)btn{
     int winType = (int)btn.tag;
-    if (winType==1) {
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+    if (winType==1) {//庄
+        if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {//是否包含“闲，和”
             [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
             return;
-        }
-    }else if (winType==2){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
-            if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
-                [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
-                return;
-            }
         }else{
-            [[EPToast makeText:@"请先选择庄或者闲"]showWithType:ShortTime];
+            self.zhuangBtn.selected = !self.zhuangBtn.selected;
+            if (self.zhuangBtn.selected) {
+                if (![self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
+                    [self.resultList addObject:[NSNumber numberWithInteger:1]];
+                }
+            }else{
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {//庄对
+                    [self.zhuangDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {//6点赢
+                    [self.sixWinBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:3]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {//闲对
+                    [self.xianDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
+                    [self.resultList removeObject:[NSNumber numberWithInteger:1]];
+                }
+            }
+        }
+    }else if (winType==2){//庄对
+        if (!([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]])) {
+            [[EPToast makeText:@"请先选择庄或闲或和"]showWithType:ShortTime];
             return;
-        }
-        
-    }else if (winType==3){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
-            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:5]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
-                [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
-                return;
-            }
         }else{
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {//已经选择了庄
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }
+                }
+            }else if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]){//已经选择了闲
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }
+                }
+            }else if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]){//已经选择了和
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                        }
+                    }
+                }
+            }
+        }
+    }else if (winType==3){//幸运6点
+        if (![self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
             [[EPToast makeText:@"请先选择庄"]showWithType:ShortTime];
             return;
-        }
-    }else if (winType==4){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:2]]||[self.resultList containsObject:[NSNumber numberWithInteger:3]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]||[self.resultList containsObject:[NSNumber numberWithInteger:7]]) {
-            [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
-            return;
-        }
-    }else if (winType==5){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
-            if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]||[self.resultList containsObject:[NSNumber numberWithInteger:7]]) {
+        }else{
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
                 [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
                 return;
+            }else{
+                btn.selected = !btn.selected;
+                if (btn.selected) {
+                    if (![self.resultList containsObject:[NSNumber numberWithInteger:3]]) {
+                        [self.resultList addObject:[NSNumber numberWithInteger:3]];
+                    }
+                }else{
+                    if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {
+                        [self.resultList removeObject:[NSNumber numberWithInteger:3]];
+                    }
+                }
+                
             }
-        }else{
-            [[EPToast makeText:@"请先选择庄或者闲"]showWithType:ShortTime];
-            return;
         }
-    }else if (winType==6){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:2]]||[self.resultList containsObject:[NSNumber numberWithInteger:3]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:5]]||[self.resultList containsObject:[NSNumber numberWithInteger:7]]) {
+    }else if (winType==4){//闲
+        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {//是否包含“庄，和”
             [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
             return;
-        }
-    }else if (winType==7){
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
-            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:5]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
-                [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
-                return;
-            }
         }else{
+            btn.selected = !btn.selected;
+            if (btn.selected) {
+                if (![self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
+                    [self.resultList addObject:[NSNumber numberWithInteger:4]];
+                }
+            }else{
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {//庄对
+                    [self.zhuangDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {//闲对
+                    [self.xianDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
+                    [self.resultList removeObject:[NSNumber numberWithInteger:4]];
+                }
+            }
+        }
+    }else if (winType==5){//闲对
+        if (!([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]])) {
+            [[EPToast makeText:@"请先选择庄或闲或和"]showWithType:ShortTime];
+            return;
+        }else{
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {//已经选择了庄
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }
+                }
+            }else if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]){//已经选择了闲
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:3]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]||[self.resultList containsObject:[NSNumber numberWithInteger:7]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }
+                }
+            }else if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]){//已经选择了和
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:3]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:7]]) {
+                    [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                    return;
+                }else{
+                    btn.selected = !btn.selected;
+                    if (btn.selected) {
+                        if (![self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList addObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }else{
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                            [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                        }
+                    }
+                }
+            }
+        }
+    }else if (winType==6){//和
+        if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]||[self.resultList containsObject:[NSNumber numberWithInteger:4]]) {//是否包含“闲，和”
+            [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+            return;
+        }else{
+            self.heBtn.selected = !self.heBtn.selected;
+            if (self.heBtn.selected) {
+                if (![self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                    [self.resultList addObject:[NSNumber numberWithInteger:6]];
+                }
+            }else{
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {//庄对
+                    [self.zhuangDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {//闲对
+                    [self.xianDuiBtn setSelected:NO];
+                    [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                }
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                    [self.resultList removeObject:[NSNumber numberWithInteger:6]];
+                }
+            }
+        }
+    }else if (winType==7){//6点赢
+        if (![self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
             [[EPToast makeText:@"请先选择庄"]showWithType:ShortTime];
             return;
-        }
-    }
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        if (![self.resultList containsObject:[NSNumber numberWithInteger:btn.tag]]) {
-            [self.resultList addObject:[NSNumber numberWithInteger:btn.tag]];
-        }
-    }else{
-        if ([self.resultList containsObject:[NSNumber numberWithInteger:btn.tag]]) {
-            [self.resultList removeObject:[NSNumber numberWithInteger:btn.tag]];
+        }else{
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]||[self.resultList containsObject:[NSNumber numberWithInteger:6]]) {
+                [[EPToast makeText:@"您不能选择此项"]showWithType:ShortTime];
+                return;
+            }else{
+                btn.selected = !btn.selected;
+                if (btn.selected) {
+                    if (![self.resultList containsObject:[NSNumber numberWithInteger:3]]) {
+                        [self.resultList addObject:[NSNumber numberWithInteger:3]];
+                    }
+                }else{
+                    if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {
+                        [self.resultList removeObject:[NSNumber numberWithInteger:3]];
+                    }
+                }
+                
+            }
         }
     }
 }
@@ -965,6 +1073,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 customerInfo.sixWinValue = @"";
                 customerInfo.heValue = @"";
                 customerInfo.luckyValue = @"";
+                customerInfo.baoxianValue = @"";
                 customerInfo.cashType = 1;
             }];
             [self.collectionView reloadData];
@@ -984,17 +1093,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.xianDuiBtn setSelected:NO];
     [self.sixWinBtn setSelected:NO];
     [self.heBtn setSelected:NO];
-    [self.luckyBtn setSelected:NO];
     [self.resultList removeAllObjects];
     self.result_string = @"";
 }
 
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting{
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName{
+    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",tableID]];
+    if (xueciNumber.intValue!=0) {
+        self.xueciCount = xueciNumber.intValue;
+    }
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
     self.curLoginToken = loginID;
     self.curTableID = tableID;
+    self.curTableName = tableName;
     self.curSerialnumber = serialnumber;
     self.curXz_setting = xz_setting;
-    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableID];
+    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableName];
     [self.customerInfoList addObject:[self modelCustomerInfo]];
     [self getLUzhuINfo];
 }
@@ -1011,7 +1125,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.xianInfoLab.text = [NSString stringWithFormat:@"%d",self.xianCount];
                 self.xianDuiInfoLab.text = [NSString stringWithFormat:@"%d",self.xianDuiCount];
                 self.heInfoLab.text = [NSString stringWithFormat:@"%d",self.heCount];
-                self.luckyInfoLab.text = [NSString stringWithFormat:@"%d",self.luckyCount];
             });
         }
     }];
@@ -1041,7 +1154,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                                  };
     [EPService nr_Public_ListWithParamter:Realparam block:^(NSArray *list, NSString *msg, EPSreviceError error, BOOL suc) {
         if (suc) {
-            self.realLuzhuList = list;
+            [self resetCountStatus];
             self.realLuzhuList = list;
             NSDictionary *lastLuzhuDict = list.lastObject;
             self.puciCount = [[NSString stringWithFormat:@"%@",lastLuzhuDict[@"fpuci"]]intValue];
@@ -1056,8 +1169,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 NSString *img = @"";
                 if (resultList.count==1) {
                     NSString *resultName = resultList[0];
-                    if ([resultName isEqualToString:@"庄赢"]) {
-                        self.zhuangCount +=1;
+                    if ([resultName isEqualToString:@"庄"]) {
+                        if ([resultName isEqualToString:@"庄"]) {
+                            self.zhuangCount +=1;
+                        }
                         img = @"1";
                         text = @"庄";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1066,8 +1181,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.colorString = @"#ffffff";
                         model.luzhuType = 1;
                         [luzhuList addObject:model];
-                    }else if ([resultName isEqualToString:@"闲赢"]||[resultName isEqualToString:@"闲对"]){
-                        self.xianCount +=1;
+                    }else if ([resultName isEqualToString:@"闲"]){
+                        if ([resultName isEqualToString:@"闲"]) {
+                            self.xianCount +=1;
+                        }
                         img = @"7";
                         text = @"闲";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1076,7 +1193,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.colorString = @"#ffffff";
                         model.luzhuType = 1;
                         [luzhuList addObject:model];
-                    }else if ([resultName isEqualToString:@"和局"]){
+                    }else if ([resultName isEqualToString:@"和"]){
                         self.heCount +=1;
                         img = @"0";
                         text = @"和";
@@ -1088,7 +1205,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         [luzhuList addObject:model];
                     }
                 }else if (resultList.count==2){
-                    if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]) {
+                    if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]) {
+                        self.zhuangCount+=1;
                         self.zhuangDuiCount+=1;
                         img = @"2";
                         text = @"庄";
@@ -1098,8 +1216,9 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 2;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"闲对"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"闲对"]){
                         self.zhuangCount+=1;
+                        self.xianDuiCount+=1;
                         img = @"3";
                         text = @"庄";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1108,9 +1227,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.colorString = @"#ffffff";
                         model.luzhuType = 3;
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"6点赢"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"6点赢"]){
+                        self.zhuangCount+=1;
                         self.sixCount+=1;
-                        img = @"3";
+                        img = @"1";
                         text = @"6";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
                         model.img = img;
@@ -1118,7 +1238,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.colorString = @"#ffffff";
                         model.luzhuType = 3;
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"闲对"]){
+                    }else if ([resultList containsObject:@"闲"]&&[resultList containsObject:@"闲对"]){
+                        self.xianCount+=1;
                         self.xianDuiCount+=1;
                         img = @"6";
                         text = @"闲";
@@ -1128,8 +1249,9 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 4;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"庄对"]){
+                    }else if ([resultList containsObject:@"闲"]&&[resultList containsObject:@"庄对"]){
                         self.xianCount+=1;
+                        self.zhuangDuiCount+=1;
                         img = @"5";
                         text = @"闲";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1138,20 +1260,34 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 5;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                    }else if ([resultList containsObject:@"和"]&&[resultList containsObject:@"庄对"]){
+                        self.heCount+=1;
                         self.zhuangDuiCount+=1;
-                        img = @"4";
-                        text = @"庄";
+                        img = @"22";
+                        text = @"和";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
                         model.img = img;
                         model.text = text;
-                        model.luzhuType = 6;
+                        model.luzhuType = 5;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                    }else if ([resultList containsObject:@"和"]&&[resultList containsObject:@"闲对"]){
+                        self.heCount+=1;
+                        self.xianDuiCount+=1;
+                        img = @"21";
+                        text = @"和";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 5;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
                     }
                 }else if (resultList.count==3){
-                    if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]) {
+                    if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]) {
                         self.zhuangDuiCount+=1;
+                        self.zhuangCount+=1;
+                        self.xianDuiCount+=1;
                         img = @"4";
                         text = @"庄";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1160,8 +1296,34 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 6;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"闲赢"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"6点赢"]){
+                        self.zhuangDuiCount+=1;
+                        self.zhuangCount+=1;
+                        self.sixCount+=1;
+                        img = @"2";
+                        text = @"6";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 7;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"6点赢"]){
                         self.xianDuiCount+=1;
+                        self.zhuangCount+=1;
+                        self.sixCount+=1;
+                        img = @"3";
+                        text = @"6";
+                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                        model.img = img;
+                        model.text = text;
+                        model.luzhuType = 7;
+                        model.colorString = @"#ffffff";
+                        [luzhuList addObject:model];
+                    }else if ([resultList containsObject:@"闲"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                        self.xianDuiCount+=1;
+                        self.zhuangDuiCount+=1;
+                        self.xianCount+=1;
                         img = @"8";
                         text = @"闲";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -1170,39 +1332,34 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 7;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"6点赢"]){
-                        self.sixCount +=1;
-                        img = @"4";
-                        text = @"庄";
+                    }else if ([resultList containsObject:@"和"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"庄对"]){
+                        self.xianDuiCount+=1;
+                        self.zhuangDuiCount+=1;
+                        self.heCount+=1;
+                        img = @"23";
+                        text = @"和";
                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
                         model.img = img;
                         model.text = text;
-                        model.luzhuType = 6;
-                        model.colorString = @"#ffffff";
-                        [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"Lucky6"]){
-                        self.luckyCount +=1;
-                        img = @"4";
-                        text = @"庄";
-                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                        model.img = img;
-                        model.text = text;
-                        model.luzhuType = 6;
+                        model.luzhuType = 7;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
                     }
                 }else if (resultList.count==4){
-                     if ([resultList containsObject:@"庄赢"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"6点赢"]&&[resultList containsObject:@"Lucky6"]){
-                        self.sixCount +=1;
-                        img = @"4";
-                        text = @"庄";
-                        JhPageItemModel *model = [[JhPageItemModel alloc]init];
-                        model.img = img;
-                        model.text = text;
-                        model.luzhuType = 6;
-                        model.colorString = @"#ffffff";
-                        [luzhuList addObject:model];
-                    }
+                     if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"6点赢"]){
+                         self.zhuangDuiCount+=1;
+                         self.zhuangCount+=1;
+                         self.xianDuiCount+=1;
+                         self.sixCount+=1;
+                         img = @"4";
+                         text = @"6";
+                         JhPageItemModel *model = [[JhPageItemModel alloc]init];
+                         model.img = img;
+                         model.text = text;
+                         model.luzhuType = 6;
+                         model.colorString = @"#ffffff";
+                         [luzhuList addObject:model];
+                     }
                 }
             }];
             for (int i=(int)list.count; i<100; i++) {
@@ -1256,13 +1413,13 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     for (int i=0; i<self.resultList.count; i++) {
         NSInteger tagResult = [self.resultList[i]integerValue];
         if (tagResult==1) {
-            [reslutNameList addObject:@"庄赢"];
+            [reslutNameList addObject:@"庄"];
         }else if (tagResult==2){
             [reslutNameList addObject:@"庄对"];
         }else if (tagResult==3){
             [reslutNameList addObject:@"6点赢"];
         }else if (tagResult==4){
-            [reslutNameList addObject:@"闲赢"];
+            [reslutNameList addObject:@"闲"];
         }else if (tagResult==5){
             [reslutNameList addObject:@"闲对"];
         }else if (tagResult==6){
@@ -1272,53 +1429,58 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.result_string = [reslutNameList componentsJoinedByString:@","];
     
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.xianValue integerValue]==0&&[curCustomer.xianDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0&&[curCustomer.sixWinValue integerValue]==0&&[curCustomer.baoxianValue integerValue]==0&&[curCustomer.luckyValue integerValue]==0) {
-            if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                [fxmh_list addObject:@" "];
-            }else{
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-            }
-            [fxmh_list addObject:@"0"];
-            [fxz_name_list addObject:@"庄"];
-            [fsy_list addObject:@"1"];
-            [fyj_list addObject:@"0"];
-            [fresult_list addObject:@"0"];
+        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.xianValue integerValue]==0&&[curCustomer.xianDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0&&[curCustomer.sixWinValue integerValue]==0&&[curCustomer.baoxianValue integerValue]==0&&[curCustomer.luckyValue integerValue]==0&&[[curCustomer.washNumberValue NullToBlankString]length]==0) {
         }else{
             if ([curCustomer.zhuangValue integerValue]!=0) {//庄
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 [fxz_money_list addObject:curCustomer.zhuangValue];
                 [fxz_name_list addObject:@"庄"];
-                //赔率
-                CGFloat odds = 0;
-                CGFloat yj = 0;
-                NSArray *xz_array = self.curXz_setting;
-                if (xz_array.count>0) {
-                    odds = [xz_array[0][@"fpl"] floatValue];
-                    yj = [xz_array[0][@"fyj"] floatValue]/100;
-                }
-                if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {//庄
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
-                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
-                    CGFloat yjValue = yj*[curCustomer.zhuangValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.zhuangValue];
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                    [fsy_list addObject:[NSNumber numberWithInt:0]];
+                    [fresult_list addObject:[NSNumber numberWithInt:0]];
                     [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                }else{
+                    if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {//庄
+                        if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {//6点赢
+                            //赔率
+                            CGFloat odds = 0;
+                            CGFloat yj = 0;
+                            NSArray *xz_array = self.curXz_setting;
+                            if (xz_array.count>6) {
+                                odds = [xz_array[6][@"fpl"] floatValue];
+                                yj = [xz_array[6][@"fyj"] floatValue]/100;
+                            }
+                            [fsy_list addObject:[NSNumber numberWithInt:1]];
+                            CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
+                            [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                            CGFloat yjValue = yj*[curCustomer.zhuangValue integerValue];
+                            [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
+                        }else {
+                            //赔率
+                            CGFloat odds = 0;
+                            CGFloat yj = 0;
+                            NSArray *xz_array = self.curXz_setting;
+                            if (xz_array.count>0) {
+                                odds = [xz_array[0][@"fpl"] floatValue];
+                                yj = [xz_array[0][@"fyj"] floatValue]/100;
+                            }
+                            
+                            [fsy_list addObject:[NSNumber numberWithInt:1]];
+                            CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
+                            [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                            CGFloat yjValue = yj*[curCustomer.zhuangValue integerValue];
+                            [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
+                        }
+                    }else {
+                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                        [fresult_list addObject:curCustomer.zhuangValue];
+                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    }
                 }
                 [self fengzhuangChipTypeWith:curCustomer];
             }
             if ([curCustomer.zhuangDuiValue integerValue]!=0) {//庄对
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 [fxz_money_list addObject:curCustomer.zhuangDuiValue];
                 [fxz_name_list addObject:@"庄对"];
                 //赔率
@@ -1342,48 +1504,15 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 }
                 [self fengzhuangChipTypeWith:curCustomer];
             }
-            if ([curCustomer.sixWinValue integerValue]!=0) {//六点赢
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
-                [fxz_money_list addObject:curCustomer.sixWinValue];
-                [fxz_name_list addObject:@"6点赢"];
-                //赔率
-                CGFloat odds = 0;
-                CGFloat yj = 0;
-                NSArray *xz_array = self.curXz_setting;
-                if (xz_array.count>6) {
-                    odds = [xz_array[6][@"fpl"] floatValue];
-                    yj = [xz_array[6][@"fyj"] floatValue]/100;
-                }
-                if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {//6点赢
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.sixWinValue integerValue];
-                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
-                    CGFloat yjValue = yj*[curCustomer.sixWinValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.sixWinValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
+            
             if ([curCustomer.luckyValue integerValue]!=0) {//幸运6点
-                if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                    [fxmh_list addObject:@" "];
-                }else{
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                }
+                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 [fxz_money_list addObject:curCustomer.luckyValue];
                 [fxz_name_list addObject:@"Lucky6"];
                 //赔率
                 CGFloat odds = 0;
                 CGFloat yj = 0;
                 NSArray *xz_array = self.curXz_setting;
-                
                 if (curCustomer.sixValueType==1) {
                     if (xz_array.count>7) {
                         odds = [xz_array[7][@"fpl"] floatValue];
@@ -1395,16 +1524,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         yj = [xz_array[8][@"fyj"] floatValue]/100;
                     }
                 }
-                if ([self.resultList containsObject:[NSNumber numberWithInteger:7]]) {//Lucky6
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.sixWinValue integerValue];
-                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
-                    CGFloat yjValue = yj*[curCustomer.sixWinValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.sixWinValue];
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                    [fsy_list addObject:[NSNumber numberWithInt:0]];
+                    [fresult_list addObject:[NSNumber numberWithInt:0]];
                     [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                }else{
+                    if ([self.resultList containsObject:[NSNumber numberWithInteger:3]]) {//Lucky6
+                        [fsy_list addObject:[NSNumber numberWithInt:1]];
+                        CGFloat resultValue = (1+odds-yj)*[curCustomer.luckyValue integerValue];
+                        [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                        CGFloat yjValue = yj*[curCustomer.luckyValue integerValue];
+                        [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
+                    }else {
+                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                        [fresult_list addObject:curCustomer.luckyValue];
+                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    }
                 }
                 [self fengzhuangChipTypeWith:curCustomer];
             }
@@ -1424,16 +1559,22 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     odds = [xz_array[1][@"fpl"] floatValue];
                     yj = [xz_array[1][@"fyj"] floatValue]/100;
                 }
-                if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]) {//闲
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.xianValue integerValue];
-                    [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
-                    CGFloat yjValue = yj*[curCustomer.xianValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.xianValue];
+                if ([self.resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                    [fsy_list addObject:[NSNumber numberWithInt:0]];
+                    [fresult_list addObject:[NSNumber numberWithInt:0]];
                     [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                }else{
+                    if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]) {//闲
+                        [fsy_list addObject:[NSNumber numberWithInt:1]];
+                        CGFloat resultValue = (1+odds-yj)*[curCustomer.xianValue integerValue];
+                        [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+                        CGFloat yjValue = yj*[curCustomer.xianValue integerValue];
+                        [fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
+                    }else {
+                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                        [fresult_list addObject:curCustomer.xianValue];
+                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    }
                 }
                 [self fengzhuangChipTypeWith:curCustomer];
             }

@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *cp_tableIDString;
 @property (nonatomic, strong) NSArray *luzhuUpList;
 @property (nonatomic, strong) NSArray *luzhuDownList;
+@property (nonatomic, assign) int curXueci;
+@property (nonatomic, strong) NSDictionary *tableDataDict;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -43,6 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)checkChipIsTrueWithChipList:(NSArray *)chipList Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 验证账号
 - (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
+
+#pragma mark - 查看台面数据
+- (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+
+#pragma mark - 台面操作记录列表
+- (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 
 @end
 

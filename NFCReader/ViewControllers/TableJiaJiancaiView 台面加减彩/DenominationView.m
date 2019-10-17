@@ -31,7 +31,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.oneValueTF.enabled = YES;
-        self.oneValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.oneValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.oneValueTF.enabled = NO;
         self.oneValueTF.background = [UIImage imageNamed:@""];
@@ -42,7 +42,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.twoValueTF.enabled = YES;
-        self.twoValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.twoValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.twoValueTF.enabled = NO;
         self.twoValueTF.background = [UIImage imageNamed:@""];
@@ -53,7 +53,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.threeValueTF.enabled = YES;
-        self.threeValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.threeValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.threeValueTF.enabled = NO;
         self.threeValueTF.background = [UIImage imageNamed:@""];
@@ -64,7 +64,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.thridValueTF.enabled = YES;
-        self.thridValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.thridValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.thridValueTF.enabled = NO;
         self.thridValueTF.background = [UIImage imageNamed:@""];
@@ -75,7 +75,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.fiveValueTF.enabled = YES;
-        self.fiveValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.fiveValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.fiveValueTF.enabled = NO;
         self.fiveValueTF.background = [UIImage imageNamed:@""];
@@ -86,7 +86,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.sixValueTF.enabled = YES;
-        self.sixValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.sixValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.sixValueTF.enabled = NO;
         self.sixValueTF.background = [UIImage imageNamed:@""];
@@ -97,7 +97,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.sevenValueTF.enabled = YES;
-        self.sevenValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.sevenValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.sevenValueTF.enabled = NO;
         self.sevenValueTF.background = [UIImage imageNamed:@""];
@@ -108,7 +108,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.eightValueTF.enabled = YES;
-        self.eightValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.eightValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.eightValueTF.enabled = NO;
         self.eightValueTF.background = [UIImage imageNamed:@""];
@@ -119,7 +119,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.nineValueTF.enabled = YES;
-        self.nineValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.nineValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.nineValueTF.enabled = NO;
         self.nineValueTF.background = [UIImage imageNamed:@""];
@@ -130,7 +130,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.tenValueTF.enabled = YES;
-        self.tenValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.tenValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.tenValueTF.enabled = NO;
         self.tenValueTF.background = [UIImage imageNamed:@""];
@@ -141,7 +141,7 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.evlevenValueTF.enabled = YES;
-        self.evlevenValueTF.background = [UIImage imageNamed:@"总数量统计BG"];
+        self.evlevenValueTF.background = [UIImage imageNamed:@"totalBox_bg_icon"];
     }else{
         self.evlevenValueTF.enabled = NO;
         self.evlevenValueTF.background = [UIImage imageNamed:@""];

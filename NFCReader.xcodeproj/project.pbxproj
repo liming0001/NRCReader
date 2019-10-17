@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8104E1CE2343094600538135 /* BLEModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8104E1CD2343094500538135 /* BLEModel.m */; };
+		8106361F2340F06700A288D7 /* NRTableDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8106361E2340F06700A288D7 /* NRTableDataModel.m */; };
 		810C008C229E1E63002ADFD5 /* NRGameInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C008B229E1E63002ADFD5 /* NRGameInfo.m */; };
 		810C8EA2226027D60010E1A4 /* NRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C8EA1226027D60010E1A4 /* NRBaseViewController.m */; };
 		810C8EA822602B060010E1A4 /* EPTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C8EA422602B060010E1A4 /* EPTitleBar.m */; };
@@ -21,6 +23,7 @@
 		810C8ECA226043650010E1A4 /* refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C8EC6226043650010E1A4 /* refresh@2x.png */; };
 		810C8ECB226043650010E1A4 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C8EC8226043650010E1A4 /* refresh.png */; };
 		810C8ECE226044C00010E1A4 /* NRLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C8ECD226044C00010E1A4 /* NRLoginViewController.m */; };
+		810EB85F2355C37E004546DD /* AsyncUdpSocketN.m in Sources */ = {isa = PBXBuildFile; fileRef = 810EB85E2355C37E004546DD /* AsyncUdpSocketN.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		810EFC6F22D2DA41005C3684 /* EPStr.m in Sources */ = {isa = PBXBuildFile; fileRef = 810EFC6B22D2DA40005C3684 /* EPStr.m */; };
 		810EFC7022D2DA41005C3684 /* EPStr.txt in Resources */ = {isa = PBXBuildFile; fileRef = 810EFC6D22D2DA41005C3684 /* EPStr.txt */; };
 		810EFC7322D2DA5B005C3684 /* EPLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 810EFC7122D2DA5A005C3684 /* EPLanguage.m */; };
@@ -185,6 +188,10 @@
 /* Begin PBXFileReference section */
 		4778C66D0C37E06457768A50 /* Pods_NFCReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NFCReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D073436B75045F5B0E7BB3E /* Pods-NFCReader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFCReader.release.xcconfig"; path = "Pods/Target Support Files/Pods-NFCReader/Pods-NFCReader.release.xcconfig"; sourceTree = "<group>"; };
+		8104E1CC2343094500538135 /* BLEModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEModel.h; sourceTree = "<group>"; };
+		8104E1CD2343094500538135 /* BLEModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEModel.m; sourceTree = "<group>"; };
+		8106361D2340F06700A288D7 /* NRTableDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRTableDataModel.h; sourceTree = "<group>"; };
+		8106361E2340F06700A288D7 /* NRTableDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRTableDataModel.m; sourceTree = "<group>"; };
 		810C008A229E1E63002ADFD5 /* NRGameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRGameInfo.h; sourceTree = "<group>"; };
 		810C008B229E1E63002ADFD5 /* NRGameInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRGameInfo.m; sourceTree = "<group>"; };
 		810C8EA0226027D60010E1A4 /* NRBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRBaseViewController.h; sourceTree = "<group>"; };
@@ -212,6 +219,8 @@
 		810C8EC8226043650010E1A4 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		810C8ECC226044C00010E1A4 /* NRLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRLoginViewController.h; sourceTree = "<group>"; };
 		810C8ECD226044C00010E1A4 /* NRLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRLoginViewController.m; sourceTree = "<group>"; };
+		810EB85D2355C37E004546DD /* AsyncUdpSocketN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocketN.h; sourceTree = "<group>"; };
+		810EB85E2355C37E004546DD /* AsyncUdpSocketN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocketN.m; sourceTree = "<group>"; };
 		810EFC6B22D2DA40005C3684 /* EPStr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPStr.m; sourceTree = "<group>"; };
 		810EFC6C22D2DA41005C3684 /* EPStr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPStr.h; sourceTree = "<group>"; };
 		810EFC6D22D2DA41005C3684 /* EPStr.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EPStr.txt; sourceTree = "<group>"; };
@@ -553,6 +562,8 @@
 				81CC4E0922758F5200F0B09D /* NRCommand.m */,
 				81B33C0222F7C8280012C7D0 /* EPSound.h */,
 				81B33C0122F7C8270012C7D0 /* EPSound.m */,
+				8104E1CC2343094500538135 /* BLEModel.h */,
+				8104E1CD2343094500538135 /* BLEModel.m */,
 				81B33C0622F7DB180012C7D0 /* BLEIToll.h */,
 				81B33C0522F7DB180012C7D0 /* BLEIToll.m */,
 			);
@@ -1024,6 +1035,8 @@
 				811EC2E8229D44F500539615 /* NRUpdateInfo.m */,
 				810C008A229E1E63002ADFD5 /* NRGameInfo.h */,
 				810C008B229E1E63002ADFD5 /* NRGameInfo.m */,
+				8106361D2340F06700A288D7 /* NRTableDataModel.h */,
+				8106361E2340F06700A288D7 /* NRTableDataModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1125,6 +1138,8 @@
 		81EF8D6022F6859300FDDBF8 /* NRSocket */ = {
 			isa = PBXGroup;
 			children = (
+				810EB85D2355C37E004546DD /* AsyncUdpSocketN.h */,
+				810EB85E2355C37E004546DD /* AsyncUdpSocketN.m */,
 				81EF8D7022F6987700FDDBF8 /* GCDAsyncSocket.h */,
 				81EF8D7122F6987700FDDBF8 /* GCDAsyncSocket.m */,
 			);
@@ -1369,6 +1384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				813C0288232DD04B00D5617D /* EPKillShowView.m in Sources */,
+				8104E1CE2343094600538135 /* BLEModel.m in Sources */,
 				81A97F4322642D8800DFF774 /* NRTableChooseViewModel.m in Sources */,
 				811C02DC233BC5FF001AD39D /* CustomerInfo.m in Sources */,
 				810C8EB822602E3C0010E1A4 /* EPHTTPRequestManager.m in Sources */,
@@ -1442,6 +1458,7 @@
 				81BD424C225F371200A35545 /* AppDelegate.m in Sources */,
 				81CD2FA022DC839500D0885A /* DSHPopupContainer.m in Sources */,
 				811C02EB233BC676001AD39D /* NRManualManger_workers.m in Sources */,
+				8106361F2340F06700A288D7 /* NRTableDataModel.m in Sources */,
 				81FD654222696D9C00CDC3BA /* NRChipCodeItem.m in Sources */,
 				811EC2E9229D44F500539615 /* NRUpdateInfo.m in Sources */,
 				81DE44FF22781F4C007EE010 /* NRLoginInfo.m in Sources */,
@@ -1471,6 +1488,7 @@
 				810C8EC9226043650010E1A4 /* EPLoadingView.m in Sources */,
 				810C8ECE226044C00010E1A4 /* NRLoginViewController.m in Sources */,
 				8160A966226C7D510075D98C /* JXButton.m in Sources */,
+				810EB85F2355C37E004546DD /* AsyncUdpSocketN.m in Sources */,
 				81AE81FC231F4B210069A4A7 /* CustomerEntryInfoCowView.m in Sources */,
 				812FB370229C335B002072A3 /* NRTableInfo.m in Sources */,
 				81201127226DC20000F733B0 /* NSString+EPExtention.m in Sources */,

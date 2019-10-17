@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,7 +27,7 @@
                                 <constraint firstAttribute="width" constant="150" id="oe7-pL-TRU"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <state key="normal" title="确认/OK" backgroundImage="确认按钮BG">
+                            <state key="normal" title="确认/OK" backgroundImage="VM_puclicbtn_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
@@ -43,7 +41,7 @@
                                 <constraint firstAttribute="height" constant="40" id="zIa-5t-8ie"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <state key="normal" title="关闭/Close" backgroundImage="关闭按钮BG">
+                            <state key="normal" title="关闭/Close" backgroundImage="VM_CloseBtn_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
@@ -75,7 +73,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vhd-Dm-CNM">
                             <rect key="frame" x="61" y="63" width="418" height="160"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入授权账号" textAlignment="center" minimumFontSize="17" background="管理员数据框" translatesAutoresizingMaskIntoConstraints="NO" id="uf0-wi-LBf">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入授权账号" textAlignment="center" minimumFontSize="17" background="entryBox_bg" translatesAutoresizingMaskIntoConstraints="NO" id="uf0-wi-LBf">
                                     <rect key="frame" x="80" y="40" width="300" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="35" id="JYx-KU-BTb"/>
@@ -90,9 +88,9 @@
                                         <constraint firstAttribute="height" constant="30" id="dWT-M8-d9v"/>
                                         <constraint firstAttribute="width" constant="30" id="rgd-Re-won"/>
                                     </constraints>
-                                    <state key="normal" image="账号ICO"/>
+                                    <state key="normal" image="account_icon"/>
                                 </button>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="******" textAlignment="center" minimumFontSize="17" background="管理员数据框" translatesAutoresizingMaskIntoConstraints="NO" id="4Xj-a6-8WA">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="******" textAlignment="center" minimumFontSize="17" background="entryBox_bg" translatesAutoresizingMaskIntoConstraints="NO" id="4Xj-a6-8WA">
                                     <rect key="frame" x="80" y="85" width="300" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="35" id="UFv-wb-JSm"/>
@@ -107,7 +105,7 @@
                                         <constraint firstAttribute="height" constant="30" id="0Z5-Nd-aFO"/>
                                         <constraint firstAttribute="width" constant="30" id="Zfw-cd-hXR"/>
                                     </constraints>
-                                    <state key="normal" image="密码ICO"/>
+                                    <state key="normal" image="password_icon"/>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.18823529410000001" green="0.2784313725" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
@@ -157,10 +155,10 @@
         </view>
     </objects>
     <resources>
-        <image name="关闭按钮BG" width="220" height="55"/>
-        <image name="密码ICO" width="23.5" height="29.5"/>
-        <image name="确认按钮BG" width="150" height="40"/>
-        <image name="管理员数据框" width="300" height="35"/>
-        <image name="账号ICO" width="30" height="30"/>
+        <image name="VM_CloseBtn_icon" width="16" height="16"/>
+        <image name="VM_puclicbtn_icon" width="150" height="40"/>
+        <image name="account_icon" width="30" height="30"/>
+        <image name="entryBox_bg" width="300" height="35"/>
+        <image name="password_icon" width="23.5" height="29.5"/>
     </resources>
 </document>

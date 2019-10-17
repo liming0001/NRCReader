@@ -9,9 +9,9 @@
 #ifndef NFCReader_pch
 #define NFCReader_pch
 
-#import <Masonry/Masonry.h>
 #import <UIColor_Utilities/UIColor+Expanded.h>
 #import "EPService.h"
+#import <Masonry/Masonry.h>
 // ReactiveCocoa
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "EPToast.h"
@@ -36,6 +36,13 @@
 #else
 #define DLOG(...) do {} while (0)
 #endif
+
+
+//#define kBaseURL @"http://192.168.1.8/api/service/index.html"
+#define kBaseURL @"http://dbluo.t.zwjxt.com/api/service/index.html"
+//#define kBaseURL @"http://test.2t6.cn/api/service/index.html"
+#define kHTTPCookieDomain @"dbluo.t.zwjxt.com"
+//#define kHTTPCookieDomain @"192.168.1.8"
 
 typedef void(^EPFeedbackBlock)(BOOL success);
 typedef void(^EPFeedbackWithErrorCodeBlock)(BOOL success,NSString *msg,EPSreviceError error);

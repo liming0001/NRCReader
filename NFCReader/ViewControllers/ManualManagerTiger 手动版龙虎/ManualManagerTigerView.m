@@ -513,17 +513,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         [self.dragonBtn setSelected:YES];
         [self.tigerBtn setSelected:NO];
         [self.heBtn setSelected:NO];
-        self.result_string = @"龙赢";
+        self.result_string = @"龙";
     }else if (btn.tag==2){//虎
         [self.dragonBtn setSelected:NO];
         [self.tigerBtn setSelected:YES];
         [self.heBtn setSelected:NO];
-        self.result_string = @"虎赢";
+        self.result_string = @"虎";
     }else if (btn.tag==3){//和
         [self.dragonBtn setSelected:NO];
         [self.tigerBtn setSelected:NO];
         [self.heBtn setSelected:YES];
-        self.result_string = @"和局";
+        self.result_string = @"和";
     }
 }
 
@@ -689,12 +689,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     return customer;
 }
 
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting{
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName{
+    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",tableID]];
+    if (xueciNumber.intValue!=0) {
+        self.xueciCount = xueciNumber.intValue;
+    }
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
     self.curLoginToken = loginID;
     self.curTableID = tableID;
     self.curSerialnumber = serialnumber;
     self.curXz_setting = xz_setting;
-    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",self.curTableID];
+    self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",tableName];
     
     [self getLUzhuINfo];
 }
@@ -738,7 +743,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 NSString *resultS =  luzhiDict[@"fkpresult"];
                 NSString *text = @"";
                 NSString *img = @"";
-                if ([resultS isEqualToString:@"龙赢"]||[resultS isEqualToString:@"龙"]) {
+                if ([resultS isEqualToString:@"龙"]) {
                     img = @"1";
                     text = @"龙";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -748,7 +753,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     model.luzhuType = 1;
                     [luzhuList addObject:model];
                     self.dragonCount +=1;
-                }else if ([resultS isEqualToString:@"虎赢"]||[resultS isEqualToString:@"虎"]){
+                }else if ([resultS isEqualToString:@"虎"]){
                     img = @"7";
                     text = @"虎";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -758,7 +763,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     model.luzhuType = 1;
                     [luzhuList addObject:model];
                     self.tigerCount +=1;
-                }else if ([resultS isEqualToString:@"和局"]||[resultS isEqualToString:@"和"]){
+                }else if ([resultS isEqualToString:@"和"]){
                     img = @"0";
                     text = @"和";
                     JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -820,16 +825,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     NSMutableArray *fyj_list = [NSMutableArray array];
     
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0) {
-            if ([[curCustomer.washNumberValue NullToBlankString]length]==0) {
-                [fxmh_list addObject:@" "];
-            }else{
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-            }
-            [fxmh_list addObject:@"0"];
-            [fxz_name_list addObject:@"龙"];
-            [fsy_list addObject:@"1"];
-            [fresult_list addObject:@"0"];
+        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0&&[[curCustomer.washNumberValue NullToBlankString]length]==0) {
         }else{
             //龙
             if ([curCustomer.zhuangValue integerValue]!=0) {
@@ -840,7 +836,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
                 }
                 [fxz_money_list addObject:curCustomer.zhuangValue];
-                [fxz_name_list addObject:@"龙赢"];
+                [fxz_name_list addObject:@"龙"];
                 //赔率
                 CGFloat odds = 0;
                 CGFloat yj = 0;
@@ -849,11 +845,11 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     odds = [xz_array[0][@"fpl"] floatValue];
                     yj = [xz_array[0][@"fyj"] floatValue];
                 }
-                if ([self.result_string isEqualToString:@"龙赢"]) {
+                if ([self.result_string isEqualToString:@"龙"]) {
                     [fsy_list addObject:[NSNumber numberWithInt:1]];
                     CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
                     [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
-                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                }else if ([self.result_string isEqualToString:@"虎"]){
                     [fsy_list addObject:[NSNumber numberWithInt:-1]];
                     [fresult_list addObject:curCustomer.zhuangValue];
                 }else{//和
@@ -880,10 +876,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     odds = [xz_array[1][@"fpl"] floatValue];
                     yj = [xz_array[1][@"fyj"] floatValue];
                 }
-                if ([self.result_string isEqualToString:@"龙赢"]) {
+                if ([self.result_string isEqualToString:@"龙"]) {
                     [fsy_list addObject:[NSNumber numberWithInt:-1]];
                     [fresult_list addObject:curCustomer.zhuangDuiValue];
-                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                }else if ([self.result_string isEqualToString:@"虎"]){
                     [fsy_list addObject:[NSNumber numberWithInt:1]];
                     CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangDuiValue integerValue];
                     [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
@@ -911,10 +907,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                     odds = [xz_array[2][@"fpl"] floatValue];
                     yj = [xz_array[2][@"fyj"] floatValue];
                 }
-                if ([self.result_string isEqualToString:@"龙赢"]) {
+                if ([self.result_string isEqualToString:@"龙"]) {
                     [fsy_list addObject:[NSNumber numberWithInt:-1]];
                     [fresult_list addObject:curCustomer.heValue];
-                }else if ([self.result_string isEqualToString:@"虎赢"]){
+                }else if ([self.result_string isEqualToString:@"虎"]){
                     [fsy_list addObject:[NSNumber numberWithInt:-1]];
                     [fresult_list addObject:curCustomer.heValue];
                 }else{

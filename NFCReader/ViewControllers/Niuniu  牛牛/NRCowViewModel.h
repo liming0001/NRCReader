@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NRUpdateInfo *curupdateInfo;
 @property (nonatomic, strong) NRGameInfo *gameInfo;
 @property (nonatomic, strong) NSString *cp_tableIDString;
+@property (nonatomic, assign) int curXueci;
+@property (nonatomic, strong) NSDictionary *tableDataDict;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -34,6 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)commitDailyWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 验证账号
 - (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 查看台面数据
+- (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 台面操作记录列表
+- (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END
