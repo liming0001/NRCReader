@@ -72,7 +72,7 @@
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.userNameTextField.text = @"009";
-//    self.userNameTextField.text = @"0019";
+//    self.userNameTextField.text = @"008";
 //    [self.userNameTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
     UIView *leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.userNameTextField.leftView = leftview;
@@ -166,6 +166,8 @@
             }
         }else{
             [self showMessage:msg];
+            //响警告声音
+            [EPSound playWithSoundName:@"wram_sound"];
         }
     }];
 }

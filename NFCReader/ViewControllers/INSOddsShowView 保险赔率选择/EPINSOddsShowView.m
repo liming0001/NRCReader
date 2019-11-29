@@ -49,6 +49,25 @@
 - (IBAction)tenOddsAction:(id)sender {
     self.oddsTF.text = @"6";
 }
+
+- (IBAction)elevenOddsAction:(id)sender {
+    self.oddsTF.text = @"8";
+}
+- (IBAction)televenOddsAction:(id)sender {
+    self.oddsTF.text = @"9";
+}
+- (IBAction)thridteenOddsAction:(id)sender {
+    self.oddsTF.text = @"10";
+}
+- (IBAction)forteenOddsAction:(id)sender {
+    self.oddsTF.text = @"11";
+}
+- (IBAction)fifteenOddsAction:(id)sender {
+    self.oddsTF.text = @"12";
+}
+
+
+
 - (IBAction)confirmAction:(id)sender {
     if ([self.oddsTF.text floatValue]<=0) {
         [[EPToast makeText:@"请输入赔率" WithError:YES]showWithType:ShortTime];

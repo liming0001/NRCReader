@@ -199,10 +199,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.dragonBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.dragonBtn setTitle:@"  龙 Dragon" forState:UIControlStateNormal];
     self.dragonBtn.tag = 1;
-    [self.dragonBtn setImage:[UIImage imageNamed:@"结算台-龙ICON-未选中"] forState:UIControlStateNormal];
-    [self.dragonBtn setImage:[UIImage imageNamed:@"结算台-龙ICON-选中"] forState:UIControlStateSelected];
-    [self.dragonBtn setBackgroundImage:[UIImage imageNamed:@"结算台-龙虎和-未选中底色"] forState:UIControlStateNormal];
-    [self.dragonBtn setBackgroundImage:[UIImage imageNamed:@"结算台-龙-已选中底色"] forState:UIControlStateSelected];
+    [self.dragonBtn setImage:[UIImage imageNamed:@"dragon_unSelectIcon"] forState:UIControlStateNormal];
+    [self.dragonBtn setImage:[UIImage imageNamed:@"dragon_selectIcon"] forState:UIControlStateSelected];
+    [self.dragonBtn setBackgroundImage:[UIImage imageNamed:@"setment_dragon_bg"] forState:UIControlStateNormal];
+    [self.dragonBtn setBackgroundImage:[UIImage imageNamed:@"seltment_select_bg"] forState:UIControlStateSelected];
     [self.dragonBtn addTarget:self action:@selector(resultAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.settlementV addSubview:self.dragonBtn];
     [self.dragonBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,10 +218,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.tigerBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.tigerBtn setTitle:@"  虎 Tiger" forState:UIControlStateNormal];
     self.tigerBtn.tag = 2;
-    [self.tigerBtn setImage:[UIImage imageNamed:@"结算台-虎ICON-未选中"] forState:UIControlStateNormal];
-    [self.tigerBtn setImage:[UIImage imageNamed:@"结算台-虎ICON-选中"] forState:UIControlStateSelected];
-    [self.tigerBtn setBackgroundImage:[UIImage imageNamed:@"结算台-龙虎和-未选中底色"] forState:UIControlStateNormal];
-    [self.tigerBtn setBackgroundImage:[UIImage imageNamed:@"结算台-虎-已选中底色"] forState:UIControlStateSelected];
+    [self.tigerBtn setImage:[UIImage imageNamed:@"tiger_unselect_icon"] forState:UIControlStateNormal];
+    [self.tigerBtn setImage:[UIImage imageNamed:@"seltment_tiger_selectIcon"] forState:UIControlStateSelected];
+    [self.tigerBtn setBackgroundImage:[UIImage imageNamed:@"setment_dragon_bg"] forState:UIControlStateNormal];
+    [self.tigerBtn setBackgroundImage:[UIImage imageNamed:@"tiger_bg_seltment"] forState:UIControlStateSelected];
     [self.tigerBtn addTarget:self action:@selector(resultAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.settlementV addSubview:self.tigerBtn];
     [self.tigerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,8 +237,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.heBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.heBtn setTitle:@"和 Tie" forState:UIControlStateNormal];
     self.heBtn.tag = 3;
-    [self.heBtn setBackgroundImage:[UIImage imageNamed:@"结算台-龙虎和-未选中底色"] forState:UIControlStateNormal];
-    [self.heBtn setBackgroundImage:[UIImage imageNamed:@"结算台-和-已选中底色"] forState:UIControlStateSelected];
+    [self.heBtn setBackgroundImage:[UIImage imageNamed:@"setment_dragon_bg"] forState:UIControlStateNormal];
+    [self.heBtn setBackgroundImage:[UIImage imageNamed:@"tie_bg_seltment"] forState:UIControlStateSelected];
     [self.heBtn addTarget:self action:@selector(resultAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.settlementV addSubview:self.heBtn];
     [self.heBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -347,8 +347,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.dragonInfoBtn.titleLabel.numberOfLines = 0;
     self.dragonInfoBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.dragonInfoBtn setTitle:[NSString stringWithFormat:@"龙\n%@",[EPStr getStr:kEPDragon note:@"龙"]] forState:UIControlStateNormal];
-    [self.dragonInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-龙Dragonbg"] forState:UIControlStateNormal];
-    [self.dragonInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-龙Dragonbg"] forState:UIControlStateHighlighted];
+    [self.dragonInfoBtn setBackgroundImage:[UIImage imageNamed:@"dragon_bg"] forState:UIControlStateNormal];
+    [self.dragonInfoBtn setBackgroundImage:[UIImage imageNamed:@"dragon_bg"] forState:UIControlStateHighlighted];
     [self.dragonBorderV addSubview:self.dragonInfoBtn];
     [self.dragonInfoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.dragonBorderV).offset(0);
@@ -388,8 +388,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.tigerInfoBtn.titleLabel.numberOfLines = 0;
     self.tigerInfoBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.tigerInfoBtn setTitle:[NSString stringWithFormat:@"虎\n%@",[EPStr getStr:kEPTiger note:@"虎"]] forState:UIControlStateNormal];
-    [self.tigerInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-虎_bg"] forState:UIControlStateNormal];
-    [self.tigerInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-虎_bg"] forState:UIControlStateHighlighted];
+    [self.tigerInfoBtn setBackgroundImage:[UIImage imageNamed:@"tiger_bg"] forState:UIControlStateNormal];
+    [self.tigerInfoBtn setBackgroundImage:[UIImage imageNamed:@"tiger_bg"] forState:UIControlStateHighlighted];
     [self.tigerBorderV addSubview:self.tigerInfoBtn];
     [self.tigerInfoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.tigerBorderV).offset(0);
@@ -427,8 +427,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.heInfoBtn.titleLabel.numberOfLines = 0;
     self.heInfoBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.heInfoBtn setTitle:[NSString stringWithFormat:@"和\n%@",[EPStr getStr:kEPTigerHe note:@"和"]] forState:UIControlStateNormal];
-    [self.heInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-和tie_bg"] forState:UIControlStateNormal];
-    [self.heInfoBtn setBackgroundImage:[UIImage imageNamed:@"台桌信息-和tie_bg"] forState:UIControlStateHighlighted];
+    [self.heInfoBtn setBackgroundImage:[UIImage imageNamed:@"tie_bg"] forState:UIControlStateNormal];
+    [self.heInfoBtn setBackgroundImage:[UIImage imageNamed:@"tie_bg"] forState:UIControlStateHighlighted];
     [self.heBorderV addSubview:self.heInfoBtn];
     [self.heInfoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.top.left.equalTo(self.heBorderV).offset(0);
@@ -491,6 +491,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.luzhuInfoList removeAllObjects];
     [self luzhuList];
     [self.solidView fellLuzhuListWithDataList:self.luzhuInfoList];
+    [self clearTableInfo];
+}
+
+- (void)clearTableInfo{
     self.dragonCount=0;//龙赢次数
     self.tigerCount=0;//虎赢次数
     self.heCount=0;//和赢次数
@@ -690,9 +694,9 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 }
 
 - (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName{
-    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",tableID]];
-    if (xueciNumber.intValue!=0) {
-        self.xueciCount = xueciNumber.intValue;
+    int  curXueciValue = [[LYKeychainTool readKeychainValue:[NSString stringWithFormat:@"%@_Xueci",tableID]]intValue];
+    if (curXueciValue!=0) {
+        self.xueciCount = curXueciValue;
     }
     self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
     self.curLoginToken = loginID;
@@ -702,6 +706,14 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.stableIDLab.text = [NSString stringWithFormat:@"台桌ID:%@",tableName];
     
     [self getLUzhuINfo];
+}
+
+- (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi{
+    self.xueciCount = curXueci;
+    self.puciCount = curPuCi;
+    self.prePuciCount = self.puciCount +1;
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+    self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
 }
 
 - (void)getLUzhuINfo{
@@ -733,11 +745,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [EPService nr_Public_ListWithParamter:Realparam block:^(NSArray *list, NSString *msg, EPSreviceError error, BOOL suc) {
         [self hideWaitingView];
         if (suc) {
+            [self clearTableInfo];
             self.realLuzhuList = list;
-            NSDictionary *lastLuzhuDict = list.lastObject;
-            self.puciCount = [[NSString stringWithFormat:@"%@",lastLuzhuDict[@"fpuci"]]intValue];
-            self.prePuciCount = self.puciCount+1;
-            self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
             NSMutableArray *luzhuList = [NSMutableArray array];
             [list enumerateObjectsUsingBlock:^(NSDictionary *luzhiDict, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *resultS =  luzhiDict[@"fkpresult"];

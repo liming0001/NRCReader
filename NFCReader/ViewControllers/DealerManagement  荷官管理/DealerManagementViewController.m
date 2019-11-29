@@ -99,9 +99,6 @@
 @property (nonatomic, strong) UILabel *exchangeTipsLab;
 @property (nonatomic, strong) UILabel *customNameLab;
 
-@property (nonatomic, strong) NSMutableArray *BLEUIDDataList;
-@property (nonatomic, strong) NSMutableArray *BLEDataList;
-
 @property (nonatomic, strong) NRChipManagerInfo *staticInfo;
 @property (nonatomic, strong) NRChipInfoModel *curChipInfo;
 @property (nonatomic, assign) NSInteger chipCount;
@@ -109,10 +106,12 @@
 
 
 @property (nonatomic, strong) NSString *lastTextContent;
+@property (nonatomic, assign) BOOL isReadChip;//是否读取筹码
 @property (nonatomic, assign) BOOL isIssue;//是否发行
 @property (nonatomic, assign) BOOL isDestoryChip;//是否销毁筹码
 @property (nonatomic, assign) BOOL isExchangeChip;//是否兑换筹码
 @property (nonatomic, assign) BOOL readChipCount;//检测是否有筹码
+@property (nonatomic, assign) BOOL isSetUpDeviceModel;//设置读写器模式
 
 // 客户端socket
 @property (strong, nonatomic) GCDAsyncSocket *clientSocket;
@@ -127,8 +126,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"#393939"];
     self.chipUIDData = [NSMutableData data];
-    self.BLEDataList = [NSMutableArray arrayWithCapacity:0];
-    self.BLEUIDDataList = [NSMutableArray arrayWithCapacity:0];
+    self.isReadChip = NO;
     
     self.staticInfo = [[NRChipManagerInfo alloc]init];
     self.staticInfo.serialNumber = @"序列号";
@@ -1223,11 +1221,11 @@
 
 #pragma mark - 查询设备上的筹码UID
 - (void)queryDeviceChips{
+    [self showWaitingView];
     [EPSound playWithSoundName:@"click_sound"];
     self.chipUIDList = nil;
     self.viewModel.chipInfo.chipsUIDs = [NSArray array];
-    [self.BLEDataList removeAllObjects];
-    [self.BLEUIDDataList removeAllObjects];
+    self.isReadChip = YES;
     //查询筹码个数
     [self.clientSocket writeData:[NRCommand nextQueryChipNumbers] withTimeout:- 1 tag:0];
 }
@@ -1236,6 +1234,7 @@
 -(void)chipIssueImmediatelyAction{
     //写入数据
     if ([self.curChipInfo.chipType isEqualToString:@"99"]) {
+        [self hideWaitingView];
         [self showMessage:@"不能发行已销毁的筹码"];
         //响警告声音
         [EPSound playWithSoundName:@"wram_sound"];
@@ -1287,11 +1286,10 @@
 #pragma mark - 读取筹码信息
 - (void)readAllChipsInfo{
     [self.chipIssueList removeAllObjects];
-    [self.BLEDataList removeAllObjects];
     for (int i = 0; i < self.chipUIDList.count; i++) {
         NSString *chipID = self.chipUIDList[i];
         [self.clientSocket writeData:[NRCommand readAllSelectNumbersInfoWithChipUID:chipID] withTimeout:- 1 tag:0];
-        usleep(20 * 1000);
+        usleep((int)self.chipUIDList.count * 10000);
     }
 }
 
@@ -1386,8 +1384,8 @@
             [checkList enumerateObjectsUsingBlock:^(NSDictionary *curChip, NSUInteger idx, BOOL * _Nonnull stop) {
                 //存储检测数据
                 NRChipManagerInfo *checkInfo = [[NRChipManagerInfo alloc]init];
-                int chiType = [curChip[@"fcmtype"] integerValue];
-                checkInfo.chipType = [NSString stringWithFormat:@"0%d",chiType];
+                int chiType = [curChip[@"fcmtype"] intValue];
+                checkInfo.chipType = [NSString stringWithFormat:@"%d",chiType];
                 checkInfo.batch = [NSString stringWithFormat:@"%@",curChip[@"fbatch"]];
                 checkInfo.serialNumber = [NSString stringWithFormat:@"%@",curChip[@"forder"]];
                 checkInfo.denomination = [NSString stringWithFormat:@"%@",curChip[@"fme"]];
@@ -1693,12 +1691,32 @@
 }
 
 
+#pragma mark - 设置硬盘工作模式
+- (void)sendDeviceWorkModel{
+    //设置感应盘工作模式
+    self.isSetUpDeviceModel = YES;
+    [self.clientSocket writeData:[NRCommand setDeviceWorkModel] withTimeout:- 1 tag:0];
+}
+
+#pragma mark - 设置心跳指令
+- (void)sendDeviceKeepAlive{
+    //设置感应盘工作模式
+    [self.clientSocket writeData:[NRCommand keepDeviceAlive] withTimeout:- 1 tag:0];
+}
+
 #pragma mark - GCDAsyncSocketDelegate
 //连接主机对应端口
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
+    [self sendDeviceWorkModel];
+    [self sendDeviceKeepAlive];
     //    连接后,可读取服务器端的数据
     [self.clientSocket readDataWithTimeout:- 1 tag:0];
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(nullable NSError *)err{
+    DLOG(@"进入这里11");
+    [self connectToServer];
 }
 
 // 收到消息
@@ -1711,8 +1729,53 @@
         self.chipUIDData = [NSMutableData data];
     }
     DLOG(@"data = %@",data);
+    if ([dataHexStr isEqualToString:@"050020a04feb"]) {
+        return;
+    }
+    if (self.isSetUpDeviceModel&&[dataHexStr isEqualToString:@"040000525a"]) {
+        self.isSetUpDeviceModel= NO;
+        return;
+    }
     [self.chipUIDData appendData:data];
-    if ([dataHexStr containsString:@"040000525a"]) {
+    if (self.isReadChip&&([dataHexStr containsString:@"0d000000"]||[dataHexStr containsString:@"04000e2cb3"]||[dataHexStr containsString:@"050020a04feb"])) {
+        NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
+               chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
+               chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"050020a04feb" withString:@""];
+        if ([chipNumberdataHexStr hasSuffix:@"04000e2cb3"]) {//筹码已经识别完成
+            chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"04000e2cb3" withString:@""];
+            NSInteger count = [[chipNumberdataHexStr mutableCopy] replaceOccurrencesOfString:@"0d000000"
+            withString:@"0d000000"
+               options:NSLiteralSearch
+                 range:NSMakeRange(0, [chipNumberdataHexStr length])];
+            self.isReadChip = NO;
+            if (count==0) {
+                [self showMessage:@"未检测到筹码"];
+                //响警告声音
+                [EPSound playWithSoundName:@"wram_sound"];
+                [self hideWaitingView];
+                self.chipUIDData = nil;
+                return;
+            }
+            self.chipUIDData = nil;
+            BLEIToll *itool = [[BLEIToll alloc]init];
+            //存贮筹码UID
+            self.chipUIDList = [itool getDeviceAllChipUIDWithBLEString:chipNumberdataHexStr];
+            self.viewModel.chipInfo.chipsUIDs = self.chipUIDList;
+            self.chipCount = self.chipUIDList.count;
+            self.scanChipNumberLab.text = [NSString stringWithFormat:@"*当前已识别筹码%ld枚*",(long)self.chipCount];
+            if (self.chipOperationType==0) {
+                [self chipIssueImmediatelyAction];
+            }else if (self.chipOperationType==1){
+                [self checkChipAction];
+            }else if (self.chipOperationType==2||self.chipOperationType==3){
+                self.cashCodeTextField.text = @"";
+                self.customNameLab.text = @"";
+                self.authorizationTextField.text = @"";
+                self.noteTextField.text = @"";
+                [self readAllChipsInfo];
+            }
+        }
+    }else if ([dataHexStr containsString:@"040000525a"]) {
         NSString *allSucceeddataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
         NSInteger succeedCount = [[allSucceeddataHexStr mutableCopy] replaceOccurrencesOfString:@"040000525a" // 要查询的字符串中的某个字符
                                                                               withString:@"040000525a"
@@ -1721,13 +1784,14 @@
         if (self.isIssue&&(succeedCount==2*self.chipCount)) {
             self.chipUIDData = nil;
             self.isIssue = NO;
-            [self showLognMessage:@"发行成功"];
+            [self showMessage:@"发行成功" withSuccess:YES];
             [self readAllChipsInfo];
             [self hideWaitingView];
+            //响警告声音
+           [EPSound playWithSoundName:@"succeed_sound"];
         }else if (self.isDestoryChip&&(succeedCount==self.chipCount)){
             self.chipUIDData = nil;
             self.isDestoryChip =  NO;
-            [self showLognMessage:@"销毁成功"];
             [self.chipDestructList removeAllObjects];
             self.chipDestructView.hidden = NO;
             self.operationButton.hidden = NO;
@@ -1737,13 +1801,14 @@
             self.readChipButton.hidden = YES;
             self.destructTipsLab.hidden = NO;
             self.destructTipsLab.text = @"销毁成功";
+            [self showMessage:@"销毁成功" withSuccess:YES];
             [self hideWaitingView];
             //响警告声音
             [EPSound playWithSoundName:@"succeed_sound"];
         }else if (self.isExchangeChip&&(succeedCount==self.chipCount)){
             self.chipUIDData = nil;
             self.isExchangeChip = NO;
-            [self showLognMessage:@"兑换成功"];
+            [self showMessage:@"兑换成功" withSuccess:YES];
             [self.cashExchangeList removeAllObjects];
             self.chipExchangeView.hidden = NO;
             self.operationButton.hidden = NO;
@@ -1757,19 +1822,18 @@
         }
     }else if ([dataHexStr hasPrefix:@"13000000"]){
         NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
+        chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
+        chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"04000e2cb3" withString:@""];
+        chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"050020a04feb" withString:@""];
         NSInteger count = [[chipNumberdataHexStr mutableCopy] replaceOccurrencesOfString:@"13000000" // 要查询的字符串中的某个字符
                                                                               withString:@"13000000"
                                                                                  options:NSLiteralSearch
                                                                                    range:NSMakeRange(0, [chipNumberdataHexStr length])];
         if (count==self.chipCount) {
-            NSMutableArray *array = [NRCommand convertDataToHexStr:self.chipUIDData];
             self.chipUIDData = nil;
-            [self.BLEDataList addObjectsFromArray:array];
             BLEIToll *itool = [[BLEIToll alloc]init];
-            NSString *realChipsInfoString = [itool dataStringFromArray:self.BLEDataList];
-            DLOG(@"read111ChipsInfoString = %@",realChipsInfoString);
             //解析筹码
-            NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:realChipsInfoString WithSplitSize:3];
+            NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:chipNumberdataHexStr WithSplitSize:3];
             DLOG(@"chipInfo = %@",chipInfo);
             if (self.chipOperationType==0) {//筹码发行
                 [self.chipIssueList removeAllObjects];
@@ -1871,6 +1935,7 @@
                     [EPSound playWithSoundName:@"succeed_sound"];
                     [self hideWaitingView];
                 }else if (self.chipOperationType==2){//销毁
+                    [self hideWaitingView];
                     if (self.chipDestructList.count>1) {
                         self.chipDestructView.hidden = YES;
                         self.operationButton.hidden = NO;
@@ -1901,49 +1966,6 @@
                     [self hideWaitingView];
                 }
             });
-        }
-    }else if (([dataHexStr containsString:@"04000e2cb3"]&&dataHexStr.length>10)||[dataHexStr isEqualToString:@"04000e2cb3"]) {
-        NSString *checkdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
-        checkdataHexStr = [checkdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
-        NSData *checkData = [NRCommand convertHexStrToData:checkdataHexStr];
-        NSMutableArray *array = [NRCommand convertDataToHexStr:checkData];
-        self.chipUIDData = nil;
-        if ([array[0] isEqualToString:@"0d"]) {
-            [self.BLEUIDDataList addObjectsFromArray:array];
-            if (self.BLEUIDDataList.count >= 0){
-                BLEIToll *itool = [[BLEIToll alloc]init];
-                NSString *BLEString = [itool dataStringFromArray:self.BLEUIDDataList];
-                //存贮筹码UID
-                self.chipUIDList = [itool getDeviceAllChipUIDWithBLEString:BLEString];
-                self.viewModel.chipInfo.chipsUIDs = self.chipUIDList;
-                self.chipCount = self.chipUIDList.count;
-                self.scanChipNumberLab.text = [NSString stringWithFormat:@"*当前已识别筹码%ld枚*",(long)self.chipCount];
-                if (self.chipOperationType==0) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showWaitingViewWithText:@"发行中..."];
-                    });
-                    [self chipIssueImmediatelyAction];
-                }else if (self.chipOperationType==1){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showWaitingViewWithText:@"检测中..."];
-                    });
-                    [self checkChipAction];
-                }else if (self.chipOperationType==2||self.chipOperationType==3){
-                    self.cashCodeTextField.text = @"";
-                    self.customNameLab.text = @"";
-                    self.authorizationTextField.text = @"";
-                    self.noteTextField.text = @"";
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showWaitingViewWithText:@"读取中..."];
-                    });
-                    [self readAllChipsInfo];
-                }
-            }
-        }else{
-            [self hideWaitingView];
-            [self showLognMessage:@"未检测到筹码"];
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
         }
     }
 }

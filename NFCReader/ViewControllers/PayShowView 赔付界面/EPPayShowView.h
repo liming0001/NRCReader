@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class NRCustomerInfo;
 @interface EPPayShowView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *winStatuslab;
 @property (weak, nonatomic) IBOutlet UILabel *washNumber;
@@ -22,6 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *payType;
 @property (weak, nonatomic) IBOutlet UIImageView *dashuiType;
 @property (weak, nonatomic) IBOutlet UIImageView *payOutType;
+@property (weak, nonatomic) IBOutlet UILabel *havPayedAmountLab;
+@property (weak, nonatomic) IBOutlet UIButton *shuiQianBtn;
+
+@property(nonatomic,copy)void (^sureActionBlock)(NSInteger payConfirmType);
+
+- (void)fellViewDataNRCustomerInfo:(NRCustomerInfo *)customerInfo;
+- (void)clearPayShowInfo;
 
 @end
 

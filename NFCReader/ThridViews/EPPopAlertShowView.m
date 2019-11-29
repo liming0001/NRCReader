@@ -65,7 +65,7 @@
         self.addcompensateLab.text = self.curInfo.add_chipMoney;
         
         if (self.curInfo.isWinOrLose) {
-            self.havepayChipLab.hidden = YES;
+            self.havepayChipLab.hidden = NO;
             self.principalMoneyLab.hidden = NO;
             self.compensateCodeLab.hidden = NO;
             self.drawWaterMoneyLab.hidden = NO;
@@ -222,7 +222,6 @@
         make.top.equalTo(self.principalMoneyLab.mas_bottom).offset(0);
         make.right.equalTo(self.moneyInfoView).offset(-10);
     }];
-    
     
     self.compensateCodeLab = [UILabel new];
     self.compensateCodeLab.textColor = [UIColor colorWithHexString:@"#ffffff"];

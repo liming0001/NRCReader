@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UICollectionViewLayout *layout;
 
 @property (nonatomic, strong) JhCustomHorizontalLayout *customlayout;
+@property (nonatomic, strong) NSMutableArray *luzhuList;
 
 @end
 
@@ -29,13 +30,23 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     if (self = [super initWithFrame:frame]) {
         _ViewFrame = frame;
+        for (int i=0; i<100; i++) {
+            NSString *text = @"";
+            NSString *img = @"";
+            JhPageItemModel *model = [[JhPageItemModel alloc]init];
+            model.img = img;
+            model.text = text;
+            model.luzhuType = 0;
+            model.colorString = @"#ffffff";
+            [self.luzhuList addObject:model];
+        }
+        _dataArray = self.luzhuList;
         [self collectionView];
     }
     return self;
 }
 
 - (void)setDataArray:(NSArray *)dataArray{
-    
 }
 
 - (void)fellLuzhuListWithDataList:(NSArray *)list{
@@ -101,7 +112,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JhPageItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.data =self.dataArray[indexPath.row];
-    
     return cell;
 }
 

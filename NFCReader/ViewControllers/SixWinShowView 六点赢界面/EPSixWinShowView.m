@@ -41,6 +41,14 @@
 }
 - (IBAction)confirmAction:(id)sender {
     [self removeFromSuperview];
+    if (self.twoCardsBtn.isSelected) {
+        self.sixType = 0;
+    }else if (self.threeCardsBtn.isSelected){
+        self.sixType = 1;
+    }
+    if (self.sureActionBlock) {
+        self.sureActionBlock(self.sixType);
+    }
 }
 
 @end

@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadLuzhuInfoWithLuzhuList:(NSArray *)luzhuList;
 - (void)getLUzhuINfo;
 - (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName;
+- (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi;
 - (void)restartChangeStatus;
 @end
 

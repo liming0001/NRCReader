@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *fnn_pb;
 @property (nonatomic, strong) NSString *fadd_time;
 @property (nonatomic, strong) NSString *fedit_time;
+@property (nonatomic, strong) NSString *bindip;
 
 @end
 

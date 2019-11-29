@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +23,7 @@
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cow_points_bg" translatesAutoresizingMaskIntoConstraints="NO" id="shQ-Ur-abM">
                             <rect key="frame" x="0.0" y="0.0" width="328" height="374"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QqQ-ZY-OGC">
+                        <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QqQ-ZY-OGC">
                             <rect key="frame" x="13" y="28" width="69.5" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="69.5" id="OLU-92-73j"/>
@@ -45,7 +43,7 @@
                                 <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="GvG-kf-Je2"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CqX-Yv-XOF">
+                        <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CqX-Yv-XOF">
                             <rect key="frame" x="90.5" y="28" width="69.5" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="69.5" id="U6N-J9-wcq"/>
@@ -65,7 +63,7 @@
                                 <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Oky-aa-PPi"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3To-s5-oyV">
+                        <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3To-s5-oyV">
                             <rect key="frame" x="168" y="28" width="69.5" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="mpn-05-eqD"/>
@@ -85,7 +83,7 @@
                                 <action selector="topCowAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Pag-Fd-ckW"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqh-uY-kr1">
+                        <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqh-uY-kr1">
                             <rect key="frame" x="245.5" y="28" width="69.5" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="69.5" id="1AE-9S-NvK"/>

@@ -348,7 +348,14 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 
 #pragma mark - 向筹筹码数据块2中写入批次（当前日期）
 + (NSData *)writeInfoToChip2WithChipInfo:(NRChipInfoModel *)chipInfo{
-    NSString *hexString = [NSString stringWithFormat:@"12002108%@02%@",chipInfo.chipUID,chipInfo.chipBatch];
+    NSString *betchInfo = chipInfo.chipBatch;
+    NSString *preInfo = [betchInfo substringToIndex:6];
+    NSString *lastInfo = [betchInfo substringFromIndex:6];
+    if ([lastInfo isEqualToString:@"13"]) {//13号不能发布，与13000000冲突
+        lastInfo = @"14";
+    }
+    NSString *realBatch = [NSString stringWithFormat:@"%@%@",preInfo,lastInfo];
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@02%@",chipInfo.chipUID,realBatch];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
@@ -420,7 +427,25 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 
 #pragma mark - 设置感应盘工作模式
 + (NSData *)setDeviceWorkModel{
+    NSString *hexString = [NSString stringWithFormat:@"0D00B4f00010010000000000"];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark - 设置感应盘工作模式
++ (NSData *)setDeviceWorkModel_auto{
     NSString *hexString = [NSString stringWithFormat:@"0D00B4f00110010000000000"];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark - 清除缓存标签
++ (NSData *)clearDeviceCacheChip{
+    NSString *hexString = [NSString stringWithFormat:@"0500B6f0"];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark - 发送心跳指令
++ (NSData *)keepDeviceAlive{
+    NSString *hexString = [NSString stringWithFormat:@"070065f0a0a0"];
     return [self getSendBlockDataWithHexString:hexString];
 }
 

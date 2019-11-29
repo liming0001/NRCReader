@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad9_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -173,6 +171,12 @@
                                 <constraint firstAttribute="height" constant="16" id="ybw-Pc-B65"/>
                             </constraints>
                         </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已识别找回筹码:0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAI-T9-yMy">
+                            <rect key="frame" x="15" y="335.5" width="318" height="21.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -183,6 +187,7 @@
                         <constraint firstAttribute="bottom" secondItem="HC8-GN-JMc" secondAttribute="bottom" id="5cQ-tX-RbP"/>
                         <constraint firstAttribute="trailing" secondItem="fTy-gN-rCc" secondAttribute="trailing" constant="15" id="6KD-wP-PeW"/>
                         <constraint firstItem="HC8-GN-JMc" firstAttribute="top" secondItem="kbB-2p-BJZ" secondAttribute="bottom" constant="10" id="7e4-HF-7db"/>
+                        <constraint firstItem="muE-fy-00x" firstAttribute="top" secondItem="AAI-T9-yMy" secondAttribute="bottom" constant="8" id="COd-VL-wTl"/>
                         <constraint firstItem="gbR-0x-86z" firstAttribute="leading" secondItem="TZl-fa-reY" secondAttribute="trailing" constant="10" id="EJo-E2-Olx"/>
                         <constraint firstItem="PKV-BE-Cm7" firstAttribute="top" secondItem="zVS-Bv-VYc" secondAttribute="top" constant="10" id="GFq-rw-d8s"/>
                         <constraint firstItem="uxh-Vp-SOI" firstAttribute="top" secondItem="zVS-Bv-VYc" secondAttribute="top" constant="42" id="I23-eW-EAb"/>
@@ -207,9 +212,11 @@
                         <constraint firstAttribute="width" constant="341" id="g4r-dr-HNU"/>
                         <constraint firstItem="fTy-gN-rCc" firstAttribute="top" secondItem="m91-Yy-maJ" secondAttribute="bottom" id="hFe-1v-Eg2"/>
                         <constraint firstItem="HC8-GN-JMc" firstAttribute="top" secondItem="TZl-fa-reY" secondAttribute="bottom" constant="22" id="hcO-sz-1LN"/>
+                        <constraint firstItem="AAI-T9-yMy" firstAttribute="leading" secondItem="zVS-Bv-VYc" secondAttribute="leading" constant="15" id="jEb-FG-VeO"/>
                         <constraint firstItem="uxh-Vp-SOI" firstAttribute="leading" secondItem="m91-Yy-maJ" secondAttribute="trailing" constant="5" id="pkF-T9-ovH"/>
                         <constraint firstItem="9ZH-AF-pGw" firstAttribute="leading" secondItem="IyD-Qg-tgs" secondAttribute="trailing" constant="5" id="qVu-HY-fCq"/>
                         <constraint firstItem="7nH-lR-iaW" firstAttribute="leading" secondItem="zVS-Bv-VYc" secondAttribute="leading" constant="20" id="rh6-2k-vH6"/>
+                        <constraint firstAttribute="trailing" secondItem="AAI-T9-yMy" secondAttribute="trailing" constant="8" id="wPf-nv-tUm"/>
                         <constraint firstItem="kbB-2p-BJZ" firstAttribute="top" secondItem="8ca-d8-mIY" secondAttribute="bottom" constant="14" id="yb0-89-34N"/>
                         <constraint firstItem="HC8-GN-JMc" firstAttribute="leading" secondItem="zVS-Bv-VYc" secondAttribute="leading" constant="15" id="zY2-NK-PvO"/>
                     </constraints>
@@ -275,6 +282,7 @@
                 <constraint firstItem="aCx-eA-WCx" firstAttribute="top" secondItem="zVS-Bv-VYc" secondAttribute="bottom" constant="25" id="y4Y-4k-qJ0"/>
             </constraints>
             <connections>
+                <outlet property="havepayChipLab" destination="AAI-T9-yMy" id="z9q-3J-4uJ"/>
                 <outlet property="midView" destination="zVS-Bv-VYc" id="sXE-Jg-vty"/>
                 <outlet property="totalRMBValueLab" destination="gbR-0x-86z" id="ZDo-bO-u7m"/>
                 <outlet property="totalUSDValueLab" destination="muE-fy-00x" id="Haa-6x-Lve"/>

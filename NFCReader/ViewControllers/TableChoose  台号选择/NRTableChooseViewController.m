@@ -94,7 +94,7 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"当前版本V1.11";
+    self.languageLab.text = @"当前版本M1.1.1";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,7 +218,7 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"4"]){
                 //龙虎
-                NRTigerViewController *vc = [NRTigerViewController new];
+                NRTigerViewController *vc = [[NRTigerViewController alloc]init];
                 vc.viewModel = [self.viewModel tigerViewModelWithLoginInfo:self.viewModel.loginInfo];
                 [self.navigationController pushViewController:vc animated:YES];
             }

@@ -77,6 +77,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 设置感应盘工作模式
 + (NSData *)setDeviceWorkModel;
+#pragma mark - 设置感应盘工作模式
++ (NSData *)setDeviceWorkModel_auto;
+#pragma mark - 清除缓存标签
++ (NSData *)clearDeviceCacheChip;
+#pragma mark - 发送心跳指令
++ (NSData *)keepDeviceAlive;
 @end
 
 NS_ASSUME_NONNULL_END

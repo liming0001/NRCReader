@@ -18,6 +18,7 @@
 }
 */
 - (IBAction)OKAction:(id)sender {
+    [EPSound playWithSoundName:@"click_sound"];
     if ([[self.accountNameTF.text NullToBlankString]length]==0) {
         [[EPToast makeText:@"请输入账户名" WithError:YES]showWithType:ShortTime];
         //响警告声音
@@ -41,6 +42,7 @@
     self.passwordTF.text = @"";
 }
 - (IBAction)closeAction:(id)sender {
+    [EPSound playWithSoundName:@"click_sound"];
     [self removeFromSuperview];
     [self clearAccountInfo];
 }

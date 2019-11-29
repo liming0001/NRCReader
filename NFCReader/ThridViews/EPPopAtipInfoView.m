@@ -159,20 +159,20 @@
         make.width.mas_offset((kScreenWidth-300-40-20)/2);
     }];
     
-    self.readChipMoney_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.readChipMoney_button.layer.cornerRadius = 5;
-    //        self.readChipMoney_button.backgroundColor = [UIColor colorWithHexString:@"#357522"];
-    [self.readChipMoney_button setBackgroundImage:[UIImage imageNamed:@"button_selected"] forState:UIControlStateNormal];
-    self.readChipMoney_button.titleLabel.font = [UIFont systemFontOfSize:16];
-    [self.readChipMoney_button addTarget:self action:@selector(readCurChipsMoney) forControlEvents:UIControlEventTouchUpInside];
-    [self.readChipMoney_button setTitle:@"识别小费金额" forState:UIControlStateNormal];
-    [self.contentView addSubview:self.readChipMoney_button];
-    [self.readChipMoney_button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(10);
-        make.right.equalTo(self.contentView).offset(-5);
-        make.height.mas_equalTo(30);
-        make.width.mas_offset(120);
-    }];
+//    self.readChipMoney_button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    self.readChipMoney_button.layer.cornerRadius = 5;
+//    //        self.readChipMoney_button.backgroundColor = [UIColor colorWithHexString:@"#357522"];
+//    [self.readChipMoney_button setBackgroundImage:[UIImage imageNamed:@"button_selected"] forState:UIControlStateNormal];
+//    self.readChipMoney_button.titleLabel.font = [UIFont systemFontOfSize:16];
+//    [self.readChipMoney_button addTarget:self action:@selector(readCurChipsMoney) forControlEvents:UIControlEventTouchUpInside];
+//    [self.readChipMoney_button setTitle:@"识别小费金额" forState:UIControlStateNormal];
+//    [self.contentView addSubview:self.readChipMoney_button];
+//    [self.readChipMoney_button mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.contentView).offset(10);
+//        make.right.equalTo(self.contentView).offset(-5);
+//        make.height.mas_equalTo(30);
+//        make.width.mas_offset(120);
+//    }];
 }
 
 + (EPPopAtipInfoView *)showInWindowWithNRCustomerInfo:(NRCustomerInfo *)customerInfo handler:(AlertbuttonClickAction)handler{

@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *threeSelectIcon;
 @property (weak, nonatomic) IBOutlet UILabel *threeCardsWinLab;
 @property (weak, nonatomic) IBOutlet UILabel *threeCardsWinEnLav;
+@property (nonatomic, assign) int sixType;
+@property(nonatomic,copy)void (^sureActionBlock)(NSInteger sixWinType);
+
 
 @end
 

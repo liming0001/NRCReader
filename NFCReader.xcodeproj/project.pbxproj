@@ -99,6 +99,7 @@
 		816824A7231A72CB00CB6984 /* ZLCharKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816824A1231A72CB00CB6984 /* ZLCharKeyboard.xib */; };
 		817279542268165D00A98402 /* EPPopAlertShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 817279532268165D00A98402 /* EPPopAlertShowView.m */; };
 		8172795722681CD800A98402 /* NRCustomerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8172795622681CD800A98402 /* NRCustomerInfo.m */; };
+		8193A10C238E83B100BA3E70 /* LYKeychainTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8193A10B238E83B100BA3E70 /* LYKeychainTool.m */; };
 		8199A0F9227ED20900A08AC8 /* NRChipInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0F8227ED20900A08AC8 /* NRChipInfo.m */; };
 		8199A0FD227EEB1900A08AC8 /* NRChipAllInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0FC227EEB1900A08AC8 /* NRChipAllInfo.m */; };
 		81A1EE3822894653005FD12A /* EPResultShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1EE3722894653005FD12A /* EPResultShowView.m */; };
@@ -131,6 +132,8 @@
 		81BD426F225F371500A35545 /* NFCReaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BD426E225F371500A35545 /* NFCReaderUITests.m */; };
 		81C520292282834D0096ACDA /* NRCowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C520282282834D0096ACDA /* NRCowViewController.m */; };
 		81C5202C228283650096ACDA /* NRCowViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C5202B228283650096ACDA /* NRCowViewModel.m */; };
+		81C718CB236E7968007BD510 /* ChipInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C718CA236E7968007BD510 /* ChipInfoView.m */; };
+		81C718CD236E79E7007BD510 /* ChipInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81C718CC236E79E7007BD510 /* ChipInfoView.xib */; };
 		81CC4E0A22758F5200F0B09D /* NRCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CC4E0922758F5200F0B09D /* NRCommand.m */; };
 		81CC4E0F2275A7FD00F0B09D /* YRJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CC4E0D2275A7FD00F0B09D /* YRJSONAdapter.m */; };
 		81CD2F9D22DC839500D0885A /* JhPageItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD2F9022DC839400D0885A /* JhPageItemCell.m */; };
@@ -154,6 +157,8 @@
 		81E0AB9A2337BE3D00B9D27F /* EPSelectPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81E0AB962337BE3D00B9D27F /* EPSelectPopView.xib */; };
 		81E0AB9B2337BE3D00B9D27F /* EPFuncTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E0AB972337BE3D00B9D27F /* EPFuncTableViewCell.m */; };
 		81E0AB9E2337BEB800B9D27F /* EPWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E0AB9D2337BEB800B9D27F /* EPWebViewController.m */; };
+		81E5A280236F041F000C6CE1 /* ChipInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E5A27E236F041F000C6CE1 /* ChipInfoTableViewCell.m */; };
+		81E5A281236F041F000C6CE1 /* ChipInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81E5A27F236F041F000C6CE1 /* ChipInfoTableViewCell.xib */; };
 		81EC1E162268AE2300B000C7 /* DealerManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EC1E152268AE2300B000C7 /* DealerManagementViewController.m */; };
 		81EC1E192268AE7400B000C7 /* NRDealerManagerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EC1E182268AE7400B000C7 /* NRDealerManagerViewModel.m */; };
 		81EC1E1D2268C20000B000C7 /* NRChipManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EC1E1C2268C20000B000C7 /* NRChipManagerTableViewCell.m */; };
@@ -164,6 +169,7 @@
 		81EFCC6C2267768C008B85A7 /* NRTapButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFCC6B2267768C008B85A7 /* NRTapButtonItem.m */; };
 		81F9886C22804495002E466A /* NRTigerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F9886B22804495002E466A /* NRTigerViewController.m */; };
 		81F9886F228044AE002E466A /* NRTigerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F9886E228044AE002E466A /* NRTigerViewModel.m */; };
+		81FA01C02387846E007ACFA0 /* BlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA01BF2387846E007ACFA0 /* BlueToothManager.m */; };
 		81FD654222696D9C00CDC3BA /* NRChipCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FD654122696D9C00CDC3BA /* NRChipCodeItem.m */; };
 		CFC67C03F6BD0BC972B4561C /* Pods_NFCReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4778C66D0C37E06457768A50 /* Pods_NFCReader.framework */; };
 /* End PBXBuildFile section */
@@ -352,6 +358,8 @@
 		817279532268165D00A98402 /* EPPopAlertShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPopAlertShowView.m; sourceTree = "<group>"; };
 		8172795522681CD800A98402 /* NRCustomerInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCustomerInfo.h; sourceTree = "<group>"; };
 		8172795622681CD800A98402 /* NRCustomerInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCustomerInfo.m; sourceTree = "<group>"; };
+		8193A10A238E83B100BA3E70 /* LYKeychainTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYKeychainTool.h; sourceTree = "<group>"; };
+		8193A10B238E83B100BA3E70 /* LYKeychainTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYKeychainTool.m; sourceTree = "<group>"; };
 		8199A0F7227ED20900A08AC8 /* NRChipInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipInfo.h; sourceTree = "<group>"; };
 		8199A0F8227ED20900A08AC8 /* NRChipInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipInfo.m; sourceTree = "<group>"; };
 		8199A0FB227EEB1900A08AC8 /* NRChipAllInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipAllInfo.h; sourceTree = "<group>"; };
@@ -412,6 +420,9 @@
 		81C520282282834D0096ACDA /* NRCowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCowViewController.m; sourceTree = "<group>"; };
 		81C5202A228283650096ACDA /* NRCowViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCowViewModel.h; sourceTree = "<group>"; };
 		81C5202B228283650096ACDA /* NRCowViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCowViewModel.m; sourceTree = "<group>"; };
+		81C718C9236E7968007BD510 /* ChipInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChipInfoView.h; sourceTree = "<group>"; };
+		81C718CA236E7968007BD510 /* ChipInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChipInfoView.m; sourceTree = "<group>"; };
+		81C718CC236E79E7007BD510 /* ChipInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChipInfoView.xib; sourceTree = "<group>"; };
 		81CC4E0822758F5200F0B09D /* NRCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCommand.h; sourceTree = "<group>"; };
 		81CC4E0922758F5200F0B09D /* NRCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCommand.m; sourceTree = "<group>"; };
 		81CC4E0D2275A7FD00F0B09D /* YRJSONAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YRJSONAdapter.m; sourceTree = "<group>"; };
@@ -452,6 +463,9 @@
 		81E0AB972337BE3D00B9D27F /* EPFuncTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPFuncTableViewCell.m; sourceTree = "<group>"; };
 		81E0AB9C2337BEB800B9D27F /* EPWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPWebViewController.h; sourceTree = "<group>"; };
 		81E0AB9D2337BEB800B9D27F /* EPWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPWebViewController.m; sourceTree = "<group>"; };
+		81E5A27D236F041F000C6CE1 /* ChipInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChipInfoTableViewCell.h; sourceTree = "<group>"; };
+		81E5A27E236F041F000C6CE1 /* ChipInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChipInfoTableViewCell.m; sourceTree = "<group>"; };
+		81E5A27F236F041F000C6CE1 /* ChipInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChipInfoTableViewCell.xib; sourceTree = "<group>"; };
 		81EC1E142268AE2300B000C7 /* DealerManagementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DealerManagementViewController.h; sourceTree = "<group>"; };
 		81EC1E152268AE2300B000C7 /* DealerManagementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DealerManagementViewController.m; sourceTree = "<group>"; };
 		81EC1E172268AE7400B000C7 /* NRDealerManagerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRDealerManagerViewModel.h; sourceTree = "<group>"; };
@@ -471,6 +485,8 @@
 		81F9886B22804495002E466A /* NRTigerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRTigerViewController.m; sourceTree = "<group>"; };
 		81F9886D228044AE002E466A /* NRTigerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRTigerViewModel.h; sourceTree = "<group>"; };
 		81F9886E228044AE002E466A /* NRTigerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRTigerViewModel.m; sourceTree = "<group>"; };
+		81FA01BE2387846E007ACFA0 /* BlueToothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothManager.h; sourceTree = "<group>"; };
+		81FA01BF2387846E007ACFA0 /* BlueToothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothManager.m; sourceTree = "<group>"; };
 		81FD654022696D9C00CDC3BA /* NRChipCodeItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipCodeItem.h; sourceTree = "<group>"; };
 		81FD654122696D9C00CDC3BA /* NRChipCodeItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipCodeItem.m; sourceTree = "<group>"; };
 		E17B4E3DC1C53429B1EB7004 /* Pods-NFCReader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFCReader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NFCReader/Pods-NFCReader.debug.xcconfig"; sourceTree = "<group>"; };
@@ -550,6 +566,8 @@
 		810C8EAE22602E3C0010E1A4 /* EPNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				81FA01BE2387846E007ACFA0 /* BlueToothManager.h */,
+				81FA01BF2387846E007ACFA0 /* BlueToothManager.m */,
 				810C8EAF22602E3C0010E1A4 /* EPService.h */,
 				810C8EB422602E3C0010E1A4 /* EPService.m */,
 				810C8EB022602E3C0010E1A4 /* EPBaseRequest.h */,
@@ -852,6 +870,8 @@
 				81BD424B225F371200A35545 /* AppDelegate.m */,
 				810EFC7522D2DD4D005C3684 /* EPAppData.h */,
 				810EFC7422D2DD4D005C3684 /* EPAppData.m */,
+				8193A10A238E83B100BA3E70 /* LYKeychainTool.h */,
+				8193A10B238E83B100BA3E70 /* LYKeychainTool.m */,
 				813F329323177EF4001D4AAD /* SFLabel.h */,
 				813F329223177EF4001D4AAD /* SFLabel.m */,
 				810EFC7222D2DA5B005C3684 /* EPLanguage.h */,
@@ -908,6 +928,7 @@
 			children = (
 				81E0AB9C2337BEB800B9D27F /* EPWebViewController.h */,
 				81E0AB9D2337BEB800B9D27F /* EPWebViewController.m */,
+				81C718C5236E78D4007BD510 /* ChipsInfoView 筹码信息 */,
 				813C02A4232E4B8800D5617D /* CowPointChooseShowView 牛牛点数选择 */,
 				813C029C232E3F5500D5617D /* INSOddsShowView 保险赔率选择 */,
 				813C0296232E316E00D5617D /* INSShowView 保险弹出框 */,
@@ -1039,6 +1060,19 @@
 				8106361E2340F06700A288D7 /* NRTableDataModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		81C718C5236E78D4007BD510 /* ChipsInfoView 筹码信息 */ = {
+			isa = PBXGroup;
+			children = (
+				81C718C9236E7968007BD510 /* ChipInfoView.h */,
+				81C718CA236E7968007BD510 /* ChipInfoView.m */,
+				81C718CC236E79E7007BD510 /* ChipInfoView.xib */,
+				81E5A27D236F041F000C6CE1 /* ChipInfoTableViewCell.h */,
+				81E5A27E236F041F000C6CE1 /* ChipInfoTableViewCell.m */,
+				81E5A27F236F041F000C6CE1 /* ChipInfoTableViewCell.xib */,
+			);
+			path = "ChipsInfoView 筹码信息";
 			sourceTree = "<group>";
 		};
 		81CC4E0C2275A7FD00F0B09D /* YRJSONAdapt */ = {
@@ -1305,7 +1339,9 @@
 				81CD2F9F22DC839500D0885A /* JhPageItemCell.xib in Resources */,
 				81BD4252225F371200A35545 /* Main.storyboard in Resources */,
 				813C029B232E31CC00D5617D /* EPINSShowView.xib in Resources */,
+				81C718CD236E79E7007BD510 /* ChipInfoView.xib in Resources */,
 				816824A7231A72CB00CB6984 /* ZLCharKeyboard.xib in Resources */,
+				81E5A281236F041F000C6CE1 /* ChipInfoTableViewCell.xib in Resources */,
 				811C02EA233BC676001AD39D /* CustomerInfo_workersCollectionViewCell.xib in Resources */,
 				81E0AB992337BE3D00B9D27F /* EPFuncTableViewCell.xib in Resources */,
 			);
@@ -1430,6 +1466,7 @@
 				81BD424F225F371200A35545 /* ViewController.m in Sources */,
 				81179715226B75D500B7F810 /* NRCashExchangeTableViewCell.m in Sources */,
 				81CC4E0A22758F5200F0B09D /* NRCommand.m in Sources */,
+				81E5A280236F041F000C6CE1 /* ChipInfoTableViewCell.m in Sources */,
 				81CF8F5E231E0BC000207402 /* TigerCollectionViewCell.m in Sources */,
 				81A97F3F22642D4B00DFF774 /* RVMViewModel.m in Sources */,
 				810C8EAC22602B420010E1A4 /* EPTitleLabel.m in Sources */,
@@ -1443,6 +1480,7 @@
 				81344F4E2321E72000292FA7 /* DenominationView.m in Sources */,
 				813C029F232E3FCA00D5617D /* EPINSOddsShowView.m in Sources */,
 				811C02C7233BC118001AD39D /* NRBaccaratView_workersController.m in Sources */,
+				8193A10C238E83B100BA3E70 /* LYKeychainTool.m in Sources */,
 				81559E0C2316D826001490C6 /* UIView+Layout.m in Sources */,
 				81BD425A225F371500A35545 /* main.m in Sources */,
 				81CF8F6E231E787A00207402 /* ManualManagerCow.m in Sources */,
@@ -1452,6 +1490,7 @@
 				811C02F1233BC67C001AD39D /* CustomerEntryInfoView_workers.m in Sources */,
 				810EFC7622D2DD4D005C3684 /* EPAppData.m in Sources */,
 				813C028E232DE12A00D5617D /* EPKillShowTableViewCell.m in Sources */,
+				81FA01C02387846E007ACFA0 /* BlueToothManager.m in Sources */,
 				811FE33B232012B0008A87CF /* EmpowerView.m in Sources */,
 				8116971B231E9F7F008AF2FE /* CowAddMoreCell.m in Sources */,
 				81CC4E0F2275A7FD00F0B09D /* YRJSONAdapter.m in Sources */,
@@ -1461,6 +1500,7 @@
 				8106361F2340F06700A288D7 /* NRTableDataModel.m in Sources */,
 				81FD654222696D9C00CDC3BA /* NRChipCodeItem.m in Sources */,
 				811EC2E9229D44F500539615 /* NRUpdateInfo.m in Sources */,
+				81C718CB236E7968007BD510 /* ChipInfoView.m in Sources */,
 				81DE44FF22781F4C007EE010 /* NRLoginInfo.m in Sources */,
 				81B33C0322F7C8280012C7D0 /* EPSound.m in Sources */,
 				81235B3522DDA8FE00F5FF28 /* NFPopupTextContainView.m in Sources */,
@@ -1671,10 +1711,12 @@
 			baseConfigurationReference = E17B4E3DC1C53429B1EB7004 /* Pods-NFCReader.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Li liming (LYN7NHTTC7)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N9YCZ74X8Y;
 				GCC_PREFIX_HEADER = NFCReader/NFCReader.pch;
 				INFOPLIST_FILE = NFCReader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1696,6 +1738,7 @@
 				DEVELOPMENT_TEAM = N9YCZ74X8Y;
 				GCC_PREFIX_HEADER = NFCReader/NFCReader.pch;
 				INFOPLIST_FILE = NFCReader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

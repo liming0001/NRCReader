@@ -41,17 +41,21 @@ typedef void (^BLEProcessBLock)(NSMutableArray *dataArr);
 - (int)chipNumbersWithBLEString:(NSString *)bleString;
 //获取读写器上小费筹码的UID
 - (NSArray *)getDeviceALlShuiqianChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList;
+- (NSArray *)getDeviceRealShuiqianChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList WithPayUidList:(NSArray *)payUidList;
 //存贮筹码的UID
 - (NSArray *)cacheChipUIDWithBLEString:(NSString *)bleString WithOldUidList:(NSArray *)oldUIDList;
 //获取当前读写器上素有筹码的UID
 - (NSArray *)getDeviceAllChipUIDWithBLEString:(NSString *)bleString;
 //获取读写器上赔付筹码的UID
 - (NSArray *)getDeviceALlPayChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList WithShuiqianUidList:(NSArray *)shuiqianUIDList;
+//存贮筹码的UID
+- (NSDictionary *)updatePaycacheChipUIDWithBLEString:(NSString *)bleString WithPayUidList:(NSArray *)payUIDList WithBenjinUidList:(NSArray *)benjinUIDList;
 //获取读写器上小费筹码的UID
 - (NSArray *)getDeviceALlTipsChipUIDWithBLEString:(NSString *)bleString;
 //解析筹码信息
 - (NSArray *)chipInfoWithBLEString:(NSString *)bleString;
 //解析百家乐筹码信息
 - (NSArray *)chipInfoBaccrarWithBLEString:(NSString *)bleString WithSplitSize:(int)splitSize;
++ (NSArray *)shaiXuanShazhuListWithOriginalList:(NSArray *)list;
 
 @end

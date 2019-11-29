@@ -8,19 +8,22 @@
 
 #import "EPKillShowView.h"
 #import "EPKillShowTableViewCell.h"
+#import "NRCustomerInfo.h"
 
 static NSString * const killReuseIdentifier = @"KillCell";
 
 @interface EPKillShowView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NRCustomerInfo *curInfo;
+@property (nonatomic, strong) NSMutableArray *killShowList;
 
 @end
 @implementation EPKillShowView
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(16, 71, 310, 290) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(16, 71, 310, 260) style:UITableViewStylePlain];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -39,17 +42,64 @@ static NSString * const killReuseIdentifier = @"KillCell";
     [self.midView addSubview:self.tableView];
 }
 
+- (void)fellViewDataNRCustomerInfo:(NRCustomerInfo *)customerInfo{
+    self.killShowList = [NSMutableArray arrayWithCapacity:0];
+    self.curInfo = customerInfo;
+    if (self.curInfo.isTiger||self.curInfo.isCow) {
+        self.havepayChipLab.hidden = NO;
+        if (self.curInfo.isCow) {
+            self.havepayChipLab.text = self.curInfo.add_chipMoney;
+        }
+    }else{
+        self.havepayChipLab.hidden = YES;
+    }
+    self.winOrLostStatusLab.text = self.curInfo.winStatus;
+    NSArray *chipInfoList = self.curInfo.chipInfoList;
+    DLOG(@"chipInfoList = %@",chipInfoList);
+    __block NSInteger usdAmount = 0;
+    __block NSInteger rmbAmount = 0;
+    for (int i=0; i<chipInfoList.count; i++) {
+        __block NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
+        __block NSInteger chipAmount = 0;
+        NSArray *chipListA = chipInfoList[i];
+        NSArray *infoList = chipListA.firstObject;
+        [chipInfoDict setValue:infoList[1] forKey:@"chipType"];
+        [chipInfoDict setValue:infoList[4] forKey:@"chipWashNumber"];
+        [chipListA enumerateObjectsUsingBlock:^(NSArray *list, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString * realmoney = [NSString stringWithFormat:@"%lu",strtoul([list[2] UTF8String],0,16)];
+            if ([list[1] isEqualToString:@"01"]) {//人民币码
+                rmbAmount += [realmoney integerValue];
+            }else{//美金码
+                usdAmount += [realmoney integerValue];
+            }
+            chipAmount += [realmoney integerValue];
+        }];
+        [chipInfoDict setValue:[NSString stringWithFormat:@"%ld",(long)chipAmount] forKey:@"chipAmount"];
+        int shoudPayValue = (int)chipAmount;
+        if (self.curInfo.isTiger||self.curInfo.isCow) {
+            shoudPayValue = self.curInfo.odds*shoudPayValue;
+        }
+        [chipInfoDict setValue:[NSString stringWithFormat:@"%d",shoudPayValue] forKey:@"shoudPayValue"];
+        [self.killShowList addObject:chipInfoDict];
+    }
+    [self.tableView reloadData];
+    
+    if (self.curInfo.isCow) {
+        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*usdAmount];
+        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*rmbAmount];
+    }else{
+        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)usdAmount];
+        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)rmbAmount];
+    }
+    
+}
+
 #pragma mark - Private Methods
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     if ([cell.reuseIdentifier isEqualToString:killReuseIdentifier]) {
         EPKillShowTableViewCell *newCell = (EPKillShowTableViewCell *)cell;
         newCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        NRChipManagerInfo *managerInfo = self.chipIssueList[indexPath.row];
-//        [newCell configureWithSerialNumberText:managerInfo.serialNumber
-//                                  ChipTypeText:managerInfo.chipType
-//                              DenominationText:managerInfo.denomination
-//                                     BatchText:managerInfo.batch
-//                                    StatusText:managerInfo.status];
+        [newCell fellCellWithChipDict:self.killShowList[indexPath.row]];
     }
 }
 
@@ -59,7 +109,7 @@ static NSString * const killReuseIdentifier = @"KillCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.killShowList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -91,10 +141,20 @@ static NSString * const killReuseIdentifier = @"KillCell";
 }
 
 - (IBAction)confirmAction:(id)sender {
-    [self removeFromSuperview];
+    if (_sureActionBlock) {
+        _sureActionBlock(1);
+    }
 }
 - (IBAction)cancelAction:(id)sender {
     [self removeFromSuperview];
+    if (_sureActionBlock) {
+        _sureActionBlock(2);
+    }
+}
+
+- (void)clearKillShowView{
+    [self.killShowList removeAllObjects];
+    [self.tableView reloadData];
 }
 
 @end

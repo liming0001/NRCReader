@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -182,9 +180,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5P-Qo-DlU">
-                            <rect key="frame" x="186" y="209" width="50" height="28"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="186" y="209" width="56" height="28"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RMBICO" translatesAutoresizingMaskIntoConstraints="NO" id="EsF-Hy-xyd">
@@ -233,12 +231,19 @@
                                 <constraint firstAttribute="height" constant="30" id="HnR-sc-omb"/>
                                 <constraint firstAttribute="width" constant="66" id="o3o-8w-sgh"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <state key="normal" title="打水" backgroundImage="pay_sure"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="识别水钱" backgroundImage="pay_sure"/>
+                            <state key="selected" title="关闭水钱识别"/>
                             <connections>
                                 <action selector="dashuiAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="15e-Xw-id1"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已赔付筹码/Amount already paid:0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IYF-aP-Pqa">
+                            <rect key="frame" x="27" y="246" width="296" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -284,6 +289,7 @@
                         <constraint firstItem="mHU-KM-xJn" firstAttribute="top" secondItem="aRb-Va-MVJ" secondAttribute="bottom" constant="6" id="Vi7-4e-V6h"/>
                         <constraint firstItem="Imd-uC-QxM" firstAttribute="leading" secondItem="vLt-Lc-hig" secondAttribute="trailing" constant="10" id="ViU-bs-wOo"/>
                         <constraint firstItem="8hP-0T-YKz" firstAttribute="top" secondItem="TrD-qq-5J5" secondAttribute="top" constant="10" id="Vw6-X1-WqY"/>
+                        <constraint firstItem="IYF-aP-Pqa" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="27" id="Vwj-nr-EBZ"/>
                         <constraint firstItem="aRb-Va-MVJ" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="15" id="WiP-vZ-vXg"/>
                         <constraint firstItem="QnY-J2-ZBy" firstAttribute="top" secondItem="vnh-sd-Wav" secondAttribute="bottom" constant="28" id="WlD-QL-CLY"/>
                         <constraint firstItem="vnh-sd-Wav" firstAttribute="top" secondItem="FrN-qO-F7k" secondAttribute="bottom" id="XEa-YM-oWr"/>
@@ -304,8 +310,10 @@
                         <constraint firstItem="8hP-0T-YKz" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="20" id="efJ-Hr-gK3"/>
                         <constraint firstItem="vJo-DY-SfA" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="15" id="gM7-mh-qJs"/>
                         <constraint firstItem="QnY-J2-ZBy" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="15" id="gcx-0Q-M92"/>
+                        <constraint firstItem="IYF-aP-Pqa" firstAttribute="top" secondItem="vJo-DY-SfA" secondAttribute="bottom" constant="8" id="hTp-Qa-4ap"/>
                         <constraint firstItem="FrN-qO-F7k" firstAttribute="top" secondItem="2wD-Xv-1gG" secondAttribute="bottom" id="hWM-az-3V1"/>
                         <constraint firstItem="Gbt-c9-MmI" firstAttribute="top" secondItem="QnY-J2-ZBy" secondAttribute="bottom" id="iij-cc-SyS"/>
+                        <constraint firstAttribute="trailing" secondItem="IYF-aP-Pqa" secondAttribute="trailing" constant="18" id="kbl-RV-IpJ"/>
                         <constraint firstItem="2wD-Xv-1gG" firstAttribute="leading" secondItem="TrD-qq-5J5" secondAttribute="leading" constant="15" id="keT-ks-4pT"/>
                         <constraint firstItem="2wD-Xv-1gG" firstAttribute="top" secondItem="8hP-0T-YKz" secondAttribute="bottom" constant="66" id="kqW-Qt-bup"/>
                         <constraint firstItem="x2R-Nl-2Oz" firstAttribute="leading" secondItem="8hP-0T-YKz" secondAttribute="trailing" constant="5" id="l6B-Jx-Nny"/>
@@ -385,10 +393,12 @@
                 <outlet property="benjinType" destination="EsF-Hy-xyd" id="qYw-Oh-I9f"/>
                 <outlet property="dashuiLab" destination="tEU-6V-hPC" id="Md1-Nk-Tbf"/>
                 <outlet property="dashuiType" destination="mHU-KM-xJn" id="7GJ-l2-ZuS"/>
+                <outlet property="havPayedAmountLab" destination="IYF-aP-Pqa" id="lcJ-rO-wCx"/>
                 <outlet property="payLab" destination="hRO-oZ-hq3" id="SPi-L5-NZP"/>
                 <outlet property="payOutLab" destination="Y5P-Qo-DlU" id="CN3-Dl-kMy"/>
                 <outlet property="payOutType" destination="kGx-R6-K3R" id="tTt-Y5-RuI"/>
                 <outlet property="payType" destination="30h-eT-8xK" id="6fN-M6-CeB"/>
+                <outlet property="shuiQianBtn" destination="0lu-NL-yNy" id="qV6-Se-LoX"/>
                 <outlet property="totalValueLab" destination="Imd-uC-QxM" id="IkO-Jm-Sks"/>
                 <outlet property="washNumber" destination="Z1I-u4-r1x" id="GO4-dB-s8S"/>
                 <outlet property="winStatuslab" destination="x2R-Nl-2Oz" id="T1f-EX-PpE"/>

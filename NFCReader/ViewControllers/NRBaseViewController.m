@@ -134,18 +134,23 @@
 }
 
 - (void)showWaitingViewWithText:(NSString *)text {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UIView *window = [self findWindow];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.label.text = text;
     hud.layer.zPosition = 100;
 }
 
 - (void)showWaitingView {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.layer.zPosition = 100;
+    UIView *window = [self findWindow];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
 }
 
 - (void)hideWaitingView {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self hideWaitingViewInWindow];
 }
 
 - (void)showWaitingViewInWindow {

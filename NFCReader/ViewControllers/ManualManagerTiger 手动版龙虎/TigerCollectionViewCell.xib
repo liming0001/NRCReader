@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -63,7 +61,7 @@
                                     <constraint firstAttribute="width" constant="27" id="sbQ-0W-VA7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" image="结算台-龙ICON-选中" backgroundImage="customer_zhuang_bg">
+                                <state key="normal" image="dragon_selectIcon" backgroundImage="customer_zhuang_bg">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
@@ -112,7 +110,7 @@
                                     <constraint firstAttribute="width" constant="27" id="4Xr-rJ-qqm"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" image="结算台-虎ICON-选中" backgroundImage="customer_xian_bg">
+                                <state key="normal" image="seltment_tiger_selectIcon" backgroundImage="customer_xian_bg">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
@@ -281,7 +279,7 @@
         <image name="customer_normalTop" width="135" height="65"/>
         <image name="customer_xian_bg" width="27" height="23.5"/>
         <image name="customer_zhuang_bg" width="26" height="23"/>
-        <image name="结算台-虎ICON-选中" width="21" height="21"/>
-        <image name="结算台-龙ICON-选中" width="21" height="21"/>
+        <image name="dragon_selectIcon" width="16" height="16"/>
+        <image name="seltment_tiger_selectIcon" width="16" height="16"/>
     </resources>
 </document>

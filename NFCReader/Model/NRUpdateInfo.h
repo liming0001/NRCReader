@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *cp_chipType;//筹码类型
 @property (nonatomic, strong) NSString *cp_benjin;//本金
 @property (nonatomic, strong) NSString *cp_name;//下注名称
+@property (nonatomic, strong) NSString *cp_Result_name;//客人下注名称
 @property (nonatomic, strong) NSString *cp_beishu;//倍数
 @property (nonatomic, strong) NSString *add_chipMoney;//需增加的筹码金额
 @property (nonatomic, strong) NSString *cp_dianshu;//点数

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *payValueLab;
 @property (weak, nonatomic) IBOutlet UIImageView *moneyValuelab;
 
+- (void)fellCellWithChipDict:(NSDictionary *)chipDict;
+
 @end
 
 NS_ASSUME_NONNULL_END

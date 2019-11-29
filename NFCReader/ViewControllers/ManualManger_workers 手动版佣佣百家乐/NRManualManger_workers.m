@@ -1093,6 +1093,14 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self getLUzhuINfo];
 }
 
+- (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi{
+    self.xueciCount = curXueci;
+    self.puciCount = curPuCi;
+    self.prePuciCount = self.puciCount +1;
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+    self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
+}
+
 - (void)getLUzhuINfo{
     [self getLuzhuWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
         [self hideWaitingView];
@@ -1136,11 +1144,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         if (suc) {
             [self resetCountStatus];
             self.realLuzhuList = list;
-            NSDictionary *lastLuzhuDict = list.lastObject;
-            self.puciCount = [[NSString stringWithFormat:@"%@",lastLuzhuDict[@"fpuci"]]intValue];
-            self.prePuciCount = self.puciCount+1;
-            self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
-            
             NSMutableArray *luzhuList = [NSMutableArray array];
             [list enumerateObjectsUsingBlock:^(NSDictionary *luzhiDict, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *resultS =  luzhiDict[@"fkpresult"];

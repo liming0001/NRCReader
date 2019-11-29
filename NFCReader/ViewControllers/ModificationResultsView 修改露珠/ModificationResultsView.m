@@ -78,7 +78,7 @@
 
 - (IBAction)zhuangAction:(id)sender {
     if (self.isTiger) {
-        self.result_string = @"龙赢";
+        self.result_string = @"龙";
         self.updateType = 1;
         [self.zhuangBtn setSelected:YES];
         [self.xianBtn setSelected:NO];
@@ -106,7 +106,7 @@
 }
 - (IBAction)xianAction:(id)sender {
     if (self.isTiger) {
-        self.result_string = @"虎赢";
+        self.result_string = @"虎";
         self.updateType = 2;
         [self.zhuangBtn setSelected:NO];
         [self.xianBtn setSelected:YES];
@@ -133,7 +133,7 @@
 }
 - (IBAction)heAction:(id)sender {
     if (self.isTiger) {
-        self.result_string = @"和局";
+        self.result_string = @"和";
         self.updateType = 3;
         [self.zhuangBtn setSelected:NO];
         [self.xianBtn setSelected:NO];
@@ -161,7 +161,6 @@
 
 - (IBAction)zhuangDuiAction:(id)sender {
     if (self.isTiger) {
-        self.result_string = @"闲";
         self.updateType = 4;
         [self.zhuangBtn setSelected:NO];
         [self.xianBtn setSelected:NO];
@@ -193,7 +192,6 @@
 }
 - (IBAction)xianDuiAction:(id)sender {
     if (self.isTiger) {
-        self.result_string = @"闲对";
         self.updateType = 5;
         [self.zhuangBtn setSelected:NO];
         [self.xianBtn setSelected:NO];
@@ -244,16 +242,37 @@
 }
 
 - (IBAction)OKAction:(id)sender {
+    [EPSound playWithSoundName:@"click_sound"];
     if (self.isTiger) {
         if (self.updateType==0) {
             [[EPToast makeText:@"请选择结果" WithError:YES]showWithType:ShortTime];
+            //响警告声音
+            [EPSound playWithSoundName:@"wram_sound"];
             return;
         }
     }else{
         if (self.resultList.count==0) {
             [[EPToast makeText:@"请选择结果" WithError:YES]showWithType:ShortTime];
+            //响警告声音
+            [EPSound playWithSoundName:@"wram_sound"];
             return;
         }
+        NSMutableArray *reslutNameList = [NSMutableArray array];
+           for (int i=0; i<self.resultList.count; i++) {
+               NSInteger tagResult = [self.resultList[i]integerValue];
+               if (tagResult==1) {
+                   [reslutNameList addObject:@"庄"];
+               }else if (tagResult==2){
+                   [reslutNameList addObject:@"闲"];
+               }else if (tagResult==3){
+                   [reslutNameList addObject:@"和"];
+               }else if (tagResult==4){
+                   [reslutNameList addObject:@"庄对"];
+               }else if (tagResult==5){
+                   [reslutNameList addObject:@"闲对"];
+               }
+           }
+           self.result_string = [reslutNameList componentsJoinedByString:@","];
     }
     [self removeFromSuperview];
     @weakify(self);
@@ -302,6 +321,7 @@
     };
 }
 - (IBAction)closeAction:(id)sender {
+    [EPSound playWithSoundName:@"click_sound"];
     [self removeFromSuperview];
 }
 
@@ -321,6 +341,8 @@
     self.customterRecordIDList = [NSMutableArray array];
     self.resultRecordList = [NSMutableArray array];
     self.fyj_list = [NSMutableArray array];
+    //输赢
+    self.fsy_list = [NSMutableArray array];
     
     self.puciInfoList = infoList;
     self.curLoginToken = loginId;
@@ -354,16 +376,16 @@
                 [self.customterRecordIDList removeAllObjects];
                 [self.resultRecordList removeAllObjects];
                 [self.fyj_list removeAllObjects];
-                //输赢
-                self.fsy_list = [NSMutableArray array];
+                [self.fsy_list removeAllObjects];
+                
                 if (!self.isTiger) {
                     NSMutableArray *reslutNameList = [NSMutableArray array];
                     for (int i=0; i<self.resultList.count; i++) {
                         NSInteger tagResult = [self.resultList[i]integerValue];
                         if (tagResult==1) {
-                            [reslutNameList addObject:@"庄赢"];
+                            [reslutNameList addObject:@"庄"];
                         }else if (tagResult==2){
-                            [reslutNameList addObject:@"闲赢"];
+                            [reslutNameList addObject:@"闲"];
                         }else if (tagResult==3){
                             [reslutNameList addObject:@"和"];
                         }else if (tagResult==4){
@@ -380,7 +402,7 @@
                         [self.fyj_list addObject:@"0"];
                         NSString *customer_resultName = luzhuDict[@"fxz_name"];
                         NSString *customer_money = luzhuDict[@"fxz_money"];
-                        if ([self.result_string isEqualToString:@"龙赢"]) {
+                        if ([self.result_string isEqualToString:@"龙"]) {
                             if ([customer_resultName isEqualToString:@"龙赢"]||[customer_resultName isEqualToString:@"龙"]) {
                                 //赔率
                                 CGFloat odds = 0;
@@ -402,7 +424,7 @@
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
                             }
                             
-                        }else if ([self.result_string isEqualToString:@"虎赢"]){
+                        }else if ([self.result_string isEqualToString:@"虎"]){
                             if ([customer_resultName isEqualToString:@"虎赢"]||[customer_resultName isEqualToString:@"虎"]){
                                 //赔率
                                 CGFloat odds = 0;
@@ -424,7 +446,7 @@
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
                             }
                         }else{
-                            if ([customer_resultName isEqualToString:@"和局"]||[customer_resultName isEqualToString:@"和"]){
+                            if ([customer_resultName isEqualToString:@"和"]){
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -488,6 +510,7 @@
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
+                                [self.fyj_list addObject:@"0"];
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];
                                 if (curMoneyValue>0) {
@@ -500,6 +523,7 @@
                             }else {
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:customer_money];
+                                [self.fyj_list addObject:@"0"];
                             }
                         }
                         
@@ -519,6 +543,7 @@
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
+                                [self.fyj_list addObject:@"0"];
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];
                                 if (curMoneyValue>0) {
@@ -531,6 +556,7 @@
                             }else{
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:customer_money];
+                                [self.fyj_list addObject:@"0"];
                             }
                         }
                         
@@ -550,6 +576,7 @@
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
+                                [self.fyj_list addObject:@"0"];
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];
                                 if (curMoneyValue>0) {
@@ -562,6 +589,7 @@
                             }else{
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:customer_money];
+                                [self.fyj_list addObject:@"0"];
                             }
                         }
                         
@@ -581,6 +609,7 @@
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
+                                [self.fyj_list addObject:@"0"];
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];
                                 if (curMoneyValue>0) {
@@ -593,6 +622,7 @@
                             }else{
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:customer_money];
+                                [self.fyj_list addObject:@"0"];
                             }
                         }
                         
@@ -612,6 +642,7 @@
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
                             }else if ([customer_resultName isEqualToString:@"保险"]){
+                                [self.fyj_list addObject:@"0"];
                                 //赔率
                                 CGFloat curMoneyValue = [customer_money doubleValue];
                                 if (curMoneyValue>0) {
@@ -624,6 +655,7 @@
                             }else{
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:customer_money];
+                                [self.fyj_list addObject:@"0"];
                             }
                         }
                     }
@@ -645,7 +677,6 @@
                              @"frecid_list":self.customterRecordIDList,//客人输赢记录ID
                              @"fsy_list":self.fsy_list,//客人输赢记录
                              @"fresult_list":self.resultRecordList,//
-                             @"frecid_list":self.customterRecordIDList,//客人输赢记录ID
                              @"fyj_list":self.fyj_list,//佣金
                              };
     NSArray *paramList = @[param];

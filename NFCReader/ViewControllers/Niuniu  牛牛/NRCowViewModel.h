@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NRUpdateInfo *curupdateInfo;
 @property (nonatomic, strong) NRGameInfo *gameInfo;
 @property (nonatomic, strong) NSString *cp_tableIDString;
-@property (nonatomic, assign) int curXueci;
 @property (nonatomic, strong) NSDictionary *tableDataDict;
+@property (nonatomic, strong) NSDictionary *lastTableInfoDict;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)otherTableWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交客人输赢记录和台桌流水记录
 - (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 提交客人输赢记录和台桌流水记录(杀注)
+- (void)commitCustomerRecord_ShaZhuWithWashNumberList:(NSArray *)washNumberArray Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交小费
 - (void)commitTipResultWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 检测筹码是否正确
@@ -40,6 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 台面操作记录列表
 - (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 修改客人洗码号
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 获取当前台桌的靴次
+- (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 打散筹码
+- (void)changeChipWashNumberWithChipList:(NSArray *)chipList WashNumber:(NSString *)washNumber ChangChipList:(NSArray *)changeChipList Block:(EPFeedbackWithErrorCodeBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END

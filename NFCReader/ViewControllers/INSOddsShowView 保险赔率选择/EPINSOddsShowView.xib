@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +18,7 @@
                     <color key="backgroundColor" red="0.23921568630000001" green="0.33725490200000002" blue="0.38823529410000002" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMd-Dq-zuh">
-                    <rect key="frame" x="253" y="400" width="328" height="240"/>
+                    <rect key="frame" x="253" y="400" width="328" height="300"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="odds_bg" translatesAutoresizingMaskIntoConstraints="NO" id="yfL-QW-MM0">
                             <rect key="frame" x="0.0" y="0.0" width="328" height="240"/>
@@ -104,7 +102,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9Z-fe-BdO">
-                            <rect key="frame" x="0.0" y="180" width="328" height="60"/>
+                            <rect key="frame" x="0.0" y="240" width="328" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="9ns-CE-hPm"/>
                             </constraints>
@@ -115,7 +113,7 @@
                             </connections>
                         </button>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入赔率" textAlignment="center" minimumFontSize="17" background="odds_entryBox" translatesAutoresizingMaskIntoConstraints="NO" id="ggR-qe-qo0">
-                            <rect key="frame" x="26.5" y="121" width="275" height="50"/>
+                            <rect key="frame" x="26.5" y="181" width="275" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="275" id="Ls0-RN-gHc"/>
                                 <constraint firstAttribute="height" constant="50" id="c69-ne-rIs"/>
@@ -176,6 +174,71 @@
                                 <action selector="tenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ua3-xg-7Vs"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lGN-d2-5tY">
+                            <rect key="frame" x="25" y="125" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="37" id="6jn-fv-t8Q"/>
+                                <constraint firstAttribute="height" constant="37" id="Ym4-tl-BED"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="x8" backgroundImage="odds_unSelectedIcon"/>
+                            <state key="selected" backgroundImage="odds_SelectedIcon"/>
+                            <connections>
+                                <action selector="elevenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="oPT-qd-K2W"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZi-3p-SX7">
+                            <rect key="frame" x="85" y="125" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="37" id="DFB-eM-hYy"/>
+                                <constraint firstAttribute="height" constant="37" id="S5y-DE-z7h"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="x9" backgroundImage="odds_unSelectedIcon"/>
+                            <state key="selected" backgroundImage="odds_SelectedIcon"/>
+                            <connections>
+                                <action selector="televenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="bBR-li-PCc"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZw-jK-GAN">
+                            <rect key="frame" x="145" y="125" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="37" id="AWc-s1-9K8"/>
+                                <constraint firstAttribute="height" constant="37" id="feA-S6-ep9"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="x10" backgroundImage="odds_unSelectedIcon"/>
+                            <state key="selected" backgroundImage="odds_SelectedIcon"/>
+                            <connections>
+                                <action selector="thridteenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="iOc-KS-slt"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myC-w0-RZz">
+                            <rect key="frame" x="205" y="125" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="37" id="jhq-zH-Rgq"/>
+                                <constraint firstAttribute="height" constant="37" id="wO1-IP-EBU"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="x11" backgroundImage="odds_unSelectedIcon"/>
+                            <state key="selected" backgroundImage="odds_SelectedIcon"/>
+                            <connections>
+                                <action selector="forteenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="3Nu-IH-m12"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISq-JM-93Y">
+                            <rect key="frame" x="266" y="125" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="37" id="7lj-aF-Of9"/>
+                                <constraint firstAttribute="height" constant="37" id="EZj-4b-G67"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="x12" backgroundImage="odds_unSelectedIcon"/>
+                            <state key="selected" backgroundImage="odds_SelectedIcon"/>
+                            <connections>
+                                <action selector="fifteenOddsAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="69V-uk-LLb"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -183,22 +246,31 @@
                         <constraint firstItem="yfL-QW-MM0" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" id="47B-9Y-dmA"/>
                         <constraint firstItem="J9Z-fe-BdO" firstAttribute="leading" secondItem="fMd-Dq-zuh" secondAttribute="leading" id="4Jf-Iy-ysP"/>
                         <constraint firstItem="J9Z-fe-BdO" firstAttribute="top" secondItem="ggR-qe-qo0" secondAttribute="bottom" constant="9" id="4at-bx-CSg"/>
+                        <constraint firstItem="lGN-d2-5tY" firstAttribute="top" secondItem="gyB-2i-fJT" secondAttribute="bottom" constant="21" id="6mn-ze-HJz"/>
                         <constraint firstItem="C2z-NJ-zpy" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" constant="9" id="773-HE-nqC"/>
+                        <constraint firstItem="ISq-JM-93Y" firstAttribute="top" secondItem="G94-Wr-Pkk" secondAttribute="bottom" constant="21" id="9DR-gc-ed4"/>
                         <constraint firstItem="1U6-SO-afV" firstAttribute="top" secondItem="wlk-uA-d4t" secondAttribute="bottom" constant="21" id="9d5-iV-kXN"/>
+                        <constraint firstItem="myC-w0-RZz" firstAttribute="top" secondItem="1U6-SO-afV" secondAttribute="bottom" constant="21" id="CSL-TU-Ict"/>
                         <constraint firstItem="ggR-qe-qo0" firstAttribute="centerX" secondItem="fMd-Dq-zuh" secondAttribute="centerX" id="Cpw-oh-R9S"/>
-                        <constraint firstAttribute="height" constant="240" id="JR8-Nn-cmO"/>
+                        <constraint firstItem="FZi-3p-SX7" firstAttribute="top" secondItem="KfM-Sl-YG6" secondAttribute="bottom" constant="21" id="Hwk-yI-Kpi"/>
+                        <constraint firstAttribute="height" constant="300" id="JR8-Nn-cmO"/>
                         <constraint firstAttribute="width" constant="328" id="K6c-Mw-xex"/>
+                        <constraint firstAttribute="trailing" secondItem="ISq-JM-93Y" secondAttribute="trailing" constant="25" id="LOy-SM-YOW"/>
                         <constraint firstAttribute="trailing" secondItem="J9Z-fe-BdO" secondAttribute="trailing" id="MNi-Ay-Vry"/>
                         <constraint firstItem="gyB-2i-fJT" firstAttribute="top" secondItem="GJk-MS-Uaq" secondAttribute="bottom" constant="21" id="MOr-yt-VYs"/>
                         <constraint firstAttribute="trailing" secondItem="G94-Wr-Pkk" secondAttribute="trailing" constant="25" id="Rky-hz-gv8"/>
+                        <constraint firstItem="ZZw-jK-GAN" firstAttribute="leading" secondItem="FZi-3p-SX7" secondAttribute="trailing" constant="23" id="W36-xg-QJK"/>
                         <constraint firstItem="wlk-uA-d4t" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" constant="9" id="W5P-re-K7O"/>
                         <constraint firstItem="G94-Wr-Pkk" firstAttribute="top" secondItem="hT1-Lk-vbc" secondAttribute="bottom" constant="21" id="X9O-Io-ugK"/>
                         <constraint firstItem="KfM-Sl-YG6" firstAttribute="top" secondItem="C2z-NJ-zpy" secondAttribute="bottom" constant="21" id="aC0-Yq-eN1"/>
                         <constraint firstItem="GJk-MS-Uaq" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" constant="9" id="amd-hH-J6s"/>
+                        <constraint firstItem="myC-w0-RZz" firstAttribute="leading" secondItem="ZZw-jK-GAN" secondAttribute="trailing" constant="23" id="ctb-db-bqF"/>
                         <constraint firstItem="gyB-2i-fJT" firstAttribute="leading" secondItem="fMd-Dq-zuh" secondAttribute="leading" constant="25" id="dI9-Kb-XNC"/>
                         <constraint firstItem="1U6-SO-afV" firstAttribute="leading" secondItem="i3o-kg-47h" secondAttribute="trailing" constant="23" id="dem-aE-dYK"/>
                         <constraint firstItem="C2z-NJ-zpy" firstAttribute="leading" secondItem="GJk-MS-Uaq" secondAttribute="trailing" constant="23" id="eCz-aO-9Zs"/>
+                        <constraint firstItem="FZi-3p-SX7" firstAttribute="leading" secondItem="lGN-d2-5tY" secondAttribute="trailing" constant="23" id="hDl-pj-hja"/>
                         <constraint firstItem="i3o-kg-47h" firstAttribute="top" secondItem="lmP-nw-9DI" secondAttribute="bottom" constant="21" id="jGi-1P-9tK"/>
+                        <constraint firstItem="ZZw-jK-GAN" firstAttribute="top" secondItem="i3o-kg-47h" secondAttribute="bottom" constant="21" id="l46-m0-AQx"/>
                         <constraint firstItem="lmP-nw-9DI" firstAttribute="leading" secondItem="C2z-NJ-zpy" secondAttribute="trailing" constant="23" id="leA-Ng-gFm"/>
                         <constraint firstItem="GJk-MS-Uaq" firstAttribute="leading" secondItem="fMd-Dq-zuh" secondAttribute="leading" constant="25" id="lsC-QS-caL"/>
                         <constraint firstItem="i3o-kg-47h" firstAttribute="leading" secondItem="KfM-Sl-YG6" secondAttribute="trailing" constant="23" id="mnC-KI-NJu"/>
@@ -207,7 +279,8 @@
                         <constraint firstItem="yfL-QW-MM0" firstAttribute="leading" secondItem="fMd-Dq-zuh" secondAttribute="leading" id="v8p-hj-4Ut"/>
                         <constraint firstItem="hT1-Lk-vbc" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" constant="9" id="vUc-6u-oXj"/>
                         <constraint firstAttribute="trailing" secondItem="yfL-QW-MM0" secondAttribute="trailing" id="wjx-IB-ZT1"/>
-                        <constraint firstAttribute="bottom" secondItem="yfL-QW-MM0" secondAttribute="bottom" id="xi5-sx-XnX"/>
+                        <constraint firstItem="lGN-d2-5tY" firstAttribute="leading" secondItem="fMd-Dq-zuh" secondAttribute="leading" constant="25" id="wtI-eC-4eG"/>
+                        <constraint firstAttribute="bottom" secondItem="yfL-QW-MM0" secondAttribute="bottom" constant="60" id="xi5-sx-XnX"/>
                         <constraint firstItem="lmP-nw-9DI" firstAttribute="top" secondItem="fMd-Dq-zuh" secondAttribute="top" constant="9" id="yVk-a1-Ya3"/>
                         <constraint firstItem="KfM-Sl-YG6" firstAttribute="leading" secondItem="gyB-2i-fJT" secondAttribute="trailing" constant="23" id="ydH-gU-Yc0"/>
                     </constraints>
@@ -219,7 +292,7 @@
                 <constraint firstItem="6gY-7I-DGf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AzT-CA-74E"/>
                 <constraint firstAttribute="bottom" secondItem="6gY-7I-DGf" secondAttribute="bottom" id="QPm-kA-mef"/>
                 <constraint firstItem="6gY-7I-DGf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cVy-h8-GKH"/>
-                <constraint firstItem="fMd-Dq-zuh" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-36" id="izT-hz-QtG"/>
+                <constraint firstItem="fMd-Dq-zuh" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-6" id="izT-hz-QtG"/>
                 <constraint firstAttribute="trailing" secondItem="6gY-7I-DGf" secondAttribute="trailing" id="tta-ec-dIy"/>
             </constraints>
             <connections>

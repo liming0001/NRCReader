@@ -18,14 +18,25 @@
 }
 */
 - (IBAction)topCowAction:(id)sender {
-    
     [self removeFromSuperview];
+    UIButton *btn = (UIButton *)sender;
+    if (_pointsResultBlock) {
+        _pointsResultBlock((int)btn.tag);
+    }
 }
 - (IBAction)midCowAction:(id)sender {
     [self removeFromSuperview];
+    UIButton *btn = (UIButton *)sender;
+    if (_pointsResultBlock) {
+        _pointsResultBlock((int)btn.tag);
+    }
 }
 - (IBAction)noCowAction:(id)sender {
     [self removeFromSuperview];
+    UIButton *btn = (UIButton *)sender;
+    if (_pointsResultBlock) {
+        _pointsResultBlock((int)btn.tag);
+    }
 }
 
 @end

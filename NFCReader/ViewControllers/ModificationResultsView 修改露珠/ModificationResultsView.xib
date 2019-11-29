@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -256,7 +256,7 @@
                                 <constraint firstAttribute="height" constant="40" id="Kbk-6M-Oc9"/>
                                 <constraint firstAttribute="width" constant="150" id="k37-hz-RqD"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="确认/OK" backgroundImage="VM_puclicbtn_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -270,7 +270,7 @@
                                 <constraint firstAttribute="width" constant="150" id="OlD-aa-XKq"/>
                                 <constraint firstAttribute="height" constant="40" id="brS-ve-MqM"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <state key="normal" title="关闭/Close" backgroundImage="VM_CloseBtn_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -316,7 +316,7 @@
         </view>
     </objects>
     <resources>
-        <image name="VM_CloseBtn_icon" width="16" height="16"/>
+        <image name="VM_CloseBtn_icon" width="220" height="55"/>
         <image name="VM_puclicbtn_icon" width="150" height="40"/>
         <image name="圆未选中" width="16" height="16"/>
         <image name="圆角矩形-未选中" width="16" height="16"/>

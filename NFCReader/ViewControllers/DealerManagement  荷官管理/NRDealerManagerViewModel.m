@@ -38,7 +38,6 @@
             [self.chipInfoList removeAllObjects];
             NSArray *list = [NSArray yy_modelArrayWithClass:[NRChipInfo class] json:responseDict];
             NSArray *sortList = [self shaiXuanWithList:list];
-            
             [sortList enumerateObjectsUsingBlock:^(NSArray *infoList, NSUInteger idx, BOOL * _Nonnull stop) {
                 NRChipAllInfo *allInfo = [[NRChipAllInfo alloc]init];
                 if (infoList.count!=0) {
@@ -115,12 +114,16 @@
 
 #pragma mark - 现金兑换筹码
 - (void)CashExchangeChipWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSString *notes = self.chipModel.notes;
+    if (notes.length==0) {
+        notes = @"0";
+    }
     NSDictionary * param = @{
                              @"access_token":self.chipInfo.access_token,
                              @"fxmh":self.chipModel.guestWashesNumber,
                              @"fcredit":self.chipModel.fcredit,
                              @"fsq_name":self.chipModel.authorName,
-                             @"fdesc":self.chipModel.notes,
+                             @"fdesc":notes,
                              @"fhardlist":self.chipInfo.chipsUIDs
                              };
     NSArray *paramList = @[param];
@@ -210,7 +213,6 @@
                 j -= 1;
                 
             }
-            
         }
         
         [dateMutablearray addObject:tempArray];

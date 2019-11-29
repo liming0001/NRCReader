@@ -10,6 +10,7 @@
 #import "JiaJIanCaiCell.h"
 #import "LotteryView.h"
 #import "DenominationView.h"
+#import "BlueToothManager.h"
 
 @interface TableJiaJiancaiView ()
 @property (nonatomic,strong) NSMutableArray *StatusArray;
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) LotteryView *bottomView;
 @property (nonatomic, assign) int headType;
+@property (nonatomic, assign) int bottomType;
 
 @property (nonatomic, strong) UILabel *topTitleLab;
 
@@ -42,6 +44,8 @@
 
 @property (nonatomic,strong) NSMutableArray *forthMoneyList;
 @property (nonatomic,strong) NSMutableArray *forthNumberList;
+
+@property (nonatomic, strong) BlueToothManager *manager;
 
 @end
 
@@ -192,6 +196,7 @@
 }
 
 - (void)fellListWithType:(int)type{
+    self.bottomType = type;
     if (type==0) {
         self.topTitleLab.text = @"台面加减彩/Data Computing";
         [self.addBtn setTitle:@"加彩/Add" forState:UIControlStateNormal];
@@ -207,12 +212,14 @@
         self.minusBtn.hidden = YES;
         self.recordBtn.hidden = YES;
     }else if (type==2){
-        self.topTitleLab.text = @"收台";
-        [self.addBtn setTitle:@"收台" forState:UIControlStateNormal];
-        [self.addJiaBtn setTitle:@"收台" forState:UIControlStateNormal];
-        [self.printBtn setTitle:@"收台并打印" forState:UIControlStateNormal];
-        self.minusBtn.hidden = YES;
+        self.topTitleLab.text = @"开台";
+        [self.addBtn setTitle:@"开台" forState:UIControlStateNormal];
+        [self.addJiaBtn setTitle:@"开台" forState:UIControlStateNormal];
+        [self.printBtn setTitle:@"开台并打印" forState:UIControlStateNormal];
+        self.minusBtn.hidden = NO;
         self.recordBtn.hidden = YES;
+        [self.minusBtn setTitle:@"收台" forState:UIControlStateNormal];
+        
     }
 }
 
@@ -298,6 +305,57 @@
         make.width.mas_equalTo(150);
         make.height.mas_equalTo(40);
     }];
+    
+    self.manager = [BlueToothManager getInstance];
+}
+
+- (void)scanBlootooth{
+    [self showWaitingViewInWindow];
+    [self.manager startScan];
+    [self.manager getBlueListArray:^(NSMutableArray *blueToothArray) {
+        CBPeripheral * per = blueToothArray[0];
+        [self.manager connectPeripheralWith:per];
+        [self.manager connectInfoReturn:^(CBCentralManager *central, CBPeripheral *peripheral, NSString *stateStr) {
+            if ([stateStr isEqualToString:@"SUCCESS"]) {//连接成功--SUCCESS，连接失败--ERROR，断开连接--DISCONNECT
+                [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(BlueToothPrint) userInfo:nil repeats:NO];
+            }else if([stateStr isEqualToString:@"ERROR"]){
+            }else if([stateStr isEqualToString:@"BLUEDISS"]){
+            }else{
+            }
+        }];
+    }];
+}
+
+- (void)showWaitingViewInWindow {
+    UIView *window = [self findWindow];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    hud.layer.zPosition = 100;
+}
+
+- (UIView *)findWindow {
+    UIView *window = [[UIApplication sharedApplication] keyWindow];
+    if (!window) {
+        window = self;
+    }
+    return window;
+}
+
+- (void)hideWaitingViewInWindow {
+    UIView *window = [self findWindow];
+    [MBProgressHUD hideHUDForView:window animated:YES];
+}
+
+-(void)BlueToothPrint{
+//    [self.manager getBluetoothPrintWith:self.jsonDic andPrintType:self.printNum];
+    [self.manager stopScan];
+    [self.manager getPrintSuccessReturn:^(BOOL sizeValue) {
+        if (sizeValue==YES) {
+            [self hideWaitingViewInWindow];
+            [[EPToast makeText:@"打印成功"]showWithType:ShortTime];
+        }else{
+            [[EPToast makeText:@"打印失败!"]showWithType:ShortTime];
+        }
+    }];
 }
 
 - (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId{
@@ -356,41 +414,43 @@
 
 - (void)changeBtnsBackColor:(BOOL)isAdd{
     if (isAdd) {
-        [self.addJiaBtn setTitle:@"加彩" forState:UIControlStateNormal];
-        [self.printBtn setTitle:@"加彩并打印" forState:UIControlStateNormal];
+        if (self.bottomType==0) {
+            [self.addJiaBtn setTitle:@"加彩" forState:UIControlStateNormal];
+            [self.printBtn setTitle:@"加彩并打印" forState:UIControlStateNormal];
+        }else{
+            [self.addJiaBtn setTitle:@"开台" forState:UIControlStateNormal];
+            [self.printBtn setTitle:@"开台并打印" forState:UIControlStateNormal];
+        }
     }else{
-        [self.addJiaBtn setTitle:@"减彩" forState:UIControlStateNormal];
-        [self.printBtn setTitle:@"减彩并打印" forState:UIControlStateNormal];
+        if (self.bottomType==0) {
+            [self.addJiaBtn setTitle:@"减彩" forState:UIControlStateNormal];
+            [self.printBtn setTitle:@"减彩并打印" forState:UIControlStateNormal];
+        }else{
+            [self.addJiaBtn setTitle:@"收台" forState:UIControlStateNormal];
+            [self.printBtn setTitle:@"收台并打印" forState:UIControlStateNormal];
+        }
     }
-}
-
-- (void)showWaitingViewInWindow {
-    UIView *window = [self findWindow];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.layer.zPosition = 100;
-}
-
-- (UIView *)findWindow {
-    UIView *window = [[UIApplication sharedApplication] keyWindow];
-    if (!window) {
-        window = self;
-    }
-    return window;
-}
-
-- (void)hideWaitingViewInWindow {
-    UIView *window = [self findWindow];
-    [MBProgressHUD hideHUDForView:window animated:YES];
 }
 
 - (void)addJiacaiAction{
     [self showWaitingViewInWindow];
     NSString *fTypeS = @"1";
-    if (self.headType==1) {
-        fTypeS = @"1";
-    }else if (self.headType==2){
-        fTypeS = @"2";
+    if (self.bottomType==0) {//加减彩
+        if (self.headType==1) {
+            fTypeS = @"1";
+        }else if (self.headType==2){
+            fTypeS = @"2";
+        }
+    }else if (self.bottomType==1){//点码
+        fTypeS = @"3";
+    }else if (self.bottomType==2){//开台
+        if (self.headType==1) {
+            fTypeS = @"4";
+        }else if (self.headType==2){
+            fTypeS = @"5";
+        }
     }
+    
     
     NSMutableArray *fme_list = [NSMutableArray array];
     [fme_list addObject:self.firstMoneyList];
@@ -421,12 +481,21 @@
         [self hideWaitingViewInWindow];
         if (suc) {
             [self closeAction];
-            if (self.headType==1) {
-                [[EPToast makeText:@"加彩成功" WithError:NO]showWithType:ShortTime];
-            }else if (self.headType==2){
-                [[EPToast makeText:@"减彩成功" WithError:NO]showWithType:ShortTime];
+            if (self.bottomType==0) {//加减彩
+                if (self.headType==1) {
+                    [[EPToast makeText:@"加彩成功" WithError:NO]showWithType:ShortTime];
+                }else if (self.headType==2){
+                    [[EPToast makeText:@"减彩成功" WithError:NO]showWithType:ShortTime];
+                }
+            }else if (self.bottomType==1){//点码
+                [[EPToast makeText:@"点码成功" WithError:NO]showWithType:ShortTime];
+            }else if (self.bottomType==2){//开台
+                if (self.headType==1) {
+                    [[EPToast makeText:@"开台成功" WithError:NO]showWithType:ShortTime];
+                }else if (self.headType==2){
+                    [[EPToast makeText:@"收台成功" WithError:NO]showWithType:ShortTime];
+                }
             }
-            
             //响警告声音
             [EPSound playWithSoundName:@"succeed_sound"];
             self.firstMoneyList = nil;
@@ -466,7 +535,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = [NSString stringWithFormat:@"KReportImgTableViewCell_%ld",indexPath.section+1];
+    NSString *cellIdentifier = [NSString stringWithFormat:@"KReportImgTableViewCell_%d",indexPath.section+1];
     
     JiaJIanCaiCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
