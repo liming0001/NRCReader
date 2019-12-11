@@ -13,6 +13,11 @@
 #import "NRNavigationViewController.h"
 #import "EPAppData.h"
 #import "AsyncUdpSocketN.h"
+#import <UMCommon/UMCommon.h>
+
+static NSString *Channel = @"App Store";
+//友盟统计
+static NSString *UMGAppKey = @"5deeff8e0cafb20d5e00058b";
 
 @interface AppDelegate ()
 
@@ -29,7 +34,8 @@
     // Override point for customization after application launch.
     
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
-    
+    //注册友盟统计
+    [UMConfigure initWithAppkey:UMGAppKey channel:Channel];
     [self getCurrentLanguage];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     NRLoginViewModel *viewModel = [[NRLoginViewModel alloc]init];

@@ -22,6 +22,7 @@
     self.curupdateInfo = [NRUpdateInfo new];
     self.cp_fidString = @"";
     self.cp_tableIDString = @"";
+    self.currentData = [NRCommand getCurrentDate];
     return self;
 }
 
@@ -42,6 +43,30 @@
     }];
 }
 
+#pragma mark - 提交开牌结果
+- (void)commitkpResultWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"ftable_id":self.curTableInfo.fid,//桌子ID
+                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
+                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
+                             @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
+                             @"fkpresult":@"",//结果
+                             @"frjdate":self.currentData
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_kpResult",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+            self.cp_tableIDString = responseString;
+        }
+        block(suc, msg,error);
+    }];
+}
+
 #pragma mark - 提交客人输赢记录和台桌流水记录
 - (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSArray *dashuiList = [NSArray array];
@@ -58,13 +83,7 @@
     
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
-                             @"ftbrec_id":self.curTableInfo.fid,//桌子ID
-                             @"ftable_id":self.curTableInfo.fid,//桌子ID
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
-                             @"frjdate":[NRCommand getCurrentDate],//日期
-                             @"fkpresult":@"",//结果
-                             @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
+                             @"ftbrec_id":self.cp_tableIDString,//桌子流水ID
                              @"fxmh":[self.curupdateInfo.cp_washNumber NullToBlankString],//客人洗码号
                              @"fxz_cmtype":[self.curupdateInfo.cp_chipType NullToBlankString],//客人下注的筹码类型
                              @"fxz_money":[self.curupdateInfo.cp_benjin NullToBlankString],//客人下注的本金
@@ -108,10 +127,7 @@
     }
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
-                             @"ftbrec_id":self.curTableInfo.fid,//桌子ID
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
-                             @"fpcls":self.curupdateInfo.cp_Serialnumber,//铺次流水号，长度不超过20位，要求全局唯一
+                             @"ftbrec_id":self.cp_tableIDString,//桌子流水ID
                              @"fxmh_list":washNumberList,//客人洗码号
                              @"fxz_name":self.curupdateInfo.cp_name,//下注名称，如庄、闲、庄对子…
                              @"fbeishu":self.curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
@@ -191,14 +207,15 @@
 }
 
 #pragma mark - 修改客人洗码号
-- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block{
-    NSDictionary * param = @{
-                             @"access_token":self.loginInfo.access_token,
-                             @"hard_id_list":chipList,
-                             @"table_name":self.curTableInfo.ftbname,
-                             @"table_id":self.curTableInfo.fid,
-                             @"new_xmh":washNumber
-                             };
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block{
+NSDictionary * param = @{
+                         @"access_token":self.loginInfo.access_token,
+                         @"hard_id_list":chipList,
+                         @"table_name":self.curTableInfo.ftbname,
+                         @"table_id":self.curTableInfo.fid,
+                         @"femp_num":adminName,
+                         @"new_xmh":washNumber
+                         };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
                                  @"f":@"Tablerec_editXmh",
@@ -251,7 +268,7 @@
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
-                                 @"f":@"Cmpublish_checkState",
+                                 @"f":@"tablerec_rijie",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {

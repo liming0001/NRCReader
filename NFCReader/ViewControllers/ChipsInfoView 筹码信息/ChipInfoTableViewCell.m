@@ -21,10 +21,18 @@
 - (void)fellCellWithChipDict:(NSDictionary *)chipDict{
     self.chipNumberLab.text = chipDict[@"chipWashNumber"];
     self.chipMoneyLab.text = chipDict[@"chipAmount"];
-    if ([chipDict[@"chipType"] isEqualToString:@"01"]) {//人民币码
+    if ([chipDict[@"chipType"] intValue]==1) {//人民币码
         self.chipTypeLab.text = @"人民币码";
-    }else if ([chipDict[@"chipType"] isEqualToString:@"02"]){//美金码
+    }else if ([chipDict[@"chipType"] intValue]==2){//美金码
         self.chipTypeLab.text = @"美金码";
+    }else if ([chipDict[@"chipType"] intValue]==6){//人民币
+        self.chipTypeLab.text = @"人民币";
+    }else if ([chipDict[@"chipType"] intValue]==7){//美金
+        self.chipTypeLab.text = @"美金";
+    }else if ([chipDict[@"chipType"] intValue]==8){//RMB贵宾码
+        self.chipTypeLab.text = @"RMB贵宾码";
+    }else if ([chipDict[@"chipType"] intValue]==9){//USD贵宾码
+        self.chipTypeLab.text = @"USD贵宾码";
     }
 }
 

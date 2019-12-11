@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
                   ChipTypeText:(NSString *)chipTypeText
                   DenominationText:(NSString *)denominationText
                   BatchText:(NSString *)batchText
-                  StatusText:(NSString *)statusText;
+                  StatusText:(NSString *)statusText
+                chipTypeList:(NSArray *)chiTypeList;
 
 @end
 

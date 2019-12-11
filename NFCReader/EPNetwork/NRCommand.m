@@ -202,6 +202,17 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     return from + (arc4random() % (to - from + 1));
 }
 
+#pragma mark -- 获取一个随机字符串
++(NSString *)randomStringWithLength:(NSInteger)len {
+     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    
+    for (NSInteger i = 0; i < len; i++) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
+    }
+    return randomString;
+}
+
 /**
  十进制转换十六进制
  
@@ -278,6 +289,10 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     NSString *jiaoyanHex = [NSString stringWithFormat:@"%x",uiCrcValue];
     if (jiaoyanHex.length==3) {
         jiaoyanHex = [NSString stringWithFormat:@"0%@",jiaoyanHex];
+    }else if (jiaoyanHex.length==2){
+        jiaoyanHex = [NSString stringWithFormat:@"00%@",jiaoyanHex];
+    }else if (jiaoyanHex.length==1){
+        jiaoyanHex = [NSString stringWithFormat:@"000%@",jiaoyanHex];
     }
     NSString *hightHex = [jiaoyanHex substringToIndex:2];
     NSString *lowHex = [jiaoyanHex substringFromIndex:2];

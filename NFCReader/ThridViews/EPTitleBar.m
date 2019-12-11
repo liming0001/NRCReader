@@ -95,7 +95,7 @@
         }
     }];
     self.bottomLineView = [UIView new];
-    self.bottomLineView.backgroundColor = [UIColor colorAndAlphaWithHexString:@"00000028"];
+    self.bottomLineView.backgroundColor = [UIColor colorWithHexString:@"#959595"];
     [self addSubview:self.bottomLineView];
     [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self);

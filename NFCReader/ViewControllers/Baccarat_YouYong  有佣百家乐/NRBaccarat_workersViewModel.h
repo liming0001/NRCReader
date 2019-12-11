@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 台面操作记录列表
 - (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 修改客人洗码号
-- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block;
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 获取当前台桌的靴次
 - (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 打散筹码

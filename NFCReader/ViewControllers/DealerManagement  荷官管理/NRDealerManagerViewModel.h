@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NRLoginInfo *chipInfo;
 @property (nonatomic, strong) NRChipInfoModel *chipModel;
 @property (nonatomic, strong) NSMutableArray *chipInfoList;
-@property (nonatomic, strong) NSString *customName;
+@property (nonatomic, strong) NSDictionary *customerInfoDict;
 @property (nonatomic, strong) NSString *lastNumber;
 @property (nonatomic, strong) NSDictionary *checkChipDict;
 

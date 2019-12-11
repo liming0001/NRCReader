@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *fid;
 @property (nonatomic, strong) NSString *femp_xm;
+@property (nonatomic, strong) NSString *bind_ip;
 @property (nonatomic, strong) NSString *femp_num;
 @property (nonatomic, strong) NSString *femp_pwd;
 @property (nonatomic, strong) NSString *femp_role;

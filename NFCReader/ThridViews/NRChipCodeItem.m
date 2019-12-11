@@ -27,15 +27,15 @@
     }];
     
     self.infoLabel = [UILabel new];
-    self.infoLabel.font = [UIFont fontWithName:@"Avenir LT Std" size:16];
+    self.infoLabel.font = [UIFont fontWithName:@"Avenir LT Std" size:12];
     self.infoLabel.textColor = [UIColor colorWithHexString:@"#4a4a4a"];
     self.infoLabel.text = title_s;
     self.infoLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.infoLabel];
     [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(10);
-        make.left.equalTo(self).offset(5);
-        make.centerX.equalTo(self).offset(10);
+        make.left.equalTo(self.checkIcon.mas_right).offset(5);
+        make.right.equalTo(self).offset(-5);
     }];
     
     self.checkButton = [UIButton buttonWithType:UIButtonTypeCustom];

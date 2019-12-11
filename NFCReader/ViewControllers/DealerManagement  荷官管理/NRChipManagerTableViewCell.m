@@ -7,6 +7,7 @@
 //
 
 #import "NRChipManagerTableViewCell.h"
+#import "NRChipInfo.h"
 
 @interface NRChipManagerTableViewCell ()
 
@@ -120,17 +121,15 @@
                          ChipTypeText:(NSString *)chipTypeText
                      DenominationText:(NSString *)denominationText
                             BatchText:(NSString *)batchText
-                           StatusText:(NSString *)statusText{
+                           StatusText:(NSString *)statusText
+                        chipTypeList:(NSArray *)chiTypeList{
     self.serialNumberLab.text = serialNumberText;
-    if ([chipTypeText isEqualToString:@"01"]) {
-        self.chipTypeLab.text = @"现金码";
-    }else{
-        if (![chipTypeText isEqualToString:@"筹码类型"]) {
-            self.chipTypeLab.text = @"其它码";
-        }else{
-            self.chipTypeLab.text = chipTypeText;
+    self.chipTypeLab.text = chipTypeText;
+    [chiTypeList enumerateObjectsUsingBlock:^(NRChipInfo *curChipInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([chipTypeText intValue]==[curChipInfo.fcmtype intValue]) {
+            self.chipTypeLab.text = curChipInfo.fcmtype_name;
         }
-    }
+    }];
     self.denominationLab.text = denominationText;
     self.batchLab.text = batchText;
     self.statusLab.text = statusText;

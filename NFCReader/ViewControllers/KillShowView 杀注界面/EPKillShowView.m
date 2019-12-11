@@ -67,7 +67,7 @@ static NSString * const killReuseIdentifier = @"KillCell";
         [chipInfoDict setValue:infoList[4] forKey:@"chipWashNumber"];
         [chipListA enumerateObjectsUsingBlock:^(NSArray *list, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString * realmoney = [NSString stringWithFormat:@"%lu",strtoul([list[2] UTF8String],0,16)];
-            if ([list[1] isEqualToString:@"01"]) {//人民币码
+            if ([list[1] intValue]==1) {//人民币码
                 rmbAmount += [realmoney integerValue];
             }else{//美金码
                 usdAmount += [realmoney integerValue];

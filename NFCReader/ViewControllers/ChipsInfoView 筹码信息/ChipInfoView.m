@@ -32,6 +32,7 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;
         _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.scrollEnabled = YES;
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([ChipInfoTableViewCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:chipInfoReuseIdentifier];
     }
     return _tableView;

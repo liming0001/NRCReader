@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int prePuciCount;
 
 - (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber TableName:(NSString *)tableName;
+- (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi;
 
 @end
 

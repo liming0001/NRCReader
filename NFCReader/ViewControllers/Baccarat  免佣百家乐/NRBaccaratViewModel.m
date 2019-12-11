@@ -22,7 +22,6 @@
     self.curTableInfo = tableInfo;
     self.gameInfo = gameInfo;
     self.curupdateInfo = [NRUpdateInfo new];
-    self.cp_fidString = @"";
     self.cp_tableIDString = @"";
     return self;
 }
@@ -59,13 +58,12 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftbrec_id":self.cp_tableIDString,//桌子ID
-                             @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
                              @"fxmh":[self.curupdateInfo.cp_washNumber NullToBlankString],//客人洗码号
                              @"fxz_cmtype":[self.curupdateInfo.cp_chipType NullToBlankString],//客人下注的筹码类型
                              @"fxz_money":[self.curupdateInfo.cp_benjin NullToBlankString],//客人下注的本金
-                             @"fxz_name":[self.curupdateInfo.cp_name NullToBlankString],//下注名称，如庄、闲、庄对子…
+                             @"fxz_name":[self.curupdateInfo.cp_Result_name NullToBlankString],//下注名称，如庄、闲、庄对子…
                              @"fbeishu":[self.curupdateInfo.cp_beishu NullToBlankString],//倍数，如果杀注50%填0.5
-                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传0
+                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传-1
                              @"fsy":[self.curupdateInfo.cp_result NullToBlankString],//判断客人的输赢：1为赢，-1为输，0为不杀不赔
                              @"fxf":@"0",//判断客人的输赢：1为赢，-1为输，0为不杀不赔
                              @"fresult":[self.curupdateInfo.cp_money NullToBlankString],//应付额
@@ -79,9 +77,6 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
-        if (suc) {
-            self.cp_fidString = responseString;
-        }
         block(suc, msg,error);
     }];
 }
@@ -99,14 +94,11 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftbrec_id":self.cp_tableIDString,//桌子ID
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
-                             @"fpcls":self.curupdateInfo.cp_Serialnumber,//铺次流水号，长度不超过20位，要求全局唯一
                              @"fxmh_list":washNumberList,//客人洗码号
                              @"fxz_name":self.curupdateInfo.cp_Result_name,//客人下注名称，如庄、闲、庄对子…
                              @"fbeishu":self.curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
                              @"fresult":self.curupdateInfo.cp_money,//应付额
-                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传0
+                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传-1
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fzhaohuilist":[NSArray array]//找回筹码，硬件ID值数组
                              };
@@ -205,12 +197,13 @@
 }
 
 #pragma mark - 修改客人洗码号
-- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block{
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block{
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"hard_id_list":chipList,
                              @"table_name":self.curTableInfo.ftbname,
                              @"table_id":self.curTableInfo.fid,
+                             @"femp_num":adminName,
                              @"new_xmh":washNumber
                              };
     NSArray *paramList = @[param];
@@ -241,9 +234,6 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        if (suc) {
-            self.cp_fidString = @"";
-        }
         block(suc, msg,error);
         
     }];
@@ -308,7 +298,7 @@
                 NSString *img = @"";
                 if (resultList.count==1) {
                     NSString *resultName = resultList[0];
-                    if ([resultName isEqualToString:@"庄"]||[resultName isEqualToString:@"庄赢"]) {
+                    if ([resultName isEqualToString:@"庄"]) {
                         if ([resultName isEqualToString:@"庄"]) {
                             self.zhuangCount +=1;
                         }
@@ -320,7 +310,7 @@
                         model.colorString = @"#ffffff";
                         model.luzhuType = 1;
                         [luzhuList addObject:model];
-                    }else if ([resultName isEqualToString:@"闲"]||[resultName isEqualToString:@"闲赢"]){
+                    }else if ([resultName isEqualToString:@"闲"]){
                         if ([resultName isEqualToString:@"闲"]) {
                             self.xianCount +=1;
                         }
@@ -543,9 +533,6 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        if (suc) {
-            self.cp_fidString = @"";
-        }
         block(suc, msg,error);
         
     }];
@@ -568,9 +555,6 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        if (suc) {
-            self.cp_fidString = @"";
-        }
         block(suc, msg,error);
         
     }];

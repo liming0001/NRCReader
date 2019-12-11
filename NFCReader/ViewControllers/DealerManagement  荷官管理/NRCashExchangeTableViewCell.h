@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
                   ChipTypeText:(NSString *)chipTypeText
               DenominationText:(NSString *)denominationText
                 WashNumberText:(NSString *)washNumberText
-                    StatusText:(NSString *)statusText;
+                    StatusText:(NSString *)statusText
+                chipTypeList:(NSArray *)chiTypeList;
 
 @end
 

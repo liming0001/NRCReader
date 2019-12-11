@@ -42,7 +42,7 @@
     CGFloat imageW = CGRectGetWidth(contentRect)*0.25;
     CGFloat imageH = contentRect.size.height * 0.25;
     CGFloat imageX = (CGRectGetWidth(contentRect)-imageW)/2;
-    CGFloat imageY = contentRect.size.height *0.25;
+    CGFloat imageY = contentRect.size.height *0.20;
     return CGRectMake(imageX, imageY, imageW, imageH);
 }
 

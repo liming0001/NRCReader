@@ -85,11 +85,23 @@
 @property (nonatomic, strong) UIButton *chipExchangeCashButton;
 @property (nonatomic, strong) UIButton *creditCodeButton;
 
-@property (nonatomic, strong) UIView *chipExchangeHeadView;
+@property (nonatomic, strong) UIView *chipExchangeTableHeadView;
 @property (nonatomic, strong) UIView *chipExchangeFootView;
 @property (nonatomic, strong) UILabel *exchangNumberLab;
 @property (nonatomic, strong) UILabel *exchangTotalMoneyLab;
 @property (nonatomic, strong) UILabel *exchangMoneyLab;
+//上级信息
+@property (nonatomic, strong) UILabel *superiorInfoLab;
+@property (nonatomic, strong) UILabel *superiorNameLab;
+@property (nonatomic, strong) UILabel *superiorWashNumberLab;
+@property (nonatomic, strong) UILabel *superiorMoneyLab;
+@property (nonatomic, strong) UILabel *superiorTellLab;
+//当前客人
+@property (nonatomic, strong) UILabel *curCustomerInfoLab;
+@property (nonatomic, strong) UILabel *curCustomerWashNumberLab;
+@property (nonatomic, strong) UILabel *curCustomerNameLab;
+@property (nonatomic, strong) UILabel *curCustomerTellLab;
+
 @property (nonatomic, strong) NSMutableArray *cashExchangeList;
 @property (nonatomic, strong) UITextField *cashCodeTextField;
 @property (nonatomic, strong) UITextField *authorizationTextField;//授权
@@ -97,7 +109,6 @@
 @property (nonatomic, strong) UIButton *cashExchangeConfirmButton;
 @property (nonatomic, strong) UIImageView *exchangeImage;
 @property (nonatomic, strong) UILabel *exchangeTipsLab;
-@property (nonatomic, strong) UILabel *customNameLab;
 
 @property (nonatomic, strong) NRChipManagerInfo *staticInfo;
 @property (nonatomic, strong) NRChipInfoModel *curChipInfo;
@@ -146,36 +157,36 @@
     self.chipDestructList = [NSMutableArray arrayWithCapacity:0];
     self.cashExchangeList = [NSMutableArray arrayWithCapacity:0];
     
-    CGFloat fontSize = 18;
+    CGFloat fontSize = 16;
     self.userNameLab = [UILabel new];
-    self.userNameLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+    self.userNameLab.textColor = [UIColor colorWithHexString:@"#959595"];
     self.userNameLab.font = [UIFont systemFontOfSize:fontSize];
     self.userNameLab.text = [NSString stringWithFormat:@"姓名:%@",self.viewModel.chipInfo.femp_xm];
     [self.view addSubview:self.userNameLab];
     [self.userNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(30);
-        make.left.equalTo(self.view).offset(60);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(10);
+        make.left.equalTo(self.view).offset(20);
         make.height.mas_equalTo(20);
     }];
     
     self.loginRoleLab = [UILabel new];
-    self.loginRoleLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+    self.loginRoleLab.textColor = [UIColor colorWithHexString:@"#959595"];
     self.loginRoleLab.font = [UIFont systemFontOfSize:fontSize];
     self.loginRoleLab.text = @"当前登录角色:码房管理员";
     [self.view addSubview:self.loginRoleLab];
     [self.loginRoleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(30);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(10);
         make.left.equalTo(self.userNameLab.mas_right).offset(60);
         make.height.mas_equalTo(20);
     }];
     
     self.IDLab = [UILabel new];
-    self.IDLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+    self.IDLab.textColor = [UIColor colorWithHexString:@"#959595"];
     self.IDLab.font = [UIFont systemFontOfSize:fontSize];
     self.IDLab.text = [NSString stringWithFormat:@"ID:%@",self.viewModel.chipInfo.fid];
     [self.view addSubview:self.IDLab];
     [self.IDLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(30);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(10);
         make.left.equalTo(self.loginRoleLab.mas_right).offset(60);
         make.height.mas_equalTo(20);
     }];
@@ -191,7 +202,7 @@
     [self.operationButton addTarget:self action:@selector(operationAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.operationButton];
     [self.operationButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(25);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(5);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(30);
     }];
@@ -201,7 +212,7 @@
     self.scanChipNumberLab.font = [UIFont systemFontOfSize:fontSize];
     [self.view addSubview:self.scanChipNumberLab];
     [self.scanChipNumberLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(30);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(10);
         make.right.equalTo(self.view).offset(-16);
         make.height.mas_equalTo(20);
     }];
@@ -212,10 +223,10 @@
     self.toplineView.backgroundColor = [UIColor colorWithHexString:lingColor];
     [self.view addSubview:self.toplineView];
     [self.toplineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBar.mas_bottom).offset(70);
+        make.top.equalTo(self.titleBar.mas_bottom).offset(40);
         make.left.equalTo(self.view);
         make.centerX.equalTo(self.view);
-        make.height.mas_offset(1);
+        make.height.mas_offset(0.5);
     }];
     
     self.leftButtonView = [UIView new];
@@ -250,7 +261,7 @@
     }];
     
     self.chipIssueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.chipIssueButton setTitle:@" 筹码发行" forState:UIControlStateNormal];
+    [self.chipIssueButton setTitle:@"   筹码发行" forState:UIControlStateNormal];
     self.chipIssueButton.selected = YES;
     [self.chipIssueButton setImage:[UIImage imageNamed:@"chipIssue_icon"] forState:UIControlStateNormal];
     [self.chipIssueButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
@@ -266,7 +277,7 @@
     }];
     
     self.chipCheckButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.chipCheckButton setTitle:@" 筹码检测" forState:UIControlStateNormal];
+    [self.chipCheckButton setTitle:@"   筹码检测" forState:UIControlStateNormal];
     [self.chipCheckButton setImage:[UIImage imageNamed:@"chipCheck_icon"] forState:UIControlStateNormal];
     [self.chipCheckButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
     [self.chipCheckButton setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
@@ -281,7 +292,7 @@
     }];
     
     self.chipDestructButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.chipDestructButton setTitle:@" 筹码销毁" forState:UIControlStateNormal];
+    [self.chipDestructButton setTitle:@"   筹码销毁" forState:UIControlStateNormal];
     [self.chipDestructButton setImage:[UIImage imageNamed:@"chip_descruct_icon"] forState:UIControlStateNormal];
     [self.chipDestructButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
     [self.chipDestructButton setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
@@ -296,7 +307,7 @@
     }];
     
     self.chipExchangeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.chipExchangeButton setTitle:@" 筹码兑换" forState:UIControlStateNormal];
+    [self.chipExchangeButton setTitle:@"   筹码兑换" forState:UIControlStateNormal];
     [self.chipExchangeButton setImage:[UIImage imageNamed:@"chipExchange_icon"] forState:UIControlStateNormal];
     [self.chipExchangeButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
     [self.chipExchangeButton setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
@@ -341,13 +352,22 @@
                 [self.viewModel getInfoByXmhWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
                     @strongify(self);
                     if (success) {
-                        if ([[self.viewModel.customName NullToBlankString]length]!=0) {
+                        if ([self.viewModel.customerInfoDict count]!=0) {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                self.customNameLab.text = [NSString stringWithFormat:@"姓名：%@",self.viewModel.customName];
+                                self.curChipInfo.guestWashesNumber = self.viewModel.customerInfoDict[@"member_xmh"];
+                                self.superiorNameLab.text = [NSString stringWithFormat:@"代理姓名: %@",self.viewModel.customerInfoDict[@"agent_name"]];
+                                self.superiorWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",self.viewModel.customerInfoDict[@"agent_xmh"]];
+                                self.superiorMoneyLab.text = [NSString stringWithFormat:@"风 险 金: %@",self.viewModel.customerInfoDict[@"risk_money"]];
+                                self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",self.viewModel.customerInfoDict[@"agent_phone"]];
+                                
+                                self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",self.viewModel.customerInfoDict[@"member_name"]];
+                                self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",self.viewModel.customerInfoDict[@"member_xmh"]];
+                                self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",self.viewModel.customerInfoDict[@"member_phone"]];
                             });
                         }else{
                             self.curChipInfo.guestWashesNumber = @"";
                             self.viewModel.chipModel = self.curChipInfo;
+                            [self clearCustomerInfo];
                         }
                     }
                 }];
@@ -368,6 +388,21 @@
             self.curChipInfo.notes = x;
         }
     }];
+    
+    
+}
+
+#pragma mark -- 清除代理信息
+- (void)clearCustomerInfo{
+    
+    self.superiorNameLab.text = @"代理姓名: --";
+    self.superiorWashNumberLab.text = @"洗 码 号: --";
+    self.superiorMoneyLab.text = @"风 险 金: --";
+    self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",@"--"];
+    
+    self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",@"--"];
+    self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",@"--"];
+    self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",@"--"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -384,8 +419,9 @@
     // 准备创建客户端socket
     NSError *error = nil;
     self.clientSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    self.viewModel.chipInfo.bind_ip = @"192.168.1.192";
     // 开始连接服务器
-    [self.clientSocket connectToHost:@"192.168.1.192" onPort:6000 viaInterface:nil withTimeout:-1 error:&error];
+    [self.clientSocket connectToHost:self.viewModel.chipInfo.bind_ip onPort:6000 viaInterface:nil withTimeout:-1 error:&error];
 }
 
 #pragma mark - 筹码管理界面
@@ -922,7 +958,7 @@
     self.chipExchangeTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.chipExchangeTableView];
     [self.chipExchangeTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.toplineView.mas_bottom).offset(0);
+        make.top.equalTo(self.toplineView.mas_bottom).offset(5);
         make.left.equalTo(self.leftButtonView.mas_right);
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
@@ -931,6 +967,7 @@
     self.chipExchangeTableView.delegate = self;
     self.chipExchangeTableView.dataSource = self;
     self.chipExchangeTableView.tableFooterView = self.chipExchangeFootView;
+    self.chipExchangeTableView.tableHeaderView = self.chipExchangeTableHeadView;
 
     self.chipExchangeView = [UIView new];
     self.chipExchangeView.backgroundColor = [UIColor clearColor];
@@ -1001,7 +1038,7 @@
     self.creditCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.creditCodeButton setTitle:@"信用出码" forState:UIControlStateNormal];
     self.creditCodeButton.layer.cornerRadius = 5;
-    self.creditCodeButton.backgroundColor = [UIColor colorWithHexString:@"#3e54af"];
+    self.creditCodeButton.backgroundColor = [UIColor colorWithHexString:@"#ef8b4a"];
     [self.creditCodeButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
     self.creditCodeButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [self.creditCodeButton addTarget:self action:@selector(creditCodeAction) forControlEvents:UIControlEventTouchUpInside];
@@ -1014,37 +1051,107 @@
     }];
     
 }
+
+#pragma mark - 筹码兑换头部信息
+- (UIView *)chipExchangeTableHeadView{
+    if (!_chipExchangeTableHeadView) {
+        _chipExchangeTableHeadView = [[UIView alloc]initWithFrame:CGRectMake(5, 0, kScreenWidth-210, 110)];
+        _chipExchangeTableHeadView.backgroundColor = [UIColor colorWithHexString:@"#666666"];
+        _chipExchangeTableHeadView.layer.cornerRadius = 5;
+        
+        self.exchangNumberLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 150, 20)];
+        self.exchangNumberLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.exchangNumberLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.exchangNumberLab.numberOfLines = 0;
+        self.exchangNumberLab.text = @"筹码数量:0枚";
+        [_chipExchangeTableHeadView addSubview:self.exchangNumberLab];
+        
+        self.exchangTotalMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangNumberLab.frame), 20, 200, 20)];
+        self.exchangTotalMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.exchangTotalMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.exchangTotalMoneyLab.numberOfLines = 0;
+        self.exchangTotalMoneyLab.text = @"筹码总额:0";
+        [_chipExchangeTableHeadView addSubview:self.exchangTotalMoneyLab];
+        
+        self.exchangMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.exchangNumberLab.frame)+15, 300, 40)];
+        self.exchangMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:30];
+        self.exchangMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.exchangMoneyLab.numberOfLines = 0;
+        [_chipExchangeTableHeadView addSubview:self.exchangMoneyLab];
+    }
+    return _chipExchangeTableHeadView;
+}
 #pragma mark - 筹码兑换信息
 - (UIView *)chipExchangeFootView{
     if (!_chipExchangeFootView) {
         _chipExchangeFootView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-200, 600)];
         _chipExchangeFootView.backgroundColor = [UIColor clearColor];
         
-        CGFloat label_width = (kScreenWidth-200-40)/3;
-        self.chipExchangeHeadView = [[UIView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-200-20, 100)];
-        self.chipExchangeHeadView.backgroundColor = [UIColor colorWithHexString:@"#1e262e"];
-        [self.chipExchangeFootView addSubview:self.chipExchangeHeadView];
+        CGFloat label_width = 200;
+        self.superiorInfoLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, label_width, 20)];
+        self.superiorInfoLab.font = [UIFont fontWithName:@"PingFang SC" size:22];
+        self.superiorInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.superiorInfoLab.numberOfLines = 0;
+        self.superiorInfoLab.text = @"上级信息";
+        [_chipExchangeFootView addSubview:self.superiorInfoLab];
         
-        self.exchangNumberLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 30, label_width-20, 40)];
-        self.exchangNumberLab.font = [UIFont fontWithName:@"PingFang SC" size:18];
-        self.exchangNumberLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-        self.exchangNumberLab.numberOfLines = 0;
-        [self.chipExchangeHeadView addSubview:self.exchangNumberLab];
+        self.superiorNameLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.superiorInfoLab.frame)+5, label_width, 20)];
+        self.superiorNameLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.superiorNameLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.superiorNameLab.numberOfLines = 0;
+        self.superiorNameLab.text = @"代理姓名: --";
+        [_chipExchangeFootView addSubview:self.superiorNameLab];
         
-        self.exchangTotalMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangNumberLab.frame), 30, label_width+20, 40)];
-        self.exchangTotalMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:18];
-        self.exchangTotalMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-        self.exchangTotalMoneyLab.numberOfLines = 0;
-        [self.chipExchangeHeadView addSubview:self.exchangTotalMoneyLab];
+        self.superiorWashNumberLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.superiorNameLab.frame)+5, label_width, 20)];
+        self.superiorWashNumberLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.superiorWashNumberLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.superiorWashNumberLab.numberOfLines = 0;
+        self.superiorWashNumberLab.text = @"洗 码 号: --";
+        [_chipExchangeFootView addSubview:self.superiorWashNumberLab];
         
-        self.exchangMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangTotalMoneyLab.frame), 30, label_width, 40)];
-        self.exchangMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:20];
-        self.exchangMoneyLab.textColor = [UIColor colorWithHexString:@"#b0251d"];
-        self.exchangMoneyLab.textAlignment = NSTextAlignmentRight;
-        self.exchangMoneyLab.numberOfLines = 0;
-        [self.chipExchangeHeadView addSubview:self.exchangMoneyLab];
+        self.superiorMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.superiorWashNumberLab.frame)+5, label_width, 20)];
+        self.superiorMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.superiorMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.superiorMoneyLab.numberOfLines = 0;
+        self.superiorMoneyLab.text = @"风 险 金: --";
+        [_chipExchangeFootView addSubview:self.superiorMoneyLab];
         
-        self.cashCodeTextField = [[UITextField alloc]initWithFrame:CGRectMake(180, CGRectGetMaxY(self.chipExchangeHeadView.frame)+20, kScreenWidth-200-360, 40)];
+        self.superiorTellLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.superiorMoneyLab.frame)+5, label_width, 20)];
+        self.superiorTellLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.superiorTellLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.superiorTellLab.numberOfLines = 0;
+        self.superiorTellLab.text = @"联系电话: --";
+        [_chipExchangeFootView addSubview:self.superiorTellLab];
+        
+        self.curCustomerInfoLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.superiorTellLab.frame)+10, label_width, 20)];
+        self.curCustomerInfoLab.font = [UIFont fontWithName:@"PingFang SC" size:22];
+        self.curCustomerInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.curCustomerInfoLab.numberOfLines = 0;
+        self.curCustomerInfoLab.text = @"当前客人";
+        [_chipExchangeFootView addSubview:self.curCustomerInfoLab];
+        
+        self.curCustomerWashNumberLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.curCustomerInfoLab.frame)+5, label_width, 20)];
+        self.curCustomerWashNumberLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.curCustomerWashNumberLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.curCustomerWashNumberLab.numberOfLines = 0;
+        self.curCustomerWashNumberLab.text = @"洗 码 号: --";
+        [_chipExchangeFootView addSubview:self.curCustomerWashNumberLab];
+        
+        self.curCustomerNameLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.curCustomerWashNumberLab.frame)+5, label_width, 20)];
+        self.curCustomerNameLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.curCustomerNameLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.curCustomerNameLab.numberOfLines = 0;
+        self.curCustomerNameLab.text = @"客人姓名: --";
+        [_chipExchangeFootView addSubview:self.curCustomerNameLab];
+        
+        self.curCustomerTellLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.curCustomerNameLab.frame)+5, label_width, 20)];
+        self.curCustomerTellLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
+        self.curCustomerTellLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
+        self.curCustomerTellLab.numberOfLines = 0;
+        self.curCustomerTellLab.text = @"联系电话: --";
+        [_chipExchangeFootView addSubview:self.curCustomerTellLab];
+        
+        self.cashCodeTextField = [[UITextField alloc]initWithFrame:CGRectMake(330, 10, 200, 35)];
         self.cashCodeTextField.placeholder = @"请输入客人洗码号";
         self.cashCodeTextField.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
         self.cashCodeTextField.layer.cornerRadius = 5;
@@ -1052,35 +1159,29 @@
         UIView *leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
         self.cashCodeTextField.leftView = leftview;
         self.cashCodeTextField.leftViewMode = UITextFieldViewModeAlways;
-        [self.chipExchangeFootView addSubview:self.cashCodeTextField];
+        [_chipExchangeFootView addSubview:self.cashCodeTextField];
         
-        self.customNameLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.cashCodeTextField.frame)+5, CGRectGetMaxY(self.chipExchangeHeadView.frame)+18, 140, 40)];
-        self.customNameLab.font = [UIFont fontWithName:@"PingFang SC" size:14];
-        self.customNameLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-        self.customNameLab.numberOfLines = 0;
-        [self.chipExchangeHeadView addSubview:self.customNameLab];
-        
-        self.authorizationTextField = [[UITextField alloc]initWithFrame:CGRectMake(180, CGRectGetMaxY(self.cashCodeTextField.frame)+10, kScreenWidth-200-360, 40)];
-        self.authorizationTextField.placeholder = @"请输入授权人";
+        self.authorizationTextField = [[UITextField alloc]initWithFrame:CGRectMake(330, CGRectGetMaxY(self.cashCodeTextField.frame)+10, 200, 35)];
+        self.authorizationTextField.placeholder = @"请输入授权人姓名";
         self.authorizationTextField.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
         self.authorizationTextField.layer.cornerRadius = 5;
         UIView *artoleftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
         self.authorizationTextField.leftView = artoleftview;
         self.authorizationTextField.leftViewMode = UITextFieldViewModeAlways;
-        [self.chipExchangeFootView addSubview:self.authorizationTextField];
+        [_chipExchangeFootView addSubview:self.authorizationTextField];
         
-        self.noteTextField = [[UITextField alloc]initWithFrame:CGRectMake(180, CGRectGetMaxY(self.authorizationTextField.frame)+20, kScreenWidth-200-360, 40)];
+        self.noteTextField = [[UITextField alloc]initWithFrame:CGRectMake(330, CGRectGetMaxY(self.authorizationTextField.frame)+10, 200, 60)];
         self.noteTextField.placeholder = @"请输入备注";
         self.noteTextField.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
         self.noteTextField.layer.cornerRadius = 5;
         UIView *noteleftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
         self.noteTextField.leftView = noteleftview;
         self.noteTextField.leftViewMode = UITextFieldViewModeAlways;
-        [self.chipExchangeFootView addSubview:self.noteTextField];
+        [_chipExchangeFootView addSubview:self.noteTextField];
         
         self.cashExchangeConfirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.cashExchangeConfirmButton setTitle:@"确认现金换筹码" forState:UIControlStateNormal];
-        self.cashExchangeConfirmButton.frame = CGRectMake(150, CGRectGetMaxY(self.noteTextField.frame)+40, kScreenWidth-200-300, 40);
+        self.cashExchangeConfirmButton.frame = CGRectMake(150, CGRectGetMaxY(self.curCustomerTellLab.frame)+20, kScreenWidth-200-300, 40);
         self.cashExchangeConfirmButton.layer.cornerRadius = 5;
         self.cashExchangeConfirmButton.backgroundColor = [UIColor colorWithHexString:@"#347622"];
         [self.cashExchangeConfirmButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
@@ -1096,7 +1197,7 @@
     [self.titleBar setTitle:@"VM娱乐桌面跟踪系统"];
     [self setLeftItemForGoBack];
     self.titleBar.rightItem = nil;
-    self.titleBar.showBottomLine = NO;
+    self.titleBar.showBottomLine = YES;
     [self configureTitleBarToBlack];
 }
 
@@ -1202,6 +1303,7 @@
         self.exchangeImage.hidden = YES;
         self.cashExchangeChipButton.hidden = NO;
         self.chipExchangeCashButton.hidden = NO;
+        self.creditCodeButton.hidden = NO;
         self.chipExchangeTableView.hidden = YES;
         self.chipExchangeView.hidden = NO;
         self.operationButton.hidden = YES;
@@ -1221,6 +1323,10 @@
 
 #pragma mark - 查询设备上的筹码UID
 - (void)queryDeviceChips{
+    if (!self.clientSocket.isConnected) {
+        [self showMessage:@"未连接上设备，请检查设备网络或IP地址是否对应" withSuccess:NO];
+        return;
+    }
     [self showWaitingView];
     [EPSound playWithSoundName:@"click_sound"];
     self.chipUIDList = nil;
@@ -1245,8 +1351,8 @@
     self.viewModel.chipInfo.chipsUIDs = self.chipUIDList;
     self.curChipInfo.chipSerialNumber = self.serialNumberTextFiled.text;
     self.viewModel.chipModel = self.curChipInfo;
-    [self.viewModel IssueChipsWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-        if (success) {
+//    [self.viewModel IssueChipsWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+//        if (success) {
             /*创建一个串行队列
              第一个参数：队列名称
              第二个参数：队列类型
@@ -1254,33 +1360,35 @@
             dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
             dispatch_async(serialQueue, ^{
                 for (int i = 0; i < self.chipUIDList.count; i++) {
-                    self.curChipInfo.chipUID = self.chipUIDList[i];
-                    int seriNumber = [self.serialNumberTextFiled.text intValue]+i;
-                    NSString *hexString_seriNumber = [NRCommand getHexByDecimal:seriNumber];
-                    if (hexString_seriNumber.length==1) {
-                        self.curChipInfo.chipSerialNumber = [NSString stringWithFormat:@"0%@",hexString_seriNumber];
-                    }else{
-                        self.curChipInfo.chipSerialNumber = hexString_seriNumber;
-                    }
-                    //向指定标签中写入数据（块1）
-                    [self.clientSocket writeData:[NRCommand writeInfoToChip1WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
-                    usleep(20 *2000);
-                    //向指定标签中写入数据（块2）
-                    [self.clientSocket writeData:[NRCommand writeInfoToChip2WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
-                    usleep(20 * 2000);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.curChipInfo.chipUID = self.chipUIDList[i];
+                        int seriNumber = [self.serialNumberTextFiled.text intValue]+i;
+                        NSString *hexString_seriNumber = [NRCommand getHexByDecimal:seriNumber];
+                        if (hexString_seriNumber.length==1) {
+                            self.curChipInfo.chipSerialNumber = [NSString stringWithFormat:@"0%@",hexString_seriNumber];
+                        }else{
+                            self.curChipInfo.chipSerialNumber = hexString_seriNumber;
+                        }
+                        //向指定标签中写入数据（块1）
+                        [self.clientSocket writeData:[NRCommand writeInfoToChip1WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+                        usleep((int)self.chipUIDList.count * 10000);
+                        //向指定标签中写入数据（块2）
+                        [self.clientSocket writeData:[NRCommand writeInfoToChip2WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+                        usleep((int)self.chipUIDList.count * 10000);
+                    });
                 }
             });
-        }else{
-            [self hideWaitingView];
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [self showMessage:messgae];
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
-        }
-    }];
+//        }else{
+//            [self hideWaitingView];
+//            NSString *messgae = [msg NullToBlankString];
+//            if (messgae.length == 0) {
+//                messgae = @"网络异常";
+//            }
+//            [self showMessage:messgae];
+//            //响警告声音
+//            [EPSound playWithSoundName:@"wram_sound"];
+//        }
+//    }];
 }
 
 #pragma mark - 读取筹码信息
@@ -1440,6 +1548,7 @@
     self.authorizationTextField.hidden = YES;
     self.noteTextField.hidden = YES;
     [self.cashExchangeConfirmButton setTitle:@"确认现金换筹码" forState:UIControlStateNormal];
+    self.cashExchangeConfirmButton.backgroundColor = [UIColor colorWithHexString:@"#347622"];
     
     self.exchangeImage.image = [UIImage imageNamed:@"douhao_icon"];
     self.cashExchangeChipButton.hidden = YES;
@@ -1459,6 +1568,7 @@
     self.authorizationTextField.hidden = YES;
     self.noteTextField.hidden = YES;
     [self.cashExchangeConfirmButton setTitle:@"确认筹码换现金" forState:UIControlStateNormal];
+    self.cashExchangeConfirmButton.backgroundColor = [UIColor colorWithHexString:@"#3e54af"];
     
     self.exchangeImage.image = [UIImage imageNamed:@"douhao_icon"];
     self.cashExchangeChipButton.hidden = YES;
@@ -1478,6 +1588,7 @@
     self.authorizationTextField.hidden = NO;
     self.noteTextField.hidden = NO;
     [self.cashExchangeConfirmButton setTitle:@"确认信用出码" forState:UIControlStateNormal];
+    self.cashExchangeConfirmButton.backgroundColor = [UIColor colorWithHexString:@"#ef8b4a"];
     
     self.exchangeImage.image = [UIImage imageNamed:@"douhao_icon"];
     self.cashExchangeChipButton.hidden = YES;
@@ -1492,6 +1603,7 @@
 #pragma mark - 确认现金换筹码
 - (void)cashExchangeConfirmAction{
     [EPSound playWithSoundName:@"click_sound"];
+    [self showWaitingViewWithText:@"兑换中..."];
     if ([self.cashExchangeConfirmButton.titleLabel.text isEqualToString:@"确认现金换筹码"]||[self.cashExchangeConfirmButton.titleLabel.text isEqualToString:@"确认信用出码"]) {
         self.curChipInfo.guestWashesNumber = self.cashCodeTextField.text;
         self.isExchangeChip = YES;
@@ -1504,7 +1616,7 @@
                     for (int i = 0; i < self.chipUIDList.count; i++) {
                         self.curChipInfo.chipUID = self.chipUIDList[i];
                         [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
-                        usleep(20 * 2000);
+                        usleep((int)self.chipUIDList.count * 10000);
                     }
                 });
             }else{
@@ -1521,9 +1633,6 @@
     }else{
         self.curChipInfo.guestWashesNumber = @"000";
         self.isExchangeChip = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self showWaitingViewWithText:@"兑换中..."];
-        });
         self.viewModel.chipInfo.chipsUIDs = self.chipUIDList;
         self.viewModel.chipModel = self.curChipInfo;
         [self.viewModel ChipExchangeCashWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
@@ -1534,7 +1643,7 @@
                         self.curChipInfo.chipUID = self.chipUIDList[i];
                         //向指定标签中写入数据（块1）
                         [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
-                        usleep(20 * 2000);
+                        usleep((int)self.chipUIDList.count * 10000);
                     }
                 });
             }else{
@@ -1561,7 +1670,8 @@
                                       ChipTypeText:managerInfo.chipType
                                   DenominationText:managerInfo.denomination
                                          BatchText:managerInfo.batch
-                                        StatusText:managerInfo.status];
+                                        StatusText:managerInfo.status
+                                      chipTypeList:self.viewModel.chipInfoList];
         }
     }else if (self.chipOperationType==1){
         if ([cell.reuseIdentifier isEqualToString:@"checkCell"]) {
@@ -1572,7 +1682,8 @@
                                ChipTypeText:managerInfo.chipType
                            DenominationText:managerInfo.denomination
                              WashNumberText:managerInfo.washNumber
-                                 StatusText:managerInfo.status];
+                                 StatusText:managerInfo.status
+                               chipTypeList:self.viewModel.chipInfoList];
         }
     }else if (self.chipOperationType==2){
         if ([cell.reuseIdentifier isEqualToString:@"destrutCell"]) {
@@ -1582,7 +1693,8 @@
                                       ChipTypeText:managerInfo.chipType
                                   DenominationText:managerInfo.denomination
                                          BatchText:managerInfo.batch
-                                         StatusText:managerInfo.status];
+                                         StatusText:managerInfo.status
+                                       chipTypeList:self.viewModel.chipInfoList];
         }
     }else if (self.chipOperationType==3){
         if ([cell.reuseIdentifier isEqualToString:@"cashExchangeCell"]) {
@@ -1593,7 +1705,8 @@
                                ChipTypeText:managerInfo.chipType
                            DenominationText:managerInfo.denomination
                              WashNumberText:managerInfo.washNumber
-                                 StatusText:managerInfo.status];
+                                 StatusText:managerInfo.status
+                               chipTypeList:self.viewModel.chipInfoList];
         }
     }
 }
@@ -1739,8 +1852,8 @@
     [self.chipUIDData appendData:data];
     if (self.isReadChip&&([dataHexStr containsString:@"0d000000"]||[dataHexStr containsString:@"04000e2cb3"]||[dataHexStr containsString:@"050020a04feb"])) {
         NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
-               chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
-               chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"050020a04feb" withString:@""];
+        chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
+        chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"050020a04feb" withString:@""];
         if ([chipNumberdataHexStr hasSuffix:@"04000e2cb3"]) {//筹码已经识别完成
             chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"04000e2cb3" withString:@""];
             NSInteger count = [[chipNumberdataHexStr mutableCopy] replaceOccurrencesOfString:@"0d000000"
@@ -1748,15 +1861,14 @@
                options:NSLiteralSearch
                  range:NSMakeRange(0, [chipNumberdataHexStr length])];
             self.isReadChip = NO;
+            self.chipUIDData = nil;
             if (count==0) {
                 [self showMessage:@"未检测到筹码"];
                 //响警告声音
                 [EPSound playWithSoundName:@"wram_sound"];
                 [self hideWaitingView];
-                self.chipUIDData = nil;
                 return;
             }
-            self.chipUIDData = nil;
             BLEIToll *itool = [[BLEIToll alloc]init];
             //存贮筹码UID
             self.chipUIDList = [itool getDeviceAllChipUIDWithBLEString:chipNumberdataHexStr];
@@ -1769,7 +1881,6 @@
                 [self checkChipAction];
             }else if (self.chipOperationType==2||self.chipOperationType==3){
                 self.cashCodeTextField.text = @"";
-                self.customNameLab.text = @"";
                 self.authorizationTextField.text = @"";
                 self.noteTextField.text = @"";
                 [self readAllChipsInfo];
@@ -1819,6 +1930,7 @@
             [self hideWaitingView];
             //响警告声音
             [EPSound playWithSoundName:@"succeed_sound"];
+            [self clearCustomerInfo];
         }
     }else if ([dataHexStr hasPrefix:@"13000000"]){
         NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
@@ -1959,11 +2071,12 @@
                     [self.chipExchangeTableView reloadData];
                     //兑换信息
                     self.exchangNumberLab.text = [NSString stringWithFormat:@"筹码数量:%ld",(long)self.chipCount];
-                    self.exchangTotalMoneyLab.text = [NSString stringWithFormat:@"筹码总额:%d元",chipAllMoney];
-                    self.exchangMoneyLab.text = [NSString stringWithFormat:@"应付金额:%d元",chipAllMoney];
+                    self.exchangTotalMoneyLab.text = [NSString stringWithFormat:@"筹码总额:%d",chipAllMoney];
+                    self.exchangMoneyLab.text = [NSString stringWithFormat:@"应付金额:%d",chipAllMoney];
                     //响警告声音
                     [EPSound playWithSoundName:@"succeed_sound"];
                     [self hideWaitingView];
+                    [self clearCustomerInfo];
                 }
             });
         }

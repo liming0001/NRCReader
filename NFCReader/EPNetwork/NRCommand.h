@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSData*)stringToByte:(NSString*)string;
 //获取一个随机整数，范围在[from,to），包括from，不包括to
 +(NSInteger)getRandomNumber:(NSInteger)from to:(NSInteger)to;
+#pragma mark -- 获取一个随机字符串
++(NSString *)randomStringWithLength:(NSInteger)len;
 + (NSData *)convertHexStrToData:(NSString *)str;
 
 #pragma mark -声光设置命令

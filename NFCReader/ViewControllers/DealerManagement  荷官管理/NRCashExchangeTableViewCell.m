@@ -7,6 +7,7 @@
 //
 
 #import "NRCashExchangeTableViewCell.h"
+#import "NRChipInfo.h"
 
 @interface NRCashExchangeTableViewCell ()
 
@@ -123,7 +124,8 @@
               ChipTypeText:(NSString *)chipTypeText
               DenominationText:(NSString *)denominationText
                          WashNumberText:(NSString *)washNumberText
-                           StatusText:(NSString *)statusText{
+                           StatusText:(NSString *)statusText
+                        chipTypeList:(NSArray *)chiTypeList{
     if ([chipTypeText isEqualToString:@"99"]||[chipTypeText isEqualToString:@"#"]) {
         self.batchLab.textColor =self.serialNumberLab.textColor =self.chipTypeLab.textColor =self.denominationLab.textColor=self.washNumberLab.textColor = self.statusLab.textColor =[UIColor colorWithHexString:@"#b0251d"];
         NSString *destruct = @"#";
@@ -142,15 +144,12 @@
             washaString = @"0";
         }
         self.washNumberLab.text = washaString;
-        if ([chipTypeText isEqualToString:@"01"]) {
-            self.chipTypeLab.text = @"现金码";
-        }else{
-            if (![chipTypeText isEqualToString:@"筹码类型"]) {
-                self.chipTypeLab.text = @"其它码";
-            }else{
-                self.chipTypeLab.text = chipTypeText;
+        self.chipTypeLab.text = chipTypeText;
+        [chiTypeList enumerateObjectsUsingBlock:^(NRChipInfo *curChipInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([chipTypeText intValue]==[curChipInfo.fcmtype intValue]) {
+                self.chipTypeLab.text = curChipInfo.fcmtype_name;
             }
-        }
+        }];
     }
     self.statusLab.text = statusText;
 }

@@ -138,6 +138,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.label.text = text;
     hud.layer.zPosition = 100;
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)showWaitingView {
@@ -146,6 +147,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)hideWaitingView {
@@ -157,6 +159,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)hideWaitingViewInWindow {

@@ -65,17 +65,12 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftbrec_id":self.cp_tableIDString,//桌子ID
-                             @"fpcls":self.curupdateInfo.cp_Serialnumber,//铺次流水号，长度不超过20位，要求全局唯一
-                             @"fkpresult":[self.curupdateInfo.cp_name NullToBlankString],//开牌结果
-                             @"frjdate":self.currentData,//日结日期
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
                              @"fxmh":self.curupdateInfo.cp_washNumber,//客人洗码号
                              @"fxz_cmtype":self.curupdateInfo.cp_chipType,//客人下注的筹码类型
                              @"fxz_money":self.curupdateInfo.cp_benjin,//客人下注的本金
-                             @"fxz_name":self.curupdateInfo.cp_name,//下注名称，如庄、闲、庄对子…
+                             @"fxz_name":self.curupdateInfo.cp_Result_name,//下注名称，如庄、闲、庄对子…
                              @"fbeishu":self.curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
-                             @"fdianshu":self.curupdateInfo.cp_dianshu,//牛牛点数，非牛牛游戏传0
+                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传-1
                              @"fsy":self.curupdateInfo.cp_result,//判断客人的输赢：1为赢，-1为输，0为不杀不赔
                              @"fresult":self.curupdateInfo.cp_money,//应付额
                              @"fzhaohui":zhaohuiList,//找回z筹码
@@ -114,13 +109,10 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftbrec_id":self.cp_tableIDString,//桌子ID
-                             @"fxueci":self.curupdateInfo.cp_xueci,//靴次
-                             @"fpuci":self.curupdateInfo.cp_puci,//铺次
-                             @"fpcls":self.curupdateInfo.cp_Serialnumber,//铺次流水号，长度不超过20位，要求全局唯一
                              @"fxmh_list":washNumberList,//客人洗码号
                              @"fxz_name":self.curupdateInfo.cp_Result_name,//客人下注名称，如庄、闲、庄对子…
                              @"fbeishu":self.curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
-                             @"fdianshu":self.curupdateInfo.cp_dianshu,//牛牛点数，非牛牛游戏传0
+                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传-1
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fresult":self.curupdateInfo.cp_money,//应付额
                              @"fzhaohuilist":zhaohuiList//打水筹码，硬件ID值数组
@@ -197,14 +189,15 @@
 }
 
 #pragma mark - 修改客人洗码号
-- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block{
-    NSDictionary * param = @{
-                             @"access_token":self.loginInfo.access_token,
-                             @"hard_id_list":chipList,
-                             @"table_name":self.curTableInfo.ftbname,
-                             @"table_id":self.curTableInfo.fid,
-                             @"new_xmh":washNumber
-                             };
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block{
+NSDictionary * param = @{
+                         @"access_token":self.loginInfo.access_token,
+                         @"hard_id_list":chipList,
+                         @"table_name":self.curTableInfo.ftbname,
+                         @"table_id":self.curTableInfo.fid,
+                         @"femp_num":adminName,
+                         @"new_xmh":washNumber
+                         };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
                                  @"f":@"Tablerec_editXmh",
@@ -356,7 +349,7 @@
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
-                                 @"f":@"Cmpublish_checkState",
+                                 @"f":@"tablerec_rijie",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {

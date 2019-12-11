@@ -167,8 +167,7 @@
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         if (suc) {
             if (responseDict&&responseDict.count>0) {
-                NSString *fxm_s = responseDict[@"fxm"];
-                self.customName = fxm_s;
+                self.customerInfoDict = responseDict;
             }
         }
         block(suc, msg,error);

@@ -325,6 +325,13 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
+- (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi{
+    self.xueciCount = curXueci;
+    self.puciCount = curPuCi;
+    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+    self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
+}
+
 - (void)resultEntryAction:(UIButton *)btn{
     if (self.puciCount!=self.prePuciCount) {
         [[EPToast makeText:@"请先开启新一局"]showWithType:ShortTime];

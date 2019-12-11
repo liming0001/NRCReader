@@ -21,11 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *cp_tableIDString;
 @property (nonatomic, strong) NSDictionary *tableDataDict;
 @property (nonatomic, strong) NSDictionary *lastTableInfoDict;
+@property (nonatomic, strong) NSString *currentData;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
 #pragma mark - 换桌
 - (void)otherTableWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 提交开牌结果
+- (void)commitkpResultWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交客人输赢记录和台桌流水记录
 - (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 提交客人输赢记录和台桌流水记录(杀注)
@@ -43,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 台面操作记录列表
 - (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 修改客人洗码号
-- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber Block:(EPFeedbackWithErrorCodeBlock)block;
+- (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 获取当前台桌的靴次
 - (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 打散筹码

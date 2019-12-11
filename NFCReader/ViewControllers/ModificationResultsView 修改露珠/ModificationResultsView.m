@@ -279,7 +279,12 @@
     [[UIApplication sharedApplication].keyWindow addSubview:self.empowerView];
     self.empowerView.sureActionBlock = ^(NSString * _Nonnull adminName, NSString * _Nonnull password) {
         @strongify(self);
-        [self showWaitingViewInWindow];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            // 处理耗时操作的代码块...
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showWaitingViewInWindow];
+            });
+        });
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [self authorizationAccountWitAccountName:adminName Password:password Block:^(BOOL success, NSString *msg, EPSreviceError error) {
                 if (success) {
@@ -308,6 +313,7 @@
                         }
                     }];
                 }else{
+                    [self hideWaitingViewInWindow];
                     NSString *messgae = [msg NullToBlankString];
                     if (messgae.length == 0) {
                         messgae = @"网络异常";
@@ -352,9 +358,48 @@
     self.dateValueLab.text = [NRCommand getCurrentDate];
     self.xueciValueLab.text = [NSString stringWithFormat:@"%d",xueci];
     if (self.puciInfoList.count!=0) {
-        NSDictionary *puciDict = self.puciInfoList[0];
+        NSDictionary *puciDict = [self.puciInfoList lastObject];
         self.puciValueLab.text = [NSString stringWithFormat:@"%@",puciDict[@"fpuci"]];
         self.curLuzhuID = [NSString stringWithFormat:@"%@",puciDict[@"fid"]];
+        NSString *cp_result = puciDict[@"fkpresult"];
+        if (!self.isTiger) {
+            //判断结果  
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.resultList removeAllObjects];
+                NSArray *resultList = [cp_result componentsSeparatedByString:@","];
+                if ([resultList containsObject:@"庄"]) {
+                    [self.resultList addObject:[NSNumber numberWithInt:1]];
+                    [self.zhuangBtn setSelected:YES];
+                }
+                if ([resultList containsObject:@"庄对"]) {
+                    [self.resultList addObject:[NSNumber numberWithInt:2]];
+                    [self.zhuangDuiBtn setSelected:YES];
+                }
+                if ([resultList containsObject:@"闲"]) {
+                    [self.resultList addObject:[NSNumber numberWithInt:4]];
+                    [self.xianBtn setSelected:YES];
+                }
+                if ([resultList containsObject:@"闲对"]) {
+                    [self.resultList addObject:[NSNumber numberWithInt:5]];
+                    [self.xianDuiBtn setSelected:YES];
+                }
+                if ([resultList containsObject:@"和"]) {
+                    [self.resultList addObject:[NSNumber numberWithInt:6]];
+                    [self.heBtn setSelected:YES];
+                }
+            });
+        }else{
+            if ([cp_result isEqualToString:@"龙"]) {
+                self.updateType = 1;
+                [self.zhuangBtn setSelected:YES];
+            }else if ([cp_result isEqualToString:@"虎"]){
+                self.updateType = 2;
+                [self.xianBtn setSelected:YES];
+            }else{
+                self.updateType = 3;
+                [self.heBtn setSelected:YES];
+            }
+        }
     }
 }
 
@@ -403,7 +448,7 @@
                         NSString *customer_resultName = luzhuDict[@"fxz_name"];
                         NSString *customer_money = luzhuDict[@"fxz_money"];
                         if ([self.result_string isEqualToString:@"龙"]) {
-                            if ([customer_resultName isEqualToString:@"龙赢"]||[customer_resultName isEqualToString:@"龙"]) {
+                            if ([customer_resultName isEqualToString:@"龙"]) {
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -415,7 +460,7 @@
                                 [self.fsy_list addObject:[NSNumber numberWithInt:1]];
                                 CGFloat resultValue = (1+odds-yj)*[customer_money integerValue];
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
-                            }else if ([customer_resultName isEqualToString:@"虎赢"]||[customer_resultName isEqualToString:@"虎"]){
+                            }else if ([customer_resultName isEqualToString:@"虎"]){
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:luzhuDict[@"fxz_money"]];
                             }else {
@@ -425,7 +470,7 @@
                             }
                             
                         }else if ([self.result_string isEqualToString:@"虎"]){
-                            if ([customer_resultName isEqualToString:@"虎赢"]||[customer_resultName isEqualToString:@"虎"]){
+                            if ([customer_resultName isEqualToString:@"虎"]){
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -437,7 +482,7 @@
                                 [self.fsy_list addObject:[NSNumber numberWithInt:1]];
                                 CGFloat resultValue = (1+odds-yj)*[customer_money integerValue];
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
-                            }else if ([customer_resultName isEqualToString:@"龙赢"]||[customer_resultName isEqualToString:@"龙"]) {
+                            }else if ([customer_resultName isEqualToString:@"龙"]) {
                                 [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
                                 [self.resultRecordList addObject:luzhuDict[@"fxz_money"]];
                             }else{
@@ -467,7 +512,7 @@
                         NSString *customer_resultName = luzhuDict[@"fxz_name"];
                         NSString *customer_money = luzhuDict[@"fxz_money"];
                         if ([self.resultList containsObject:[NSNumber numberWithInt:1]]) {//庄
-                            if ([customer_resultName isEqualToString:@"庄"]||[customer_resultName isEqualToString:@"庄赢"]) {//庄
+                            if ([customer_resultName isEqualToString:@"庄"]) {//庄
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -481,7 +526,7 @@
                                 [self.resultRecordList addObject:[NSNumber numberWithDouble:resultValue]];
                                 CGFloat yjValue = yj*[customer_money integerValue];
                                 [self.fyj_list addObject:[NSNumber numberWithDouble:yjValue]];
-                            }else if ([customer_resultName isEqualToString:@"6点赢"]||[customer_resultName isEqualToString:@"庄6点赢"]){
+                            }else if ([customer_resultName isEqualToString:@"6点赢"]){
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -528,7 +573,7 @@
                         }
                         
                         if ([self.resultList containsObject:[NSNumber numberWithInt:2]]) {//闲
-                            if ([customer_resultName isEqualToString:@"闲"]||[customer_resultName isEqualToString:@"闲赢"]) {//闲
+                            if ([customer_resultName isEqualToString:@"闲"]) {//闲
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;
@@ -561,7 +606,7 @@
                         }
                         
                         if ([self.resultList containsObject:[NSNumber numberWithInt:3]]) {//和
-                            if ([customer_resultName isEqualToString:@"和"]||[customer_resultName isEqualToString:@"和局"]) {//闲
+                            if ([customer_resultName isEqualToString:@"和"]) {//闲
                                 //赔率
                                 CGFloat odds = 0;
                                 CGFloat yj = 0;

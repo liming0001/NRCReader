@@ -46,6 +46,7 @@
 @property (nonatomic,strong) NSMutableArray *forthNumberList;
 
 @property (nonatomic, strong) BlueToothManager *manager;
+@property (nonatomic, strong) NSDictionary *printDict;
 
 @end
 
@@ -271,6 +272,7 @@
     [self.printBtn setTitle:@"加彩并打印" forState:UIControlStateNormal];
     self.printBtn.titleLabel.font = [UIFont systemFontOfSize:23];
     [self.printBtn setBackgroundImage:[UIImage imageNamed:@"VM_PrintBtn_icon"] forState:UIControlStateNormal];
+    [self.printBtn addTarget:self action:@selector(scanBlootooth) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.printBtn];
     [self.printBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self).offset(-37);
@@ -309,6 +311,7 @@
     self.manager = [BlueToothManager getInstance];
 }
 
+#pragma mark --搜索并打印数据
 - (void)scanBlootooth{
     [self showWaitingViewInWindow];
     [self.manager startScan];
@@ -317,12 +320,28 @@
         [self.manager connectPeripheralWith:per];
         [self.manager connectInfoReturn:^(CBCentralManager *central, CBPeripheral *peripheral, NSString *stateStr) {
             if ([stateStr isEqualToString:@"SUCCESS"]) {//连接成功--SUCCESS，连接失败--ERROR，断开连接--DISCONNECT
-                [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(BlueToothPrint) userInfo:nil repeats:NO];
-            }else if([stateStr isEqualToString:@"ERROR"]){
-            }else if([stateStr isEqualToString:@"BLUEDISS"]){
+                [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(BlueToothPrint) userInfo:nil repeats:NO];
             }else{
+                [self hideWaitingViewInWindow];
             }
         }];
+    }];
+}
+
+-(void)BlueToothPrint{
+    NSString *infoStr = @"{\"machineCode\":\"5E799AF4-486A-4EB5-BCFB-4BDE928E4E68\",\"shopname\":\"默认服务中心\",\"date\":\"2016-01-26,10\",\"id\":\"YT4332553551\",\"consignee\":\"上看看\",\"telphone\":\"1800asda221\",\"address\":\"四川四川省成都市金牛区解放路二段\",\"total\":\"552.0\",\"servicephone1\":\"15923564512\",\"servicephone2\":\"028-12345678\",\"zhekou\":\"04544.0\",\"shifu\":\"1151.0\",\"goodsArr\":[{\"spname\":\"现代VK-10（单10）音响-网上易田，省心省钱[功率:200W及以下]\",\"price\":\"550.0\",\"num\":\"11\",\"Amount\":\"1911\"}]}";
+    NSData *data = [infoStr dataUsingEncoding:NSUTF8StringEncoding];
+    
+    self.printDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    [self.manager getBluetoothPrintWith:self.printDict andPrintType:1];
+    [self.manager stopScan];
+    [self.manager getPrintSuccessReturn:^(BOOL sizeValue) {
+        [self hideWaitingViewInWindow];
+        if (sizeValue==YES) {
+            [[EPToast makeText:@"打印成功"]showWithType:ShortTime];
+        }else{
+            [[EPToast makeText:@"打印失败!"]showWithType:ShortTime];
+        }
     }];
 }
 
@@ -343,19 +362,6 @@
 - (void)hideWaitingViewInWindow {
     UIView *window = [self findWindow];
     [MBProgressHUD hideHUDForView:window animated:YES];
-}
-
--(void)BlueToothPrint{
-//    [self.manager getBluetoothPrintWith:self.jsonDic andPrintType:self.printNum];
-    [self.manager stopScan];
-    [self.manager getPrintSuccessReturn:^(BOOL sizeValue) {
-        if (sizeValue==YES) {
-            [self hideWaitingViewInWindow];
-            [[EPToast makeText:@"打印成功"]showWithType:ShortTime];
-        }else{
-            [[EPToast makeText:@"打印失败!"]showWithType:ShortTime];
-        }
-    }];
 }
 
 - (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId{
