@@ -138,7 +138,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.label.text = text;
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:10];
+    [hud hideAnimated:YES afterDelay:15];
 }
 
 - (void)showWaitingView {
@@ -147,7 +147,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:10];
+    [hud hideAnimated:YES afterDelay:15];
 }
 
 - (void)hideWaitingView {
@@ -159,7 +159,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:10];
+    [hud hideAnimated:YES afterDelay:15];
 }
 
 - (void)hideWaitingViewInWindow {
@@ -177,6 +177,10 @@
 
 - (void)showMessage:(NSString *)message withSuccess:(BOOL)sucess {
     [[EPToast makeText:message WithError:!sucess]showWithType:ShortTime];
+}
+
+- (void)showLongMessage:(NSString *)message withSuccess:(BOOL)sucess {
+    [[EPToast makeText:message WithError:!sucess]showWithType:LongTime];
 }
 
 - (UIView *)findWindow {

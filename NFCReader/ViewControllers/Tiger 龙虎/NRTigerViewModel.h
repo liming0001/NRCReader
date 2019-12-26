@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int tigerCount;//虎赢次数
 @property (nonatomic, assign) int heCount;//和赢次数
 @property (nonatomic, strong) NSDictionary *lastTableInfoDict;
-@property (nonatomic, strong) NSString *currentData;
+@property (nonatomic, strong) NSString *cp_tableRijieDate;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)checkChipIsTrueWithChipList:(NSArray *)chipList Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 打散筹码
 - (void)changeChipWashNumberWithChipList:(NSArray *)chipList WashNumber:(NSString *)washNumber ChangChipList:(NSArray *)changeChipList Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 验证账号
 - (void)authorizationAccountWitAccountName:(NSString *)accountName Password:(NSString *)password Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 台面操作记录列表

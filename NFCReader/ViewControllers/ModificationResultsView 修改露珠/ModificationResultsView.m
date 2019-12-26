@@ -100,6 +100,16 @@
             if ([self.resultList containsObject:[NSNumber numberWithInteger:1]]) {
                 [self.resultList removeObject:[NSNumber numberWithInteger:1]];
             }
+            //去掉庄对
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
+                [self.resultList removeObject:[NSNumber numberWithInteger:4]];
+                [self.zhuangDuiBtn setSelected:NO];
+            }
+            //去掉闲对
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                [self.xianDuiBtn setSelected:NO];
+            }
         }
     }
     
@@ -127,6 +137,16 @@
         }else{
             if ([self.resultList containsObject:[NSNumber numberWithInteger:2]]) {
                 [self.resultList removeObject:[NSNumber numberWithInteger:2]];
+            }
+            //去掉庄对
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:4]]) {
+                [self.resultList removeObject:[NSNumber numberWithInteger:4]];
+                [self.zhuangDuiBtn setSelected:NO];
+            }
+            //去掉闲对
+            if ([self.resultList containsObject:[NSNumber numberWithInteger:5]]) {
+                [self.resultList removeObject:[NSNumber numberWithInteger:5]];
+                [self.xianDuiBtn setSelected:NO];
             }
         }
     }
@@ -372,11 +392,11 @@
                     [self.zhuangBtn setSelected:YES];
                 }
                 if ([resultList containsObject:@"庄对"]) {
-                    [self.resultList addObject:[NSNumber numberWithInt:2]];
+                    [self.resultList addObject:[NSNumber numberWithInt:4]];
                     [self.zhuangDuiBtn setSelected:YES];
                 }
                 if ([resultList containsObject:@"闲"]) {
-                    [self.resultList addObject:[NSNumber numberWithInt:4]];
+                    [self.resultList addObject:[NSNumber numberWithInt:2]];
                     [self.xianBtn setSelected:YES];
                 }
                 if ([resultList containsObject:@"闲对"]) {
@@ -384,7 +404,7 @@
                     [self.xianDuiBtn setSelected:YES];
                 }
                 if ([resultList containsObject:@"和"]) {
-                    [self.resultList addObject:[NSNumber numberWithInt:6]];
+                    [self.resultList addObject:[NSNumber numberWithInt:3]];
                     [self.heBtn setSelected:YES];
                 }
             });

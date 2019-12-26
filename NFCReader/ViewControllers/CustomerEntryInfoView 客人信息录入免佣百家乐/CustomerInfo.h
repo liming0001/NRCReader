@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int cashType;
 @property (nonatomic, assign) int sixValueType;
 @property (nonatomic, assign) BOOL isYouYong;
+@property (nonatomic, strong) NSString *kaiPaiResult;
+@property (nonatomic, strong) NSString *resultString;
+@property (nonatomic, assign) CGFloat resultValue;
 
 @end
 

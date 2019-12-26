@@ -44,12 +44,8 @@
     
     self.tbTintColor = tintColor;
     [self configureExchangeButton];
-    [self.contentButton setImage:image forState:UIControlStateNormal];
-    self.contentButton.layer.borderColor = [UIColor colorWithHexString:@"#4B9DF1"].CGColor;
-    self.contentButton.layer.borderWidth = 1;
-    self.contentButton.layer.cornerRadius = 15;
+    [self.contentButton setBackgroundImage:backImg forState:UIControlStateNormal];
     [self.contentButton setTitle:[NSString stringWithFormat:@" %@ ",text] forState:UIControlStateNormal];
-    [self.contentButton setTitleColor:[UIColor colorWithHexString:@"#4B9DF1"] forState:UIControlStateNormal];
     self.contentButtonBlock = block;
     return self;
 }
@@ -88,7 +84,6 @@
 }
 
 - (void)configureImageButton {
-    
     self.contentButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     self.contentButton.titleLabel.numberOfLines = 2;
     [self.contentButton addTarget:self action:@selector(handleImageButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -99,7 +94,6 @@
 }
 
 - (void)configureExchangeButton {
-    
     self.contentButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.contentButton setTintColor:self.tbTintColor];
     self.contentButton.titleLabel.numberOfLines = 2;
@@ -107,9 +101,9 @@
     [self.contentButton addTarget:self action:@selector(handleButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.contentButton];
     [self.contentButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(12);
-        make.right.equalTo(self);
-        make.width.mas_offset(110);
+        make.top.equalTo(self).offset(5);
+        make.right.equalTo(self).offset(-10);
+        make.width.mas_offset(80);
         make.height.mas_offset(30);
     }];
 }

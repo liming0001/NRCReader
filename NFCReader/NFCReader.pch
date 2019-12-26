@@ -60,6 +60,8 @@ typedef void(^EPFeedbackWithErrorCodeBlock)(BOOL success,NSString *msg,EPSrevice
  */
 #define PMServiceUUID @"FFE0"
 
+#define luzhuMaxCount 300
+
 //蓝牙连接状态的定义
 #define kCONNECTED_UNKNOWN_STATE @"未知蓝牙状态"
 #define kCONNECTED_RESET         @"蓝牙重置"

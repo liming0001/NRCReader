@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int xianDuiCount;//闲对赢次数
 @property (nonatomic, assign) int heCount;//和赢次数
 @property (nonatomic, strong) NSDictionary *lastTableInfoDict;
+@property (nonatomic, strong) NSString *cp_tableRijieDate;//当前台桌日结日期
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -58,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 查看台面数据
 - (void)queryTableDataWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 
 #pragma mark - 台面操作记录列表
 - (void)queryOperate_listWithBlock:(EPFeedbackWithErrorCodeBlock)block;

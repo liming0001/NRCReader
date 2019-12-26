@@ -308,6 +308,9 @@
     if ([self isEqualToString:@"(null)"]) {
         return @"";
     }
+    if ([self isEqualToString:@"<null>"]) {
+        return @"";
+    }
     if ([[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
         return @"";
     }

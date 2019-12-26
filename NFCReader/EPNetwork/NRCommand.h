@@ -83,8 +83,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSData *)setDeviceWorkModel_auto;
 #pragma mark - 清除缓存标签
 + (NSData *)clearDeviceCacheChip;
+#pragma mark - 设置设备功率
++ (NSData *)setDeviceWorkPower;
 #pragma mark - 发送心跳指令
 + (NSData *)keepDeviceAlive;
+#pragma mark -- 统计标签写入返回指令
++ (int)showBackStatusCountWithHexStatus:(NSString *)hexNumber AllChipCount:(int)chipCount;
 @end
 
 NS_ASSUME_NONNULL_END

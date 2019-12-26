@@ -293,6 +293,29 @@
     return chipUIDList;
 }
 
+//获取读写器上赔付筹码的UID
+- (NSArray *)getDeviceCow_ALlPayChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList WithShuiqianUidList:(NSArray *)shuiqianUIDList WithZhaoHuiUidList:(NSArray *)zhaoHuiUIDList{
+    NSMutableArray *chipUIDList = [NSMutableArray arrayWithCapacity:0];
+    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"0d000000"];
+    for (int i=0; i<separatedStrArr.count; i++) {
+        NSString *infoString = separatedStrArr[i];
+        if (infoString.length!=0) {
+            //UID
+            NSString *chipUIDString = [infoString substringToIndex:16];
+            if (![UIDList containsObject:chipUIDString]) {
+                if (![shuiqianUIDList containsObject:chipUIDString]) {
+                    if (![zhaoHuiUIDList containsObject:chipUIDString]) {
+                        if (![chipUIDList containsObject:chipUIDString]) {
+                            [chipUIDList addObject:chipUIDString];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return chipUIDList;
+}
+
 //获取读写器上小费筹码的UID
 - (NSArray *)getDeviceALlTipsChipUIDWithBLEString:(NSString *)bleString {
     NSMutableArray *chipUIDList = [NSMutableArray arrayWithCapacity:0];

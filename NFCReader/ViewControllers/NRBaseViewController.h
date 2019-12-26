@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showMessage:(NSString *)message;
 - (void)showLognMessage:(NSString *)message;
 - (void)showMessage:(NSString *)message withSuccess:(BOOL)sucess;
+- (void)showLongMessage:(NSString *)message withSuccess:(BOOL)sucess;
 
 @end
 

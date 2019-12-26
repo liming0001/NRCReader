@@ -122,7 +122,7 @@
                              @"fpuci":self.curupdateInfo.cp_puci,//铺次
                              @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
                              @"fkpresult":[self.curupdateInfo.cp_name NullToBlankString],//结果
-                             @"frjdate":[NRCommand getCurrentDate]//日期
+                             @"frjdate":self.cp_tableRijieDate//日期
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
@@ -161,7 +161,7 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"table_id":self.curTableInfo.fid,
-                             @"date":[NRCommand getCurrentDate],//日期
+                             @"date":self.cp_tableRijieDate,//日期
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
@@ -269,6 +269,24 @@
     self.heCount=0;//和赢次数
 }
 
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"new_xueci":self.curupdateInfo.cp_xueci,
+                             @"table_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_postNewxueci",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
+        
+    }];
+}
+
 #pragma mark - 获取露珠
 - (void)getLuzhuWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSArray *chipList = [NSArray array];
@@ -278,7 +296,7 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftable_id":self.curTableInfo.fid,//桌子ID
-                             @"rjdate":[NRCommand getCurrentDate],//日期
+                             @"rjdate":self.cp_tableRijieDate,//日期
                              @"fxueci":self.curupdateInfo.cp_xueci//靴次
                              };
     NSArray *paramList = @[param];
@@ -495,7 +513,7 @@
             if (list&&list.count!=0) {
                 normalInt = (int)list.count;
             }
-            for (int i=normalInt; i<100; i++) {
+            for (int i=normalInt; i<luzhuMaxCount; i++) {
                 NSString *text = @"";
                 NSString *img = @"";
                 JhPageItemModel *model = [[JhPageItemModel alloc]init];
@@ -522,7 +540,7 @@
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
                              @"ftable_id":self.curTableInfo.fid,//桌子ID
-                             @"frjdate":[NRCommand getCurrentDate],//日期
+                             @"frjdate":self.cp_tableRijieDate,//日期
                              @"femp_num":self.curupdateInfo.femp_num,//管理员登录账号
                              @"femp_pwd":self.curupdateInfo.femp_pwd,//登录密码
                              @"fhg_id":self.curupdateInfo.fhg_id//荷官ID
@@ -566,7 +584,7 @@
                              @"access_token":self.loginInfo.access_token,
                              @"ftable_id":self.curTableInfo.fid,//桌子ID
                              @"fxueci":[NSString stringWithFormat:@"%d",self.curXueci],
-                             @"frjdate":[NRCommand getCurrentDate],//日期
+                             @"frjdate":self.cp_tableRijieDate,//日期
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{

@@ -94,7 +94,7 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"当前版本M1.1.18";
+    self.languageLab.text = @"当前版本M1.1.44";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {

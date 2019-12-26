@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *cp_tableIDString;
 @property (nonatomic, strong) NSDictionary *tableDataDict;
 @property (nonatomic, strong) NSDictionary *lastTableInfoDict;
-@property (nonatomic, strong) NSString *currentData;
+@property (nonatomic, strong) NSString *cp_tableRijieDate;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 打散筹码
 - (void)changeChipWashNumberWithChipList:(NSArray *)chipList WashNumber:(NSString *)washNumber ChangChipList:(NSArray *)changeChipList Block:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END

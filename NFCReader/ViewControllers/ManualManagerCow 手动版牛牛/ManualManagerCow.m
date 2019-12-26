@@ -16,6 +16,7 @@
 #import "EPToast.h"
 #import "CustomerEntryInfoCowView.h"
 #import "JhPageItemModel.h"
+#import "EPPayKillInfoView.h"
 
 static NSString * const reuseIdentifier = @"CustomerCell";
 static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
@@ -35,13 +36,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) UIView *tableInfoV;
 @property (nonatomic, strong) SFLabel *stableIDLab;
 
-//结算台
-@property (nonatomic, strong) UIImageView *settlementImgV;
-@property (nonatomic, strong) UILabel *settlementLab;
-@property (nonatomic, strong) UIView *settlementV;
-@property (nonatomic, strong) UIImageView *cowIcon;
-@property (nonatomic, strong) UIButton *setmentOKBtn;
-
 //客人信息
 @property (nonatomic, strong) UICollectionView  *collectionView;
 @property (nonatomic, assign) CGRect ViewFrame;
@@ -56,8 +50,20 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic, strong) NSString *curTableID;
 @property (nonatomic, strong) NSString *curSerialnumber;
 @property (nonatomic, strong) NSString *result_string;
+@property (nonatomic, strong) NSString *cp_tableRijieDate;
+@property (nonatomic, strong) NSString *cp_tableIDString;
+@property (nonatomic, strong) CustomerInfo *curSelectCustomer;
 
-@property (nonatomic,strong) NSMutableArray *fxz_cmtype_list;
+@property (nonatomic,strong) NSMutableArray *fxmh_list;//洗码号
+@property (nonatomic,strong) NSMutableArray *fxz_cmtype_list;//筹码类型
+@property (nonatomic,strong) NSMutableArray *fxz_money_list;//下注本金
+@property (nonatomic,strong) NSMutableArray *fxz_name_list;//下注名称
+@property (nonatomic,strong) NSMutableArray *fsy_list;//输赢
+@property (nonatomic,strong) NSMutableArray *fresult_list;//总码
+@property (nonatomic,strong) NSMutableArray *fyj_list;//佣金
+@property (nonatomic,strong) NSMutableArray *payKillResultInfo_list;//杀赔信息
+@property (nonatomic, assign) CGFloat payKillResultValue;//杀赔金额
+@property (nonatomic, strong) EPPayKillInfoView *payKillInfoView;
 
 @end
 
@@ -70,25 +76,12 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         // Initialization code
         self.xueciCount = 1;
         self.puciCount = 0;
-        self.prePuciCount = 1;
         self.luzhuInfoList = [NSMutableArray array];
         self.customerInfoList = [NSMutableArray array];
         [self.customerInfoList addObject:[self modelCustomerInfo]];
         [self _setup];
-        [self luzhuList];
     }
     return self;
-}
-
-- (void)luzhuList{
-    for (int i=0; i<100; i++) {
-        JhPageItemModel *model = [[JhPageItemModel alloc]init];
-        model.img = @"";
-        model.text = @"";
-        model.luzhuType = 0;
-        model.colorString = @"#ffffff";
-        [self.luzhuInfoList addObject:model];
-    }
 }
 
 -(UICollectionViewLayout *)layout{
@@ -132,7 +125,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 -(JhPageItemView *)solidView{
     if (!_solidView) {
-        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-156-249, 232);
+        CGRect femwe =  CGRectMake(0, 0, kScreenWidth-30-156, 232);
         JhPageItemView *view =  [[JhPageItemView alloc]initWithFrame:femwe];
         view.backgroundColor = [UIColor whiteColor];
         self.solidView = view;
@@ -142,71 +135,13 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 - (void)_setup{
     self.backgroundColor = [UIColor clearColor];
-    //结算台
-    self.settlementImgV = [UIImageView new];
-    self.settlementImgV.image = [UIImage imageNamed:@"customer_luzhu_flag"];
-    [self addSubview:self.settlementImgV];
-    [self.settlementImgV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(0);
-        make.right.equalTo(self).offset(-10);
-        make.height.mas_equalTo(30);
-        make.width.mas_offset(249);
-    }];
-    
-    self.settlementLab = [UILabel new];
-    self.settlementLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
-    self.settlementLab.font = [UIFont systemFontOfSize:12];
-    self.settlementLab.text = @"结算台Settlement Desk";
-    self.settlementLab.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:self.settlementLab];
-    [self.settlementLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.settlementImgV.mas_top).offset(5);
-        make.left.equalTo(self.settlementImgV.mas_left).offset(10);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.settlementV = [UIView new];
-    self.settlementV.layer.cornerRadius = 2;
-    self.settlementV.backgroundColor = [UIColor colorWithHexString:@"#3e565d"];
-    [self addSubview:self.settlementV];
-    [self.settlementV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.settlementImgV.mas_bottom).offset(0);
-        make.right.equalTo(self).offset(-10);
-        make.height.mas_equalTo(232);
-        make.width.mas_offset(249);
-    }];
-    
-    self.setmentOKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.setmentOKBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-    self.setmentOKBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.setmentOKBtn setTitle:@"OK.录入开牌结果" forState:UIControlStateNormal];
-    [self.setmentOKBtn setBackgroundImage:[UIImage imageNamed:@"menu_selBtn"] forState:UIControlStateNormal];
-    [self.setmentOKBtn addTarget:self action:@selector(resultEntryAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.settlementV addSubview:self.setmentOKBtn];
-    [self.setmentOKBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.settlementV).offset(-5);
-        make.left.equalTo(self.settlementV).offset(10);
-        make.centerX.equalTo(self.settlementV);
-        make.height.mas_equalTo(41);
-    }];
-    
-    self.cowIcon = [UIImageView new];
-    self.cowIcon.image = [UIImage imageNamed:@"结算台-卡通牛"];
-    [self.settlementV addSubview:self.cowIcon];
-    [self.cowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.setmentOKBtn.mas_top).offset(-15);
-        make.centerX.equalTo(self.settlementV).offset(-15);
-        make.height.mas_equalTo(154);
-        make.width.mas_offset(176);
-    }];
-    
     //台桌信息
     self.tableInfoImgV = [UIImageView new];
     self.tableInfoImgV.image = [UIImage imageNamed:@"customer_luzhu_flag"];
     [self addSubview:self.self.tableInfoImgV];
     [self.tableInfoImgV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(0);
-        make.right.equalTo(self.settlementImgV.mas_left).offset(-5);
+        make.right.equalTo(self).offset(-10);
         make.height.mas_equalTo(30);
         make.width.mas_offset(156);
     }];
@@ -215,6 +150,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.tableInfoLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.tableInfoLab.font = [UIFont systemFontOfSize:12];
     self.tableInfoLab.text = @"台桌信息Table information";
+    self.tableInfoLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.tableInfoLab];
     [self.tableInfoLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tableInfoImgV.mas_top).offset(3);
@@ -237,32 +173,29 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.stableIDLab = [SFLabel new];
     self.stableIDLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.stableIDLab.font = [UIFont systemFontOfSize:10];
-    self.stableIDLab.text = @"台桌ID:VIP0018";
     self.stableIDLab.layer.cornerRadius = 5;
     self.stableIDLab.backgroundColor = [UIColor colorWithHexString:@"#201f24"];
     [self.tableInfoV addSubview:self.stableIDLab];
     [self.stableIDLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tableInfoV).offset(20);
+        make.top.equalTo(self.tableInfoV).offset(3);
         make.left.equalTo(self.tableInfoV).offset(15);
     }];
     
     self.xueciLab = [UILabel new];
     self.xueciLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.xueciLab.font = [UIFont systemFontOfSize:10];
-    self.xueciLab.text = @"靴次:1";
     [self.tableInfoV addSubview:self.xueciLab];
     [self.xueciLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.stableIDLab.mas_bottom).offset(5);
+        make.top.equalTo(self.stableIDLab.mas_bottom).offset(3);
         make.left.equalTo(self.tableInfoV).offset(20);
     }];
     
     self.puciLab = [UILabel new];
     self.puciLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.puciLab.font = [UIFont systemFontOfSize:10];
-    self.puciLab.text = @"铺次:0";
     [self.tableInfoV addSubview:self.puciLab];
     [self.puciLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.xueciLab.mas_bottom).offset(5);
+        make.top.equalTo(self.xueciLab.mas_bottom).offset(3);
         make.left.equalTo(self.tableInfoV).offset(20);
     }];
     
@@ -274,7 +207,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         make.top.equalTo(self).offset(0);
         make.right.equalTo(self.tableInfoImgV.mas_left).offset(-5);
         make.height.mas_equalTo(30);
-        make.width.mas_offset(kScreenWidth-30-156-249);
+        make.width.mas_offset(kScreenWidth-25-156);
     }];
     
     self.luzhuInfoLab = [UILabel new];
@@ -287,7 +220,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         make.top.equalTo(self.luzhuImgV.mas_top).offset(3);
         make.left.equalTo(self.luzhuImgV.mas_left).offset(0);
         make.height.mas_equalTo(20);
-        make.width.mas_offset(kScreenWidth-30-156-249);
+        make.width.mas_offset(kScreenWidth-25-156);
     }];
     
     self.luzhuCollectionView = [UIView new];
@@ -332,45 +265,8 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
 }
 
-- (void)resultEntryAction:(UIButton *)btn{
-    if (self.puciCount!=self.prePuciCount) {
-        [[EPToast makeText:@"请先开启新一局"]showWithType:ShortTime];
-        return;
-    }
-    [self showWaitingView];
-    [self commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-        [self hideWaitingView];
-        if (success) {
-            [[EPToast makeText:@"提交开牌结果成功" WithError:NO]showWithType:ShortTime];
-            //响警告声音
-            [EPSound playWithSoundName:@"succeed_sound"];
-            self.prePuciCount +=1;
-            [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
-                customerInfo.zhuangValue = @"";
-                customerInfo.zhuangDuiValue = @"";
-                customerInfo.cashType = 1;
-            }];
-            [self.collectionView reloadData];
-        }else{
-            [[EPToast makeText:@"提交开牌结果失败" WithError:YES]showWithType:ShortTime];
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
-        }
-    }];
-}
-
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber TableName:(NSString *)tableName{
-    NSNumber *xueciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Xueci",tableID]];
-    if (xueciNumber.intValue!=0) {
-        self.xueciCount = xueciNumber.intValue;
-    }
-    NSNumber *puciNumber = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"%@_Puci",tableID]];
-    if (puciNumber.intValue!=0) {
-        self.puciCount = puciNumber.intValue;
-        self.prePuciCount = self.puciCount+1;
-    }
-    self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
-    self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName RijieData:(NSString *)curRijieDate ResultDict:(NSDictionary *)resultDict{
+    self.cp_tableRijieDate = curRijieDate;
     self.curLoginToken = loginID;
     self.curTableID = tableID;
     self.curSerialnumber = serialnumber;
@@ -452,6 +348,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         [collectionView reloadData];
         [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
     }else{
+        if (self.puciCount==0) {
+            [[EPToast makeText:@"请先开启新一局"]showWithType:ShortTime];
+            return;
+        }
         if (self.isEntryBox) {
             return;
         }
@@ -460,11 +360,34 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         CustomerEntryInfoCowView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoCowView" owner:nil options:nil]lastObject];
         custerEntryInfoV.frame = self.bounds;
         [custerEntryInfoV editLoginInfoWithLoginID:self.curLoginToken];
+        @weakify(self);
         custerEntryInfoV.editTapCustomer = ^(CustomerInfo * _Nonnull curCustomer, BOOL hasEntry) {
+            @strongify(self);
             self.isEntryBox = NO;
             if (hasEntry) {
+                self.curSelectCustomer = curCustomer;
                 [self.customerInfoList replaceObjectAtIndex:indexPath.row withObject:curCustomer];
                 [collectionView reloadData];
+                [self fengzhuangCustomerInfo];
+                self.payKillInfoView = [EPPayKillInfoView showInWindowWithNRCustomerInfo:self.curSelectCustomer handler:^(int buttonType) {
+                    @strongify(self);
+                    if (buttonType==1) {
+                        [self.payKillInfoView _hide];
+                        [self showWaitingView];
+                        [self commitCustomerRecordWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                            if (success) {
+                                [[EPToast makeText:@"结果录入成功" WithError:NO]showWithType:ShortTime];
+                                //响警告声音
+                                [EPSound playWithSoundName:@"succeed_sound"];
+                            }else{
+                                [[EPToast makeText:@"结果录入失败" WithError:YES]showWithType:ShortTime];
+                                //响警告声音
+                                [EPSound playWithSoundName:@"wram_sound"];
+                            }
+                            [self hideWaitingView];
+                        }];
+                    }
+                }];
             }
         };
         [custerEntryInfoV editCurCustomerWithCustomerInfo:info];
@@ -503,66 +426,103 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     }
 }
 
-#pragma mark - 提交客人输赢记录和台桌流水记录
-- (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
-    //洗码号
-    NSMutableArray *fxmh_list = [NSMutableArray array];
-    //筹码类型
-    self.fxz_cmtype_list = [NSMutableArray array];
-    //下注本金
-    NSMutableArray *fxz_money_list = [NSMutableArray array];
-    //下注名称
-    NSMutableArray *fxz_name_list = [NSMutableArray array];
-    //输赢
-    NSMutableArray *fsy_list = [NSMutableArray array];
-    //总码
-    NSMutableArray *fresult_list = [NSMutableArray array];
-    //佣金
-    NSMutableArray *fyj_list = [NSMutableArray array];
-    
-    
-    [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0) {
-        }else{
-            NSInteger winRealResultValue = [curCustomer.zhuangValue integerValue]- [curCustomer.zhuangDuiValue integerValue];
-            NSInteger loseRealResultValue = [curCustomer.zhuangDuiValue integerValue]- [curCustomer.zhuangValue integerValue];
-            if (winRealResultValue > 0) {
-                [fyj_list addObject:@"0"];
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:[NSNumber numberWithInteger:winRealResultValue]];
-                [fxz_name_list addObject:@"赢"];
-                self.result_string = @"赢";
-                [fsy_list addObject:[NSNumber numberWithInt:1]];
-                [fresult_list addObject:[NSNumber numberWithInteger:2*winRealResultValue]];
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-            if (loseRealResultValue > 0){
-                [fyj_list addObject:@"0"];
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
-                [fxz_name_list addObject:@"输"];
-                self.result_string = @"输";
-                [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                [fresult_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-        }
+#pragma mark --清除金额
+- (void)clearMoney{
+//    [self.customerInfoList removeAllObjects];
+//    [self.customerInfoList addObject:[self modelCustomerInfo]];
+    [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+        customerInfo.zhuangValue = @"";
+        customerInfo.zhuangDuiValue = @"";
+        customerInfo.cashType = 1;
     }];
+    [self.collectionView reloadData];
+}
+
+#pragma mark - 提交开牌结果
+- (void)commitkpResultWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSDictionary * param = @{
                              @"access_token":self.curLoginToken,
                              @"ftable_id":self.curTableID,//桌子ID
-                             @"fpcls":self.curSerialnumber,//铺次流水号，长度不超过20位，要求全局唯一
-                             @"fkpresult":self.result_string,//开牌结果
-                             @"frjdate":[NRCommand getCurrentDate],//日结日期
                              @"fxueci":[NSString stringWithFormat:@"%d",self.xueciCount],//靴次
                              @"fpuci":[NSString stringWithFormat:@"%d",self.puciCount],//铺次
-                             @"fxmh_list":fxmh_list,//客人洗码号
+                             @"fpcls":self.curSerialnumber,//铺次流水号，长度不超过20位，要求全局唯一
+                             @"fkpresult":self.result_string,//结果
+                             @"frjdate":self.cp_tableRijieDate//日期
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_kpResult",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+            self.cp_tableIDString = responseString;
+        }
+        block(suc, msg,error);
+    }];
+}
+
+- (void)fengzhuangCustomerInfo{
+    //洗码号
+    self.fxmh_list = [NSMutableArray array];
+    //筹码类型
+    self.fxz_cmtype_list = [NSMutableArray array];
+    //下注本金
+    self.fxz_money_list = [NSMutableArray array];
+    //下注名称
+    self.fxz_name_list = [NSMutableArray array];
+    //输赢
+    self.fsy_list = [NSMutableArray array];
+    //总码
+    self.fresult_list = [NSMutableArray array];
+    //佣金
+    self.fyj_list = [NSMutableArray array];
+    
+    self.payKillResultInfo_list = [NSMutableArray arrayWithCapacity:0];
+    self.payKillResultValue  = 0;
+    
+    NSInteger winRealResultValue = [self.curSelectCustomer.zhuangValue integerValue]- [self.curSelectCustomer.zhuangDuiValue integerValue];
+    NSInteger loseRealResultValue = [self.curSelectCustomer.zhuangDuiValue integerValue]- [self.curSelectCustomer.zhuangValue integerValue];
+    if (winRealResultValue > 0) {
+        NSString *longRealValue = [NSString stringWithFormat:@"赢:%ld",winRealResultValue];
+        [self.payKillResultInfo_list addObject:longRealValue];
+        [self.fyj_list addObject:@"0"];
+        [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+        [self.fxz_money_list addObject:[NSNumber numberWithInteger:winRealResultValue]];
+        [self.fxz_name_list addObject:@"赢"];
+        [self.fsy_list addObject:[NSNumber numberWithInt:1]];
+        [self.fresult_list addObject:[NSNumber numberWithInteger:2*winRealResultValue]];
+        [self fengzhuangChipTypeWith:self.curSelectCustomer];
+    }
+    if (loseRealResultValue > 0){
+        NSString *longRealValue = [NSString stringWithFormat:@"输:%ld",winRealResultValue];
+        [self.payKillResultInfo_list addObject:longRealValue];
+        [self.fyj_list addObject:@"0"];
+        [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+        [self.fxz_money_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
+        [self.fxz_name_list addObject:@"输"];
+        [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
+        [self.fresult_list addObject:[NSNumber numberWithInteger:loseRealResultValue]];
+        [self fengzhuangChipTypeWith:self.curSelectCustomer];
+    }
+    self.payKillResultValue = winRealResultValue;
+    self.curSelectCustomer.resultString = [self.payKillResultInfo_list componentsJoinedByString:@","];
+    self.curSelectCustomer.resultValue = self.payKillResultValue;
+    self.curSelectCustomer.kaiPaiResult = self.result_string;
+}
+
+#pragma mark - 提交客人输赢记录和台桌流水记录
+- (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.curLoginToken,
+                             @"ftbrec_id":self.cp_tableIDString,//桌子ID
+                             @"fxmh_list":self.fxmh_list,//客人洗码号
                              @"fxz_cmtype_list":self.fxz_cmtype_list,//客人下注的筹码类型
-                             @"fxz_money_list":fxz_money_list,//客人下注的本金
-                             @"fxz_name_list":fxz_name_list,//下注名称，如庄、闲、庄对子…
-                             @"fsy_list":fsy_list,//输赢
-                             @"fresult_list":fresult_list,//总码
-                             @"fyj_list":fyj_list,//佣金
+                             @"fxz_money_list":self.fxz_money_list,//客人下注的本金
+                             @"fxz_name_list":self.fxz_name_list,//下注名称，如庄、闲、庄对子…
+                             @"fsy_list":self.fsy_list,//输赢
+                             @"fresult_list":self.fresult_list,//总码
+                             @"fyj_list":self.fyj_list,//佣金
                              @"fhardlist_list":[NSArray array],//实付筹码，硬件ID值数组
                              @"fdashui_list":[NSArray array],//打水筹码，硬件ID值数组
                              @"fzhaohui_list":[NSArray array]//找回筹码

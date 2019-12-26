@@ -50,6 +50,8 @@ typedef void (^BLEProcessBLock)(NSMutableArray *dataArr);
 - (NSArray *)getDeviceALlPayChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList WithShuiqianUidList:(NSArray *)shuiqianUIDList;
 //存贮筹码的UID
 - (NSDictionary *)updatePaycacheChipUIDWithBLEString:(NSString *)bleString WithPayUidList:(NSArray *)payUIDList WithBenjinUidList:(NSArray *)benjinUIDList;
+//获取读写器上赔付筹码的UID
+- (NSArray *)getDeviceCow_ALlPayChipUIDWithBLEString:(NSString *)bleString WithUidList:(NSArray *)UIDList WithShuiqianUidList:(NSArray *)shuiqianUIDList WithZhaoHuiUidList:(NSArray *)zhaoHuiUIDList;
 //获取读写器上小费筹码的UID
 - (NSArray *)getDeviceALlTipsChipUIDWithBLEString:(NSString *)bleString;
 //解析筹码信息

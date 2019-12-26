@@ -30,27 +30,37 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     if (self = [super initWithFrame:frame]) {
         _ViewFrame = frame;
-        for (int i=0; i<100; i++) {
-            NSString *text = @"";
-            NSString *img = @"";
-            JhPageItemModel *model = [[JhPageItemModel alloc]init];
-            model.img = img;
-            model.text = text;
-            model.luzhuType = 0;
-            model.colorString = @"#ffffff";
-            [self.luzhuList addObject:model];
-        }
-        _dataArray = self.luzhuList;
+        self.luzhuList = [NSMutableArray arrayWithCapacity:0];
+        [self normalLuzhuList];
         [self collectionView];
     }
     return self;
+}
+
+- (void)normalLuzhuList{
+    [self.luzhuList removeAllObjects];
+    for (int i=0; i<luzhuMaxCount; i++) {
+        NSString *text = @"";
+        NSString *img = @"";
+        JhPageItemModel *model = [[JhPageItemModel alloc]init];
+        model.img = img;
+        model.text = text;
+        model.luzhuType = 0;
+        model.colorString = @"#ffffff";
+        [self.luzhuList addObject:model];
+    }
+    _dataArray = self.luzhuList;
 }
 
 - (void)setDataArray:(NSArray *)dataArray{
 }
 
 - (void)fellLuzhuListWithDataList:(NSArray *)list{
-    _dataArray = list;
+    if (list.count==0) {
+        [self normalLuzhuList];
+    }else{
+        _dataArray = list;
+    }
     [self.collectionView reloadData];
 }
 

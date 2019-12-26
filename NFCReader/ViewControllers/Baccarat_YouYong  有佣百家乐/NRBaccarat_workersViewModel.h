@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int xianDuiCount;//闲对赢次数
 @property (nonatomic, assign) int heCount;//和赢次数
 @property (nonatomic, strong) NSDictionary *lastTableInfoDict;
+@property (nonatomic, strong) NSString *cp_tableRijieDate;//当前台桌日结日期
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo WithTableInfo:(NRTableInfo*)tableInfo WithNRGameInfo:(NRGameInfo *)gameInfo;
 
@@ -63,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateCustomerWashNumberWithChipList:(NSArray *)chipList CurWashNumber:(NSString *)washNumber AdminName:(NSString *)adminName Block:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 获取当前台桌的靴次
 - (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 打散筹码
 - (void)changeChipWashNumberWithChipList:(NSArray *)chipList WashNumber:(NSString *)washNumber ChangChipList:(NSArray *)changeChipList Block:(EPFeedbackWithErrorCodeBlock)block;
 

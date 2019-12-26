@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *totalUSDValueLab;
 @property (weak, nonatomic) IBOutlet UILabel *totalRMBValueLab;
 @property (weak, nonatomic) IBOutlet UILabel *havepayChipLab;
+@property (weak, nonatomic) IBOutlet UIView *cowAddMoneyView;
+@property (weak, nonatomic) IBOutlet UILabel *cowShouldMoneylab;
+@property (weak, nonatomic) IBOutlet UILabel *cowHadMoneyLab;
+@property (weak, nonatomic) IBOutlet UILabel *cowZhaohuiMoneyLab;
+@property (weak, nonatomic) IBOutlet UIButton *zhaoHuiBtn;
 
 @property(nonatomic,copy)void (^sureActionBlock)(NSInteger killConfirmType);
 

@@ -19,10 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int prePuciCount;
 @property (nonatomic, strong) NSArray *realLuzhuList;
 
-- (void)getLUzhuINfo;
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName;
+- (void)getManualBaseTableInfoAndLuzhuInfo;
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName RijieData:(NSString *)curRijieDate;
 - (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi;
 - (void)restartChangeStatus;
+- (void)resertResultBtnStatus;
+#pragma mark --清除金额
+- (void)clearMoney;
 
 @end
 

@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		8104E1CE2343094600538135 /* BLEModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8104E1CD2343094500538135 /* BLEModel.m */; };
 		8106361F2340F06700A288D7 /* NRTableDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8106361E2340F06700A288D7 /* NRTableDataModel.m */; };
+		810AB62323AFB218003115AC /* EPDaSanInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AB62123AFB218003115AC /* EPDaSanInfoView.m */; };
 		810C008C229E1E63002ADFD5 /* NRGameInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C008B229E1E63002ADFD5 /* NRGameInfo.m */; };
 		810C8EA2226027D60010E1A4 /* NRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C8EA1226027D60010E1A4 /* NRBaseViewController.m */; };
 		810C8EA822602B060010E1A4 /* EPTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C8EA422602B060010E1A4 /* EPTitleBar.m */; };
@@ -29,13 +30,14 @@
 		810EFC7322D2DA5B005C3684 /* EPLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 810EFC7122D2DA5A005C3684 /* EPLanguage.m */; };
 		810EFC7622D2DD4D005C3684 /* EPAppData.m in Sources */ = {isa = PBXBuildFile; fileRef = 810EFC7422D2DD4D005C3684 /* EPAppData.m */; };
 		8114F88C2326A85900FE620A /* MJPopTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8114F88B2326A85800FE620A /* MJPopTool.m */; };
+		8115384523ABBED90064EE5F /* EPPopAtipInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8115384423ABBED90064EE5F /* EPPopAtipInfoView.m */; };
+		8115384923ABC0150064EE5F /* EPPayKillInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8115384823ABC0150064EE5F /* EPPayKillInfoView.m */; };
 		81169716231E9F3F008AF2FE /* CowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81169714231E9F3F008AF2FE /* CowCollectionViewCell.m */; };
 		81169717231E9F3F008AF2FE /* CowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81169715231E9F3F008AF2FE /* CowCollectionViewCell.xib */; };
 		8116971B231E9F7F008AF2FE /* CowAddMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81169719231E9F7F008AF2FE /* CowAddMoreCell.m */; };
 		8116971C231E9F7F008AF2FE /* CowAddMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116971A231E9F7F008AF2FE /* CowAddMoreCell.xib */; };
 		81179702226AC50B00B7F810 /* NRCRCString.m in Sources */ = {isa = PBXBuildFile; fileRef = 81179701226AC50B00B7F810 /* NRCRCString.m */; };
 		81179715226B75D500B7F810 /* NRCashExchangeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81179714226B75D500B7F810 /* NRCashExchangeTableViewCell.m */; };
-		8118808122CA7C8400158A7E /* EPTigerShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8118807F22CA7C8400158A7E /* EPTigerShowView.m */; };
 		811BFDB0232151B0001F6AE3 /* JiaJIanCaiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 811BFDAF232151B0001F6AE3 /* JiaJIanCaiCell.m */; };
 		811C02C6233BC118001AD39D /* NRBaccarat_workersViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 811C02C2233BC117001AD39D /* NRBaccarat_workersViewModel.m */; };
 		811C02C7233BC118001AD39D /* NRBaccaratView_workersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811C02C4233BC118001AD39D /* NRBaccaratView_workersController.m */; };
@@ -56,7 +58,6 @@
 		811C02F2233BC67C001AD39D /* CustomerEntryInfoView_workers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811C02EF233BC67C001AD39D /* CustomerEntryInfoView_workers.xib */; };
 		811EC2E9229D44F500539615 /* NRUpdateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EC2E8229D44F500539615 /* NRUpdateInfo.m */; };
 		811F7C95226A0E660009899A /* NRChipDestrutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 811F7C94226A0E660009899A /* NRChipDestrutTableViewCell.m */; };
-		811F815422DADBB20096A78A /* EPTigerResultShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811F815322DADBB20096A78A /* EPTigerResultShowView.m */; };
 		811FE32F231FF6D4008A87CF /* TableJiaJiancaiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811FE32E231FF6D4008A87CF /* TableJiaJiancaiView.m */; };
 		811FE3352320070B008A87CF /* ModificationResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811FE3342320070B008A87CF /* ModificationResultsView.m */; };
 		811FE33723200714008A87CF /* ModificationResultsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811FE33623200714008A87CF /* ModificationResultsView.xib */; };
@@ -88,7 +89,6 @@
 		813C02A7232E4BBD00D5617D /* EPCowPointChooseShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 813C02A6232E4BBD00D5617D /* EPCowPointChooseShowView.m */; };
 		813C02A9232E4BC700D5617D /* EPCowPointChooseShowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 813C02A8232E4BC700D5617D /* EPCowPointChooseShowView.xib */; };
 		813F329423177EF4001D4AAD /* SFLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 813F329223177EF4001D4AAD /* SFLabel.m */; };
-		815443CB22C9DBC800AF94D5 /* EPPopAtipInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 815443CA22C9DBC800AF94D5 /* EPPopAtipInfoView.m */; };
 		81559E0C2316D826001490C6 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 81559E0B2316D826001490C6 /* UIView+Layout.m */; };
 		8160A963226C6D7A0075D98C /* EPPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8160A961226C6D7A0075D98C /* EPPopView.m */; };
 		8160A966226C7D510075D98C /* JXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8160A964226C7D510075D98C /* JXButton.m */; };
@@ -97,14 +97,11 @@
 		816824A5231A72CB00CB6984 /* ZLCharKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8168249D231A72CB00CB6984 /* ZLCharKeyboard.m */; };
 		816824A6231A72CB00CB6984 /* ZLKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8168249F231A72CB00CB6984 /* ZLKeyboard.m */; };
 		816824A7231A72CB00CB6984 /* ZLCharKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816824A1231A72CB00CB6984 /* ZLCharKeyboard.xib */; };
-		817279542268165D00A98402 /* EPPopAlertShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 817279532268165D00A98402 /* EPPopAlertShowView.m */; };
 		8172795722681CD800A98402 /* NRCustomerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8172795622681CD800A98402 /* NRCustomerInfo.m */; };
 		8193A10C238E83B100BA3E70 /* LYKeychainTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8193A10B238E83B100BA3E70 /* LYKeychainTool.m */; };
 		8199A0F9227ED20900A08AC8 /* NRChipInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0F8227ED20900A08AC8 /* NRChipInfo.m */; };
 		8199A0FD227EEB1900A08AC8 /* NRChipAllInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0FC227EEB1900A08AC8 /* NRChipAllInfo.m */; };
-		81A1EE3822894653005FD12A /* EPResultShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1EE3722894653005FD12A /* EPResultShowView.m */; };
 		81A1EE3B22894B1A005FD12A /* NRChipResultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1EE3A22894B1A005FD12A /* NRChipResultInfo.m */; };
-		81A1EE3E22895A5E005FD12A /* EPPointsShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1EE3D22895A5E005FD12A /* EPPointsShowView.m */; };
 		81A97F3F22642D4B00DFF774 /* RVMViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A97F3A22642D4B00DFF774 /* RVMViewModel.m */; };
 		81A97F4022642D4B00DFF774 /* RVMViewModel+EPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A97F3E22642D4B00DFF774 /* RVMViewModel+EPExtension.m */; };
 		81A97F4322642D8800DFF774 /* NRTableChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A97F4222642D8800DFF774 /* NRTableChooseViewModel.m */; };
@@ -130,7 +127,7 @@
 		81BD425A225F371500A35545 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BD4259225F371500A35545 /* main.m */; };
 		81BD4264225F371500A35545 /* NFCReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BD4263225F371500A35545 /* NFCReaderTests.m */; };
 		81BD426F225F371500A35545 /* NFCReaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BD426E225F371500A35545 /* NFCReaderUITests.m */; };
-		81C520292282834D0096ACDA /* NRCowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C520282282834D0096ACDA /* NRCowViewController.m */; };
+		81C520292282834D0096ACDA /* cowZhaohuiMoneyLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C520282282834D0096ACDA /* cowZhaohuiMoneyLab.m */; };
 		81C5202C228283650096ACDA /* NRCowViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C5202B228283650096ACDA /* NRCowViewModel.m */; };
 		81C718CB236E7968007BD510 /* ChipInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C718CA236E7968007BD510 /* ChipInfoView.m */; };
 		81C718CD236E79E7007BD510 /* ChipInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81C718CC236E79E7007BD510 /* ChipInfoView.xib */; };
@@ -198,6 +195,8 @@
 		8104E1CD2343094500538135 /* BLEModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEModel.m; sourceTree = "<group>"; };
 		8106361D2340F06700A288D7 /* NRTableDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRTableDataModel.h; sourceTree = "<group>"; };
 		8106361E2340F06700A288D7 /* NRTableDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRTableDataModel.m; sourceTree = "<group>"; };
+		810AB62123AFB218003115AC /* EPDaSanInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPDaSanInfoView.m; sourceTree = "<group>"; };
+		810AB62223AFB218003115AC /* EPDaSanInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPDaSanInfoView.h; sourceTree = "<group>"; };
 		810C008A229E1E63002ADFD5 /* NRGameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRGameInfo.h; sourceTree = "<group>"; };
 		810C008B229E1E63002ADFD5 /* NRGameInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRGameInfo.m; sourceTree = "<group>"; };
 		810C8EA0226027D60010E1A4 /* NRBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRBaseViewController.h; sourceTree = "<group>"; };
@@ -237,6 +236,10 @@
 		810EFC7522D2DD4D005C3684 /* EPAppData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPAppData.h; sourceTree = "<group>"; };
 		8114F88A2326A85800FE620A /* MJPopTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopTool.h; sourceTree = "<group>"; };
 		8114F88B2326A85800FE620A /* MJPopTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopTool.m; sourceTree = "<group>"; };
+		8115384323ABBED90064EE5F /* EPPopAtipInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPPopAtipInfoView.h; sourceTree = "<group>"; };
+		8115384423ABBED90064EE5F /* EPPopAtipInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPopAtipInfoView.m; sourceTree = "<group>"; };
+		8115384723ABC0150064EE5F /* EPPayKillInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPPayKillInfoView.h; sourceTree = "<group>"; };
+		8115384823ABC0150064EE5F /* EPPayKillInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPayKillInfoView.m; sourceTree = "<group>"; };
 		81169713231E9F3F008AF2FE /* CowCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CowCollectionViewCell.h; sourceTree = "<group>"; };
 		81169714231E9F3F008AF2FE /* CowCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CowCollectionViewCell.m; sourceTree = "<group>"; };
 		81169715231E9F3F008AF2FE /* CowCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CowCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -247,8 +250,6 @@
 		81179701226AC50B00B7F810 /* NRCRCString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCRCString.m; sourceTree = "<group>"; };
 		81179713226B75D500B7F810 /* NRCashExchangeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCashExchangeTableViewCell.h; sourceTree = "<group>"; };
 		81179714226B75D500B7F810 /* NRCashExchangeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCashExchangeTableViewCell.m; sourceTree = "<group>"; };
-		8118807F22CA7C8400158A7E /* EPTigerShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPTigerShowView.m; sourceTree = "<group>"; };
-		8118808022CA7C8400158A7E /* EPTigerShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPTigerShowView.h; sourceTree = "<group>"; };
 		811BFDAE232151B0001F6AE3 /* JiaJIanCaiCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiaJIanCaiCell.h; sourceTree = "<group>"; };
 		811BFDAF232151B0001F6AE3 /* JiaJIanCaiCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiaJIanCaiCell.m; sourceTree = "<group>"; };
 		811C02C2233BC117001AD39D /* NRBaccarat_workersViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRBaccarat_workersViewModel.m; sourceTree = "<group>"; };
@@ -283,8 +284,6 @@
 		811EC2E8229D44F500539615 /* NRUpdateInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRUpdateInfo.m; sourceTree = "<group>"; };
 		811F7C93226A0E660009899A /* NRChipDestrutTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipDestrutTableViewCell.h; sourceTree = "<group>"; };
 		811F7C94226A0E660009899A /* NRChipDestrutTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipDestrutTableViewCell.m; sourceTree = "<group>"; };
-		811F815222DADBB20096A78A /* EPTigerResultShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPTigerResultShowView.h; sourceTree = "<group>"; };
-		811F815322DADBB20096A78A /* EPTigerResultShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPTigerResultShowView.m; sourceTree = "<group>"; };
 		811FE32D231FF6D4008A87CF /* TableJiaJiancaiView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableJiaJiancaiView.h; sourceTree = "<group>"; };
 		811FE32E231FF6D4008A87CF /* TableJiaJiancaiView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableJiaJiancaiView.m; sourceTree = "<group>"; };
 		811FE3332320070B008A87CF /* ModificationResultsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModificationResultsView.h; sourceTree = "<group>"; };
@@ -337,8 +336,6 @@
 		813C02A8232E4BC700D5617D /* EPCowPointChooseShowView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EPCowPointChooseShowView.xib; sourceTree = "<group>"; };
 		813F329223177EF4001D4AAD /* SFLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLabel.m; sourceTree = "<group>"; };
 		813F329323177EF4001D4AAD /* SFLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLabel.h; sourceTree = "<group>"; };
-		815443C922C9DBC800AF94D5 /* EPPopAtipInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPPopAtipInfoView.h; sourceTree = "<group>"; };
-		815443CA22C9DBC800AF94D5 /* EPPopAtipInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPopAtipInfoView.m; sourceTree = "<group>"; };
 		81559E0A2316D826001490C6 /* UIView+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
 		81559E0B2316D826001490C6 /* UIView+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
 		8160A961226C6D7A0075D98C /* EPPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPopView.m; sourceTree = "<group>"; };
@@ -354,8 +351,6 @@
 		816824A0231A72CB00CB6984 /* ZLNumberKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLNumberKeyboard.h; sourceTree = "<group>"; };
 		816824A1231A72CB00CB6984 /* ZLCharKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZLCharKeyboard.xib; sourceTree = "<group>"; };
 		816824A2231A72CB00CB6984 /* ZLCharKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLCharKeyboard.h; sourceTree = "<group>"; };
-		817279522268165D00A98402 /* EPPopAlertShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPPopAlertShowView.h; sourceTree = "<group>"; };
-		817279532268165D00A98402 /* EPPopAlertShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPPopAlertShowView.m; sourceTree = "<group>"; };
 		8172795522681CD800A98402 /* NRCustomerInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCustomerInfo.h; sourceTree = "<group>"; };
 		8172795622681CD800A98402 /* NRCustomerInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCustomerInfo.m; sourceTree = "<group>"; };
 		8193A10A238E83B100BA3E70 /* LYKeychainTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYKeychainTool.h; sourceTree = "<group>"; };
@@ -364,12 +359,8 @@
 		8199A0F8227ED20900A08AC8 /* NRChipInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipInfo.m; sourceTree = "<group>"; };
 		8199A0FB227EEB1900A08AC8 /* NRChipAllInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipAllInfo.h; sourceTree = "<group>"; };
 		8199A0FC227EEB1900A08AC8 /* NRChipAllInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipAllInfo.m; sourceTree = "<group>"; };
-		81A1EE3622894653005FD12A /* EPResultShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EPResultShowView.h; sourceTree = "<group>"; };
-		81A1EE3722894653005FD12A /* EPResultShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EPResultShowView.m; sourceTree = "<group>"; };
 		81A1EE3922894B1A005FD12A /* NRChipResultInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipResultInfo.h; sourceTree = "<group>"; };
 		81A1EE3A22894B1A005FD12A /* NRChipResultInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipResultInfo.m; sourceTree = "<group>"; };
-		81A1EE3C22895A5E005FD12A /* EPPointsShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EPPointsShowView.h; sourceTree = "<group>"; };
-		81A1EE3D22895A5E005FD12A /* EPPointsShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EPPointsShowView.m; sourceTree = "<group>"; };
 		81A97F3A22642D4B00DFF774 /* RVMViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RVMViewModel.m; sourceTree = "<group>"; };
 		81A97F3B22642D4B00DFF774 /* RVMViewModel+EPExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RVMViewModel+EPExtension.h"; sourceTree = "<group>"; };
 		81A97F3C22642D4B00DFF774 /* ReactiveViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactiveViewModel.h; sourceTree = "<group>"; };
@@ -417,7 +408,7 @@
 		81BD426E225F371500A35545 /* NFCReaderUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NFCReaderUITests.m; sourceTree = "<group>"; };
 		81BD4270225F371500A35545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81C520272282834D0096ACDA /* NRCowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCowViewController.h; sourceTree = "<group>"; };
-		81C520282282834D0096ACDA /* NRCowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCowViewController.m; sourceTree = "<group>"; };
+		81C520282282834D0096ACDA /* cowZhaohuiMoneyLab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cowZhaohuiMoneyLab.m; sourceTree = "<group>"; };
 		81C5202A228283650096ACDA /* NRCowViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRCowViewModel.h; sourceTree = "<group>"; };
 		81C5202B228283650096ACDA /* NRCowViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCowViewModel.m; sourceTree = "<group>"; };
 		81C718C9236E7968007BD510 /* ChipInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChipInfoView.h; sourceTree = "<group>"; };
@@ -518,27 +509,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		810AB62023AFB218003115AC /* EPDaSanInfoShowView 打散信息展示弹出框 */ = {
+			isa = PBXGroup;
+			children = (
+				810AB62223AFB218003115AC /* EPDaSanInfoView.h */,
+				810AB62123AFB218003115AC /* EPDaSanInfoView.m */,
+			);
+			path = "EPDaSanInfoShowView 打散信息展示弹出框";
+			sourceTree = "<group>";
+		};
 		810C8EA322602B060010E1A4 /* ThridViews */ = {
 			isa = PBXGroup;
 			children = (
+				810AB62023AFB218003115AC /* EPDaSanInfoShowView 打散信息展示弹出框 */,
+				8115384623ABC0150064EE5F /* EPPayShaInfoShowView 杀赔信息展示弹出框 */,
+				8115384223ABBED90064EE5F /* EPTipsShowView 小费弹出框 */,
 				81E0AB912337BE3D00B9D27F /* EPSelectPopView */,
 				8114F8892326A85800FE620A /* MJPopTool */,
 				81682499231A72CB00CB6984 /* ZLKeyboard */,
 				81EF8D6022F6859300FDDBF8 /* NRSocket */,
 				81CD2F8F22DC839400D0885A /* JhPageItemView */,
 				81CC4E0C2275A7FD00F0B09D /* YRJSONAdapt */,
-				817279522268165D00A98402 /* EPPopAlertShowView.h */,
-				817279532268165D00A98402 /* EPPopAlertShowView.m */,
-				815443C922C9DBC800AF94D5 /* EPPopAtipInfoView.h */,
-				815443CA22C9DBC800AF94D5 /* EPPopAtipInfoView.m */,
-				8118808022CA7C8400158A7E /* EPTigerShowView.h */,
-				8118807F22CA7C8400158A7E /* EPTigerShowView.m */,
-				811F815222DADBB20096A78A /* EPTigerResultShowView.h */,
-				811F815322DADBB20096A78A /* EPTigerResultShowView.m */,
-				81A1EE3622894653005FD12A /* EPResultShowView.h */,
-				81A1EE3722894653005FD12A /* EPResultShowView.m */,
-				81A1EE3C22895A5E005FD12A /* EPPointsShowView.h */,
-				81A1EE3D22895A5E005FD12A /* EPPointsShowView.m */,
 				81201125226DC1FF00F733B0 /* NSString+EPExtention.h */,
 				81201126226DC1FF00F733B0 /* NSString+EPExtention.m */,
 				810C8EBB226033B10010E1A4 /* EPToast.h */,
@@ -606,6 +597,24 @@
 				8114F88B2326A85800FE620A /* MJPopTool.m */,
 			);
 			path = MJPopTool;
+			sourceTree = "<group>";
+		};
+		8115384223ABBED90064EE5F /* EPTipsShowView 小费弹出框 */ = {
+			isa = PBXGroup;
+			children = (
+				8115384323ABBED90064EE5F /* EPPopAtipInfoView.h */,
+				8115384423ABBED90064EE5F /* EPPopAtipInfoView.m */,
+			);
+			path = "EPTipsShowView 小费弹出框";
+			sourceTree = "<group>";
+		};
+		8115384623ABC0150064EE5F /* EPPayShaInfoShowView 杀赔信息展示弹出框 */ = {
+			isa = PBXGroup;
+			children = (
+				8115384723ABC0150064EE5F /* EPPayKillInfoView.h */,
+				8115384823ABC0150064EE5F /* EPPayKillInfoView.m */,
+			);
+			path = "EPPayShaInfoShowView 杀赔信息展示弹出框";
 			sourceTree = "<group>";
 		};
 		811C02BB233BC092001AD39D /* Baccarat_YouYong  有佣百家乐 */ = {
@@ -979,7 +988,7 @@
 			isa = PBXGroup;
 			children = (
 				81C520272282834D0096ACDA /* NRCowViewController.h */,
-				81C520282282834D0096ACDA /* NRCowViewController.m */,
+				81C520282282834D0096ACDA /* cowZhaohuiMoneyLab.m */,
 				81C5202A228283650096ACDA /* NRCowViewModel.h */,
 				81C5202B228283650096ACDA /* NRCowViewModel.m */,
 			);
@@ -1407,7 +1416,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				813C0288232DD04B00D5617D /* EPKillShowView.m in Sources */,
+				810AB62323AFB218003115AC /* EPDaSanInfoView.m in Sources */,
 				8104E1CE2343094600538135 /* BLEModel.m in Sources */,
+				8115384523ABBED90064EE5F /* EPPopAtipInfoView.m in Sources */,
 				81A97F4322642D8800DFF774 /* NRTableChooseViewModel.m in Sources */,
 				811C02DC233BC5FF001AD39D /* CustomerInfo.m in Sources */,
 				810C8EB822602E3C0010E1A4 /* EPHTTPRequestManager.m in Sources */,
@@ -1420,7 +1431,6 @@
 				8125AFB222F66D3700901FFF /* NSData+SSToolkitAdditions.m in Sources */,
 				81219B23231CA444008C25A5 /* AddTableHeatView.m in Sources */,
 				810C8EA922602B060010E1A4 /* EPTitleBarItem.m in Sources */,
-				811F815422DADBB20096A78A /* EPTigerResultShowView.m in Sources */,
 				8114F88C2326A85900FE620A /* MJPopTool.m in Sources */,
 				81A97F4022642D4B00DFF774 /* RVMViewModel+EPExtension.m in Sources */,
 				81E0AB9B2337BE3D00B9D27F /* EPFuncTableViewCell.m in Sources */,
@@ -1444,7 +1454,7 @@
 				811C02DE233BC5FF001AD39D /* CustomerEntryInfoView.m in Sources */,
 				81ED5ED3232D29250002DA64 /* EPPayShowView.m in Sources */,
 				812C3D93226340D600611D1B /* NRPeripheralInfo.m in Sources */,
-				81C520292282834D0096ACDA /* NRCowViewController.m in Sources */,
+				81C520292282834D0096ACDA /* cowZhaohuiMoneyLab.m in Sources */,
 				813C0299232E31C300D5617D /* EPINSShowView.m in Sources */,
 				810C8EA822602B060010E1A4 /* EPTitleBar.m in Sources */,
 				81179702226AC50B00B7F810 /* NRCRCString.m in Sources */,
@@ -1489,16 +1499,14 @@
 				811EC2E9229D44F500539615 /* NRUpdateInfo.m in Sources */,
 				81C718CB236E7968007BD510 /* ChipInfoView.m in Sources */,
 				81DE44FF22781F4C007EE010 /* NRLoginInfo.m in Sources */,
+				8115384923ABC0150064EE5F /* EPPayKillInfoView.m in Sources */,
 				81B33C0322F7C8280012C7D0 /* EPSound.m in Sources */,
 				81235B3522DDA8FE00F5FF28 /* NFPopupTextContainView.m in Sources */,
 				81CD2FA122DC839500D0885A /* JhCustomHorizontalLayout.m in Sources */,
-				81A1EE3E22895A5E005FD12A /* EPPointsShowView.m in Sources */,
 				810EFC6F22D2DA41005C3684 /* EPStr.m in Sources */,
 				81EC1E1D2268C20000B000C7 /* NRChipManagerTableViewCell.m in Sources */,
-				815443CB22C9DBC800AF94D5 /* EPPopAtipInfoView.m in Sources */,
 				81201122226D5B9E00F733B0 /* NRChipInfoModel.m in Sources */,
 				810C8EA2226027D60010E1A4 /* NRBaseViewController.m in Sources */,
-				817279542268165D00A98402 /* EPPopAlertShowView.m in Sources */,
 				81A97F53226478D700DFF774 /* NRBaccaratViewModel.m in Sources */,
 				81EC1E202268C81D00B000C7 /* NRChipManagerInfo.m in Sources */,
 				81E0AB9E2337BEB800B9D27F /* EPWebViewController.m in Sources */,
@@ -1508,7 +1516,6 @@
 				81A97F4622642FC900DFF774 /* NRLoginViewModel.m in Sources */,
 				811FE3352320070B008A87CF /* ModificationResultsView.m in Sources */,
 				81E0AB982337BE3D00B9D27F /* EPSelectPopView.m in Sources */,
-				81A1EE3822894653005FD12A /* EPResultShowView.m in Sources */,
 				811FE32F231FF6D4008A87CF /* TableJiaJiancaiView.m in Sources */,
 				81A97F492264516D00DFF774 /* NRNavigationViewController.m in Sources */,
 				811BFDB0232151B0001F6AE3 /* JiaJIanCaiCell.m in Sources */,
@@ -1524,7 +1531,6 @@
 				811C02E8233BC676001AD39D /* AddMoreCustomer_workersCollectionViewCell.m in Sources */,
 				813C0293232E11AC00D5617D /* EPSixWinShowView.m in Sources */,
 				8199A0FD227EEB1900A08AC8 /* NRChipAllInfo.m in Sources */,
-				8118808122CA7C8400158A7E /* EPTigerShowView.m in Sources */,
 				810EFC7322D2DA5B005C3684 /* EPLanguage.m in Sources */,
 				81B33C0722F7DB180012C7D0 /* BLEIToll.m in Sources */,
 			);

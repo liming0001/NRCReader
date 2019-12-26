@@ -41,17 +41,30 @@ static NSString * const killReuseIdentifier = @"KillCell";
     // Drawing code
     [self.midView addSubview:self.tableView];
 }
+- (IBAction)zhaoHuiAction:(id)sender {
+    if (_sureActionBlock) {
+        _sureActionBlock(3);
+    }
+}
 
 - (void)fellViewDataNRCustomerInfo:(NRCustomerInfo *)customerInfo{
     self.killShowList = [NSMutableArray arrayWithCapacity:0];
     self.curInfo = customerInfo;
     if (self.curInfo.isTiger||self.curInfo.isCow) {
-        self.havepayChipLab.hidden = NO;
         if (self.curInfo.isCow) {
-            self.havepayChipLab.text = self.curInfo.add_chipMoney;
+            self.havepayChipLab.hidden = YES;
+            self.cowAddMoneyView.hidden = NO;
+            self.zhaoHuiBtn.hidden = NO;
+            self.cowShouldMoneylab.text = self.curInfo.add_chipMoney;
+        }else{
+            self.havepayChipLab.hidden = NO;
+            self.cowAddMoneyView.hidden = YES;
+            self.zhaoHuiBtn.hidden = YES;
         }
     }else{
         self.havepayChipLab.hidden = YES;
+        self.cowAddMoneyView.hidden = YES;
+        self.zhaoHuiBtn.hidden = YES;
     }
     self.winOrLostStatusLab.text = self.curInfo.winStatus;
     NSArray *chipInfoList = self.curInfo.chipInfoList;
@@ -153,6 +166,8 @@ static NSString * const killReuseIdentifier = @"KillCell";
 }
 
 - (void)clearKillShowView{
+    self.cowHadMoneyLab.text = [NSString stringWithFormat:@"%@:0",@"已加赔"];
+    self.cowZhaohuiMoneyLab.text = [NSString stringWithFormat:@"%@:%d",@"已找回",0];
     [self.killShowList removeAllObjects];
     [self.tableView reloadData];
 }

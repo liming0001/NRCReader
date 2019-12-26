@@ -16,10 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *puciLab;
 @property (nonatomic, assign) int xueciCount;//靴次
 @property (nonatomic, assign) int puciCount;//铺次
-@property (nonatomic, assign) int prePuciCount;
 
-- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber TableName:(NSString *)tableName;
+- (void)transLoginInfoWithLoginID:(NSString *)loginID TableID:(NSString *)tableID Serialnumber:(NSString *)serialnumber Peilv:(NSArray *)xz_setting TableName:(NSString *)tableName RijieData:(NSString *)curRijieDate ResultDict:(NSDictionary *)resultDict;
 - (void)fellXueCiWithXueCi:(int)curXueci PuCi:(int)curPuCi;
+#pragma mark --清除金额
+- (void)clearMoney;
 
 @end
 

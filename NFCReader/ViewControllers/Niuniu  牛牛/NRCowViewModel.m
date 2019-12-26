@@ -22,7 +22,6 @@
     self.curupdateInfo = [NRUpdateInfo new];
     self.cp_fidString = @"";
     self.cp_tableIDString = @"";
-    self.currentData = [NRCommand getCurrentDate];
     return self;
 }
 
@@ -43,6 +42,29 @@
     }];
 }
 
+#pragma mark - 获取当前台桌的靴次
+- (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"table_id":self.curTableInfo.fid,
+                             @"date":self.cp_tableRijieDate,//日期
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_getXueci",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        DLOG(@"responseDict===%@",responseDict);
+        if (![responseDict[@"table"]isEqual:[NSNull null]]) {
+            self.lastTableInfoDict = responseDict[@"table"];
+            self.cp_tableIDString = self.lastTableInfoDict[@"fid"];
+        }
+        block(suc, msg,error);
+        
+    }];
+}
+
 #pragma mark - 提交开牌结果
 - (void)commitkpResultWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSDictionary * param = @{
@@ -52,7 +74,7 @@
                              @"fpuci":self.curupdateInfo.cp_puci,//铺次
                              @"fpcls":[self.curupdateInfo.cp_Serialnumber NullToBlankString],//铺次流水号，长度不超过20位，要求全局唯一
                              @"fkpresult":@"",//结果
-                             @"frjdate":self.currentData
+                             @"frjdate":self.cp_tableRijieDate
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
@@ -71,6 +93,7 @@
 - (void)commitCustomerRecordWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSArray *dashuiList = [NSArray array];
     NSArray *chipList = [NSArray array];
+    NSArray *zhaohuiList = [NSArray array];
     if ([self.curupdateInfo.cp_result isEqualToString:@"1"]) {
         if (self.curupdateInfo.cp_DashuiUidList.count!=0) {
             dashuiList = self.curupdateInfo.cp_DashuiUidList;
@@ -79,7 +102,9 @@
     if (self.curupdateInfo.cp_ChipUidList.count!=0) {
         chipList = self.curupdateInfo.cp_ChipUidList;
     }
-    
+    if (self.curupdateInfo.cp_zhaohuiList.count!=0) {
+        zhaohuiList = self.curupdateInfo.cp_zhaohuiList;
+    }
     
     NSDictionary * param = @{
                              @"access_token":self.loginInfo.access_token,
@@ -95,6 +120,7 @@
                              @"fresult":[self.curupdateInfo.cp_money NullToBlankString],//应付额
                              @"fyj":self.curupdateInfo.cp_commission,//佣金
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
+                             @"fzhaohui":zhaohuiList,//找回z筹码
                              @"fdashui":dashuiList//打水筹码，硬件ID值数组
                              };
     NSArray *paramList = @[param];
@@ -134,7 +160,7 @@
                              @"fdianshu":self.curupdateInfo.cp_dianshu,//牛牛点数，非牛牛游戏传0
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fresult":self.curupdateInfo.cp_money,//应付额
-                             @"fzhaohuilist":zhaohuiList//打水筹码，硬件ID值数组
+                             @"fzhaohuilist":zhaohuiList//找回筹码，硬件ID值数组
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
@@ -142,29 +168,6 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_String_PublicWithParamter:Realparam block:^(NSString *responseString, NSString *msg, EPSreviceError error, BOOL suc) {
-        block(suc, msg,error);
-        
-    }];
-}
-
-#pragma mark - 获取当前台桌的靴次
-- (void)getLastXueCiInfoWithBlock:(EPFeedbackWithErrorCodeBlock)block{
-    NSDictionary * param = @{
-                             @"access_token":self.loginInfo.access_token,
-                             @"table_id":self.curTableInfo.fid,
-                             @"date":[NRCommand getCurrentDate],//日期
-                             };
-    NSArray *paramList = @[param];
-    NSDictionary * Realparam = @{
-                                 @"f":@"Tablerec_getXueci",
-                                 @"p":[paramList JSONString]
-                                 };
-    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        DLOG(@"responseDict===%@",responseDict);
-        if (![responseDict[@"table"]isEqual:[NSNull null]]) {
-            self.lastTableInfoDict = responseDict[@"table"];
-            self.cp_tableIDString = self.lastTableInfoDict[@"fid"];
-        }
         block(suc, msg,error);
         
     }];
@@ -275,6 +278,24 @@ NSDictionary * param = @{
         if (suc) {
             self.cp_fidString = @"";
         }
+        block(suc, msg,error);
+        
+    }];
+}
+
+#pragma mark - 上传最新靴次
+- (void)postNewxueciWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"new_xueci":self.curupdateInfo.cp_xueci,
+                             @"table_id":self.curTableInfo.fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_postNewxueci",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         block(suc, msg,error);
         
     }];

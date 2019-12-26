@@ -464,4 +464,58 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     return [self getSendBlockDataWithHexString:hexString];
 }
 
+#pragma mark - 设置设备功率
++ (NSData *)setDeviceWorkPower{
+    NSString *hexString = [NSString stringWithFormat:@"060021f005"];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark -- 统计标签写入返回指令
++ (int)showBackStatusCountWithHexStatus:(NSString *)hexNumber AllChipCount:(int)chipCount{
+    NSInteger count = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040000525a" withString:@"040000525a"
+       options:NSLiteralSearch
+         range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count1 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040001" withString:@"040001"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count2 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040002" withString:@"040002"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count3 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040003" withString:@"040003"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count4 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040004" withString:@"040004"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count5 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040005" withString:@"040005"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count6 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"040006" withString:@"040006"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count7 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"04000a" withString:@"04000a"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count8 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"04000b" withString:@"04000b"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count9 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"04000c" withString:@"04000c"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count10 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"04000e" withString:@"04000e"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger count11 = [[hexNumber mutableCopy] replaceOccurrencesOfString:@"05000f" withString:@"05000f"
+    options:NSLiteralSearch
+      range:NSMakeRange(0, [hexNumber length])];
+    NSInteger realCount = count+count1+count2+count3+count4+count5+count6+count7+count8+count9+count10+count11;
+    if (count==chipCount) {
+        return 1;
+    }else if (realCount == chipCount){
+        return 2;
+    }else{
+        return 0;
+    }
+}
+
 @end

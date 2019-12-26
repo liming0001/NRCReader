@@ -72,7 +72,7 @@
 
 #pragma mark - /---------------------- notifications ----------------------/
 -(void)sureEntryCustomerInfo:(NSNotification *)ntf {
-    if ([self.washNumberTF.text intValue]==0&&[self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
+    if ([self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
         [self removeFromSuperview];
     }else{
         [self showWaitingView];
