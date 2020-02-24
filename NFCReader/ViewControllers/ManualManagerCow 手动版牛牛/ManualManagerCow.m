@@ -356,6 +356,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             return;
         }
         self.isEntryBox = YES;
+        [self clearMoney];
         CustomerInfo *info = self.customerInfoList[indexPath.row];
         CustomerEntryInfoCowView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoCowView" owner:nil options:nil]lastObject];
         custerEntryInfoV.frame = self.bounds;
@@ -433,7 +434,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
         customerInfo.zhuangValue = @"";
         customerInfo.zhuangDuiValue = @"";
-        customerInfo.cashType = 1;
+//        customerInfo.cashType = 1;
     }];
     [self.collectionView reloadData];
 }

@@ -15,6 +15,7 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
 @interface ChipInfoView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (strong, nonatomic) UILabel *totalChipMoneyLab;
 @property (strong, nonatomic) UILabel *totalChipNumbersLab;
 @property (nonatomic, strong) NRCustomerInfo *curInfo;
 @property (nonatomic, strong) NSMutableArray *chipList;
@@ -25,7 +26,7 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(92, 163+20+30, kScreenWidth-92*2, kScreenHeight-163*2-130-30-50) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(92, 163+20+30, kScreenWidth-92*2, kScreenHeight-163*2-130-30-100-8) style:UITableViewStylePlain];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -38,9 +39,20 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
     return _tableView;
 }
 
+- (UILabel *)totalChipMoneyLab{
+    if (!_totalChipMoneyLab) {
+        _totalChipMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(90, CGRectGetMaxY(self.tableView.frame)+8, kScreenWidth-180, 50)];
+        _totalChipMoneyLab.textColor = [UIColor colorWithHexString:@"#ff6666"];
+        _totalChipMoneyLab.font = [UIFont systemFontOfSize:30];
+        _totalChipMoneyLab.textAlignment = NSTextAlignmentCenter;
+        _totalChipMoneyLab.text = @"总金额:0";
+    }
+    return _totalChipMoneyLab;
+}
+
 - (UILabel *)totalChipNumbersLab{
     if (!_totalChipNumbersLab) {
-        _totalChipNumbersLab = [[UILabel alloc]initWithFrame:CGRectMake(90, CGRectGetMaxY(self.tableView.frame)+8, kScreenWidth-180, 50)];
+        _totalChipNumbersLab = [[UILabel alloc]initWithFrame:CGRectMake(90, CGRectGetMaxY(self.totalChipMoneyLab.frame)+8, kScreenWidth-180, 50)];
         _totalChipNumbersLab.textColor = [UIColor colorWithHexString:@"#ff6666"];
         _totalChipNumbersLab.font = [UIFont systemFontOfSize:30];
         _totalChipNumbersLab.textAlignment = NSTextAlignmentCenter;
@@ -54,6 +66,7 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     [self addSubview:self.tableView];
+    [self addSubview:self.totalChipMoneyLab];
     [self addSubview:self.totalChipNumbersLab];
 }
 
@@ -62,16 +75,19 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
         self.chipList = [NSMutableArray arrayWithCapacity:0];
     }
     [self.chipList removeAllObjects];
+    __block int chipAllMoney = 0;
     [chipInfoList enumerateObjectsUsingBlock:^(NSArray *list, NSUInteger idx, BOOL * _Nonnull stop) {
         NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
         [chipInfoDict setValue:list[1] forKey:@"chipType"];
         NSString * realmoney = [NSString stringWithFormat:@"%lu",strtoul([list[2] UTF8String],0,16)];
+        chipAllMoney += [realmoney intValue];
         [chipInfoDict setValue:realmoney forKey:@"chipAmount"];
         [chipInfoDict setValue:list[4] forKey:@"chipWashNumber"];
         [self.chipList addObject:chipInfoDict];
     }];
     [self.tableView reloadData];
     
+    self.totalChipMoneyLab.text = [NSString stringWithFormat:@"总金额:%d",chipAllMoney];
     self.totalChipNumbersLab.text = [NSString stringWithFormat:@"总筹码个数:%d",(int)chipInfoList.count];
 }
 

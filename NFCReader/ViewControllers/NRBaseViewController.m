@@ -84,7 +84,7 @@
 
 - (void)configureTitleBarToBlack {
     self.titleBar.tbTintColor = [UIColor colorWithHexString:@"#ffffff"];
-    self.titleBar.leftItem.contentButton.tintColor = [UIColor colorWithHexString:@"#546875"];
+    self.titleBar.leftItem.contentButton.tintColor = [UIColor colorWithHexString:@"#ffffff"];
     self.titleBar.rightItem.contentButton.tintColor = [UIColor colorWithHexString:@"#546875"];
 }
 
@@ -96,7 +96,7 @@
 
 - (void)setLeftItemForGoBack {
     @weakify(self);
-    self.titleBar.leftItem = [[EPTitleBarItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_back_w"] tintColor:kEPTitleBarItemColorBlack block:^{
+    self.titleBar.leftItem = [[EPTitleBarItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_back_w"] tintColor:kEPTitleBarItemColorWhite block:^{
         @strongify(self);
         [self.navigationController popViewControllerAnimated:YES];
     }];
@@ -138,7 +138,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.label.text = text;
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:15];
+    [hud hideAnimated:YES afterDelay:8];
 }
 
 - (void)showWaitingView {
@@ -147,7 +147,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:15];
+    [hud hideAnimated:YES afterDelay:8];
 }
 
 - (void)hideWaitingView {
@@ -159,7 +159,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:15];
+    [hud hideAnimated:YES afterDelay:8];
 }
 
 - (void)hideWaitingViewInWindow {

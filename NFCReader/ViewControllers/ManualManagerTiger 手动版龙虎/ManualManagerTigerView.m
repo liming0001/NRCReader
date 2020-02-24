@@ -572,13 +572,11 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 #pragma mark --清除金额
 - (void)clearMoney{
-//    [self.customerInfoList removeAllObjects];
-//    [self.customerInfoList addObject:[self modelCustomerInfo]];
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
         customerInfo.zhuangValue = @"";
         customerInfo.zhuangDuiValue = @"";
         customerInfo.heValue = @"";
-        customerInfo.cashType = 1;
+//        customerInfo.cashType = 1;
     }];
     [self.collectionView reloadData];
 }
@@ -697,6 +695,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 return;
             }
             self.isEntryBox = YES;
+            [self clearMoney];
             CustomerInfo *info = self.customerInfoList[indexPath.row];
             TigerEditInfoView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"TigerEditInfoView" owner:nil options:nil]lastObject];
             custerEntryInfoV.frame = self.bounds;
@@ -800,7 +799,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 if (self.lastTableInfoDict&&self.lastTableInfoDict.count!=0) {
                     //判断结果
                     NSString *cp_result = self.lastTableInfoDict[@"fkpresult"];
-                    self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    NSString *fnew_xueci = self.lastTableInfoDict[@"fnew_xueci"];
+                    NSString *cur_xueci = self.lastTableInfoDict[@"fxueci"];
+                    if(![fnew_xueci isEqual:[NSNull null]]) {
+                        if ([fnew_xueci intValue]==[cur_xueci intValue]) {
+                            self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                        }else{
+                            self.puciCount = 0;
+                        }
+                    }else{
+                        self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    }
                     int resultStatus = 0;
                     if ([cp_result isEqualToString:@"龙"]) {
                         resultStatus=1;

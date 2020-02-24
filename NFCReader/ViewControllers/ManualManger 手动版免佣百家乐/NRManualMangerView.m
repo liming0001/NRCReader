@@ -1028,6 +1028,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             return;
         }
         self.isEntryBox = YES;
+        [self clearMoney];
         CustomerInfo *info = self.customerInfoList[indexPath.row];
         CustomerEntryInfoView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoView" owner:nil options:nil]lastObject];
         custerEntryInfoV.frame = self.bounds;
@@ -1069,8 +1070,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 #pragma mark --清除金额
 - (void)clearMoney{
-//    [self.customerInfoList removeAllObjects];
-//    [self.customerInfoList addObject:[self modelCustomerInfo]];
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
         customerInfo.zhuangValue = @"";
         customerInfo.zhuangDuiValue = @"";
@@ -1080,7 +1079,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         customerInfo.heValue = @"";
         customerInfo.luckyValue = @"";
         customerInfo.baoxianValue = @"";
-        customerInfo.cashType = 1;
+//        customerInfo.cashType = 1;
     }];
     [self.collectionView reloadData];
 }
@@ -1234,7 +1233,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         [self.resultList addObject:[NSNumber numberWithInt:6]];
                         [self.heBtn setSelected:YES];
                     }
-                    self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    NSString *fnew_xueci = self.lastTableInfoDict[@"fnew_xueci"];
+                    NSString *cur_xueci = self.lastTableInfoDict[@"fxueci"];
+                    if(![fnew_xueci isEqual:[NSNull null]]) {
+                        if ([fnew_xueci intValue]==[cur_xueci intValue]) {
+                            self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                        }else{
+                            self.puciCount = 0;
+                        }
+                    }else{
+                        self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    }
                     self.prePuciCount = self.puciCount+1;
                     self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
                     self.cp_tableIDString = self.lastTableInfoDict[@"fid"];

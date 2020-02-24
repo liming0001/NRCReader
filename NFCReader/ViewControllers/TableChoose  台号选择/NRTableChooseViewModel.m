@@ -14,6 +14,8 @@
 #import "NRTableInfo.h"
 #import "NRGameInfo.h"
 #import "NRBaccarat_workersViewModel.h"
+#import "NRChipInfo.h"
+#import "NRChipAllInfo.h"
 
 @implementation NRTableChooseViewModel
 
@@ -21,6 +23,7 @@
     self = [super init];
     self.loginInfo = loginInfo;
     self.tableList = [NSMutableArray arrayWithCapacity:0];
+    self.chipFmeList = [NSMutableArray arrayWithCapacity:0];
     return self;
 }
 
@@ -37,6 +40,7 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        [self.tableList removeAllObjects];
         NSArray *list = [NSArray yy_modelArrayWithClass:[NRTableInfo class] json:responseDict[@"data"]];
         [self.tableList addObjectsFromArray:list];
         block(suc, msg,error);
@@ -62,7 +66,37 @@
             self.gameInfo = [NRGameInfo yy_modelWithDictionary:responseDict];
         }
         block(suc, msg,error);
-        
+    }];
+}
+
+- (void)getChipTypeWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Cmtypeme_getAllMe",
+                                 @"p":[paramList JSONString]
+                                 };
+    @weakify(self);
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        @strongify(self);
+        if (suc) {
+            [self.chipFmeList removeAllObjects];
+            NSArray *list = [NSArray yy_modelArrayWithClass:[NRChipInfo class] json:responseDict];
+            NSArray *sortList = [self shaiXuanWithList:list];
+            [sortList enumerateObjectsUsingBlock:^(NSArray *infoList, NSUInteger idx, BOOL * _Nonnull stop) {
+                NRChipAllInfo *allInfo = [[NRChipAllInfo alloc]init];
+                if (infoList.count!=0) {
+                    NRChipInfo *info = infoList.firstObject;
+                    allInfo.fcmtype = info.fcmtype;
+                    allInfo.fcmtype_name = info.fcmtype_name;
+                }
+                allInfo.list = infoList;
+                [self.chipFmeList addObject:allInfo];
+            }];
+        }
+        block(suc, msg,error);
     }];
 }
 
@@ -84,6 +118,27 @@
 - (NRCowViewModel *)cowViewModelWithLoginInfo:(NRLoginInfo*)loginInfo{
     NRCowViewModel *viewModel = [[NRCowViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
     return viewModel;
+}
+
+- (NSArray *)shaiXuanWithList:(NSArray *)list{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:list];
+    NSMutableArray *dateMutablearray = [NSMutableArray arrayWithCapacity:0];
+    for (int i = 0; i < array.count; i ++) {
+        NRChipInfo *chipInfo = array[i];
+        NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:0];
+        [tempArray addObject:chipInfo];
+        for (int j = i+1; j < array.count; j ++) {
+            NRChipInfo *jChipInfo = array[j];
+            if([chipInfo.fcmtype isEqualToString:jChipInfo.fcmtype]){
+                
+                [tempArray addObject:jChipInfo];
+                [array removeObjectAtIndex:j];
+                j -= 1;
+            }
+        }
+        [dateMutablearray addObject:tempArray];
+    }
+    return dateMutablearray;
 }
 
 @end

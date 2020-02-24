@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *fedit_time;
 @property (nonatomic, strong) NSString *access_token;
 @property (nonatomic, strong) NSArray *chipsUIDs;//筹码ID
+@property (nonatomic, strong) NSString *takeOutPassword;//取款密码
+@property (nonatomic, strong) NSString *userAllMoney;//存取金额
 
 @end
 

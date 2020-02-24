@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSString *curLoginToken;
 @property (nonatomic, strong) NSString *curTableID;
 
+@property (nonatomic,strong) NSMutableArray *moneyTypeList;
+
 @property (nonatomic,strong) NSMutableArray *firstMoneyList;
 @property (nonatomic,strong) NSMutableArray *firstNumberList;
 
@@ -48,6 +50,8 @@
 @property (nonatomic, strong) BlueToothManager *manager;
 @property (nonatomic, strong) NSDictionary *printDict;
 
+@property (nonatomic, strong) NSArray *chip_FmeList;
+
 @end
 
 @implementation TableJiaJiancaiView
@@ -57,7 +61,13 @@
         _StatusArray = [NSMutableArray array];
     }
     return _StatusArray;
-    
+}
+
+- (NSMutableArray *)moneyTypeList{
+    if (!_moneyTypeList) {
+        _moneyTypeList = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _moneyTypeList;
 }
 
 - (NSMutableArray *)firstMoneyList{
@@ -205,6 +215,7 @@
         [self.printBtn setTitle:@"加彩并打印" forState:UIControlStateNormal];
         self.minusBtn.hidden = NO;
         self.recordBtn.hidden = NO;
+        [self.minusBtn setTitle:@"减彩/Reduce" forState:UIControlStateNormal];
     }else if (type==1) {
         self.topTitleLab.text = @"点码";
         [self.addBtn setTitle:@"点码" forState:UIControlStateNormal];
@@ -244,10 +255,6 @@
     self.tableView.dataSource = self;
     self.tableView.centerX = self.centerX;
     self.tableView.showsVerticalScrollIndicator = NO;
-    [self.tableView registerClass:[JiaJIanCaiCell class] forCellReuseIdentifier:@"KReportImgTableViewCell_1"];
-    [self.tableView registerClass:[JiaJIanCaiCell class] forCellReuseIdentifier:@"KReportImgTableViewCell_2"];
-    [self.tableView registerClass:[JiaJIanCaiCell class] forCellReuseIdentifier:@"KReportImgTableViewCell_3"];
-    [self.tableView registerClass:[JiaJIanCaiCell class] forCellReuseIdentifier:@"KReportImgTableViewCell_4"];
     //不要分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:self.tableView];
@@ -364,9 +371,14 @@
     [MBProgressHUD hideHUDForView:window animated:YES];
 }
 
-- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId{
+- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId ChipFmeList:(NSArray *)chipFmeList{
     self.curLoginToken = loginId;
     self.curTableID = tableId;
+    self.chip_FmeList = chipFmeList;
+    for (int i=0; i<self.chip_FmeList.count; i++) {
+        [self.tableView registerClass:[JiaJIanCaiCell class] forCellReuseIdentifier:[NSString stringWithFormat:@"KReportImgTableViewCell_%d",i+1]];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)topBtnAction:(UIButton *)btn{
@@ -456,25 +468,40 @@
             fTypeS = @"5";
         }
     }
-    
+    [self.moneyTypeList removeAllObjects];
     
     NSMutableArray *fme_list = [NSMutableArray array];
-    [fme_list addObject:self.firstMoneyList];
-    [fme_list addObject:self.secondMoneyList];
-    [fme_list addObject:self.thridMoneyList];
-    [fme_list addObject:self.forthMoneyList];
-    
     NSMutableArray *fnums_list = [NSMutableArray array];
-    [fnums_list addObject:self.firstNumberList];
-    [fnums_list addObject:self.secondNumberList];
-    [fnums_list addObject:self.thridNumberList];
-    [fnums_list addObject:self.forthNumberList];
+    
+    if (self.firstMoneyList.count!=0) {//人名币码
+        [fme_list addObject:self.firstMoneyList];
+        [fnums_list addObject:self.firstNumberList];
+        [self.moneyTypeList addObject:@"1"];
+    }
+    
+    if (self.secondMoneyList.count!=0) {//人名币
+        [fme_list addObject:self.secondMoneyList];
+        [fnums_list addObject:self.secondNumberList];
+        [self.moneyTypeList addObject:@"6"];
+    }
+    
+    if (self.thridMoneyList.count!=0) {//美金码
+        [fme_list addObject:self.thridMoneyList];
+        [fnums_list addObject:self.thridNumberList];
+        [self.moneyTypeList addObject:@"2"];
+    }
+    
+    if (self.forthMoneyList.count!=0) {//美金
+        [fme_list addObject:self.forthMoneyList];
+        [fnums_list addObject:self.forthNumberList];
+        [self.moneyTypeList addObject:@"7"];
+    }
     
     NSDictionary * param = @{
                              @"access_token":self.curLoginToken,
                              @"ftable_id":self.curTableID,
                              @"ftype":fTypeS,
-                             @"fcmtype_list":[NSArray arrayWithObjects:@"1",@"6",@"2",@"7", nil],
+                             @"fcmtype_list":self.moneyTypeList,
                              @"fme_list":fme_list,//面额
                              @"fnums_list":fnums_list,//数量
                              };
@@ -498,8 +525,14 @@
             }else if (self.bottomType==2){//开台
                 if (self.headType==1) {
                     [[EPToast makeText:@"开台成功" WithError:NO]showWithType:ShortTime];
+                    if (self.kaiShoutaiBock) {
+                        self.kaiShoutaiBock(2);
+                    }
                 }else if (self.headType==2){
                     [[EPToast makeText:@"收台成功" WithError:NO]showWithType:ShortTime];
+                    if (self.kaiShoutaiBock) {
+                        self.kaiShoutaiBock(1);
+                    }
                 }
             }
             //响警告声音
@@ -532,17 +565,15 @@
 
 #pragma mark - tableview delegate / dataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return self.chip_FmeList.count;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *cellIdentifier = [NSString stringWithFormat:@"KReportImgTableViewCell_%d",indexPath.section+1];
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *cellIdentifier = [NSString stringWithFormat:@"KReportImgTableViewCell_%ld",indexPath.section+1];
     JiaJIanCaiCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[JiaJIanCaiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -551,7 +582,7 @@
     NSString *row = [NSString stringWithFormat:@"%ld",(long)indexPath.section];
     //是用来判断有没用被打开// YES (BOOL)1// NO  (BOOL)0
     BOOL isbool = [self.StatusArray containsObject: row];
-    [cell fellCellWithOpen:isbool Type:self.headType];
+    [cell fellCellWithOpen:isbool Type:self.headType WithNRChipAllInfo:self.chip_FmeList[indexPath.section]];
     @weakify(self);
     cell.openOrCloseBock = ^(BOOL isOpen, NSInteger curIndex) {
         @strongify(self);
@@ -575,7 +606,6 @@
             self.bottomView.USDCashValueLab.text = totalMonney;
         }
     };
-    
     cell.refrashSigleValueBlock = ^(int cellId, NSString * _Nonnull numberValue, NSString * _Nonnull moneyValue,int type) {
         @strongify(self);
         if (cellId==0) {
@@ -599,7 +629,7 @@
 {
     NSString *row = [NSString stringWithFormat:@"%ld",(long)indexPath.section];
     BOOL isbool = [self.StatusArray containsObject: row];
-    return [JiaJIanCaiCell cellHeightWithOpen:isbool];
+    return [JiaJIanCaiCell cellHeightWithOpen:isbool WithNRChipAllInfo:self.chip_FmeList[indexPath.section]];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 10.01;

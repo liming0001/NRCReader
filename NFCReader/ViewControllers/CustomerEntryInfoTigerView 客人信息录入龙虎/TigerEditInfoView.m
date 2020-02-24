@@ -24,13 +24,14 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
-    [ZLKeyboard bindKeyboard:self.washNumberTF];
-    [ZLKeyboard bindKeyboard:self.drogenValueTF];
-    [ZLKeyboard bindKeyboard:self.tigerValueTF];
-    [ZLKeyboard bindKeyboard:self.tieValueTF];
-    [self.washNumberTF becomeFirstResponder];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryTigerCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
+    
+    UITapGestureRecognizer *rmbClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rmbClickAction)];
+    [_cashTypelab addGestureRecognizer:rmbClick];
+    
+    UITapGestureRecognizer *chipClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chipClickAction)];
+    [_chipTypeLab addGestureRecognizer:chipClick];
 }
 
 - (void)editLoginInfoWithLoginID:(NSString *)loginID{
@@ -64,7 +65,7 @@
 
 #pragma mark - /---------------------- notifications ----------------------/
 -(void)sureEntryTigerCustomerInfo:(NSNotification *)ntf {
-    if ([self.drogenValueTF.text intValue]==0&&[self.tigerValueTF.text intValue]==0&&[self.tieValueTF.text intValue]==0) {
+    if ([self.drogenValueTF.text intValue]==0&&[self.tigerValueTF.text intValue]==0&&[self.tieValueTF.text intValue]==0&&[self.washNumberTF.text length]==0) {
         if (self.editTapCustomer) {
             self.editTapCustomer([CustomerInfo new],NO);
             [self removeFromSuperview];
@@ -96,6 +97,11 @@
 }
 
 - (void)editCurCustomerWithCustomerInfo:(CustomerInfo *)curCustomer{
+    [ZLKeyboard bindKeyboard:self.washNumberTF];
+    [ZLKeyboard bindKeyboard:self.drogenValueTF];
+    [ZLKeyboard bindKeyboard:self.tigerValueTF];
+    [ZLKeyboard bindKeyboard:self.tieValueTF];
+    
     self.customer = curCustomer;
     self.washNumberTF.text = self.customer.washNumberValue;
     self.drogenValueTF.text = self.customer.zhuangValue;
@@ -118,6 +124,12 @@
         self.chipTypeLab.text = @"CASH";
     }else if (self.cashType==2){
         self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
+    }
+    
+    if ([self.washNumberTF.text length]==0) {
+        [self.washNumberTF becomeFirstResponder];
+    }else{
+        [self.drogenValueTF becomeFirstResponder];
     }
 }
 
@@ -145,6 +157,53 @@
         }
     }
 }
+
+- (void)rmbClickAction{
+    self.cashTypeBtn.selected = !self.cashTypeBtn.selected;
+    if (self.cashTypeBtn.selected) {
+        self.cashTypelab.text = @"USD";
+        if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
+            self.cashType = 0;//美金筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_dollarCash"];
+            self.cashType = 1;//美金现金
+        }
+    }else{
+        self.cashTypelab.text = @"RMB";
+        if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
+            self.cashType = 2;//RMB筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_RMBCash"];
+            self.cashType = 3;//RMB现金
+        }
+    }
+}
+
+- (void)chipClickAction{
+    self.chipTypeBtn.selected = !self.chipTypeBtn.selected;
+    if (self.chipTypeBtn.selected) {
+        self.chipTypeLab.text = @"CASH";
+        if ([self.cashTypelab.text isEqualToString:@"RMB"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"customer_RMBCash"];
+            self.cashType = 3;//RMB现金
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_dollarCash"];
+            self.cashType = 1;//美金现金
+        }
+    }else{
+        self.chipTypeLab.text = @"CHIP";
+        if ([self.cashTypelab.text isEqualToString:@"RMB"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
+            self.cashType = 2;//RMB筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
+            self.cashType = 0;//美金筹码
+        }
+    }
+}
+
 - (IBAction)chipTypeAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
     btn.selected = !btn.selected;

@@ -16,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)fellListWithType:(int)type;
 
-- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId;
+- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId ChipFmeList:(NSArray *)chipFmeList;
+
+@property (nonatomic, strong) void (^kaiShoutaiBock)(int hasKaitaiStatus);
 
 @end
 

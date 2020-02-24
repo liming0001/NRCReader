@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DenominationView;
+@class DenominationView,NRChipAllInfo;
 @interface JiaJIanCaiCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *chipTypeLab;
@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) void (^refrashBottomMoneyBlock)(int cellId,NSString *totalMonney);
 @property (nonatomic, strong) void (^refrashSigleValueBlock)(int cellId,NSString *numberValue,NSString*moneyValue,int type);
 
-- (void)fellCellWithOpen:(BOOL)isOpen Type:(int)type;
-+ (CGFloat)cellHeightWithOpen:(BOOL)isOpen;
+- (void)fellCellWithOpen:(BOOL)isOpen Type:(int)type WithNRChipAllInfo:(NRChipAllInfo*)chipInfo;
++ (CGFloat)cellHeightWithOpen:(BOOL)isOpen WithNRChipAllInfo:(NRChipAllInfo*)chipInfo;
 
 @end
 

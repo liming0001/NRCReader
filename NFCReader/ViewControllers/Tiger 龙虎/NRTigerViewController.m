@@ -43,7 +43,7 @@
 #import "EPWebViewController.h"
 #import "EPDaSanInfoView.h"
 
-@interface NRTigerViewController ()<GCDAsyncSocketDelegate>
+@interface NRTigerViewController ()<GCDAsyncSocketDelegate,UIGestureRecognizerDelegate>
 
 //台桌数据
 @property (nonatomic, strong) TableDataInfoView *tableDataInfoV;
@@ -138,6 +138,8 @@
 @property (nonatomic, strong) NSArray *bindChipUIDList;
 @property (nonatomic, assign) BOOL isBindChipWashNumber;//是否绑定洗码号
 @property (nonatomic, assign) BOOL isBreakUpChip;//是否打散筹码
+
+@property (nonatomic, assign) int hasFoundingStatus;//是否开台
 
 @property (nonatomic, strong) NSMutableArray *washNumberList;//洗码号数据
 @property (nonatomic, strong) NSMutableArray *chipTypeList;//筹码类型数据
@@ -1149,6 +1151,16 @@
     self.manuaManagerView.hidden = YES;
     self.automaticShowView.hidden = NO;
     [self.solidItemView fellLuzhuListWithDataList:self.viewModel.luzhuUpList];
+    
+    if ([self.viewModel.gameInfo.fstatus intValue]==1) {//未开台,不需要判断是否日结
+        self.hasFoundingStatus = 1;
+    }else{//已开台
+        if ([self.viewModel.gameInfo.fsettle intValue]==1) {//未日结，可以进行杀赔操作
+            self.hasFoundingStatus = 2;
+        }else{//已经日结，不能进行杀赔操作，必须先收台
+            self.hasFoundingStatus = 3;
+        }
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -1159,10 +1171,16 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self connectToServer];
     [IQKeyboardManager sharedManager].enable = NO;
     [self showWaitingViewWithText:@"露珠加载中..."];
     [self getBaseTableInfoAndLuzhuInfo];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    //YES：允许右滑返回  NO：禁止右滑返回
+    return NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -1229,7 +1247,13 @@
                 int curNewXueci = [fnew_xueci intValue];
                 self.viewModel.curXueci = curNewXueci;
                 self.xueciCount = curNewXueci;
+                if ([fnew_xueci intValue]==[tableInfo[@"fxueci"]intValue]) {
+                    self.puciCount = [tableInfo[@"fpuci"]intValue];
+                }else{
+                    self.puciCount = 0;
+                }
             }else{
+                self.puciCount = [tableInfo[@"fpuci"]intValue];
                 int fXueci = [tableInfo[@"fxueci"]intValue];
                self.viewModel.curXueci = fXueci;
                 self.xueciCount = fXueci;
@@ -1237,6 +1261,7 @@
         }
         self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
         self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
+        self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
         [self getLuzhuInfoList];
     }];
 }
@@ -1419,7 +1444,8 @@
         }
             break;
         case 7://点码
-            [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid];
+            self.addOrMinusView = nil;
+            [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid ChipFmeList:self.chipFmeList];
             [self.addOrMinusView fellListWithType:1];
             [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
             break;
@@ -1429,7 +1455,8 @@
             [self.viewModel queryOperate_listWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
                 [self hideWaitingView];
                 if (success) {
-                    [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid];
+                    self.addOrMinusView = nil;
+                    [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid ChipFmeList:self.chipFmeList];
                     [self.addOrMinusView fellListWithType:0];
                     [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
                 }else{
@@ -1446,9 +1473,20 @@
         }
             break;
         case 9://开台和收台
-            [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid];
+        {
+            self.addOrMinusView = nil;
+            [self.addOrMinusView fellViewDataWithLoginID:self.viewModel.loginInfo.access_token TableID:self.viewModel.curTableInfo.fid ChipFmeList:self.chipFmeList];
             [self.addOrMinusView fellListWithType:2];
             [[MJPopTool sharedInstance] popView:self.addOrMinusView animated:YES];
+            @weakify(self);
+            self.addOrMinusView.kaiShoutaiBock = ^(int hasKaitaiStatus) {
+                @strongify(self);
+                self.hasFoundingStatus = hasKaitaiStatus;
+                if (hasKaitaiStatus==1) {//收台
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+            };
+        }
             break;
         case 10://修改洗码号
         {
@@ -1498,7 +1536,7 @@
                                         self.curChipInfo.chipUID = self.chipUIDList[i];
                                         self.curChipInfo.guestWashesNumber = entryText;
                                         //向指定标签中写入数据（块1）
-                                        [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+                                        [self.clientSocket writeData:[NRCommand writeInfoToChip4WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
                                         usleep(self.operateChipCount * 10000);
                                     }
                                 }else{
@@ -1685,7 +1723,17 @@
                         NSDictionary *tableInfo = self.viewModel.lastTableInfoDict;
                         //判断结果
                         NSString *cp_result = tableInfo[@"fkpresult"];
-                        self.puciCount = [tableInfo[@"fpuci"]intValue];
+                        NSString *fnew_xueci = tableInfo[@"fnew_xueci"];
+                        NSString *cur_xueci = tableInfo[@"fxueci"];
+                        if(![fnew_xueci isEqual:[NSNull null]]) {
+                            if ([fnew_xueci intValue]==[cur_xueci intValue]) {
+                                self.puciCount = [tableInfo[@"fpuci"]intValue];
+                            }else{
+                                self.puciCount = 0;
+                            }
+                        }else{
+                            self.puciCount = [tableInfo[@"fpuci"]intValue];
+                        }
                         int resultStatus = 0;
                         if ([cp_result isEqualToString:@"龙"]) {
                             resultStatus=1;
@@ -1945,6 +1993,7 @@
                     if (success) {
                         self.xueciCount +=1;
                         self.puciCount =0;
+                        self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
                         if (!self.isAutomicGame) {
                             [self.manuaManagerView restartChangeStatus];
                             [self.manuaManagerView resertResultBtnStatus];
@@ -1957,7 +2006,6 @@
                             self.xueciLab.text = [NSString stringWithFormat:@"靴次:%d",self.xueciCount];
                             self.prePuciCount = self.puciCount+1;
                             self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
-                            self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
                             [self _resetTableInfoToZero];
                         }
                         [self.viewModel postNewxueciWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
@@ -2068,9 +2116,14 @@
                     [self hideWaitingView];
                     if (success) {
                         self.viewModel.curXueci = 1;
+                        self.xueciCount =1;
+                        self.viewModel.curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",self.xueciCount];
+                        [self.viewModel postNewxueciWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+                        }];
+                        self.hasFoundingStatus = 3;
                         [LYKeychainTool deleteKeychainValue:[NSString stringWithFormat:@"%@_RijieDate",self.viewModel.curTableInfo.fid]];
                         [self showMessage:@"日结成功" withSuccess:YES];
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                     }else{
                         NSString *messgae = [msg NullToBlankString];
                         if (messgae.length == 0) {
@@ -2081,8 +2134,6 @@
                         [EPSound playWithSoundName:@"wram_sound"];
                     }
                 }];
-                //响警告声音
-                [EPSound playWithSoundName:@"succeed_sound"];
             }else{
                 [self hideWaitingView];
                 NSString *messgae = [msg NullToBlankString];
@@ -2100,6 +2151,13 @@
 #pragma mark - 新一局
 - (void)newGameAction{
     [EPSound playWithSoundName:@"click_sound"];
+    if (self.hasFoundingStatus==1) {
+        [self showMessage:@"请先开台" withSuccess:NO];
+        return;
+    }else if (self.hasFoundingStatus==3){
+        [self showMessage:@"请先收台" withSuccess:NO];
+        return;
+    }
     if (!self.isAutomicGame) {
         if (self.manuaManagerView.prePuciCount==self.manuaManagerView.puciCount) {
             [self showMessage:@"请先提交开牌结果" withSuccess:NO];
@@ -2147,7 +2205,7 @@
     for (int i = 0; i < self.payChipUIDList.count; i++) {
         self.curChipInfo.chipUID = self.payChipUIDList[i];
         //向指定标签中写入数据（块1）
-        [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+        [self.clientSocket writeData:[NRCommand writeInfoToChip4WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
         usleep(self.operateChipCount * 10000);
     }
     //清除水钱洗码号
@@ -2184,7 +2242,6 @@
                 messgae = @"网络异常";
             }
             [self showMessage:messgae];
-            
         }
     }];
 }
@@ -2198,7 +2255,7 @@
         for (int i = 0; i < self.payChipUIDList.count; i++) {
             self.curChipInfo.chipUID = self.payChipUIDList[i];
             //向指定标签中写入数据（块1）
-            [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+            [self.clientSocket writeData:[NRCommand writeInfoToChip4WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
             usleep(self.operateChipCount * 10000);
         }
     }
@@ -2309,7 +2366,7 @@
                 self.curChipInfo.guestWashesNumber = self.curBindChipWashNumber;
                 self.curChipInfo.chipUID = self.bindChipUIDList[i];
                 //向指定标签中写入数据（块1）
-                [self.clientSocket writeData:[NRCommand writeInfoToChip3WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
+                [self.clientSocket writeData:[NRCommand writeInfoToChip4WithChipInfo:self.curChipInfo] withTimeout:- 1 tag:0];
                 usleep(self.operateChipCount * 10000);
             }
         }else{
@@ -2339,6 +2396,7 @@
 #pragma mark - 识别筹码
 - (void)readChipsAction{
     self.isShowChipInfo = YES;
+    self.isReadChipInfo = NO;
     self.chipUIDList = nil;
     self.payChipUIDList = nil;
     self.shuiqianChipUIDList = nil;
@@ -2353,6 +2411,7 @@
     self.chipInfoView.sureActionBlock = ^(NSInteger killConfirmType) {
         @strongify(self);
         if (killConfirmType==1) {//识别筹码
+            self.isShowChipInfo = YES;
             [self queryDeviceChips];
         }else{
             self.chipUIDList = nil;
@@ -2434,8 +2493,8 @@
 #pragma mark - 识别筹码金额
 - (void)readCurChipsMoney{
     //执行读取命令
-    [self.viewModel checkChipIsTrueWithChipList:self.chipUIDList Block:^(BOOL success, NSString *msg, EPSreviceError error) {
-        if (success) {
+//    [self.viewModel checkChipIsTrueWithChipList:self.chipUIDList Block:^(BOOL success, NSString *msg, EPSreviceError error) {
+//        if (success) {
             dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
             dispatch_async(serialQueue, ^{
                 for (int i = 0; i < self.chipUIDList.count; i++) {
@@ -2444,18 +2503,18 @@
                     usleep((int)self.chipUIDList.count * 10000);
                 }
             });
-        }else{
-            [self hideWaitingView];
-            [self _resetSelectResultButtonStatus];
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [self showMessage:messgae];
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
-        }
-    }];
+//        }else{
+//            [self hideWaitingView];
+//            [self _resetSelectResultButtonStatus];
+//            NSString *messgae = [msg NullToBlankString];
+//            if (messgae.length == 0) {
+//                messgae = @"网络异常";
+//            }
+//            [self showMessage:messgae];
+//            //响警告声音
+//            [EPSound playWithSoundName:@"wram_sound"];
+//        }
+//    }];
 }
 
 #pragma mark - 读取赔付筹码信息
@@ -2494,11 +2553,6 @@
     [self.clientSocket writeData:[NRCommand setDeviceWorkModel] withTimeout:- 1 tag:0];
 }
 
-#pragma mark - 设置设备功率
-- (void)setBigDevicePower{
-    [self.clientSocket writeData:[NRCommand setDeviceWorkPower] withTimeout:- 1 tag:0];
-}
-
 #pragma mark - 设置心跳指令
 - (void)sendDeviceKeepAlive{
     //设置感应盘工作模式
@@ -2511,7 +2565,6 @@
 {
     [self closeDeviceWorkModel];
     [self sendDeviceKeepAlive];
-//    [self setBigDevicePower];
     //    连接后,可读取服务器端的数据
     [self.clientSocket readDataWithTimeout:- 1 tag:0];
 }
@@ -2567,11 +2620,17 @@
                     }else{
                         self.writeCount+=1;
                         if (self.writeCount>=3) {
-                            self.writeCount = 0;
-                            self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已赔付筹码/Amount already paid",0];
-                            [self.payShowView clearPayShowInfo];
-                            [self.payShowView removeFromSuperview];
-                            [self showLongMessage:@"赔付成功,但是赔付筹码数据写入异常，请检查!!!" withSuccess:YES];
+                            [EPPopView showInWindowWithMessage:@"杀注成功,但是筹码数据清除异常，请检查!!!" handler:^(int buttonType) {
+                                if (buttonType==0) {
+                                    [self writePayChipsWashNumberCommand];
+                                }else{
+                                    self.writeCount = 0;
+                                    self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已赔付筹码/Amount already paid",0];
+                                    [self.payShowView clearPayShowInfo];
+                                    [self.payShowView removeFromSuperview];
+                                    [self showLongMessage:@"赔付成功,但是赔付筹码数据写入异常，请检查!!!" withSuccess:YES];
+                                }
+                            }];
                         }else{
                            [self writePayChipsWashNumberCommand];
                         }
@@ -2586,11 +2645,17 @@
                     }else{
                        self.clearCount+=1;
                         if (self.clearCount>=3) {
-                            self.clearCount = 0;
-                            [self.killShowView clearKillShowView];
-                            [self.killShowView removeFromSuperview];
-                            [self _resetSelectResultButtonStatus];
-                            [self showLongMessage:@"杀注成功,但是筹码数据清除异常，请检查!!!" withSuccess:YES];
+                            [EPPopView showInWindowWithMessage:@"杀注成功,但是筹码数据清除异常，请检查!!!" handler:^(int buttonType) {
+                                if (buttonType==0) {
+                                    [self clearShazhuChipsWashNumberCommand];
+                                }else{
+                                    self.clearCount = 0;
+                                    [self.killShowView clearKillShowView];
+                                    [self.killShowView removeFromSuperview];
+                                    [self _resetSelectResultButtonStatus];
+                                    [self showLongMessage:@"杀注成功,但是筹码数据清除异常，请检查!!!" withSuccess:YES];
+                                }
+                            }];
                         }else{
                            [self clearShazhuChipsWashNumberCommand];
                         }
@@ -2729,7 +2794,7 @@
         }
     }else if (self.isReadChipInfo){//正在识别筹码信息
         //总数据长度130000001001000a002019120800789000006b73
-        NSInteger infoByteLength = 40;
+        NSInteger infoByteLength = 50;
         if (self.isShowingResult) {//已经弹出结果展示界面
             if (self.isDashui){//识别水钱
                 infoByteLength = self.shuiqianChipCount*infoByteLength;
@@ -2746,7 +2811,7 @@
         if (chipNumberdataHexStr.length==infoByteLength) {//数据长度相同，筹码信息已经接受完毕
             self.chipUIDData = nil;
             BLEIToll *itool = [[BLEIToll alloc]init];
-            NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:chipNumberdataHexStr WithSplitSize:3];
+            NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:chipNumberdataHexStr];
             DLOG(@"ChipInfo = %@",chipInfo);
             if (self.isShowingResult) {
                 if (self.isDashui) {

@@ -59,19 +59,16 @@ NS_ASSUME_NONNULL_BEGIN
  @return 十六进制数
  */
 + (NSString *)getHexByDecimal:(NSInteger)decimal;
+#pragma mark - 向筹码数据块1中写入序号66，01类型
 + (NSData *)writeInfoToChip1WithChipInfo:(NRChipInfoModel *)chipInfo;
-#pragma mark - 向筹筹码数据块2中写入批次2019
+#pragma mark - 向筹码数据块2中写入面值
 + (NSData *)writeInfoToChip2WithChipInfo:(NRChipInfoModel *)chipInfo;
-#pragma mark - 向筹筹码数据块3中写入客人洗码号
+#pragma mark - 向筹筹码数据块3中写入批次2019
 + (NSData *)writeInfoToChip3WithChipInfo:(NRChipInfoModel *)chipInfo;
+#pragma mark - 向筹筹码数据块4中写入客人洗码号
++ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo;
 #pragma mark - 销毁筹码数据块1中的数值
 + (NSData *)destructInfoToChip1WithChipUID:(NSString *)chipUID;
-#pragma mark - 读取数据块1中的数据（序号，金额，类型）
-+ (NSData *)readSelectNumbersInfo1WithChipUID:(NSString *)chipUID;
-#pragma mark - q读取数据块2中的数据（批次）
-+ (NSData *)readSelectNumbersInfo2WithChipUID:(NSString *)chipUID;
-#pragma mark - q读取数据块3中的数据（客人洗码号）
-+ (NSData *)readSelectNumbersInfo3WithChipUID:(NSString *)chipUID;
 #pragma mark - 读取所有数据块中的数据
 + (NSData *)readAllSelectNumbersInfoWithChipUID:(NSString *)chipUID;
 #pragma mark - 清空客人洗码号
@@ -84,7 +81,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 清除缓存标签
 + (NSData *)clearDeviceCacheChip;
 #pragma mark - 设置设备功率
-+ (NSData *)setDeviceWorkPower;
++ (NSData *)setDeviceWorkPowerWithPower:(int)power;
+#pragma mark - 获取设备功率
++ (NSData *)getDeviceWorkPower;
 #pragma mark - 发送心跳指令
 + (NSData *)keepDeviceAlive;
 #pragma mark -- 统计标签写入返回指令

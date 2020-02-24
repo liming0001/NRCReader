@@ -343,6 +343,22 @@
     
 }
 
+
+//编码
+- (NSString *)base64Encode {
+    
+    //1.转化为二进制数据
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    //2.对数据进行编码
+
+    return [data base64EncodedStringWithOptions:0];
+    
+}
+
+
+
+
+
 - (NSString *)to32BitString{
     NSString *newString = self;
     if (newString.length<32) {

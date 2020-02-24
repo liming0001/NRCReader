@@ -153,6 +153,50 @@
     }];
 }
 
+#pragma mark - 小费结算
+- (void)TipSettlementWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.chipInfo.access_token,
+                             @"fhard_list":self.chipInfo.chipsUIDs
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_tipSettle",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
+    }];
+}
+
+#pragma mark - 存取筹码
+- (void)AccessChipWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    
+    NSDictionary * param = @{
+                            @"access_token":self.chipInfo.access_token,
+                            @"fxmh":self.chipModel.guestWashesNumber,
+                            @"fmoney":self.chipInfo.userAllMoney,
+                            @"fhardlist":self.chipInfo.chipsUIDs
+    };
+    if ([self.chipInfo.userAllMoney intValue]<0) {
+        param = @{
+                @"access_token":self.chipInfo.access_token,
+                @"fxmh":self.chipModel.guestWashesNumber,
+                @"fmoney":self.chipInfo.userAllMoney,
+                @"fhardlist":self.chipInfo.chipsUIDs,
+                @"fpassword":[self.chipInfo.takeOutPassword NullToBlankString]
+        };
+    }
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Cmpublish_depositWithdraw",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
+    }];
+}
+
 #pragma mark - 根据洗码号获取用户信息
 - (void)getInfoByXmhWithBlock:(EPFeedbackWithErrorCodeBlock)block{
     NSDictionary * param = @{
@@ -194,28 +238,19 @@
     NSMutableArray *array = [NSMutableArray arrayWithArray:list];
     NSMutableArray *dateMutablearray = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < array.count; i ++) {
-        
         NRChipInfo *chipInfo = array[i];
-        
         NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:0];
-        
         [tempArray addObject:chipInfo];
-        
         for (int j = i+1; j < array.count; j ++) {
-            
             NRChipInfo *jChipInfo = array[j];
-            
             if([chipInfo.fcmtype isEqualToString:jChipInfo.fcmtype]){
                 
                 [tempArray addObject:jChipInfo];
                 [array removeObjectAtIndex:j];
                 j -= 1;
-                
             }
         }
-        
         [dateMutablearray addObject:tempArray];
-        
     }
     return dateMutablearray;
 }

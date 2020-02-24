@@ -33,7 +33,7 @@
         self.curTableDict = tableDict;
         NSArray *tableList = [NSArray yy_modelArrayWithClass:[NRTableDataModel class] json:self.curTableDict[@"table_money"]];
         [tableList enumerateObjectsUsingBlock:^(NRTableDataModel *tableData, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([tableData.fcmtype intValue]==2) {//人命币筹码
+            if ([tableData.fcmtype intValue]==1) {//人命币筹码
                 self.rmbChipValueLab.text = [NSString stringWithFormat:@"%@",tableData.finit_money];
                 self.rmbCurrentValueLab.text = [NSString stringWithFormat:@"%@",tableData.fcur_money];
                 if ([tableData.finit_money integerValue]<[tableData.fcur_money integerValue]) {
@@ -53,7 +53,7 @@
                 }else{
                     self.rmbCurrentValueUpOrDownImg.hidden = YES;
                 }
-            }else if ([tableData.fcmtype intValue]==1){//美金筹码
+            }else if ([tableData.fcmtype intValue]==2){//美金筹码
                 self.usdChipValueLab.text = [NSString stringWithFormat:@"%@",tableData.finit_money];
                 self.usdChipCurrentValueLab.text = [NSString stringWithFormat:@"%@",tableData.fcur_money];
                 if ([tableData.finit_money integerValue]<[tableData.fcur_money integerValue]) {
@@ -78,11 +78,11 @@
         
         NSArray *xcsxsList = [NSArray yy_modelArrayWithClass:[NRTableDataModel class] json:self.curTableDict[@"xcsxs"]];
         [xcsxsList enumerateObjectsUsingBlock:^(NRTableDataModel *tableData, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([tableData.fcmtype intValue]==2) {//人命币筹码
+            if ([tableData.fcmtype intValue]==1) {//人命币筹码
                 self.rmbChipBootValueLab.text = [NSString stringWithFormat:@"%@",tableData.fmoney];
             }else if ([tableData.fcmtype intValue]==7){//美金现金
                 self.usdCashBootValueLab.text = [NSString stringWithFormat:@"%@",tableData.fmoney];
-            }else if ([tableData.fcmtype intValue]==1){//美金筹码
+            }else if ([tableData.fcmtype intValue]==2){//美金筹码
                 self.usdChipBootValueLab.text = [NSString stringWithFormat:@"%@",tableData.fmoney];
             }else if ([tableData.fcmtype intValue]==6){//人命币现金
                 self.rmbCashBootValueLab.text = [NSString stringWithFormat:@"%@",tableData.fmoney];

@@ -28,17 +28,14 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
-    [ZLKeyboard bindKeyboard:self.washNumberTF];
-    [ZLKeyboard bindKeyboard:self.zhuangValueTF];
-    [ZLKeyboard bindKeyboard:self.zhuangDuiValueTF];
-    [ZLKeyboard bindKeyboard:self.luckyValueTF];
-    [ZLKeyboard bindKeyboard:self.xianTF];
-    [ZLKeyboard bindKeyboard:self.xianDuiValueTF];
-    [ZLKeyboard bindKeyboard:self.heValueTF];
-    [ZLKeyboard bindKeyboard:self.baoxianValueTF];
-    [self.washNumberTF becomeFirstResponder];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
+    
+    UITapGestureRecognizer *rmbClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rmbClickAction)];
+    [_cashTypeLab addGestureRecognizer:rmbClick];
+    
+    UITapGestureRecognizer *chipClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chipClickAction)];
+    [_chipTypeLab addGestureRecognizer:chipClick];
 }
 
 - (void)editLoginInfoWithLoginID:(NSString *)loginID{
@@ -72,8 +69,11 @@
 
 #pragma mark - /---------------------- notifications ----------------------/
 -(void)sureEntryCustomerInfo:(NSNotification *)ntf {
-    if ([self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0) {
-        [self removeFromSuperview];
+    if ([self.zhuangValueTF.text intValue]==0&&[self.zhuangDuiValueTF.text intValue]==0&&[self.xianTF.text intValue]==0&&[self.xianDuiValueTF.text intValue]==0&&[self.heValueTF.text intValue]==0&&[self.baoxianValueTF.text intValue]==0&&[self.luckyValueTF.text intValue]==0&&[self.washNumberTF.text intValue]==0) {
+        if (self.editTapCustomer) {
+            self.editTapCustomer([CustomerInfo new],NO);
+            [self removeFromSuperview];
+        }
     }else{
         [self showWaitingView];
         [self getInfoByXmhWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
@@ -105,6 +105,15 @@
 }
 
 - (void)editCurCustomerWithCustomerInfo:(CustomerInfo *)curCustomer{
+    [ZLKeyboard bindKeyboard:self.washNumberTF];
+    [ZLKeyboard bindKeyboard:self.zhuangValueTF];
+    [ZLKeyboard bindKeyboard:self.zhuangDuiValueTF];
+    [ZLKeyboard bindKeyboard:self.luckyValueTF];
+    [ZLKeyboard bindKeyboard:self.xianTF];
+    [ZLKeyboard bindKeyboard:self.xianDuiValueTF];
+    [ZLKeyboard bindKeyboard:self.heValueTF];
+    [ZLKeyboard bindKeyboard:self.baoxianValueTF];
+    
     self.customer = curCustomer;
     self.washNumberTF.text = self.customer.washNumberValue;
     self.zhuangValueTF.text = self.customer.zhuangValue;
@@ -140,6 +149,12 @@
         [self.twoPageBtn setSelected:NO];
         [self.threePageBtn setSelected:YES];
     }
+    
+    if ([self.washNumberTF.text length]==0) {
+        [self.washNumberTF becomeFirstResponder];
+    }else{
+        [self.zhuangValueTF becomeFirstResponder];
+    }
 }
 - (IBAction)twoPageAction:(id)sender {
     self.sixType = 1;
@@ -150,6 +165,52 @@
     self.sixType = 2;
     [self.twoPageBtn setSelected:NO];
     [self.threePageBtn setSelected:YES];
+}
+
+- (void)rmbClickAction{
+    self.cashTypeBtn.selected = !self.cashTypeBtn.selected;
+    if (self.cashTypeBtn.selected) {
+        self.cashTypeLab.text = @"USD";
+        if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
+            self.cashType = 0;//美金筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_dollarCash"];
+            self.cashType = 1;//美金现金
+        }
+    }else{
+        self.cashTypeLab.text = @"RMB";
+        if ([self.chipTypeLab.text isEqualToString:@"CHIP"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
+            self.cashType = 2;//RMB筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_RMBCash"];
+            self.cashType = 3;//RMB现金
+        }
+    }
+}
+
+- (void)chipClickAction{
+    self.chipTypeBtn.selected = !self.chipTypeBtn.selected;
+    if (self.chipTypeBtn.selected) {
+        self.chipTypeLab.text = @"CASH";
+        if ([self.cashTypeLab.text isEqualToString:@"RMB"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"customer_RMBCash"];
+            self.cashType = 3;//RMB现金
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"customer_dollarCash"];
+            self.cashType = 1;//美金现金
+        }
+    }else{
+        self.chipTypeLab.text = @"CHIP";
+        if ([self.cashTypeLab.text isEqualToString:@"RMB"]) {
+            self.typeIcon.image = [UIImage imageNamed:@"RMB_chip"];
+            self.cashType = 2;//RMB筹码
+        }else{
+            self.typeIcon.image = [UIImage imageNamed:@"dolllar_chip"];
+            self.cashType = 0;//美金筹码
+        }
+    }
 }
 
 - (IBAction)RMBChangeAction:(id)sender {

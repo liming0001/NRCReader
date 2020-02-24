@@ -33,10 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)ChipExchangeCashWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 根据洗码号获取用户信息
 - (void)getInfoByXmhWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 小费结算
+- (void)TipSettlementWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 筹码销毁
 - (void)cmDestoryWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 检测筹码
 - (void)Cmpublish_checkStateWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+#pragma mark - 存取筹码
+- (void)AccessChipWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 
 @end
 

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NRBaccaratViewController : NRBaseViewController
 
 @property (nonatomic, strong) NRBaccaratViewModel *viewModel;
+@property (nonatomic, strong) NSArray *chipFmeList;
 
 @end
 

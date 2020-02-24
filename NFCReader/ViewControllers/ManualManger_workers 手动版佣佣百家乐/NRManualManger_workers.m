@@ -264,7 +264,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     [self.sixWinBtn setTitleColor:[UIColor colorWithHexString:@"#df4139"] forState:UIControlStateNormal];
     [self.sixWinBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateSelected];
     self.sixWinBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.sixWinBtn setTitle:@"L.Lucky6" forState:UIControlStateNormal];
+    [self.sixWinBtn setTitle:@"6点赢" forState:UIControlStateNormal];
     self.sixWinBtn.tag = 3;
     [self.sixWinBtn setBackgroundImage:[UIImage imageNamed:@"settlement_btn_n"] forState:UIControlStateNormal];
     [self.sixWinBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuangdui_p"] forState:UIControlStateSelected];
@@ -501,7 +501,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     self.sixWinInfoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.sixWinInfoBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
     self.sixWinInfoBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.sixWinInfoBtn setTitle:@"L.Lucky6" forState:UIControlStateNormal];
+    [self.sixWinInfoBtn setTitle:@"6点赢" forState:UIControlStateNormal];
     [self.sixWinInfoBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuang_bg"] forState:UIControlStateNormal];
     [self.sixWinInfoBtn setBackgroundImage:[UIImage imageNamed:@"talbe_zhuang_bg"] forState:UIControlStateHighlighted];
     [self.sixWinBorderV addSubview:self.sixWinInfoBtn];
@@ -1001,6 +1001,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 return;
             }
             self.isEntryBox = YES;
+            [self clearMoney];
             CustomerInfo *info = self.customerInfoList[indexPath.row];
             CustomerEntryInfoView_workers *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoView_workers" owner:nil options:nil]lastObject];
             custerEntryInfoV.frame = self.bounds;
@@ -1044,8 +1045,6 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 #pragma mark --清除金额
 - (void)clearMoney{
-//    [self.customerInfoList removeAllObjects];
-//    [self.customerInfoList addObject:[self modelCustomerInfo]];
     [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *customerInfo, NSUInteger idx, BOOL * _Nonnull stop) {
         customerInfo.zhuangValue = @"";
         customerInfo.zhuangDuiValue = @"";
@@ -1054,7 +1053,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         customerInfo.sixWinValue = @"";
         customerInfo.heValue = @"";
         customerInfo.baoxianValue = @"";
-        customerInfo.cashType = 1;
+//        customerInfo.cashType = 1;
     }];
     [self.collectionView reloadData];
 }
@@ -1225,7 +1224,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         [self.resultList addObject:[NSNumber numberWithInt:6]];
                         [self.heBtn setSelected:YES];
                     }
-                    self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    NSString *fnew_xueci = self.lastTableInfoDict[@"fnew_xueci"];
+                    NSString *cur_xueci = self.lastTableInfoDict[@"fxueci"];
+                    if(![fnew_xueci isEqual:[NSNull null]]) {
+                        if ([fnew_xueci intValue]==[cur_xueci intValue]) {
+                            self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                        }else{
+                            self.puciCount = 0;
+                        }
+                    }else{
+                        self.puciCount = [self.lastTableInfoDict[@"fpuci"]intValue];
+                    }
                     self.prePuciCount = self.puciCount+1;
                     self.puciLab.text = [NSString stringWithFormat:@"铺次:%d",self.puciCount];
                     self.cp_tableIDString = self.lastTableInfoDict[@"fid"];
@@ -1350,7 +1359,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.colorString = @"#ffffff";
                         model.luzhuType = 3;
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"Lucky6"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"6点赢"]){
                         self.zhuangCount+=1;
                         self.sixCount+=1;
                         img = @"1";
@@ -1419,7 +1428,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 6;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"Lucky6"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"6点赢"]){
                         self.zhuangDuiCount+=1;
                         self.zhuangCount+=1;
                         self.sixCount+=1;
@@ -1431,7 +1440,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         model.luzhuType = 7;
                         model.colorString = @"#ffffff";
                         [luzhuList addObject:model];
-                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"Lucky6"]){
+                    }else if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"6点赢"]){
                         self.xianDuiCount+=1;
                         self.zhuangCount+=1;
                         self.sixCount+=1;
@@ -1469,7 +1478,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                         [luzhuList addObject:model];
                     }
                 }else if (resultList.count==4){
-                    if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"Lucky6"]) {
+                    if ([resultList containsObject:@"庄"]&&[resultList containsObject:@"庄对"]&&[resultList containsObject:@"闲对"]&&[resultList containsObject:@"6点赢"]) {
                         self.zhuangDuiCount+=1;
                         self.zhuangCount+=1;
                         self.xianDuiCount+=1;
@@ -1525,7 +1534,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         }else if (tagResult==2){
             [reslutNameList addObject:@"庄对"];
         }else if (tagResult==3){
-            [reslutNameList addObject:@"Lucky6"];
+            [reslutNameList addObject:@"6点赢"];
         }else if (tagResult==4){
             [reslutNameList addObject:@"闲"];
         }else if (tagResult==5){
@@ -1647,7 +1656,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
         [self.payKillResultInfo_list addObject:luckyRealValue];
         [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
         [self.fxz_money_list addObject:self.curSelectCustomer.sixWinValue];
-        [self.fxz_name_list addObject:@"Lucky6"];
+        [self.fxz_name_list addObject:@"6点赢"];
         //赔率
         CGFloat odds = 0;
         CGFloat yj = 0;

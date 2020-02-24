@@ -1,16 +1,15 @@
 //
-//  DenominationView.m
+//  JiaJianCaiCellView.m
 //  NFCReader
 //
-//  Created by 李黎明 on 2019/9/6.
-//  Copyright © 2019 李黎明. All rights reserved.
+//  Created by 李黎明 on 2020/1/3.
+//  Copyright © 2020 李黎明. All rights reserved.
 //
 
-#import "DenominationView.h"
 #import "JiaJianCaiCellView.h"
 #import "ZLKeyboard.h"
 
-@interface DenominationView ()
+@interface JiaJianCaiCellView ()
 
 @property (nonatomic, strong) UIView *bottomLineV;
 @property (nonatomic, strong) UIView *leftLineV;
@@ -18,7 +17,7 @@
 
 @end
 
-@implementation DenominationView
+@implementation JiaJianCaiCellView
 
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -54,7 +53,7 @@
     self.chipNumberLab = [UILabel new];
     self.chipNumberLab.textColor = [UIColor colorWithHexString:@"#474747"];
     self.chipNumberLab.font = [UIFont systemFontOfSize:16];
-    self.chipNumberLab.text = @"面额/Denomination";
+    self.chipNumberLab.text = @"100000";
     self.chipNumberLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.chipNumberLab];
     [self.chipNumberLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,23 +63,33 @@
         make.bottom.equalTo(self.bottomLineV.mas_top).offset(0);
     }];
     
-    self.chipFmValueLab = [UILabel new];
-    self.chipFmValueLab.textColor = [UIColor colorWithHexString:@"#474747"];
-    self.chipFmValueLab.font = [UIFont systemFontOfSize:16];
-    self.chipFmValueLab.text = @"数量/Number";
-    self.chipFmValueLab.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:self.chipFmValueLab];
-    [self.chipFmValueLab mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.chipNumberEditBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.chipNumberEditBtn setImage:[UIImage imageNamed:@"entry_Icon"] forState:UIControlStateNormal];
+    [self.chipNumberEditBtn addTarget:self action:@selector(chipNumberAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.chipNumberEditBtn];
+    [self.chipNumberEditBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.rightLineV.mas_left).offset(-5);
+        make.width.height.mas_equalTo(25);
+        make.centerY.equalTo(self);
+    }];
+    
+    self.chipNumberTF = [UITextField new];
+    self.chipNumberTF.font = [UIFont systemFontOfSize:14];
+    self.chipNumberTF.textColor = [UIColor colorWithHexString:@"#474747"];
+    self.chipNumberTF.enabled = NO;
+    [ZLKeyboard bindKeyboard:self.chipNumberTF];
+    [self addSubview:self.chipNumberTF];
+    [self.chipNumberTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(4);
         make.left.equalTo(self.leftLineV.mas_right).offset(5);
-        make.right.equalTo(self.rightLineV.mas_left).offset(5);
-        make.bottom.equalTo(self.bottomLineV.mas_top).offset(0);
+        make.right.equalTo(self.chipNumberEditBtn.mas_left).offset(-5);
+        make.bottom.equalTo(self.bottomLineV.mas_top).offset(-4);
     }];
     
     self.chipMoneyValueLab = [UILabel new];
     self.chipMoneyValueLab.textColor = [UIColor colorWithHexString:@"#474747"];
     self.chipMoneyValueLab.font = [UIFont systemFontOfSize:16];
-    self.chipMoneyValueLab.text = @"总额/Total";
+    self.chipMoneyValueLab.text = @"0";
     self.chipMoneyValueLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.chipMoneyValueLab];
     [self.chipMoneyValueLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,8 +98,19 @@
         make.right.equalTo(self).offset(-5);
         make.bottom.equalTo(self.bottomLineV.mas_top).offset(0);
     }];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureEntryTigerCustomerInfo:) name:@"sureEntryCustomerInfo" object:nil];
     return self;
+}
+
+- (void)chipNumberAction:(UIButton *)btn{
+    if (_editBtnBock) {
+        _editBtnBock(btn.tag);
+    }
+}
+
+#pragma mark - /---------------------- notifications ----------------------/
+-(void)sureEntryTigerCustomerInfo:(NSNotification *)ntf {
+    [self.chipNumberTF resignFirstResponder];
 }
 
 @end

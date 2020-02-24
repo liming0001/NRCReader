@@ -73,7 +73,6 @@
 		812C3D97226341B100611D1B /* NRTableChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 812C3D96226341B100611D1B /* NRTableChooseViewController.m */; };
 		812FB370229C335B002072A3 /* NRTableInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 812FB36F229C335B002072A3 /* NRTableInfo.m */; };
 		81344F4E2321E72000292FA7 /* DenominationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81344F4D2321E72000292FA7 /* DenominationView.m */; };
-		81344F502321E72900292FA7 /* DenominationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81344F4F2321E72900292FA7 /* DenominationView.xib */; };
 		81344F54232240B900292FA7 /* LotteryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81344F53232240B900292FA7 /* LotteryView.m */; };
 		81344F56232240C200292FA7 /* LotteryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81344F55232240C200292FA7 /* LotteryView.xib */; };
 		813C0288232DD04B00D5617D /* EPKillShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 813C0287232DD04B00D5617D /* EPKillShowView.m */; };
@@ -99,6 +98,7 @@
 		816824A7231A72CB00CB6984 /* ZLCharKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816824A1231A72CB00CB6984 /* ZLCharKeyboard.xib */; };
 		8172795722681CD800A98402 /* NRCustomerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8172795622681CD800A98402 /* NRCustomerInfo.m */; };
 		8193A10C238E83B100BA3E70 /* LYKeychainTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8193A10B238E83B100BA3E70 /* LYKeychainTool.m */; };
+		8197DEE923BEEC0F00C206DA /* JiaJianCaiCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8197DEE823BEEC0F00C206DA /* JiaJianCaiCellView.m */; };
 		8199A0F9227ED20900A08AC8 /* NRChipInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0F8227ED20900A08AC8 /* NRChipInfo.m */; };
 		8199A0FD227EEB1900A08AC8 /* NRChipAllInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8199A0FC227EEB1900A08AC8 /* NRChipAllInfo.m */; };
 		81A1EE3B22894B1A005FD12A /* NRChipResultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1EE3A22894B1A005FD12A /* NRChipResultInfo.m */; };
@@ -312,7 +312,6 @@
 		812FB36F229C335B002072A3 /* NRTableInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRTableInfo.m; sourceTree = "<group>"; };
 		81344F4C2321E72000292FA7 /* DenominationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DenominationView.h; sourceTree = "<group>"; };
 		81344F4D2321E72000292FA7 /* DenominationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DenominationView.m; sourceTree = "<group>"; };
-		81344F4F2321E72900292FA7 /* DenominationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DenominationView.xib; sourceTree = "<group>"; };
 		81344F52232240B900292FA7 /* LotteryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LotteryView.h; sourceTree = "<group>"; };
 		81344F53232240B900292FA7 /* LotteryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LotteryView.m; sourceTree = "<group>"; };
 		81344F55232240C200292FA7 /* LotteryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LotteryView.xib; sourceTree = "<group>"; };
@@ -355,6 +354,8 @@
 		8172795622681CD800A98402 /* NRCustomerInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRCustomerInfo.m; sourceTree = "<group>"; };
 		8193A10A238E83B100BA3E70 /* LYKeychainTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYKeychainTool.h; sourceTree = "<group>"; };
 		8193A10B238E83B100BA3E70 /* LYKeychainTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYKeychainTool.m; sourceTree = "<group>"; };
+		8197DEE723BEEC0F00C206DA /* JiaJianCaiCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiaJianCaiCellView.h; sourceTree = "<group>"; };
+		8197DEE823BEEC0F00C206DA /* JiaJianCaiCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiaJianCaiCellView.m; sourceTree = "<group>"; };
 		8199A0F7227ED20900A08AC8 /* NRChipInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipInfo.h; sourceTree = "<group>"; };
 		8199A0F8227ED20900A08AC8 /* NRChipInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NRChipInfo.m; sourceTree = "<group>"; };
 		8199A0FB227EEB1900A08AC8 /* NRChipAllInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRChipAllInfo.h; sourceTree = "<group>"; };
@@ -689,7 +690,8 @@
 				811BFDAF232151B0001F6AE3 /* JiaJIanCaiCell.m */,
 				81344F4C2321E72000292FA7 /* DenominationView.h */,
 				81344F4D2321E72000292FA7 /* DenominationView.m */,
-				81344F4F2321E72900292FA7 /* DenominationView.xib */,
+				8197DEE723BEEC0F00C206DA /* JiaJianCaiCellView.h */,
+				8197DEE823BEEC0F00C206DA /* JiaJianCaiCellView.m */,
 				81344F52232240B900292FA7 /* LotteryView.h */,
 				81344F53232240B900292FA7 /* LotteryView.m */,
 				81344F55232240C200292FA7 /* LotteryView.xib */,
@@ -1341,7 +1343,6 @@
 				810EFC7022D2DA41005C3684 /* EPStr.txt in Resources */,
 				813C02A9232E4BC700D5617D /* EPCowPointChooseShowView.xib in Resources */,
 				81344F56232240C200292FA7 /* LotteryView.xib in Resources */,
-				81344F502321E72900292FA7 /* DenominationView.xib in Resources */,
 				813C0295232E11BA00D5617D /* EPSixWinShowView.xib in Resources */,
 				810C8ECA226043650010E1A4 /* refresh@2x.png in Resources */,
 				81AE81FE231F4B3B0069A4A7 /* CustomerEntryInfoCowView.xib in Resources */,
@@ -1434,6 +1435,7 @@
 				8114F88C2326A85900FE620A /* MJPopTool.m in Sources */,
 				81A97F4022642D4B00DFF774 /* RVMViewModel+EPExtension.m in Sources */,
 				81E0AB9B2337BE3D00B9D27F /* EPFuncTableViewCell.m in Sources */,
+				8197DEE923BEEC0F00C206DA /* JiaJianCaiCellView.m in Sources */,
 				81A97F502264780800DFF774 /* NRBaccaratViewController.m in Sources */,
 				811C02EC233BC676001AD39D /* CustomerInfo_workersCollectionViewCell.m in Sources */,
 				81CF8F57231E0B8B00207402 /* ManualManagerTigerView.m in Sources */,
@@ -1717,7 +1719,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ellipal.Ellipal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Ellipal_Dev_push;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1739,7 +1741,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ellipal.Ellipal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Ellipal_Dis_push;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -347,57 +347,59 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     return [self getSendBlockDataWithHexString:hexString];
 }
 
-#pragma mark - 向筹码数据块1中写入序号66，01类型，1000面值
+#pragma mark - 向筹码数据块1中写入序号66，01类型
 + (NSData *)writeInfoToChip1WithChipInfo:(NRChipInfoModel *)chipInfo{
-    NSString *cashValue = [self getHexByDecimal:[chipInfo.chipDenomination integerValue]];
-    if (cashValue.length==1) {
-        cashValue = [NSString stringWithFormat:@"000%@",cashValue];
-    }else if (cashValue.length==2){
-        cashValue = [NSString stringWithFormat:@"00%@",cashValue];
-    }else if (cashValue.length==3){
-        cashValue = [NSString stringWithFormat:@"0%@",cashValue];
+    NSString *chipSerial = chipInfo.chipSerialNumber;
+    NSString *serialNumber = chipSerial;
+    for (int i=0; i<6-chipSerial.length; i++) {
+        serialNumber = [@"0" stringByAppendingString:serialNumber];
     }
-    NSString *hexString = [NSString stringWithFormat:@"12002108%@01%@%@%@",chipInfo.chipUID,chipInfo.chipSerialNumber,chipInfo.chipType,cashValue];
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@01%@%@",chipInfo.chipUID,serialNumber,chipInfo.chipType];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
-#pragma mark - 向筹筹码数据块2中写入批次（当前日期）
+#pragma mark - 向筹码数据块2中写入面值
 + (NSData *)writeInfoToChip2WithChipInfo:(NRChipInfoModel *)chipInfo{
+    NSString *cashValue = [self getHexByDecimal:[chipInfo.chipDenomination integerValue]];
+    NSString *cashNumber = cashValue;
+    for (int i=0; i<8-cashValue.length; i++) {
+        cashNumber = [@"0" stringByAppendingString:cashNumber];
+    }
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@02%@",chipInfo.chipUID,cashNumber];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark - 向筹筹码数据块3中写入批次（当前日期）
++ (NSData *)writeInfoToChip3WithChipInfo:(NRChipInfoModel *)chipInfo{
+//    1200210828c746d4500104e0022020123022c7
     NSString *betchInfo = chipInfo.chipBatch;
     NSString *preInfo = [betchInfo substringToIndex:6];
     NSString *lastInfo = [betchInfo substringFromIndex:6];
-    if ([lastInfo isEqualToString:@"13"]) {//13号不能发布，与13000000冲突
-        lastInfo = @"14";
+    if ([lastInfo isEqualToString:@"18"]) {//18号不能发布，与18000000冲突
+        lastInfo = @"19";
     }
     NSString *realBatch = [NSString stringWithFormat:@"%@%@",preInfo,lastInfo];
-    NSString *hexString = [NSString stringWithFormat:@"12002108%@02%@",chipInfo.chipUID,realBatch];
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@03%@",chipInfo.chipUID,realBatch];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
-#pragma mark - 向筹筹码数据块3中写入客人洗码号
-+ (NSData *)writeInfoToChip3WithChipInfo:(NRChipInfoModel *)chipInfo{
+#pragma mark - 向筹筹码数据块4中写入客人洗码号
++ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo{
     NSString *washNumber = chipInfo.guestWashesNumber;
-    NSString *numberString = @"";
-    NSString *codeString = @"";
-    NSArray *numberList = [washNumber componentsSeparatedByString:@"-"];
-    if (numberList.count==1) {
-        numberString = numberList[0];
-    }else if (numberList.count==2){
-        numberString = numberList[0];
-        codeString = numberList[1];
-    }
-    if (codeString.length>0) {
+    NSArray *washList = [washNumber componentsSeparatedByString:@"-"];
+    NSString *numberString = washList[0];
+    NSString *codeString = @"00";
+    if (washList.count>1) {
+        codeString = washList[1];
         if ([codeString intValue]<10) {
             codeString = [NSString stringWithFormat:@"0%d",[codeString intValue]];
         }
-    }else{
-        codeString = @"00";
     }
     NSString *guestNumber = numberString;
-    for (int i=0; i<8-numberString.length-codeString.length; i++) {
-        guestNumber = [guestNumber stringByAppendingString:@"0"];
+    for (int i=0; i<6-numberString.length; i++) {
+        guestNumber = [@"0" stringByAppendingString:guestNumber];
     }
-    NSString *hexString = [NSString stringWithFormat:@"12002108%@03%@%@",chipInfo.chipUID,guestNumber,codeString];
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@04%@%@",chipInfo.chipUID,guestNumber,codeString];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
@@ -407,25 +409,9 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     return [self getSendBlockDataWithHexString:hexString];
 }
 
-#pragma mark - 读取数据块1中的数据（序号，金额，类型）
-+ (NSData *)readSelectNumbersInfo1WithChipUID:(NSString *)chipUID{
-    NSString *hexString = [NSString stringWithFormat:@"0e002000%@01",chipUID];
-    return [self getSendBlockDataWithHexString:hexString];
-}
-#pragma mark - q读取数据块2中的数据（批次）
-+ (NSData *)readSelectNumbersInfo2WithChipUID:(NSString *)chipUID{
-    NSString *hexString = [NSString stringWithFormat:@"0e002000%@02",chipUID];
-    return [self getSendBlockDataWithHexString:hexString];
-}
-#pragma mark - q读取数据块3中的数据（客人洗码号）
-+ (NSData *)readSelectNumbersInfo3WithChipUID:(NSString *)chipUID{
-    NSString *hexString = [NSString stringWithFormat:@"0e002000%@03",chipUID];
-    return [self getSendBlockDataWithHexString:hexString];
-}
-
 #pragma mark - 读取所有数据块中的数据
 + (NSData *)readAllSelectNumbersInfoWithChipUID:(NSString *)chipUID{
-    NSString *hexString = [NSString stringWithFormat:@"0f002300%@0103",chipUID];
+    NSString *hexString = [NSString stringWithFormat:@"0f002300%@0104",chipUID];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
@@ -436,7 +422,7 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     for (int i=0; i<8; i++) {
         guestNumber = [guestNumber stringByAppendingString:@"0"];
     }
-    NSString *hexString = [NSString stringWithFormat:@"12002100%@03%@",chipUid,guestNumber];
+    NSString *hexString = [NSString stringWithFormat:@"12002100%@04%@",chipUid,guestNumber];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
@@ -465,8 +451,15 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 }
 
 #pragma mark - 设置设备功率
-+ (NSData *)setDeviceWorkPower{
-    NSString *hexString = [NSString stringWithFormat:@"060021f005"];
++ (NSData *)setDeviceWorkPowerWithPower:(int)power{
+    NSString *curPower = [NSString stringWithFormat:@"0%d",power];
+    NSString *hexString = [NSString stringWithFormat:@"060021f0%@",curPower];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+#pragma mark - 获取设备功率
++ (NSData *)getDeviceWorkPower{
+    NSString *hexString = [NSString stringWithFormat:@"050022f0"];
     return [self getSendBlockDataWithHexString:hexString];
 }
 

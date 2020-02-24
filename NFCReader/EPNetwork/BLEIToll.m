@@ -138,84 +138,6 @@
     return currentTimeString;
 }
 
-- (NSString *)dataStringFromArray:(NSMutableArray *)bleDataList{
-    NSString *bleString = @"";
-    for (int i=0; i<bleDataList.count; i++) {
-        bleString = [bleString stringByAppendingString:bleDataList[i]];
-    }
-    return bleString;
-}
-
-//解析筹码个数
-- (int)chipNumbersWithBLEString:(NSString *)bleString{
-    NSArray * separatedStrArr = [self calculateSubStringCount:bleString str:@"13000000"];
-    return (int)separatedStrArr.count;
-}
-
-//存贮筹码的UID
-- (NSArray *)cacheChipUIDWithBLEString:(NSString *)bleString WithOldUidList:(NSArray *)oldUIDList {
-    NSMutableArray *chipUIDList = [NSMutableArray arrayWithCapacity:0];
-    [chipUIDList addObjectsFromArray:oldUIDList];
-    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"0e00ee"];
-    for (int i=0; i<separatedStrArr.count; i++) {
-        NSString *infoString = separatedStrArr[i];
-        if (infoString.length!=0) {
-            NSString *typeString = [infoString substringToIndex:2];
-            if ([typeString isEqualToString:@"01"]&&infoString.length>20) {//增加
-                //UID
-                NSString *chipUIDString = [infoString substringWithRange:NSMakeRange(4, 16)];
-                if (![chipUIDList containsObject:chipUIDString]) {
-                    [chipUIDList addObject:chipUIDString];
-                }
-            }else if ([typeString isEqualToString:@"02"]&&infoString.length>20){//减去
-                //UID
-                NSString *chipUIDString = [infoString substringWithRange:NSMakeRange(4, 16)];
-                if ([chipUIDList containsObject:chipUIDString]) {
-                    [chipUIDList removeObject:chipUIDString];
-                }
-            }
-        }
-    }
-    return chipUIDList;
-}
-
-//存贮筹码的UID
-- (NSDictionary *)updatePaycacheChipUIDWithBLEString:(NSString *)bleString WithPayUidList:(NSArray *)payUIDList WithBenjinUidList:(NSArray *)benjinUIDList {
-    NSMutableDictionary *updateCacheChipDict = [NSMutableDictionary dictionary];
-    NSMutableArray *payChipUIDList = [NSMutableArray arrayWithCapacity:0];
-    NSMutableArray *benjinChipUIDList = [NSMutableArray arrayWithCapacity:0];
-    [payChipUIDList addObjectsFromArray:payUIDList];
-    [benjinChipUIDList addObjectsFromArray:benjinUIDList];
-    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"0e00ee"];
-    for (int i=0; i<separatedStrArr.count; i++) {
-        NSString *infoString = separatedStrArr[i];
-        if (infoString.length!=0) {
-            NSString *typeString = [infoString substringToIndex:2];
-            if ([typeString isEqualToString:@"01"]&&infoString.length>20) {//增加
-                //UID
-                NSString *chipUIDString = [infoString substringWithRange:NSMakeRange(4, 16)];
-                if (![payChipUIDList containsObject:chipUIDString]) {
-                    if (![benjinChipUIDList containsObject:chipUIDString]) {
-                        [payChipUIDList addObject:chipUIDString];
-                    }
-                }
-            }else if ([typeString isEqualToString:@"02"]&&infoString.length>20){//减去
-                //UID
-                NSString *chipUIDString = [infoString substringWithRange:NSMakeRange(4, 16)];
-                if ([benjinChipUIDList containsObject:chipUIDString]) {
-                    [benjinChipUIDList removeObject:chipUIDString];
-                }
-                if ([payChipUIDList containsObject:chipUIDString]) {
-                    [payChipUIDList removeObject:chipUIDString];
-                }
-            }
-        }
-    }
-    [updateCacheChipDict setObject:benjinChipUIDList forKey:@"benjinChip"];
-    [updateCacheChipDict setObject:payChipUIDList forKey:@"payChip"];
-    return updateCacheChipDict;
-}
-
 //获取当前读写器上所有筹码的UID
 - (NSArray *)getDeviceAllChipUIDWithBLEString:(NSString *)bleString{
     NSMutableArray *chipUIDList = [NSMutableArray arrayWithCapacity:0];
@@ -333,57 +255,27 @@
     return chipUIDList;
 }
 
-//解析筹码信息
-- (NSArray *)chipInfoWithBLEString:(NSString *)bleString{
-    NSMutableArray *infoList = [NSMutableArray arrayWithCapacity:0];
-    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"09000000"];
-    if (separatedStrArr.count != 0) {
-        for (int i=0; i<separatedStrArr.count; i++) {
-            NSString *infoString = separatedStrArr[i];
-            if (infoString.length!=0) {
-                //序号
-                NSString *xuhao = [infoString substringToIndex:2];
-                NSString * realxuhao = [NSString stringWithFormat:@"%lu",strtoul([xuhao UTF8String],0,16)];
-                //类型
-                NSString *type = @"";
-                if (infoString.length>=4) {
-                    type = [infoString substringWithRange:NSMakeRange(2, 2)];
-                }
-                //金额
-                NSString *money = @"";
-                if (infoString.length>=8) {
-                    money = [infoString substringWithRange:NSMakeRange(4, 4)];
-                }
-                [infoList addObject:realxuhao];
-                [infoList addObject:type];
-                [infoList addObject:money];
-            }
-        }
-    }
-    return infoList;
-}
-
 //解析百家乐筹码信息
-- (NSArray *)chipInfoBaccrarWithBLEString:(NSString *)bleString WithSplitSize:(int)splitSize{
+- (NSArray *)chipInfoBaccrarWithBLEString:(NSString *)bleString{
     
     NSMutableArray *chipList = [NSMutableArray arrayWithCapacity:0];
-    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"13000000"];
+    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"18000000"];
     if (separatedStrArr.count != 0) {
         for (int i=1; i<separatedStrArr.count; i++) {
             NSMutableArray *infoList = [NSMutableArray arrayWithCapacity:0];
             NSString *infoString = separatedStrArr[i];
             //序号
-            NSString *xuhao = [infoString substringToIndex:2];
+            NSString *xuhao = [infoString substringToIndex:6];
             NSString * realxuhao = [NSString stringWithFormat:@"%lu",strtoul([xuhao UTF8String],0,16)];
             //类型
             NSString *type = @"";
-            if (infoString.length>=4) {
-                type = [infoString substringWithRange:NSMakeRange(2, 2)];
+            if (infoString.length>8) {
+                type = [infoString substringWithRange:NSMakeRange(6, 2)];
             }
             //金额
             NSString *money = @"";
-            if (infoString.length>=8) {
-                money = [infoString substringWithRange:NSMakeRange(4, 4)];
+            if (infoString.length>18) {
+                money = [infoString substringWithRange:NSMakeRange(10, 8)];
             }
             [infoList addObject:realxuhao];
             [infoList addObject:type];
@@ -391,34 +283,24 @@
             
             //批次
             NSString *batch = @"";
-            if (infoString.length>=18) {
-                batch = [infoString substringWithRange:NSMakeRange(10, 8)];
+            if (infoString.length>=28) {
+                batch = [infoString substringWithRange:NSMakeRange(20, 8)];
             }
             [infoList addObject:batch];
            
             //洗码号;
             NSString *ximahao = @"";
-            if (infoString.length>=26) {
-                ximahao = [infoString substringWithRange:NSMakeRange(20, 6)];
+            if (infoString.length>36) {
+                ximahao = [infoString substringWithRange:NSMakeRange(30, 6)];
             }
-            NSString * s = nil;
-            NSInteger offset = ximahao.length - 1;
-            while (offset){
-                s = [ximahao substringWithRange:NSMakeRange(offset, 1)];
-                if ([s isEqualToString:@"0"] || [s isEqualToString:@"."]){
-                    offset--;
-                }else{
-                    break;
-                }
+            NSInteger ximahao_Inter = [ximahao integerValue];
+            NSString *ximahao_houzhui = @"";
+            if (infoString.length>38) {
+                ximahao_houzhui = [infoString substringWithRange:NSMakeRange(36, 2)];
             }
-            ximahao = [ximahao substringToIndex:offset+1];
-            NSString *code = @"";
-            if (infoString.length>=28) {
-                code = [infoString substringWithRange:NSMakeRange(26, 2)];
-            }
-            NSString *washNumber = ximahao;
-            if (![code isEqualToString:@"00"]) {
-                washNumber = [NSString stringWithFormat:@"%@-%d",ximahao,[code intValue]];
+            NSString *washNumber = [NSString stringWithFormat:@"%ld",ximahao_Inter];
+            if (![ximahao_houzhui isEqualToString:@"00"]) {
+                washNumber = [NSString stringWithFormat:@"%@-%d",washNumber,[ximahao_houzhui intValue]];
             }
             [infoList addObject:washNumber];
             [chipList addObject:infoList];

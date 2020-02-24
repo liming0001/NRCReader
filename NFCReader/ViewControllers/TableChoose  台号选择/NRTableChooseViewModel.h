@@ -17,11 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NRLoginInfo *loginInfo;
 @property (nonatomic, strong) NRTableInfo *selectTableInfo;
 @property (nonatomic, strong) NRGameInfo *gameInfo;
+@property (nonatomic, strong) NSMutableArray *chipFmeList;//筹码面额
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo;
 
 #pragma mark - 获取台桌列表数据
 - (void)tableListWithBlock:(EPFeedbackWithErrorCodeBlock)block;
+- (void)getChipTypeWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 选桌
 - (void)chooseTableWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 - (NRBaccaratViewModel *)baccaratViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;

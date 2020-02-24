@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -470,6 +470,7 @@
                 <outlet property="luckyValueLab" destination="oUk-d7-bel" id="GXY-Iw-p1h"/>
                 <outlet property="moneyValueLab" destination="atS-io-aMt" id="eFH-Gf-cSg"/>
                 <outlet property="number_customer" destination="PvJ-HI-ncU" id="oaS-wi-ewT"/>
+                <outlet property="sixWinTypeImg" destination="I7I-83-OAC" id="hcp-G2-x4z"/>
                 <outlet property="washNumberLab" destination="duM-6X-gcV" id="di0-Bo-eZQ"/>
                 <outlet property="washNumberValueLab" destination="pPJ-8Y-z4p" id="xz6-Py-CTx"/>
                 <outlet property="xianDuiTypeImg" destination="fNN-6v-XAG" id="JCM-I6-6Ks"/>

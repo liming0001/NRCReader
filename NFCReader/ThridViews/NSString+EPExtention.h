@@ -26,7 +26,8 @@
 
 - (NSString *)getTimeFromTimestamp;
 
-
+//编码
+- (NSString *)base64Encode;
 - (NSString *)URLEncodedString;
 
 @end

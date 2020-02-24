@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *fcmtype_name;
 @property (nonatomic, strong) NSString *fcmtype;
+@property (nonatomic, assign) NSInteger totalNumber;
 @property NSArray<NRChipInfo *> *list;
 
 @end

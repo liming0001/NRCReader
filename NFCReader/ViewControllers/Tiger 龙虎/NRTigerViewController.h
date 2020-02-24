@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NRTigerViewController : NRBaseViewController
 
 @property (nonatomic, strong) NRTigerViewModel *viewModel;
+@property (nonatomic, strong) NSArray *chipFmeList;
 
 @end
 

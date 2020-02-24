@@ -67,13 +67,13 @@
     }];
     
     self.userNameTextField = [UITextField new];
-    self.userNameTextField.placeholder = @"Username";
     self.userNameTextField.backgroundColor = [UIColor colorWithHexString:@"#1b252e"];
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
-//    self.userNameTextField.text = @"009";
-    self.userNameTextField.text = @"008";
-//    [self.userNameTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
+    self.userNameTextField.text = @"009";
+//    self.userNameTextField.text = @"008";
+    NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#ffffff"]}];
+    self.userNameTextField.attributedPlaceholder = placeholderString;
     UIView *leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.userNameTextField.leftView = leftview;
     self.userNameTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -86,12 +86,12 @@
     }];
     
     self.passwordTextField = [UITextField new];
-    self.passwordTextField.placeholder = @"Password";
     self.passwordTextField.backgroundColor = [UIColor colorWithHexString:@"#1b252e"];
     self.passwordTextField.layer.cornerRadius = 5;
     self.passwordTextField.text = @"123123";
     self.passwordTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
-//    [self.passwordTextField setValue:[UIColor colorWithHexString:@"#ffffff"] forKeyPath:@"_placeholderLabel.textColor"];
+    NSMutableAttributedString *pwsplaceholderString = [[NSMutableAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#ffffff"]}];
+    self.passwordTextField.attributedPlaceholder = pwsplaceholderString;
     UIView *pas_leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.passwordTextField.leftView = pas_leftview;
     self.passwordTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -118,6 +118,7 @@
         make.height.mas_equalTo(50);
         make.left.equalTo(self.view).offset(150);
     }];
+    DLOG(@"==========%@",[@"000000000000000A" base64Encode]);
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -165,9 +166,13 @@
                 [self tableChoose];
             }
         }else{
-            [self showMessage:msg];
             //响警告声音
             [EPSound playWithSoundName:@"wram_sound"];
+            NSString *messgae = [msg NullToBlankString];
+            if (messgae.length == 0) {
+                messgae = @"网络异常";
+            }
+            [self showMessage:messgae];
         }
     }];
 }

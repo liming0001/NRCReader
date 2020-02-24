@@ -22,9 +22,11 @@
     _data=data;
     self.customTextLabel.text = _data.text;
     self.customTextLabel.textColor = [UIColor colorWithHexString:_data.colorString];
-    self.imgView.image = [UIImage imageNamed:_data.img];
-
-
+    if (_data.img.length!=0) {
+        self.imgView.image = [UIImage imageNamed:_data.img];
+    }else{
+        self.imgView.image = nil;
+    }
 }
 
 

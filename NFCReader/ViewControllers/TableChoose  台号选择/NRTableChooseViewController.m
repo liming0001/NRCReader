@@ -17,7 +17,7 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "NRBaccaratView_workersController.h"
 
-@interface NRTableChooseViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface NRTableChooseViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UICollectionView *tablesCollectionView;
 
@@ -94,7 +94,7 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"当前版本M1.1.44";
+    self.languageLab.text = @"当前版本MZ1.1.69";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -102,7 +102,7 @@
         make.centerX.equalTo(self.view).offset(0);
         make.height.mas_equalTo(20);
     }];
-    
+                                         
 //    self.changeLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //    self.changeLanguageButton.layer.cornerRadius = 5;
 //    [self.changeLanguageButton setTitle:@"更换" forState:UIControlStateNormal];
@@ -146,14 +146,24 @@
         make.centerX.equalTo(self.view);
         
     }];
-    
-    [self.viewModel tableListWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-        [self.tablesCollectionView reloadData];
-    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    @weakify(self);
+    [self.viewModel tableListWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+        @strongify(self);
+        [self.tablesCollectionView reloadData];
+        [self.viewModel getChipTypeWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+            
+        }];
+    }];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    //YES：允许右滑返回  NO：禁止右滑返回
+    return NO;
 }
 
 - (void)configureTitleBar {
@@ -206,20 +216,24 @@
             if ([info.fqptype isEqualToString:@"1"]) {//免佣百家乐
                 NRBaccaratViewController *vc = [NRBaccaratViewController new];
                 vc.viewModel = [self.viewModel baccaratViewModelWithLoginInfo:self.viewModel.loginInfo];
+                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"2"]){//有佣百家乐
                 NRBaccaratView_workersController *vc = [NRBaccaratView_workersController new];
                 vc.viewModel = [self.viewModel baccarat_workersViewModelWithLoginInfo:self.viewModel.loginInfo];
+                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"3"]){//牛牛
                 //牛牛
                 NRCowViewController *vc = [NRCowViewController new];
                 vc.viewModel = [self.viewModel cowViewModelWithLoginInfo:self.viewModel.loginInfo];
+                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"4"]){
                 //龙虎
                 NRTigerViewController *vc = [[NRTigerViewController alloc]init];
                 vc.viewModel = [self.viewModel tigerViewModelWithLoginInfo:self.viewModel.loginInfo];
+                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else{

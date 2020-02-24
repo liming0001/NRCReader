@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *lastsy;//上一铺输赢
 @property (nonatomic, strong) NSArray *cur_money;//筹码
 @property (nonatomic, strong) NSArray *xz_setting;//下注方式配置
+@property (nonatomic, strong) NSString *fstatus;//1表示未开台，2表示开台
+@property (nonatomic, strong) NSString *fsettle;//1表示未日结，2表示已经日结
 
 @end
 
