@@ -7,7 +7,5 @@ pod 'Masonry'
 pod 'YYModel'
 pod 'ReactiveObjC'
 pod 'UIColor-Utilities'
-pod 'MBProgressHUD'
-pod 'IQKeyboardManager'
 pod 'UMCCommon'
 end

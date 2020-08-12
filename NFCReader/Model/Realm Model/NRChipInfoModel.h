@@ -21,10 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *hasPayMoney;//已放入金额
 @property (nonatomic, strong) NSString *chipBatch;//筹码批次
 @property (nonatomic, strong) NSString *guestWashesNumber;//客人洗码号
+@property (nonatomic, strong) NSString *guestWashesNumber_other;//客人洗码号
 @property (nonatomic, strong) NSString *fcredit;//类型
 @property (nonatomic, strong) NSString *guestName;//客人姓名
 @property (nonatomic, strong) NSString *authorName;//授权人
 @property (nonatomic, strong) NSString *notes;//备注
+@property (nonatomic, strong) NSArray *chipsUIDs;//筹码ID
 
 @property (nonatomic, strong) NSString *tipWashesNumber;//小费洗码号
 @property (nonatomic, strong) NSString *tipMoney;//小费金额

@@ -16,15 +16,33 @@
 #import "NRBaccarat_workersViewModel.h"
 #import "NRChipInfo.h"
 #import "NRChipAllInfo.h"
+#import "NRThreeFairsViewModel.h"
 
 @implementation NRTableChooseViewModel
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo{
     self = [super init];
     self.loginInfo = loginInfo;
+    self.tableRijieDate = [NRCommand getCurrentDate];
     self.tableList = [NSMutableArray arrayWithCapacity:0];
     self.chipFmeList = [NSMutableArray arrayWithCapacity:0];
     return self;
+}
+
+#pragma mark - 用户退出登录
+- (void)employee_logoutplusWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                            @"access_token":self.loginInfo.access_token,
+                             @"femp_num":self.loginInfo.femp_num
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"employee_logoutplus",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, msg,error);
+    }];
 }
 
 #pragma mark - 获取台桌列表数据
@@ -64,6 +82,27 @@
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
         if (suc) {
             self.gameInfo = [NRGameInfo yy_modelWithDictionary:responseDict];
+            [PublicHttpTool shareInstance].curXz_setting = self.gameInfo.xz_setting;
+        }
+        block(suc, msg,error);
+    }];
+}
+
+#pragma mark - 获取当前台桌日结日期
+- (void)Tablerec_getRjdateWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":self.loginInfo.access_token,
+                             @"table_id":self.selectTableInfo.fid//台桌ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Tablerec_getRjdate",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        if (suc) {
+            self.tableRijieDate = responseDict[@"frjdate"];
+            [PublicHttpTool shareInstance].cp_tableRijieDate = self.tableRijieDate;
         }
         block(suc, msg,error);
     }];
@@ -100,23 +139,28 @@
     }];
 }
 
-- (NRBaccaratViewModel *)baccaratViewModelWithLoginInfo:(NRLoginInfo*)loginInfo{
-    NRBaccaratViewModel *viewModel = [[NRBaccaratViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
+- (NRBaccaratViewModel *)baccaratViewModel{
+    NRBaccaratViewModel *viewModel = [[NRBaccaratViewModel alloc]init];
     return viewModel;
 }
 
-- (NRBaccarat_workersViewModel *)baccarat_workersViewModelWithLoginInfo:(NRLoginInfo*)loginInfo;{
-    NRBaccarat_workersViewModel *viewModel = [[NRBaccarat_workersViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
+- (NRBaccarat_workersViewModel *)baccarat_workersViewModel{
+    NRBaccarat_workersViewModel *viewModel = [[NRBaccarat_workersViewModel alloc]init];
     return viewModel;
 }
 
-- (NRTigerViewModel *)tigerViewModelWithLoginInfo:(NRLoginInfo*)loginInfo{
-    NRTigerViewModel *viewModel = [[NRTigerViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
+- (NRTigerViewModel *)tigerViewModel{
+    NRTigerViewModel *viewModel = [[NRTigerViewModel alloc]init];
     return viewModel;
 }
 
-- (NRCowViewModel *)cowViewModelWithLoginInfo:(NRLoginInfo*)loginInfo{
-    NRCowViewModel *viewModel = [[NRCowViewModel alloc]initWithLoginInfo:self.loginInfo WithTableInfo:self.selectTableInfo WithNRGameInfo:self.gameInfo];
+- (NRCowViewModel *)cowViewModel{
+    NRCowViewModel *viewModel = [[NRCowViewModel alloc]init];
+    return viewModel;
+}
+
+- (NRThreeFairsViewModel *)ThreeFairsViewModel{
+    NRThreeFairsViewModel *viewModel = [[NRThreeFairsViewModel alloc]init];
     return viewModel;
 }
 

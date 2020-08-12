@@ -30,7 +30,7 @@
     
     NSString *pfLanguageCode = [NSLocale preferredLanguages][0];
     if ([pfLanguageCode hasPrefix:@"zh"]) {
-        _language = [[EPLanguage alloc] initWithLanguageType:kEPLanguageTypeCn];
+        _language = [[EPLanguage alloc] initWithLanguageType:kEPLanguageTypeBm];
     } else {
         _language = [[EPLanguage alloc] initWithLanguageType:kEPLanguageTypeEn];
     }
@@ -65,5 +65,27 @@
     [userDefaults setObject:@(self.isAlreadyShowGuidePage) forKey:@"isAlreadyShowGuidePage"];
     [userDefaults synchronize];
 }
+
+//+ (BOOL)socketNoConnectedShow{
+//    [EPSound playWithSoundName:@"click_sound"];
+//    if ([SGSocketManager SocketConnectState]!=SGSocketConnectState_ConnectSuccess) {
+//        [[EPToast makeText:@"未连接上设备，请检查设备网络或IP地址是否对应" WithError:YES]showWithType:LongTime];
+//        return NO;
+//    }else{
+//        return YES;
+//    }
+//}
+//
+//#pragma mark -- 是否开启了新一局
+//+ (BOOL)canStepToNextStep{
+//    if (([PublicHttpTool shareInstance].puciCount != [PublicHttpTool shareInstance].prePuciCount)||[PublicHttpTool shareInstance].puciCount==0) {
+//        [[EPToast makeText:@"请先开启新一局"]showWithType:ShortTime];
+//        //响警告声音
+//        [EPSound playWithSoundName:@"wram_sound"];
+//        return NO;
+//    }else{
+//        return YES;
+//    }
+//}
 
 @end

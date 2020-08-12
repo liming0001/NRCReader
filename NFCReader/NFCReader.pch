@@ -17,7 +17,7 @@
 #import "EPToast.h"
 #import "EPStr.h"
 #import <YYModel/YYModel.h>
-#import <MBProgressHUD/MBProgressHUD.h>
+#import "MBProgressHUD.h"
 #import "NRChipInfoModel.h"
 #import "NSString+EPExtention.h"
 #import "NRCRCString.h"
@@ -28,7 +28,22 @@
 #import "UIView+Layout.h"
 #import "MJPopTool.h"
 #import "LYKeychainTool.h"
+#import "EPAppData.h"
+#import "SGSocketManager.h"
+#import "SGSocketConfigM.h"
+#import "PublicHttpTool.h"
 
+#import "TableDataInfoView.h"
+#import "EmpowerView.h"
+#import "ModificationResultsView.h"
+#import "TableJiaJiancaiView.h"
+#import "AppDelegate.h"
+#import "EPKillShowView.h"
+#import "EPPayShowView.h"
+#import "NSDictionary+NullJson.h"
+#import "NRUpdateInfo.h"
+#import "EPAppData.h"
+#import "EPPopView.h"
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
@@ -41,10 +56,17 @@
 
 
 //#define kBaseURL @"http://192.168.1.8/api/service/index.html"
-#define kBaseURL @"http://dbluo.t.zwjxt.com/api/service/index.html"
-//#define kBaseURL @"http://test.2t6.cn/api/service/index.html"
-#define kHTTPCookieDomain @"dbluo.t.zwjxt.com"
 //#define kHTTPCookieDomain @"192.168.1.8"
+
+#define kBaseURL @"http://vmsys.sdt.cn/api/service/index.html"
+#define kHTTPCookieDomain @"vmsys.sdt.cn"
+
+//#define kBaseURL @"http://192.168.1.120/api/service/index.html"
+//#define kHTTPCookieDomain @"192.168.1.120"
+
+//#define kBaseURL @"http://www.vm.com/api/service/index.html"
+//#define kHTTPCookieDomain @"www.vm.com"
+
 
 typedef void(^EPFeedbackBlock)(BOOL success);
 typedef void(^EPFeedbackWithErrorCodeBlock)(BOOL success,NSString *msg,EPSreviceError error);

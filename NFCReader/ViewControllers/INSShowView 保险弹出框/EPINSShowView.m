@@ -17,6 +17,12 @@
     // Drawing code
 }
 */
+
+- (void)showWithCowType{
+    [self.INSWinBtn setTitle:@"WIN" forState:UIControlStateNormal];
+    [self.INSLostBtn setTitle:@"LOSE" forState:UIControlStateNormal];
+}
+
 - (IBAction)INSWinAction:(id)sender {
     [self.INSWinBtn setSelected:YES];
     [self.INSLostBtn setSelected:NO];

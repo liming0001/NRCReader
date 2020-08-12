@@ -7,6 +7,7 @@
 //
 
 #import "NRCommand.h"
+#import "NSData+EPExtention.h"
 
 #define POLYNOMIAL 0X8408
 #define PRESET_VALUE 0xFFFF
@@ -62,6 +63,45 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
             hexStr = [NSString stringWithFormat:@"%@%@",hexStr,newHexStr];
     }
     return hexStr;
+}
+
+#pragma mark - 向筹筹码数据块4中写入客人洗码号
++ (NSData *)writeInfoToChip4_testWithwashaNumber:(NSString *)washNumber{
+    washNumber = [self convertStringToHexStr:washNumber];
+    NSString *guestNumber = washNumber;
+    for (int i=0; i<8-washNumber.length; i++) {
+        guestNumber = [@"0" stringByAppendingString:guestNumber];
+    }
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@04%@",@"28c746d4500104e0",guestNumber];
+    return [self getSendBlockDataWithHexString:hexString];
+}
+
+//将十六进制的字符串转换成NSString则可使用如下方式:
++ (NSString *)convertHexStrToString:(NSString *)str {
+    if (!str || [str length] == 0) {
+        return nil;
+    }
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:8];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+        
+        range.location += range.length;
+        range.length = 2;
+    }
+    NSString *string = [[NSString alloc]initWithData:hexData encoding:NSUTF8StringEncoding];
+    return string;
 }
 
 /**
@@ -208,7 +248,7 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
     NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
     
     for (NSInteger i = 0; i < len; i++) {
-        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
+        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((uint32_t)[letters length])]];
     }
     return randomString;
 }
@@ -343,17 +383,21 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 }
 
 + (NSData *)QueryChipInfo{
-    NSString *hexString = @"0600200104";
+    NSString *hexString = @"0600200105";
     return [self getSendBlockDataWithHexString:hexString];
 }
 
 #pragma mark - 向筹码数据块1中写入序号66，01类型
 + (NSData *)writeInfoToChip1WithChipInfo:(NRChipInfoModel *)chipInfo{
     NSString *chipSerial = chipInfo.chipSerialNumber;
+    if (chipSerial.length>6) {
+        chipSerial = [chipSerial substringFromIndex:2];
+    }
     NSString *serialNumber = chipSerial;
     for (int i=0; i<6-chipSerial.length; i++) {
         serialNumber = [@"0" stringByAppendingString:serialNumber];
     }
+    DLOG(@"chipInfo.chipUID==%@",chipInfo.chipUID);
     NSString *hexString = [NSString stringWithFormat:@"12002108%@01%@%@",chipInfo.chipUID,serialNumber,chipInfo.chipType];
     return [self getSendBlockDataWithHexString:hexString];
 }
@@ -384,22 +428,29 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 }
 
 #pragma mark - 向筹筹码数据块4中写入客人洗码号
-+ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo{
++ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo WithBlockNumber:(NSString *)blockNumber{
     NSString *washNumber = chipInfo.guestWashesNumber;
-    NSArray *washList = [washNumber componentsSeparatedByString:@"-"];
-    NSString *numberString = washList[0];
-    NSString *codeString = @"00";
-    if (washList.count>1) {
-        codeString = washList[1];
-        if ([codeString intValue]<10) {
-            codeString = [NSString stringWithFormat:@"0%d",[codeString intValue]];
-        }
+    NSString *firstWashNumber = @"";
+    NSString *secondWashNumber = @"";
+    NSString *chipWashNumber = @"";
+    if (washNumber.length<5) {
+        firstWashNumber = washNumber;
+    }else{
+        firstWashNumber = [washNumber substringToIndex:4];
+        secondWashNumber = [washNumber substringFromIndex:4];
     }
-    NSString *guestNumber = numberString;
-    for (int i=0; i<6-numberString.length; i++) {
+    if ([blockNumber isEqualToString:@"04"]) {
+        chipWashNumber = firstWashNumber;
+    }
+    if ([blockNumber isEqualToString:@"05"]) {
+        chipWashNumber = secondWashNumber;
+    }
+    chipWashNumber = [self convertStringToHexStr:chipWashNumber];
+    NSString *guestNumber = chipWashNumber;
+    for (int i=0; i<8-chipWashNumber.length; i++) {
         guestNumber = [@"0" stringByAppendingString:guestNumber];
     }
-    NSString *hexString = [NSString stringWithFormat:@"12002108%@04%@%@",chipInfo.chipUID,guestNumber,codeString];
+    NSString *hexString = [NSString stringWithFormat:@"12002108%@%@%@",chipInfo.chipUID,blockNumber,guestNumber];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
@@ -411,18 +462,18 @@ unsigned int uiCrc16Cal(unsigned char const  * pucY,int length)
 
 #pragma mark - 读取所有数据块中的数据
 + (NSData *)readAllSelectNumbersInfoWithChipUID:(NSString *)chipUID{
-    NSString *hexString = [NSString stringWithFormat:@"0f002300%@0104",chipUID];
+    NSString *hexString = [NSString stringWithFormat:@"0f002300%@0105",chipUID];
     return [self getSendBlockDataWithHexString:hexString];
 }
 
 #pragma mark - 清空客人洗码号
-+ (NSData *)clearWashNumberWithChipInfo:(NSString *)chipUid{
++ (NSData *)clearWashNumberWithChipInfo:(NSString *)chipUid WithBlockNumber:(NSString *)blockNumber{
     NSString *numberString = @"";
     NSString *guestNumber = numberString;
     for (int i=0; i<8; i++) {
         guestNumber = [guestNumber stringByAppendingString:@"0"];
     }
-    NSString *hexString = [NSString stringWithFormat:@"12002100%@04%@",chipUid,guestNumber];
+    NSString *hexString = [NSString stringWithFormat:@"12002100%@%@%@",chipUid,blockNumber,guestNumber];
     return [self getSendBlockDataWithHexString:hexString];
 }
 

@@ -137,17 +137,11 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
     return cell;
 }
 
-- (IBAction)CloseChipInfoAction:(id)sender {
-    [EPSound playWithSoundName:@"click_sound"];
-    if (_sureActionBlock) {
-        _sureActionBlock(1);
-    }
-}
 - (IBAction)closeChipInfo:(id)sender {
     [EPSound playWithSoundName:@"click_sound"];
     [self removeFromSuperview];
     if (_sureActionBlock) {
-        _sureActionBlock(2);
+        _sureActionBlock(0);
     }
 }
 - (IBAction)readChipInfoAction:(id)sender {

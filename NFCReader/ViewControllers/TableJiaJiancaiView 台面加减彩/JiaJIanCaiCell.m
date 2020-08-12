@@ -170,18 +170,8 @@
         NSInteger oneValue = [self.firstCellView.chipNumberLab.text integerValue];
         self.firstCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*oneValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.firstCellView.chipNumberLab.text,0);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.firstCellView.chipNumberLab.text,0);
         }
     }];
     self.firstCellView.editBtnBock = ^(NSInteger curTag) {
@@ -245,18 +235,8 @@
         NSInteger twoValue = [self.secondCellView.chipNumberLab.text integerValue];
         self.secondCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.secondCellView.chipNumberLab.text,1);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.secondCellView.chipNumberLab.text,1);
         }
     }];
     
@@ -321,18 +301,8 @@
         NSInteger twoValue = [self.thridCellView.chipNumberLab.text integerValue];
         self.thridCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.thridCellView.chipNumberLab.text,2);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.thridCellView.chipNumberLab.text,2);
         }
     }];
     
@@ -397,18 +367,8 @@
         NSInteger twoValue = [self.forthCellView.chipNumberLab.text integerValue];
         self.forthCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.forthCellView.chipNumberLab.text,3);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.forthCellView.chipNumberLab.text,3);
         }
     }];
     
@@ -473,18 +433,8 @@
         NSInteger twoValue = [self.fiveCellView.chipNumberLab.text integerValue];
         self.fiveCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.fiveCellView.chipNumberLab.text,4);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.fiveCellView.chipNumberLab.text,4);
         }
     }];
     
@@ -549,18 +499,8 @@
         NSInteger twoValue = [self.sixCellView.chipNumberLab.text integerValue];
         self.sixCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.sixCellView.chipNumberLab.text,5);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.sixCellView.chipNumberLab.text,5);
         }
     }];
     
@@ -625,18 +565,8 @@
         NSInteger twoValue = [self.sevenCellView.chipNumberLab.text integerValue];
         self.sevenCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.sevenCellView.chipNumberLab.text,6);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.sevenCellView.chipNumberLab.text,6);
         }
     }];
     
@@ -701,18 +631,8 @@
         NSInteger twoValue = [self.eightCellView.chipNumberLab.text integerValue];
         self.eightCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.eightCellView.chipNumberLab.text,7);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.eightCellView.chipNumberLab.text,7);
         }
     }];
     
@@ -777,18 +697,8 @@
         NSInteger twoValue = [self.nineCellView.chipNumberLab.text integerValue];
         self.nineCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.nineCellView.chipNumberLab.text,8);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.nineCellView.chipNumberLab.text,8);
         }
     }];
     
@@ -853,18 +763,8 @@
         NSInteger twoValue = [self.secondCellView.chipNumberLab.text integerValue];
         self.tenCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.tenCellView.chipNumberLab.text,9);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.tenCellView.chipNumberLab.text,9);
         }
     }];
     
@@ -929,18 +829,8 @@
         NSInteger twoValue = [self.elevenCellView.chipNumberLab.text integerValue];
         self.elevenCellView.chipMoneyValueLab.text = [NSString stringWithFormat:@"%ld",[x integerValue]*twoValue];
         [self cacutelatuFirstValue];
-        int type_status = 0;
-        if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
-            type_status = 0;
-        }else if ([self.curChipInfo.fcmtype intValue]==6){//人民币
-            type_status = 1;
-        }else if ([self.curChipInfo.fcmtype intValue]==2){
-            type_status = 2;
-        }else if ([self.curChipInfo.fcmtype intValue]==7){
-            type_status = 3;
-        }
         if (self.refrashSigleValueBlock) {
-            self.refrashSigleValueBlock(type_status, x, self.elevenCellView.chipNumberLab.text,10);
+            self.refrashSigleValueBlock([self moneyTypeStatus], x, self.elevenCellView.chipNumberLab.text,10);
         }
     }];
     
@@ -1002,12 +892,7 @@
     return self;
 }
 
-- (void)cacutelatuFirstValue{
-    NSInteger totalNumberValue = [self.firstCellView.chipNumberTF.text integerValue]+[self.secondCellView.chipNumberTF.text integerValue]+[self.thridCellView.chipNumberTF.text integerValue]+[self.forthCellView.chipNumberTF.text integerValue]+[self.fiveCellView.chipNumberTF.text integerValue]+[self.sixCellView.chipNumberTF.text integerValue]+[self.sevenCellView.chipNumberTF.text integerValue]+[self.eightCellView.chipNumberTF.text integerValue]+[self.nineCellView.chipNumberTF.text integerValue]+[self.tenCellView.chipNumberTF.text integerValue]+[self.elevenCellView.chipNumberTF.text integerValue];
-    self.totalNumberLab.text = [NSString stringWithFormat:@"总数量:%ld",totalNumberValue];
-
-    NSInteger totalMoneyValue = [self.firstCellView.chipMoneyValueLab.text integerValue]+[self.secondCellView.chipMoneyValueLab.text integerValue]+[self.thridCellView.chipMoneyValueLab.text integerValue]+[self.forthCellView.chipMoneyValueLab.text integerValue]+[self.fiveCellView.chipMoneyValueLab.text integerValue]+[self.sixCellView.chipMoneyValueLab.text integerValue]+[self.sevenCellView.chipMoneyValueLab.text integerValue]+[self.eightCellView.chipMoneyValueLab.text integerValue]+[self.nineCellView.chipMoneyValueLab.text integerValue]+[self.tenCellView.chipMoneyValueLab.text integerValue]+[self.elevenCellView.chipMoneyValueLab.text integerValue];
-    self.totalMoneyLab.text = [NSString stringWithFormat:@"总金额:%ld",totalMoneyValue];
+- (int)moneyTypeStatus{
     int type_status = 0;
     if ([self.curChipInfo.fcmtype intValue]==1) {//人民币码
         type_status = 0;
@@ -1017,9 +902,22 @@
         type_status = 2;
     }else if ([self.curChipInfo.fcmtype intValue]==7){
         type_status = 3;
+    }else if ([self.curChipInfo.fcmtype intValue]==8){//RMB贵宾码
+        type_status = 4;
+    }else if ([self.curChipInfo.fcmtype intValue]==9){//USD贵宾码
+        type_status = 5;
     }
+    return type_status;
+}
+
+- (void)cacutelatuFirstValue{
+    NSInteger totalNumberValue = [self.firstCellView.chipNumberTF.text integerValue]+[self.secondCellView.chipNumberTF.text integerValue]+[self.thridCellView.chipNumberTF.text integerValue]+[self.forthCellView.chipNumberTF.text integerValue]+[self.fiveCellView.chipNumberTF.text integerValue]+[self.sixCellView.chipNumberTF.text integerValue]+[self.sevenCellView.chipNumberTF.text integerValue]+[self.eightCellView.chipNumberTF.text integerValue]+[self.nineCellView.chipNumberTF.text integerValue]+[self.tenCellView.chipNumberTF.text integerValue]+[self.elevenCellView.chipNumberTF.text integerValue];
+    self.totalNumberLab.text = [NSString stringWithFormat:@"总数量:%ld",totalNumberValue];
+
+    NSInteger totalMoneyValue = [self.firstCellView.chipMoneyValueLab.text integerValue]+[self.secondCellView.chipMoneyValueLab.text integerValue]+[self.thridCellView.chipMoneyValueLab.text integerValue]+[self.forthCellView.chipMoneyValueLab.text integerValue]+[self.fiveCellView.chipMoneyValueLab.text integerValue]+[self.sixCellView.chipMoneyValueLab.text integerValue]+[self.sevenCellView.chipMoneyValueLab.text integerValue]+[self.eightCellView.chipMoneyValueLab.text integerValue]+[self.nineCellView.chipMoneyValueLab.text integerValue]+[self.tenCellView.chipMoneyValueLab.text integerValue]+[self.elevenCellView.chipMoneyValueLab.text integerValue];
+    self.totalMoneyLab.text = [NSString stringWithFormat:@"总金额:%ld",totalMoneyValue];
     if (self.refrashBottomMoneyBlock) {
-        self.refrashBottomMoneyBlock(type_status, [NSString stringWithFormat:@"%ld",totalMoneyValue]);
+        self.refrashBottomMoneyBlock([self moneyTypeStatus], [NSString stringWithFormat:@"%ld",totalMoneyValue]);
     }
 }
 

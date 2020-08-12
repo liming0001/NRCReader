@@ -21,11 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *heBtn;
 @property (weak, nonatomic) IBOutlet UIButton *zhuangDuiBtn;
 @property (weak, nonatomic) IBOutlet UIButton *xianDuiBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cowPointBtn;
+@property (weak, nonatomic) IBOutlet UIButton *zhuangSixBtn;
 
 @property(nonatomic,copy)void (^sureActionBlock)(BOOL isUpdateStatus);
 
 - (void)updateBottomViewBtnWithTag:(BOOL)isLonghu;
-- (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId Xueci:(int)xueci List:(NSArray *)infoList Xz_setting:(NSArray *)xz_setting;
+- (void)updateBottomViewBtnNiuniu;
+- (void)clearAllButtons;
+- (void)updateBottomViewBtnBaijiale:(BOOL)isYouYong;
+- (void)fellViewDataWithList:(NSArray *)infoList;
 
 @end
 

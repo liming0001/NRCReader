@@ -13,16 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class NRLoginInfo,NRChipInfoModel;
 @interface NRDealerManagerViewModel : RVMViewModel
 
-@property (nonatomic, strong) NRLoginInfo *chipInfo;
+@property (nonatomic, strong) NRLoginInfo *loginInfo;
 @property (nonatomic, strong) NRChipInfoModel *chipModel;
-@property (nonatomic, strong) NSMutableArray *chipInfoList;
-@property (nonatomic, strong) NSDictionary *customerInfoDict;
-@property (nonatomic, strong) NSString *lastNumber;
 @property (nonatomic, strong) NSDictionary *checkChipDict;
 
 - (instancetype)initWithLoginInfo:(NRLoginInfo *)loginInfo;
 
-- (void)getChipTypeWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 发行筹码
 - (void)IssueChipsWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 根据批次号获取最新批次序号
@@ -31,8 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)CashExchangeChipWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 筹码兑换现金
 - (void)ChipExchangeCashWithBlock:(EPFeedbackWithErrorCodeBlock)block;
-#pragma mark - 根据洗码号获取用户信息
-- (void)getInfoByXmhWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 小费结算
 - (void)TipSettlementWithBlock:(EPFeedbackWithErrorCodeBlock)block;
 #pragma mark - 筹码销毁

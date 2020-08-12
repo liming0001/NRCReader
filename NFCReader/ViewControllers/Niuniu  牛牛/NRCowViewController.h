@@ -6,14 +6,13 @@
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRBaseViewController.h"
+#import "NRGameBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class NRCowViewModel;
-@interface NRCowViewController : NRBaseViewController
+@interface NRCowViewController : NRGameBaseViewController
 @property (nonatomic, strong) NRCowViewModel *viewModel;
-@property (nonatomic, strong) NSArray *chipFmeList;
 
 @end
 

@@ -102,7 +102,7 @@
     [self addSubview:self.contentButton];
     [self.contentButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(5);
-        make.right.equalTo(self).offset(-10);
+        make.right.equalTo(self).offset(-20);
         make.width.mas_offset(80);
         make.height.mas_offset(30);
     }];

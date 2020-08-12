@@ -200,7 +200,12 @@
     [logString appendFormat:@"httpheader：%@\n", request.httpHeader ? request.httpHeader : @"空"];
     [logString appendFormat:@"**************************************************************\n\n"];
     
-    DLOG(@"%@", logString);
+    NSDictionary *paramDict = [request requestParameters];
+    NSString *requestMethodName = paramDict[@"f"];
+    NSDictionary *requestParams = paramDict[@"p"];
+    if (![requestMethodName isEqualToString:@"employee_heartbeat"]) {
+        DLOG(@"requestMethodName==%@,\nrequestParams==%@", requestMethodName,requestParams);
+    }
     [_lock unlock];
 #endif
 }
@@ -218,11 +223,12 @@
 #ifdef DEBUG
     [_lock lock];
     BOOL shouldLogError = error ? YES : NO;
-    
+    NSDictionary *paramDict = [baseRequest requestParameters];
+    NSString *requestMethodName = paramDict[@"f"];
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n==============================================================\n=                           请求返回                          =\n==============================================================\n"];
     
     NSURLRequest *request = task.originalRequest;
-    [logString appendFormat:@"请求地址：%@://%@%@\n\n", request.URL.scheme, request.URL.host, request.URL.path];
+    [logString appendFormat:@"请求地址：%@://%@%@/%@\n\n", request.URL.scheme, request.URL.host, request.URL.path,requestMethodName];
     [logString appendFormat:@"请求状态：\n\t%ld\n\n", ((NSHTTPURLResponse *)(task.response)).statusCode];
     [logString appendFormat:@"get子串：\n\t%@\n\n", request.URL.query];
     if (responseObject) {
@@ -240,8 +246,9 @@
     }
     
     [logString appendFormat:@"==============================================================\n\n"];
-    
-    DLOG(@"%@", logString);
+    if (![requestMethodName isEqualToString:@"employee_heartbeat"]) {
+        DLOG(@"%@", logString);
+    }
     [_lock unlock];
 #endif
 }

@@ -21,21 +21,17 @@
 - (IBAction)OKAction:(id)sender {
     [EPSound playWithSoundName:@"click_sound"];
     if ([[self.accountNameTF.text NullToBlankString]length]==0) {
-        [[EPToast makeText:@"请输入账户名" WithError:YES]showWithType:ShortTime];
-        //响警告声音
-        [EPSound playWithSoundName:@"wram_sound"];
+        [PublicHttpTool showSoundMessage:@"请输入账户名"];
         return;
     }
     if ([[self.passwordTF.text NullToBlankString]length]==0) {
-        [[EPToast makeText:@"请输入密码" WithError:YES]showWithType:ShortTime];
-        //响警告声音
-        [EPSound playWithSoundName:@"wram_sound"];
+        [PublicHttpTool showSoundMessage:@"请输入密码"];
         return;
     }
+    [self removeFromSuperview];
     if (_sureActionBlock) {
         _sureActionBlock(self.accountNameTF.text,self.passwordTF.text);
     }
-    [self removeFromSuperview];
     [self clearAccountInfo];
 }
 - (void)clearAccountInfo{

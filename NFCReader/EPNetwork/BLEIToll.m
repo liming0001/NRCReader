@@ -34,6 +34,24 @@
     return _BLEFistArr;
 }
 
+#pragma mark -- 计算个数
++ (NSInteger)calculateNumberWithHexData:(NSData *)data{
+    NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:data];
+    NSInteger count = [[chipNumberdataHexStr mutableCopy] replaceOccurrencesOfString:@"040000525a" withString:@"040000525a"
+       options:NSLiteralSearch
+         range:NSMakeRange(0, [chipNumberdataHexStr length])];
+    return count;
+}
+
++ (NSInteger)calculateChipNumberWithHexData:(NSData *)data{
+    NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:data];
+    chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"04000e2cb3" withString:@""];
+    chipNumberdataHexStr = [chipNumberdataHexStr stringByReplacingOccurrencesOfString:@"040000525a" withString:@""];
+    NSInteger count = [[chipNumberdataHexStr mutableCopy] replaceOccurrencesOfString:@"0d000000" withString:@"0d000000"
+       options:NSLiteralSearch
+         range:NSMakeRange(0, [chipNumberdataHexStr length])];
+    return count;
+}
 
 /**
  十六进制数据转化为数组
@@ -255,11 +273,28 @@
     return chipUIDList;
 }
 
+
+// 十六进制转换为普通字符串
+- (NSString *)stringFromHexString:(NSString *)hexString {
+    char *myBuffer = (char *)malloc((int)[hexString length] / 2 + 1);
+    bzero(myBuffer, [hexString length] / 2 + 1);
+    for (int i = 0; i < [hexString length] - 1; i += 2) {
+        unsigned int anInt;
+        NSString * hexCharStr = [hexString substringWithRange:NSMakeRange(i, 2)];
+        NSScanner * scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        [scanner scanHexInt:&anInt];
+        myBuffer[i / 2] = (char)anInt;
+    }
+    NSString *unicodeString = [NSString stringWithCString:myBuffer encoding:4];
+ 
+    return unicodeString;
+}
+
 //解析百家乐筹码信息
 - (NSArray *)chipInfoBaccrarWithBLEString:(NSString *)bleString{
     
     NSMutableArray *chipList = [NSMutableArray arrayWithCapacity:0];
-    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"18000000"];
+    NSArray * separatedStrArr = [bleString componentsSeparatedByString:@"1d000000"];
     if (separatedStrArr.count != 0) {
         for (int i=1; i<separatedStrArr.count; i++) {
             NSMutableArray *infoList = [NSMutableArray arrayWithCapacity:0];
@@ -288,21 +323,25 @@
             }
             [infoList addObject:batch];
            
-            //洗码号;
-            NSString *ximahao = @"";
-            if (infoString.length>36) {
-                ximahao = [infoString substringWithRange:NSMakeRange(30, 6)];
-            }
-            NSInteger ximahao_Inter = [ximahao integerValue];
-            NSString *ximahao_houzhui = @"";
+            //洗码号1;
+            NSString *ximahao1 = @"";
             if (infoString.length>38) {
-                ximahao_houzhui = [infoString substringWithRange:NSMakeRange(36, 2)];
+                ximahao1 = [infoString substringWithRange:NSMakeRange(30, 8)];
+                ximahao1 = [ximahao1 stringByReplacingOccurrencesOfString:@"00" withString:@""];
             }
-            NSString *washNumber = [NSString stringWithFormat:@"%ld",ximahao_Inter];
-            if (![ximahao_houzhui isEqualToString:@"00"]) {
-                washNumber = [NSString stringWithFormat:@"%@-%d",washNumber,[ximahao_houzhui intValue]];
+            //洗码号2;
+            NSString *ximahao2 = @"";
+            if (infoString.length>48) {
+                ximahao2 = [infoString substringWithRange:NSMakeRange(40, 8)];
+                ximahao2 = [ximahao2 stringByReplacingOccurrencesOfString:@"00" withString:@""];
             }
-            [infoList addObject:washNumber];
+            NSString *ximahao = [NSString stringWithFormat:@"%@%@",ximahao1,ximahao2];
+            if (ximahao.length!=0) {
+                ximahao = [self stringFromHexString:ximahao];
+            }else{
+                ximahao = @"0";
+            }
+            [infoList addObject:ximahao];
             [chipList addObject:infoList];
         }
     }

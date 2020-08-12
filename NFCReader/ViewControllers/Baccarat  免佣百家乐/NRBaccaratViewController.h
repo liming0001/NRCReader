@@ -6,15 +6,14 @@
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRBaseViewController.h"
+#import "NRGameBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class NRBaccaratViewModel;
-@interface NRBaccaratViewController : NRBaseViewController
+@interface NRBaccaratViewController : NRGameBaseViewController
 
 @property (nonatomic, strong) NRBaccaratViewModel *viewModel;
-@property (nonatomic, strong) NSArray *chipFmeList;
 
 @end
 

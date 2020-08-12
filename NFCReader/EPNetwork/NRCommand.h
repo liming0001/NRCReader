@@ -28,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return 将字符串 ---> 十六进制数据 ---> NSData数据
  */
-
 +(NSData*)stringToByte:(NSString*)string;
 //获取一个随机整数，范围在[from,to），包括from，不包括to
 +(NSInteger)getRandomNumber:(NSInteger)from to:(NSInteger)to;
@@ -39,6 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark -声光设置命令
 +(NSData *)controlLED;
 +(NSData *)controlShortLED;
+
+#pragma mark - 向筹筹码数据块4中写入客人洗码号
++ (NSData *)writeInfoToChip4_testWithwashaNumber:(NSString *)washNumber;
++ (NSString *)convertHexStrToString:(NSString *)str;
 
 #pragma mark - 读取序列号
 + (NSData *)readDeviceSerialNumber;
@@ -66,14 +69,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 向筹筹码数据块3中写入批次2019
 + (NSData *)writeInfoToChip3WithChipInfo:(NRChipInfoModel *)chipInfo;
 #pragma mark - 向筹筹码数据块4中写入客人洗码号
-+ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo;
++ (NSData *)writeInfoToChip4WithChipInfo:(NRChipInfoModel *)chipInfo WithBlockNumber:(NSString *)blockNumber;
 #pragma mark - 销毁筹码数据块1中的数值
 + (NSData *)destructInfoToChip1WithChipUID:(NSString *)chipUID;
 #pragma mark - 读取所有数据块中的数据
 + (NSData *)readAllSelectNumbersInfoWithChipUID:(NSString *)chipUID;
 #pragma mark - 清空客人洗码号
-+ (NSData *)clearWashNumberWithChipInfo:(NSString *)chipUid;
-
++ (NSData *)clearWashNumberWithChipInfo:(NSString *)chipUid WithBlockNumber:(NSString *)blockNumber;
 #pragma mark - 设置感应盘工作模式
 + (NSData *)setDeviceWorkModel;
 #pragma mark - 设置感应盘工作模式

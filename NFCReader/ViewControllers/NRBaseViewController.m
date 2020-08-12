@@ -9,7 +9,7 @@
 #import "NRBaseViewController.h"
 #import "EPLoadingView.h"
 
-@interface NRBaseViewController ()
+@interface NRBaseViewController ()<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) EPTitleBar *titleBar;
 @property (nonatomic, strong) EPLoadingView *friendlyLoadingView;
@@ -31,16 +31,10 @@
         make.top.equalTo(self.view);
         make.height.mas_equalTo([EPTitleBar heightForTitleBarPlusStatuBar]);
     }];
-    
-    
-    CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
-    DLOG(@"%@ %@", NSStringFromCGRect(rectStatus), NSStringFromCGRect(self.titleBar.frame));
-    
     @weakify(self);
     [[self.view rac_signalForSelector:@selector(addSubview:)] subscribeNext:^(RACTuple * _Nullable x) {
         @strongify(self);
         [self takeTitleBarToFront];
-        DLOG(@"takeTitleBarToFront");
     }];
     
     [self configureTitleBar];
@@ -51,10 +45,20 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     //    [self takeTitleBarToFront];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    //YES：允许右滑返回  NO：禁止右滑返回
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -138,7 +142,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.label.text = text;
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:8];
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)showWaitingView {
@@ -147,7 +151,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:8];
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)hideWaitingView {
@@ -159,7 +163,7 @@
     UIView *window = [self findWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     hud.layer.zPosition = 100;
-    [hud hideAnimated:YES afterDelay:8];
+    [hud hideAnimated:YES afterDelay:10];
 }
 
 - (void)hideWaitingViewInWindow {
@@ -193,6 +197,17 @@
 
 - (void)dealloc {
     self.friendlyLoadingView = nil;
+}
+
+- (void)showSoundMessage:(NSString *)message {
+    NSString *messgae = [message NullToBlankString];
+    if (messgae.length == 0) {
+        messgae = @"网络异常";
+    }
+    [self showLognMessage:messgae];
+    //响警告声音
+    [EPSound playWithSoundName:@"wram_sound"];
+    [self hideWaitingView];
 }
 
 /*

@@ -33,19 +33,24 @@
 @property (nonatomic, strong) NSString *curLoginToken;
 @property (nonatomic, strong) NSString *curTableID;
 
-@property (nonatomic,strong) NSMutableArray *moneyTypeList;
-
-@property (nonatomic,strong) NSMutableArray *firstMoneyList;
-@property (nonatomic,strong) NSMutableArray *firstNumberList;
-
-@property (nonatomic,strong) NSMutableArray *secondMoneyList;
-@property (nonatomic,strong) NSMutableArray *secondNumberList;
-
-@property (nonatomic,strong) NSMutableArray *thridMoneyList;
-@property (nonatomic,strong) NSMutableArray *thridNumberList;
-
-@property (nonatomic,strong) NSMutableArray *forthMoneyList;
-@property (nonatomic,strong) NSMutableArray *forthNumberList;
+//人民币码1
+@property (nonatomic,strong) NSMutableArray *RMBChipMoneyList;
+@property (nonatomic,strong) NSMutableArray *RMBChipNumberList;
+//美金码2
+@property (nonatomic,strong) NSMutableArray *USDChipMoneyList;
+@property (nonatomic,strong) NSMutableArray *USDChipNumberList;
+//人民币现金6
+@property (nonatomic,strong) NSMutableArray *RMBMoneyList;
+@property (nonatomic,strong) NSMutableArray *RMBNumberList;
+//美金现金7
+@property (nonatomic,strong) NSMutableArray *USDMoneyList;
+@property (nonatomic,strong) NSMutableArray *USDNumberList;
+//人民币贵宾码
+@property (nonatomic,strong) NSMutableArray *RMBVIPChipMoneyList;
+@property (nonatomic,strong) NSMutableArray *RMBVIPChipNumberList;
+//美金贵宾码
+@property (nonatomic,strong) NSMutableArray *USDVIPChipMoneyList;
+@property (nonatomic,strong) NSMutableArray *USDVIPChipNumberList;
 
 @property (nonatomic, strong) BlueToothManager *manager;
 @property (nonatomic, strong) NSDictionary *printDict;
@@ -61,76 +66,102 @@
         _StatusArray = [NSMutableArray array];
     }
     return _StatusArray;
-}
-
-- (NSMutableArray *)moneyTypeList{
-    if (!_moneyTypeList) {
-        _moneyTypeList = [NSMutableArray arrayWithCapacity:0];
-    }
-    return _moneyTypeList;
-}
-
-- (NSMutableArray *)firstMoneyList{
-    if (!_firstMoneyList) {
-        _firstMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
-    }
-    return _firstMoneyList;
     
 }
 
-- (NSMutableArray *)firstNumberList{
-    if (!_firstNumberList) {
-        _firstNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)RMBChipMoneyList{
+    if (!_RMBChipMoneyList) {
+        _RMBChipMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _firstNumberList;
+    return _RMBChipMoneyList;
     
 }
 
-- (NSMutableArray *)secondMoneyList{
-    if (!_secondMoneyList) {
-        _secondMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)RMBChipNumberList{
+    if (!_RMBChipNumberList) {
+        _RMBChipNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _secondMoneyList;
+    return _RMBChipNumberList;
     
 }
 
-- (NSMutableArray *)secondNumberList{
-    if (!_secondNumberList) {
-        _secondNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)USDChipMoneyList{
+    if (!_USDChipMoneyList) {
+        _USDChipMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _secondNumberList;
+    return _USDChipMoneyList;
     
 }
 
-- (NSMutableArray *)thridMoneyList{
-    if (!_thridMoneyList) {
-        _thridMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)USDChipNumberList{
+    if (!_USDChipNumberList) {
+        _USDChipNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _thridMoneyList;
+    return _USDChipNumberList;
     
 }
 
-- (NSMutableArray *)thridNumberList{
-    if (!_thridNumberList) {
-        _thridNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)RMBMoneyList{
+    if (!_RMBMoneyList) {
+        _RMBMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _thridNumberList;
+    return _RMBMoneyList;
     
 }
 
-- (NSMutableArray *)forthMoneyList{
-    if (!_forthMoneyList) {
-        _forthMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)RMBNumberList{
+    if (!_RMBNumberList) {
+        _RMBNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _forthMoneyList;
+    return _RMBNumberList;
     
 }
 
-- (NSMutableArray *)forthNumberList{
-    if (!_forthNumberList) {
-        _forthNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+- (NSMutableArray *)USDMoneyList{
+    if (!_USDMoneyList) {
+        _USDMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
     }
-    return _forthNumberList;
+    return _USDMoneyList;
+    
+}
+
+- (NSMutableArray *)USDNumberList{
+    if (!_USDNumberList) {
+        _USDNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+    }
+    return _USDNumberList;
+    
+}
+
+- (NSMutableArray *)RMBVIPChipMoneyList{
+    if (!_RMBVIPChipMoneyList) {
+        _RMBVIPChipMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+    }
+    return _RMBVIPChipMoneyList;
+    
+}
+
+- (NSMutableArray *)RMBVIPChipNumberList{
+    if (!_RMBVIPChipNumberList) {
+        _RMBVIPChipNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+    }
+    return _RMBVIPChipNumberList;
+    
+}
+
+- (NSMutableArray *)USDVIPChipMoneyList{
+    if (!_USDVIPChipMoneyList) {
+        _USDVIPChipMoneyList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+    }
+    return _USDVIPChipMoneyList;
+    
+}
+
+- (NSMutableArray *)USDVIPChipNumberList{
+    if (!_USDVIPChipNumberList) {
+        _USDVIPChipNumberList = [NSMutableArray arrayWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0", nil];
+    }
+    return _USDVIPChipNumberList;
     
 }
 
@@ -468,40 +499,28 @@
             fTypeS = @"5";
         }
     }
-    [self.moneyTypeList removeAllObjects];
     
     NSMutableArray *fme_list = [NSMutableArray array];
+    [fme_list addObject:self.RMBChipMoneyList];
+    [fme_list addObject:self.USDChipMoneyList];
+    [fme_list addObject:self.RMBMoneyList];
+    [fme_list addObject:self.USDMoneyList];
+    [fme_list addObject:self.RMBVIPChipMoneyList];
+    [fme_list addObject:self.USDVIPChipMoneyList];
+    
     NSMutableArray *fnums_list = [NSMutableArray array];
-    
-    if (self.firstMoneyList.count!=0) {//人名币码
-        [fme_list addObject:self.firstMoneyList];
-        [fnums_list addObject:self.firstNumberList];
-        [self.moneyTypeList addObject:@"1"];
-    }
-    
-    if (self.secondMoneyList.count!=0) {//人名币
-        [fme_list addObject:self.secondMoneyList];
-        [fnums_list addObject:self.secondNumberList];
-        [self.moneyTypeList addObject:@"6"];
-    }
-    
-    if (self.thridMoneyList.count!=0) {//美金码
-        [fme_list addObject:self.thridMoneyList];
-        [fnums_list addObject:self.thridNumberList];
-        [self.moneyTypeList addObject:@"2"];
-    }
-    
-    if (self.forthMoneyList.count!=0) {//美金
-        [fme_list addObject:self.forthMoneyList];
-        [fnums_list addObject:self.forthNumberList];
-        [self.moneyTypeList addObject:@"7"];
-    }
+    [fnums_list addObject:self.RMBChipNumberList];
+    [fnums_list addObject:self.USDChipNumberList];
+    [fnums_list addObject:self.RMBNumberList];
+    [fnums_list addObject:self.USDNumberList];
+    [fnums_list addObject:self.RMBVIPChipNumberList];
+    [fnums_list addObject:self.USDVIPChipNumberList];
     
     NSDictionary * param = @{
                              @"access_token":self.curLoginToken,
                              @"ftable_id":self.curTableID,
                              @"ftype":fTypeS,
-                             @"fcmtype_list":self.moneyTypeList,
+                             @"fcmtype_list":[NSArray arrayWithObjects:@"1",@"2",@"6",@"7",@"8",@"9", nil],
                              @"fme_list":fme_list,//面额
                              @"fnums_list":fnums_list,//数量
                              };
@@ -535,17 +554,22 @@
                     }
                 }
             }
+
             //响警告声音
             [EPSound playWithSoundName:@"succeed_sound"];
-            self.firstMoneyList = nil;
-            self.secondMoneyList = nil;
-            self.thridMoneyList = nil;
-            self.forthMoneyList = nil;
+            self.RMBChipMoneyList = nil;
+            self.USDChipMoneyList = nil;
+            self.RMBMoneyList = nil;
+            self.USDMoneyList = nil;
+            self.RMBVIPChipMoneyList = nil;
+            self.USDVIPChipMoneyList = nil;
             
-            self.firstNumberList = nil;
-            self.secondNumberList = nil;
-            self.thridNumberList = nil;
-            self.forthNumberList = nil;
+            self.RMBChipNumberList = nil;
+            self.USDChipNumberList = nil;
+            self.RMBNumberList = nil;
+            self.USDNumberList = nil;
+            self.RMBVIPChipNumberList = nil;
+            self.USDVIPChipNumberList = nil;
         }else{
             NSString *messgae = [msg NullToBlankString];
             if (messgae.length == 0) {
@@ -604,22 +628,32 @@
             self.bottomView.USDChipValueLav.text = totalMonney;
         }else if (cellId==3){
             self.bottomView.USDCashValueLab.text = totalMonney;
+        }else if (cellId==4){
+            self.bottomView.VIPCashValueLab.text = totalMonney;
+        }else if (cellId==5){
+            self.bottomView.VIPChipValueLab.text = totalMonney;
         }
     };
     cell.refrashSigleValueBlock = ^(int cellId, NSString * _Nonnull numberValue, NSString * _Nonnull moneyValue,int type) {
         @strongify(self);
-        if (cellId==0) {
-            [self.firstMoneyList replaceObjectAtIndex:type withObject:moneyValue];
-            [self.firstNumberList replaceObjectAtIndex:type withObject:numberValue];
-        }else if (cellId==1){
-            [self.secondMoneyList replaceObjectAtIndex:type withObject:moneyValue];
-            [self.secondNumberList replaceObjectAtIndex:type withObject:numberValue];
-        }else if (cellId==2){
-            [self.thridMoneyList replaceObjectAtIndex:type withObject:moneyValue];
-            [self.thridNumberList replaceObjectAtIndex:type withObject:numberValue];
-        }else if (cellId==3){
-            [self.forthMoneyList replaceObjectAtIndex:type withObject:moneyValue];
-            [self.forthNumberList replaceObjectAtIndex:type withObject:numberValue];
+        if (cellId==0) {//人民币码
+            [self.RMBChipMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.RMBChipNumberList replaceObjectAtIndex:type withObject:numberValue];
+        }else if (cellId==1){//人民币
+            [self.RMBMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.RMBNumberList replaceObjectAtIndex:type withObject:numberValue];
+        }else if (cellId==2){//美金码
+            [self.USDChipMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.USDChipNumberList replaceObjectAtIndex:type withObject:numberValue];
+        }else if (cellId==3){//美金现金
+            [self.USDMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.USDNumberList replaceObjectAtIndex:type withObject:numberValue];
+        }else if (cellId==4){//RMB贵宾码
+            [self.RMBVIPChipMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.RMBVIPChipNumberList replaceObjectAtIndex:type withObject:numberValue];
+        }else if (cellId==5){//USD贵宾码
+            [self.USDVIPChipMoneyList replaceObjectAtIndex:type withObject:moneyValue];
+            [self.USDVIPChipNumberList replaceObjectAtIndex:type withObject:numberValue];
         }
     };
     return cell;

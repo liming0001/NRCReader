@@ -12,6 +12,7 @@
 #import "NRLoginInfo.h"
 #import "DealerManagementViewController.h"
 #import "BLEIToll.h"
+#import "NRUpdateInfo.h"
 
 @interface NRLoginViewController ()
 
@@ -70,8 +71,6 @@
     self.userNameTextField.backgroundColor = [UIColor colorWithHexString:@"#1b252e"];
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
-    self.userNameTextField.text = @"009";
-//    self.userNameTextField.text = @"008";
     NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#ffffff"]}];
     self.userNameTextField.attributedPlaceholder = placeholderString;
     UIView *leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
@@ -88,10 +87,10 @@
     self.passwordTextField = [UITextField new];
     self.passwordTextField.backgroundColor = [UIColor colorWithHexString:@"#1b252e"];
     self.passwordTextField.layer.cornerRadius = 5;
-    self.passwordTextField.text = @"123123";
     self.passwordTextField.textColor = [UIColor colorWithHexString:@"#ffffff"];
     NSMutableAttributedString *pwsplaceholderString = [[NSMutableAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#ffffff"]}];
     self.passwordTextField.attributedPlaceholder = pwsplaceholderString;
+    self.passwordTextField.text = @"123";
     UIView *pas_leftview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.passwordTextField.leftView = pas_leftview;
     self.passwordTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -118,19 +117,51 @@
         make.height.mas_equalTo(50);
         make.left.equalTo(self.view).offset(150);
     }];
-    DLOG(@"==========%@",[@"000000000000000A" base64Encode]);
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+    
+    [self employee_logoutplusWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+    }];
+    
+    NSString *login_userName = [[LYKeychainTool readKeychainValue:@"login_userName"]NullToBlankString];
+    self.userNameTextField.text = login_userName;
 }
 
 - (void)configureTitleBar {
     self.titleBar.hidden = YES;
-//    self.titleBar.backgroundColor = [UIColor whiteColor];
-//    [self.titleBar setTitle:@"VM娱乐桌面跟踪系统"];
-//    [self setLeftItemForGoBack];
-//    [self configureTitleBarToBlack];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[PublicHttpTool shareInstance]stopPingTimer];
+}
+
+#pragma mark - 用户退出登录
+- (void)employee_logoutplusWithBlock:(EPFeedbackWithErrorCodeBlock)block{
+    NSString *login_token = [[LYKeychainTool readKeychainValue:@"login_token"]NullToBlankString];
+    NSString *login_fid = [[LYKeychainTool readKeychainValue:@"login_ID"]NullToBlankString];
+    NSString *login_tableID = [[LYKeychainTool readKeychainValue:@"login_tableID"]NullToBlankString];
+    if (!login_tableID) {
+        login_tableID = @"";
+    }
+    if (login_token.length!=0) {
+        NSDictionary * param = @{
+                                    @"access_token":login_token,
+                                    @"femp_num":login_fid,
+                                    @"ftableid":login_tableID
+                                 };
+        NSArray *paramList = @[param];
+        NSDictionary * Realparam = @{
+                                     @"f":@"employee_logoutplus",
+                                     @"p":[paramList JSONString]
+                                     };
+        [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+            if (suc) {
+                [LYKeychainTool deleteKeychainValue:@"login_token"];
+                [LYKeychainTool deleteKeychainValue:@"login_ID"];
+                [LYKeychainTool deleteKeychainValue:@"login_tableID"];
+            }
+            block(suc, msg,error);
+        }];
+    }
 }
 
 - (void)loginAction{
@@ -160,19 +191,23 @@
         [self hideWaitingView];
         if (suc) {
             self.curLoginInfo = [NRLoginInfo yy_modelWithDictionary:responseDict];
+            [PublicHttpTool shareInstance].access_token = self.curLoginInfo.access_token;
+            [PublicHttpTool shareInstance].femp_num = [NSString stringWithFormat:@"%@",self.curLoginInfo.femp_num];
+            [PublicHttpTool shareInstance].cp_tableRijieDate = [NRCommand getCurrentDate];
+            [PublicHttpTool shareInstance].curupdateInfo.fhg_id = self.curLoginInfo.fid;
+            [LYKeychainTool saveKeychainValue:self.curLoginInfo.access_token key:@"login_token"];
+            [LYKeychainTool saveKeychainValue:self.curLoginInfo.fid key:@"login_ID"];
+            [LYKeychainTool saveKeychainValue:self.userNameTextField.text key:@"login_userName"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[PublicHttpTool shareInstance]startPingTimer];
+            });
             if ([self.curLoginInfo.femp_role intValue]==1) {
                 [self managerLoginAction];
             }else{
                 [self tableChoose];
             }
         }else{
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [self showMessage:messgae];
+            [self showSoundMessage:msg];
         }
     }];
 }
@@ -187,6 +222,10 @@
     DealerManagementViewController *vc = [DealerManagementViewController new];
     vc.viewModel = [self.viewModel managerViewModelWithChipInfo:self.curLoginInfo];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 /*

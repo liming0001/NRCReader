@@ -6,15 +6,14 @@
 //  Copyright © 2019 李黎明. All rights reserved.
 //
 
-#import "NRBaseViewController.h"
+#import "NRGameBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class NRTigerViewModel;
-@interface NRTigerViewController : NRBaseViewController
+@interface NRTigerViewController : NRGameBaseViewController
 
 @property (nonatomic, strong) NRTigerViewModel *viewModel;
-@property (nonatomic, strong) NSArray *chipFmeList;
 
 @end
 

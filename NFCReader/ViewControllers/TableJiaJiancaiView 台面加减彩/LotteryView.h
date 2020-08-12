@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *RMBChipValueLab;
 @property (weak, nonatomic) IBOutlet UILabel *USDCashValueLab;
 @property (weak, nonatomic) IBOutlet UILabel *RMBCashValueLab;
+@property (weak, nonatomic) IBOutlet UILabel *VIPCashValueLab;
+@property (weak, nonatomic) IBOutlet UILabel *VIPChipValueLab;
 
 @end
 

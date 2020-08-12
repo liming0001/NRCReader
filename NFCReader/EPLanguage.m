@@ -44,34 +44,4 @@
     return [self yy_modelDescription];
 }
 
-- (NSString *)gLangParam {
-    static NSString *datas[] = {
-        @"en-us",
-        @"zh-cn",
-        @"ja-jp",
-        @"ko-kr"
-    };
-    return datas[_languageType];
-}
-
-- (NSString *)languageFullString {
-    static NSString *datas[] = {
-        @"english",
-        @"chinese",
-        @"english",
-        @"english"
-    };
-    return datas[_languageType];
-}
-
-- (NSString *)languageNumString {
-    static NSString *datas[] = {
-        @"1",
-        @"2",
-        @"1",
-        @"1"
-    };
-    return datas[_languageType];
-}
-
 @end

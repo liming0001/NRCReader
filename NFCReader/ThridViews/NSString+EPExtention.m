@@ -299,7 +299,7 @@
 }
 
 - (NSString *)NullToBlankString{
-    if (self == nil || self == NULL) {
+    if (self == nil || self == NULL ||[self isEqual:[NSNull null]]) {
         return @"";
     }
     if ([self isKindOfClass:[NSNull class]]) {

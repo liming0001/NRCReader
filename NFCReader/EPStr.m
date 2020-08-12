@@ -37,7 +37,7 @@
 - (instancetype)init {
     self = [super init];
     
-    _langIndex = 2;
+    _langIndex = 1;
     [self load];
     
     return self;
@@ -47,16 +47,10 @@
     _language = language;
     switch (_language.languageType) {
         case kEPLanguageTypeEn:
-            _langIndex = 2;
-            break;
-        case kEPLanguageTypeCn:
             _langIndex = 1;
             break;
-        case kEPLanguageTypeJp:
-            _langIndex = 3;
-            break;
-        case kEPLanguageTypeKr:
-            _langIndex = 4;
+        case kEPLanguageTypeBm:
+            _langIndex = 2;
             break;
         default:
             break;

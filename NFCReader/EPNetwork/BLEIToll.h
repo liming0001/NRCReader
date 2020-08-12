@@ -17,6 +17,11 @@ typedef void (^BLEProcessBLock)(NSMutableArray *dataArr);
 
 @property (nonatomic,copy) BLEProcessBLock processsBlock;
 
+
+#pragma mark -- 计算个数
++ (NSInteger)calculateNumberWithHexData:(NSData *)data;
++ (NSInteger)calculateChipNumberWithHexData:(NSData *)data;
+
 /**
  十六进制数据转化为数组
  @param data 十六进制数据

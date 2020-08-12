@@ -16,6 +16,7 @@
 #import "NRTableInfo.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "NRBaccaratView_workersController.h"
+#import "NRThreeFairsViewController.h"
 
 @interface NRTableChooseViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 
@@ -70,14 +71,14 @@
     self.IDLab = [UILabel new];
     self.IDLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.IDLab.font = [UIFont systemFontOfSize:fontSize];
-    self.IDLab.text = [NSString stringWithFormat:@"ID:%@",self.viewModel.loginInfo.fid];
+    self.IDLab.text = [NSString stringWithFormat:@"ID:%@",self.viewModel.loginInfo.femp_num];
     [self.view addSubview:self.IDLab];
     [self.IDLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleBar.mas_bottom).offset(30);
         make.right.equalTo(self.view).offset(-16);
         make.height.mas_equalTo(20);
     }];
-    
+     
     self.tableTipsLab = [UILabel new];
     self.tableTipsLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.tableTipsLab.font = [UIFont systemFontOfSize:20];
@@ -94,7 +95,7 @@
     self.languageLab = [UILabel new];
     self.languageLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.languageLab.font = [UIFont systemFontOfSize:fontSize];
-    self.languageLab.text = @"当前版本MZ1.1.69";
+    self.languageLab.text = @"当前版本MZ4.0.3";
     self.languageLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.languageLab];
     [self.languageLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -102,21 +103,6 @@
         make.centerX.equalTo(self.view).offset(0);
         make.height.mas_equalTo(20);
     }];
-                                         
-//    self.changeLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    self.changeLanguageButton.layer.cornerRadius = 5;
-//    [self.changeLanguageButton setTitle:@"更换" forState:UIControlStateNormal];
-//    [self.changeLanguageButton setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
-//    self.changeLanguageButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
-//    self.changeLanguageButton.backgroundColor = [UIColor colorWithHexString:@"#347622"];
-//    [self.changeLanguageButton addTarget:self action:@selector(changeLanguageAction) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.changeLanguageButton];
-//    [self.changeLanguageButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(self.view).offset(-60);
-//        make.left.equalTo(self.languageLab.mas_right).offset(10);
-//        make.height.mas_equalTo(20);
-//        make.width.mas_offset(60);
-//    }];
     
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.logoutButton.layer.cornerRadius = 5;
@@ -156,7 +142,6 @@
         @strongify(self);
         [self.tablesCollectionView reloadData];
         [self.viewModel getChipTypeWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-            
         }];
     }];
 }
@@ -176,12 +161,16 @@
     [self configureTitleBarToBlack];
 }
 
-- (void)changeLanguageAction{
-    
-}
-
 - (void)logoutAction{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self showWaitingView];
+    [self.viewModel employee_logoutplusWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+        [self hideWaitingView];
+        if (success) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [self showSoundMessage:msg];
+        }
+    }];
 }
 
 - (void)configureSelectedCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -206,45 +195,48 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    __block CBPeripheral *peripheral = nil;
     NRTableInfo *info = self.viewModel.tableList[indexPath.row];
     self.viewModel.selectTableInfo = info;
+    [PublicHttpTool shareInstance].fid = info.fid;
+    [PublicHttpTool shareInstance].tableName = info.ftbname;
+    [LYKeychainTool saveKeychainValue:info.fid key:@"login_tableID"];
+    [PublicHttpTool shareInstance].isAutoOrManual = NO;//默认自动版
+    [EPAppData sharedInstance].bind_ip = info.bindip;
+    [EPAppData sharedInstance].bind_port = 6000;
     [self showWaitingView];
     [self.viewModel chooseTableWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
         [self hideWaitingView];
         if (success) {
             if ([info.fqptype isEqualToString:@"1"]) {//免佣百家乐
+                [PublicHttpTool shareInstance].curGameType =1;
                 NRBaccaratViewController *vc = [NRBaccaratViewController new];
-                vc.viewModel = [self.viewModel baccaratViewModelWithLoginInfo:self.viewModel.loginInfo];
-                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
+                vc.viewModel = [self.viewModel baccaratViewModel];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"2"]){//有佣百家乐
+                [PublicHttpTool shareInstance].curGameType =2;
                 NRBaccaratView_workersController *vc = [NRBaccaratView_workersController new];
-                vc.viewModel = [self.viewModel baccarat_workersViewModelWithLoginInfo:self.viewModel.loginInfo];
-                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
+                vc.viewModel = [self.viewModel baccarat_workersViewModel];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if ([info.fqptype isEqualToString:@"3"]){//牛牛
-                //牛牛
+                [PublicHttpTool shareInstance].curGameType =4;
                 NRCowViewController *vc = [NRCowViewController new];
-                vc.viewModel = [self.viewModel cowViewModelWithLoginInfo:self.viewModel.loginInfo];
-                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
+                vc.viewModel = [self.viewModel cowViewModel];
                 [self.navigationController pushViewController:vc animated:YES];
-            }else if ([info.fqptype isEqualToString:@"4"]){
-                //龙虎
+            }else if ([info.fqptype isEqualToString:@"4"]){//龙虎
+                [PublicHttpTool shareInstance].curGameType =3;
                 NRTigerViewController *vc = [[NRTigerViewController alloc]init];
-                vc.viewModel = [self.viewModel tigerViewModelWithLoginInfo:self.viewModel.loginInfo];
-                [vc setValue:self.viewModel.chipFmeList forKey:@"chipFmeList"];
+                vc.viewModel = [self.viewModel tigerViewModel];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{//三公，牌九
+                [PublicHttpTool shareInstance].curGameType = [info.fqptype intValue];
+                NRThreeFairsViewController *vc = [NRThreeFairsViewController new];
+                vc.viewModel = [self.viewModel ThreeFairsViewModel];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else{
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [self showMessage:messgae];
+            [self showSoundMessage:msg];
         }
     }];
-    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -252,15 +244,13 @@
 }
 
 //设置每个item水平间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
     return 10;
 }
 
 
 //设置每个item垂直间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 10;
 }
 

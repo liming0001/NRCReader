@@ -30,7 +30,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fj6-0A-J1c">
-                            <rect key="frame" x="61" y="71" width="418" height="280"/>
+                            <rect key="frame" x="61" y="71" width="418" height="289"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="台桌号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPB-CZ-7nh">
                                     <rect key="frame" x="42" y="38" width="56" height="35"/>
@@ -196,6 +196,30 @@
                                         <action selector="puciSelectAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="aOk-XX-0Rb"/>
                                     </connections>
                                 </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0J-UV-P1t">
+                                    <rect key="frame" x="113" y="226" width="263" height="55"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="55" id="v0A-tP-hZE"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <state key="normal" title="请选择点数"/>
+                                    <connections>
+                                        <action selector="cowPointAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="I2y-VS-3d8"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eA-Eq-pM3">
+                                    <rect key="frame" x="116" y="261" width="74" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="74" id="2XR-AX-pqv"/>
+                                        <constraint firstAttribute="height" constant="20" id="lfI-Az-HBW"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <state key="normal" title=" 六点赢" image="圆未选中"/>
+                                    <state key="selected" image="圆选中"/>
+                                    <connections>
+                                        <action selector="zhuangSixAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="R2A-Cg-9bX"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.18823529410000001" green="0.2784313725" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -210,28 +234,33 @@
                                 <constraint firstAttribute="trailing" secondItem="3Vi-SR-lAr" secondAttribute="trailing" constant="42" id="EUe-To-3JE"/>
                                 <constraint firstItem="81M-QR-3TM" firstAttribute="top" secondItem="E83-ws-OA1" secondAttribute="bottom" constant="10" id="GME-7u-7r9"/>
                                 <constraint firstItem="hDf-Gx-G6C" firstAttribute="top" secondItem="yYe-KZ-6Ue" secondAttribute="bottom" constant="10" id="HdK-TV-y0w"/>
+                                <constraint firstAttribute="trailing" secondItem="E0J-UV-P1t" secondAttribute="trailing" constant="42" id="J01-Mj-fFG"/>
                                 <constraint firstItem="81M-QR-3TM" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="42" id="Ki9-Ji-vJ8"/>
-                                <constraint firstAttribute="bottom" secondItem="PRD-Xh-iE0" secondAttribute="bottom" constant="29" id="P08-eL-K09"/>
-                                <constraint firstAttribute="bottom" secondItem="bLh-Mx-zfK" secondAttribute="bottom" constant="29" id="P6R-BZ-pHN"/>
+                                <constraint firstItem="2eA-Eq-pM3" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="116" id="Ofv-ea-ocT"/>
+                                <constraint firstAttribute="bottom" secondItem="PRD-Xh-iE0" secondAttribute="bottom" constant="38" id="P08-eL-K09"/>
+                                <constraint firstAttribute="bottom" secondItem="bLh-Mx-zfK" secondAttribute="bottom" constant="38" id="P6R-BZ-pHN"/>
                                 <constraint firstItem="Hgh-qT-GDo" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="42" id="PEl-NW-EdJ"/>
                                 <constraint firstAttribute="trailing" secondItem="qwv-Vb-gHf" secondAttribute="trailing" constant="42" id="Sfe-m2-D6c"/>
                                 <constraint firstItem="E83-ws-OA1" firstAttribute="top" secondItem="Hgh-qT-GDo" secondAttribute="bottom" constant="10" id="Tk7-I2-S8D"/>
                                 <constraint firstItem="bLh-Mx-zfK" firstAttribute="top" secondItem="hDf-Gx-G6C" secondAttribute="bottom" constant="23" id="Txd-n0-7Ri"/>
-                                <constraint firstAttribute="height" constant="280" id="UEY-X8-GTO"/>
+                                <constraint firstAttribute="height" constant="289" id="UEY-X8-GTO"/>
                                 <constraint firstItem="yYe-KZ-6Ue" firstAttribute="top" secondItem="3Vi-SR-lAr" secondAttribute="bottom" constant="10" id="aQM-TC-MuP"/>
+                                <constraint firstAttribute="bottom" secondItem="2eA-Eq-pM3" secondAttribute="bottom" constant="8" id="aiY-RW-VVu"/>
                                 <constraint firstItem="3Vi-SR-lAr" firstAttribute="top" secondItem="Z0W-Qe-zJz" secondAttribute="bottom" constant="10" id="cjb-82-ax0"/>
                                 <constraint firstItem="SPB-CZ-7nh" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="42" id="fQG-dP-x6p"/>
                                 <constraint firstItem="Upa-0Z-HM8" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="42" id="iNm-i1-abr"/>
-                                <constraint firstAttribute="bottom" secondItem="uzT-Kx-MZ6" secondAttribute="bottom" constant="29" id="pZE-ur-tL7"/>
+                                <constraint firstItem="E0J-UV-P1t" firstAttribute="leading" secondItem="Upa-0Z-HM8" secondAttribute="trailing" constant="15.5" id="o5V-0Q-eLm"/>
+                                <constraint firstAttribute="bottom" secondItem="uzT-Kx-MZ6" secondAttribute="bottom" constant="38" id="pZE-ur-tL7"/>
                                 <constraint firstItem="SPB-CZ-7nh" firstAttribute="top" secondItem="Fj6-0A-J1c" secondAttribute="top" constant="38" id="piT-EA-Qyz"/>
                                 <constraint firstItem="E83-ws-OA1" firstAttribute="leading" secondItem="Fj6-0A-J1c" secondAttribute="leading" constant="42" id="q2m-6k-wuq"/>
-                                <constraint firstAttribute="bottom" secondItem="Upa-0Z-HM8" secondAttribute="bottom" constant="29" id="qL2-fS-Qwv"/>
-                                <constraint firstAttribute="bottom" secondItem="KVl-AM-W6j" secondAttribute="bottom" constant="29" id="sno-9p-nRS"/>
+                                <constraint firstAttribute="bottom" secondItem="Upa-0Z-HM8" secondAttribute="bottom" constant="38" id="qL2-fS-Qwv"/>
+                                <constraint firstAttribute="bottom" secondItem="KVl-AM-W6j" secondAttribute="bottom" constant="38" id="sno-9p-nRS"/>
                                 <constraint firstItem="Z0W-Qe-zJz" firstAttribute="top" secondItem="Fj6-0A-J1c" secondAttribute="top" constant="38" id="t2y-Lk-xkd"/>
                                 <constraint firstItem="UUF-eb-a4t" firstAttribute="leading" secondItem="KVl-AM-W6j" secondAttribute="trailing" constant="5" id="v9Z-3f-srD"/>
+                                <constraint firstAttribute="bottom" secondItem="E0J-UV-P1t" secondAttribute="bottom" constant="8" id="wuh-Xn-pgz"/>
                                 <constraint firstAttribute="trailing" secondItem="hDf-Gx-G6C" secondAttribute="trailing" constant="42" id="xxJ-2A-wmf"/>
                                 <constraint firstItem="uzT-Kx-MZ6" firstAttribute="leading" secondItem="bLh-Mx-zfK" secondAttribute="trailing" constant="5" id="zLi-sr-GYg"/>
-                                <constraint firstAttribute="bottom" secondItem="UUF-eb-a4t" secondAttribute="bottom" constant="29" id="ztj-EI-NBB"/>
+                                <constraint firstAttribute="bottom" secondItem="UUF-eb-a4t" secondAttribute="bottom" constant="38" id="ztj-EI-NBB"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -302,6 +331,7 @@
                 <constraint firstItem="UOE-tT-xUg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="w7h-5C-aPp"/>
             </constraints>
             <connections>
+                <outlet property="cowPointBtn" destination="E0J-UV-P1t" id="yze-ML-hWn"/>
                 <outlet property="dateValueLab" destination="3Vi-SR-lAr" id="EE4-20-Qum"/>
                 <outlet property="heBtn" destination="KVl-AM-W6j" id="94K-qX-ize"/>
                 <outlet property="puciValueLab" destination="qwv-Vb-gHf" id="jWw-iv-EJd"/>
@@ -311,6 +341,7 @@
                 <outlet property="xueciValueLab" destination="yYe-KZ-6Ue" id="6kV-Kb-gAK"/>
                 <outlet property="zhuangBtn" destination="bLh-Mx-zfK" id="rCB-5l-atD"/>
                 <outlet property="zhuangDuiBtn" destination="UUF-eb-a4t" id="lAi-aB-34t"/>
+                <outlet property="zhuangSixBtn" destination="2eA-Eq-pM3" id="7Fs-7s-Srg"/>
             </connections>
             <point key="canvasLocation" x="-169.53125" y="67.96875"/>
         </view>

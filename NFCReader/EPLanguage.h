@@ -10,19 +10,12 @@
 
 typedef enum : NSUInteger {
     kEPLanguageTypeEn,
-    kEPLanguageTypeCn,
-    kEPLanguageTypeJp,
-    kEPLanguageTypeKr
+    kEPLanguageTypeBm
 } EPLanguageType;
 @interface EPLanguage : NSObject
 
 @property (nonatomic, readonly) EPLanguageType languageType;
 
 - (instancetype)initWithLanguageType:(EPLanguageType)languageType;
-
-- (NSString *)gLangParam;
-
-- (NSString *)languageFullString;
-- (NSString *)languageNumString;
 
 @end

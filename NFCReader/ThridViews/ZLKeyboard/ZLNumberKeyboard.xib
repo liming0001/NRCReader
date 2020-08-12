@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -288,8 +286,8 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="keyboard_back_icon" translatesAutoresizingMaskIntoConstraints="NO" id="mKN-Y2-ay6">
                     <rect key="frame" x="611" y="56" width="40" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="CdM-em-sP2"/>
-                        <constraint firstAttribute="width" constant="40" id="qOV-qK-6YW"/>
+                        <constraint firstAttribute="height" constant="30" id="8cs-st-jHi"/>
+                        <constraint firstAttribute="width" constant="40" id="c96-jr-rSZ"/>
                     </constraints>
                 </imageView>
             </subviews>
@@ -298,6 +296,7 @@
                 <constraint firstItem="2We-cY-s9g" firstAttribute="top" secondItem="JpV-eG-ah1" secondAttribute="bottom" constant="12" id="3as-ze-Jfa"/>
                 <constraint firstItem="qER-JD-4PS" firstAttribute="top" secondItem="87P-DK-sEE" secondAttribute="bottom" constant="11" id="7DU-6n-e1A"/>
                 <constraint firstItem="TIW-Iv-883" firstAttribute="leading" secondItem="0xh-KK-7oR" secondAttribute="trailing" constant="11" id="7SQ-Zp-59V"/>
+                <constraint firstAttribute="trailing" secondItem="mKN-Y2-ay6" secondAttribute="trailing" constant="117" id="7Vt-jK-8AV"/>
                 <constraint firstItem="dTC-RK-HNI" firstAttribute="leading" secondItem="Ps3-AW-MME" secondAttribute="trailing" constant="11" id="87G-z7-paa"/>
                 <constraint firstItem="HbI-zG-Oqg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="ABY-99-RaS"/>
                 <constraint firstItem="KDj-Y5-Rrt" firstAttribute="leading" secondItem="r7X-cJ-BaJ" secondAttribute="trailing" constant="11" id="BCJ-2b-NTU"/>
@@ -319,7 +318,6 @@
                 <constraint firstItem="0xh-KK-7oR" firstAttribute="top" secondItem="tLI-C1-o47" secondAttribute="bottom" constant="11" id="Xs3-Hq-MpT"/>
                 <constraint firstAttribute="trailing" secondItem="2We-cY-s9g" secondAttribute="trailing" constant="14" id="aR4-5N-jcX"/>
                 <constraint firstItem="ouc-ww-aEA" firstAttribute="leading" secondItem="tLI-C1-o47" secondAttribute="trailing" constant="11" id="bBv-cd-Npa"/>
-                <constraint firstItem="mKN-Y2-ay6" firstAttribute="leading" secondItem="HbI-zG-Oqg" secondAttribute="trailing" constant="44" id="bLd-Az-iyN"/>
                 <constraint firstItem="dTC-RK-HNI" firstAttribute="top" secondItem="KDj-Y5-Rrt" secondAttribute="bottom" constant="11" id="bTk-gg-ivE"/>
                 <constraint firstItem="r7X-cJ-BaJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="11" id="con-Xo-SWN"/>
                 <constraint firstItem="KDj-Y5-Rrt" firstAttribute="top" secondItem="Aw6-d4-su5" secondAttribute="bottom" constant="11" id="eo1-wJ-hFe"/>
@@ -328,11 +326,11 @@
                 <constraint firstItem="JpV-eG-ah1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="mhA-De-Xlh"/>
                 <constraint firstItem="ljg-f7-zUW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="p0b-ic-SQb"/>
                 <constraint firstItem="ljg-f7-zUW" firstAttribute="leading" secondItem="1jA-ng-Lmq" secondAttribute="trailing" constant="11" id="q53-JJ-Qxg"/>
-                <constraint firstItem="mKN-Y2-ay6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="56" id="stY-4C-apx"/>
                 <constraint firstItem="1jA-ng-Lmq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="uQa-ge-esK"/>
                 <constraint firstItem="1jA-ng-Lmq" firstAttribute="leading" secondItem="87P-DK-sEE" secondAttribute="trailing" constant="11" id="vWS-t7-iXw"/>
                 <constraint firstItem="HbI-zG-Oqg" firstAttribute="leading" secondItem="ljg-f7-zUW" secondAttribute="trailing" constant="11" id="vrf-g1-beR"/>
                 <constraint firstAttribute="trailing" secondItem="JpV-eG-ah1" secondAttribute="trailing" constant="14" id="wob-qh-lXx"/>
+                <constraint firstItem="mKN-Y2-ay6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="56" id="zM2-2P-h91"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="246.76258992805757" y="-58.00359712230216"/>

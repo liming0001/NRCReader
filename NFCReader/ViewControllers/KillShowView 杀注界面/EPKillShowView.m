@@ -54,12 +54,14 @@ static NSString * const killReuseIdentifier = @"KillCell";
         if (self.curInfo.isCow) {
             self.havepayChipLab.hidden = YES;
             self.cowAddMoneyView.hidden = NO;
-            self.zhaoHuiBtn.hidden = NO;
+            self.zhaoHuiBtn.hidden = YES;
+            self.cowZhaohuiMoneyLab.hidden = YES;
             self.cowShouldMoneylab.text = self.curInfo.add_chipMoney;
         }else{
             self.havepayChipLab.hidden = NO;
             self.cowAddMoneyView.hidden = YES;
-            self.zhaoHuiBtn.hidden = YES;
+            self.zhaoHuiBtn.hidden = NO;
+            self.cowZhaohuiMoneyLab.hidden = NO;
         }
     }else{
         self.havepayChipLab.hidden = YES;

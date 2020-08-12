@@ -7,6 +7,7 @@
 //
 
 #import "EPService.h"
+#import "AppDelegate.h"
 
 @implementation EPService
 
@@ -18,10 +19,15 @@
     request.requestParameters = paramter;
     [request startWithCompletionHandle:^(EPBaseRequest *request, id response, BOOL success) {
         if (success) {
-            if ([response[@"retid"]boolValue]) {
+            if ([response[@"retid"]intValue]==1) {
                 block(response[@"data"],response[@"retmsg"],EPSreviceSuccess,1);
             }else{
-                block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                if ([response[@"retid"]intValue]==400) {
+                    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [ad showLoginVC];
+                }else{
+                   block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                }
             }
         }else{
             block(nil,nil,EPSreviceErrorServiceNet,0);
@@ -36,10 +42,15 @@
     request.requestParameters = paramter;
     [request startWithCompletionHandle:^(EPBaseRequest *request, id response, BOOL success) {
         if (success) {
-            if ([response[@"retid"]boolValue]) {
+            if ([response[@"retid"]intValue]==1) {
                 block(response[@"data"],response[@"retmsg"],EPSreviceSuccess,1);
             }else{
-                block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                if ([response[@"retid"]intValue]==400) {
+                    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [ad showLoginVC];
+                }else{
+                   block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                }
             }
         }else{
             block(nil,nil,EPSreviceErrorServiceNet,0);
@@ -54,10 +65,15 @@
     request.requestParameters = paramter;
     [request startWithCompletionHandle:^(EPBaseRequest *request, id response, BOOL success) {
         if (success) {
-            if ([response[@"retid"]boolValue]) {
+            if ([response[@"retid"]intValue]==1) {
                 block(response[@"data"],response[@"retmsg"],EPSreviceSuccess,1);
             }else{
-                block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                if ([response[@"retid"]intValue]==400) {
+                    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [ad showLoginVC];
+                }else{
+                   block(nil,response[@"retmsg"],[response[@"retid"]intValue],0);
+                }
             }
         }else{
             block(nil,nil,EPSreviceErrorServiceNet,0);
