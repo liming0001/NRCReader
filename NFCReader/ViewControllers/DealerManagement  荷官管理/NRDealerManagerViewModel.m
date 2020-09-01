@@ -83,7 +83,7 @@
     NSDictionary * param = @{
         @"access_token":[PublicHttpTool shareInstance].access_token,
                              @"fxmh":[PublicHttpTool shareInstance].exchangeWashNumber,
-                             @"fcredit":@"0",
+                             @"fcredit":[[PublicHttpTool shareInstance].fcredit NullToBlankString],
                              @"fsq_name":[[PublicHttpTool shareInstance].authorName NullToBlankString],
                              @"fdesc":notes,
                              @"fhardlist":self.chipModel.chipsUIDs
@@ -140,7 +140,7 @@
                             @"fhardlist":self.chipModel.chipsUIDs
     };
     NSMutableDictionary *m_param = [NSMutableDictionary dictionaryWithDictionary:param];
-    if ([[PublicHttpTool shareInstance].userAllMoney intValue]<0) {
+    if (![PublicHttpTool shareInstance].isStoreOrTakeOutChip) {
         [m_param setObject:[PublicHttpTool shareInstance].takeOutPsd forKey:@"fpassword"];
     }
     NSArray *paramList = @[m_param];

@@ -58,7 +58,7 @@
 //#define kBaseURL @"http://192.168.1.8/api/service/index.html"
 //#define kHTTPCookieDomain @"192.168.1.8"
 
-#define kBaseURL @"http://vmsys.sdt.cn/api/service/index.html"
+#define kBaseURL @"http://vmsys.sdt.cn/api/autoservice/index.html"
 #define kHTTPCookieDomain @"vmsys.sdt.cn"
 
 //#define kBaseURL @"http://192.168.1.120/api/service/index.html"

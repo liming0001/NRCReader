@@ -622,7 +622,8 @@
 - (void)clearCowPoint{
     [PublicHttpTool shareInstance].cowPoint = 99;
     [PublicHttpTool shareInstance].curupdateInfo.cp_name = @"";
-    self.tableZhuangPointValueLab.text = @"";
+    self.tableZhuangPointValueLab.text = @"录入点数";
+    self.tableZhuangPointValueLab.textColor = [UIColor colorWithHexString:@"#dedede"];
 }
 
 - (void)_setPlatFormBtnNormalStatusWithResult:(NSString*)result{

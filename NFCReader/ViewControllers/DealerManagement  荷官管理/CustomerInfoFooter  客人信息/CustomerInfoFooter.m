@@ -167,31 +167,7 @@
     [[self.cashCodeTextField rac_textSignal] subscribeNext:^(NSString * _Nullable x) {
         @strongify(self);
         if ([[x NullToBlankString] length]!=0) {
-            [PublicHttpTool getInfoByXmh:x WithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
-                @strongify(self);
-                if (success) {
-                    NSDictionary *dict = (NSDictionary *)data;
-                    if ([dict count]!=0) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [PublicHttpTool shareInstance].exchangeWashNumber = dict[@"member_xmh"];
-                            if (self.curTag==3) {
-                                self.superiorNameLab.text = [NSString stringWithFormat:@"代理姓名: %@",dict[@"agent_name"]];
-                                self.superiorWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"agent_xmh"]];
-                                self.superiorMoneyLab.text = [NSString stringWithFormat:@"风 险 金: %@",dict[@"risk_money"]];
-                                self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"agent_phone"]];
-                                self.codeLinesLab.text = [NSString stringWithFormat:@"出码额度: %@",dict[@"agent_cm"]];
-                                self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",dict[@"member_name"]];
-                                self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"member_xmh"]];
-                                self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"member_phone"]];
-                                self.curCodeLinesLab.text = [NSString stringWithFormat:@"出码额度: %@",dict[@"member_cm"]];
-                            }
-                        });
-                    }else{
-                        [PublicHttpTool shareInstance].exchangeWashNumber = @"";
-                        [self clearCustomerInfo];
-                    }
-                }
-            }];
+            [self showBottomInfoWithXMH:x];
         }
     }];
     [[self.authorizationTextField rac_textSignal] subscribeNext:^(NSString * _Nullable x) {
@@ -210,15 +186,73 @@
     }];
 }
 
+- (void)showBottomInfoWithXMH:(NSString *)xmh{
+    @weakify(self);
+    [PublicHttpTool getInfoByXmh:xmh WithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
+        @strongify(self);
+        if (success) {
+            NSDictionary *dict = (NSDictionary *)data;
+            if ([dict count]!=0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [PublicHttpTool shareInstance].exchangeWashNumber = dict[@"member_xmh"];
+                    if (self.curTag==3) {
+                        self.superiorNameLab.text = [NSString stringWithFormat:@"代理姓名: %@",dict[@"agent_name"]];
+                        self.superiorWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"agent_xmh"]];
+                        self.superiorMoneyLab.text = [NSString stringWithFormat:@"风 险 金: %@",dict[@"risk_money"]];
+                        self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"agent_phone"]];
+                        self.codeLinesLab.text = [NSString stringWithFormat:@"出码额度: %@",dict[@"agent_cm"]];
+                        self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",dict[@"member_name"]];
+                        self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"member_xmh"]];
+                        self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"member_phone"]];
+                        self.curCodeLinesLab.text = [NSString stringWithFormat:@"出码额度: %@",dict[@"member_cm"]];
+                    }else if (self.curTag==6){
+                        self.superiorNameLab.text = [NSString stringWithFormat:@"代理姓名: %@",dict[@"agent_name"]];
+                        self.superiorWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"agent_xmh"]];
+                        self.superiorMoneyLab.text = [NSString stringWithFormat:@"风 险 金: %@",dict[@"risk_money"]];
+                        self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"agent_phone"]];
+                        
+                        self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",dict[@"member_name"]];
+                        self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",dict[@"member_xmh"]];
+                        self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",dict[@"member_phone"]];
+                        [PublicHttpTool shareInstance].customerTakeOutMoney = [NSString stringWithFormat:@"%@",dict[@"agent_cm"]];
+                        if (self.refrashBlock) {
+                            self.refrashBlock(YES);
+                        }
+                    }
+                });
+            }else{
+                [PublicHttpTool shareInstance].exchangeWashNumber = @"";
+                [self clearCustomerInfo];
+            }
+        }
+    }];
+}
+
 - (void)_setUpCustomerInfoWithType:(int)type{
     self.curTag = type;
     if (type==3) {
-        self.codeLinesLab.hidden = NO;
-        self.curCodeLinesLab.hidden = NO;
-        self.noteTextField.hidden = NO;
+        self.authorizationTextField.secureTextEntry = NO;
         self.authorizationTextField.placeholder = @"请输入授权人姓名";
-        [self.cashExchangeConfirmButton setTitle:@"确认现金换筹码" forState:UIControlStateNormal];
+        if ([PublicHttpTool shareInstance].exchangeChipType==0) {//现金换筹码
+            self.authorizationTextField.hidden = YES;
+            self.noteTextField.hidden = NO;
+            self.cashCodeTextField.hidden = NO;
+            [self.cashExchangeConfirmButton setTitle:@"确认现金换筹码" forState:UIControlStateNormal];
+        }else if ([PublicHttpTool shareInstance].exchangeChipType==1){//筹码换现金
+            self.authorizationTextField.hidden = YES;
+            self.noteTextField.hidden = YES;
+            self.cashCodeTextField.hidden = YES;
+            [self.cashExchangeConfirmButton setTitle:@"确认筹码换现金" forState:UIControlStateNormal];
+        }else{//信用出码
+            self.codeLinesLab.hidden = NO;
+            self.curCodeLinesLab.hidden = NO;
+            self.authorizationTextField.hidden = NO;
+            self.noteTextField.hidden = NO;
+            self.cashCodeTextField.hidden = NO;
+            [self.cashExchangeConfirmButton setTitle:@"确认信用出码" forState:UIControlStateNormal];
+        }
     }else{
+        self.authorizationTextField.secureTextEntry = YES;
         self.codeLinesLab.hidden = YES;
         self.curCodeLinesLab.hidden = YES;
         self.noteTextField.hidden = YES;
@@ -234,14 +268,21 @@
 }
 #pragma mark -- 清除代理信息
 - (void)clearCustomerInfo{
+    self.cashCodeTextField.text = @"";
+    self.authorizationTextField.text = @"";
+    self.noteTextField.text = @"";
     self.superiorNameLab.text = @"代理姓名: --";
     self.superiorWashNumberLab.text = @"洗 码 号: --";
     self.superiorMoneyLab.text = @"风 险 金: --";
     self.superiorTellLab.text = [NSString stringWithFormat:@"联系电话: %@",@"--"];
+    self.codeLinesLab.text = @"出码额度: --";
     
     self.curCustomerNameLab.text = [NSString stringWithFormat:@"客人姓名: %@",@"--"];
     self.curCustomerWashNumberLab.text = [NSString stringWithFormat:@"洗 码 号: %@",@"--"];
     self.curCustomerTellLab.text = [NSString stringWithFormat:@"联系电话: %@",@"--"];
+    self.curCodeLinesLab.text = @"出码额度: --";
+    [PublicHttpTool shareInstance].customerTakeOutMoney = @"";
+    
 }
 
 @end

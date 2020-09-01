@@ -37,22 +37,22 @@
     [self addSubview:self.exchangNumberLab];
     
     self.exchangTotalMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangNumberLab.frame), 20, 200, 20)];
-    self.exchangTotalMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:18];
+    self.exchangTotalMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:30];
     self.exchangTotalMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.exchangTotalMoneyLab.numberOfLines = 0;
     self.exchangTotalMoneyLab.text = @"筹码总额:0";
     [self addSubview:self.exchangTotalMoneyLab];
     
     self.takeOutChipMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.exchangNumberLab.frame)+15, 210, 40)];
-    self.takeOutChipMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:28];
+    self.takeOutChipMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:24];
     self.takeOutChipMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.takeOutChipMoneyLab.numberOfLines = 0;
     self.takeOutChipMoneyLab.hidden = YES;
     self.takeOutChipMoneyLab.text = [NSString stringWithFormat:@"客人可取出金额:"];
     [self addSubview:self.takeOutChipMoneyLab];
     
-    self.takeOutChipMoneyValueLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.takeOutChipMoneyLab.frame), CGRectGetMaxY(self.exchangNumberLab.frame)+20, kScreenWidth-210-40-150, 40)];
-    self.takeOutChipMoneyValueLab.font = [UIFont fontWithName:@"PingFang SC" size:30];
+    self.takeOutChipMoneyValueLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.takeOutChipMoneyLab.frame), CGRectGetMaxY(self.exchangNumberLab.frame)+15, kScreenWidth-210-40-150, 40)];
+    self.takeOutChipMoneyValueLab.font = [UIFont fontWithName:@"PingFang SC" size:32];
     self.takeOutChipMoneyValueLab.textColor = [UIColor redColor];
     self.takeOutChipMoneyValueLab.numberOfLines = 0;
     self.takeOutChipMoneyValueLab.hidden = YES;
@@ -60,7 +60,7 @@
     [self addSubview:self.takeOutChipMoneyValueLab];
     
     self.exchangMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.exchangNumberLab.frame)+15, 300, 40)];
-    self.exchangMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:30];
+    self.exchangMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:32];
     self.exchangMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.exchangMoneyLab.numberOfLines = 0;
     [self addSubview:self.exchangMoneyLab];
@@ -76,6 +76,12 @@
         self.takeOutChipMoneyValueLab.hidden = YES;
         self.takeOutChipMoneyLab.hidden = YES;
     }
+}
+
+- (void)fellTakeOutMoney{
+    dispatch_async(dispatch_get_main_queue(), ^{
+       self.takeOutChipMoneyValueLab.text = [PublicHttpTool shareInstance].customerTakeOutMoney;
+    });
 }
 
 - (void)fellInfoWithDict:(NSDictionary *)dict{

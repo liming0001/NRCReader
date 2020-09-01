@@ -10,8 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^chipTableListBlock)(NSInteger tag);
+@class CustomerInfoFooter;
 @interface ChipInfoListTableView : UIView
-
+@property (nonatomic, strong) CustomerInfoFooter *customerFooter;
 @property (nonatomic, strong) chipTableListBlock chipTableBlock;
 - (void)fellWithInfoList:(NSArray *)infoList WithType:(int)type;
 - (void)clearCustomerFooterInfo;

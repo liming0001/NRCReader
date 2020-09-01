@@ -14,7 +14,7 @@
 #import "EPSixWinShowView.h"
 #import "EPCowPointChooseShowView.h"
 
-static int chipSleepTime = 80000;
+static int chipSleepTime = 150000;
 
 @interface NRGameBaseViewController ()<SGSocketManagerDelegate>
 
@@ -53,9 +53,10 @@ static int chipSleepTime = 80000;
 @property (nonatomic, assign) CGFloat result_odds;//倍数
 @property (nonatomic, assign) CGFloat result_yj;//佣金
 @property (nonatomic, strong) EPPopAtipInfoView *recordTipShowView;//识别小费
-@property (nonatomic, assign) CGFloat zhaohuiMoney;//找回筹码金额
 @property (nonatomic, assign) CGFloat benjinMoney;//找回筹码金额
 @property (nonatomic, strong) NSMutableData *chipUIDData;
+
+@property (nonatomic, assign) __block int  hasZhaoHuiValue;//已经找回金额
 
 @property (nonatomic, assign) BOOL isShaZhuAction;//是否杀注操作
 @property (nonatomic, assign) BOOL hasShowResult;//是否弹出赔付或者杀注框
@@ -107,7 +108,6 @@ static int chipSleepTime = 80000;
     //默认显示自动版本视图
     [self.view addSubview:self.automaticShowView];
     [self _initParams];
-//    [self createTestCustomerInfo];
     
     @weakify(self);
     self.topBarView.barBtnBlock = ^(NSInteger tag, int BtnType,BOOL isChange) {
@@ -238,7 +238,7 @@ static int chipSleepTime = 80000;
                     [PublicHttpTool shareInstance].curupdateInfo.cp_name = @"和";
                     [PublicHttpTool shareInstance].tiger_resultTag = 3;
                 }
-            }else if ([PublicHttpTool shareInstance].curGameType==4){//牛牛
+            }else if ([PublicHttpTool shareInstance].curGameType==4||[PublicHttpTool shareInstance].curGameType==5){//牛牛,三公
                 [PublicHttpTool shareInstance].tiger_resultTag = (int)tag;
                 self.customerInfo.isCow = YES;
             }
@@ -572,7 +572,7 @@ static int chipSleepTime = 80000;
                         [PublicHttpTool shareInstance].curupdateInfo.cp_name = cp_result;
                         [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fqpid"]];
                         [PublicHttpTool shareInstance].cp_Serialnumber = CurtableInfo[@"fpcls"];
-                        if ([PublicHttpTool shareInstance].curGameType==4) {
+                        if ([PublicHttpTool shareInstance].curGameType>3) {
                             [self.tableInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];
                         }else{
                              [self.platFormInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];
@@ -590,7 +590,7 @@ static int chipSleepTime = 80000;
                         [PublicHttpTool shareInstance].curupdateInfo.cp_name = cp_result;
                         [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fqpid"]];
                         [PublicHttpTool shareInstance].cp_Serialnumber = CurtableInfo[@"fpcls"];
-                        if ([PublicHttpTool shareInstance].curGameType==4) {
+                        if ([PublicHttpTool shareInstance].curGameType>3) {
                             [self.tableInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];
                         }else{
                             [self.platFormInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];
@@ -773,6 +773,8 @@ static int chipSleepTime = 80000;
     [PublicHttpTool otherTableWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
         [self hideWaitingView];
         if (success) {
+            //重新选桌要把开牌结果置空
+            [PublicHttpTool shareInstance].cp_tableIDString = @"";
             if (tag==1) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }else{
@@ -842,6 +844,8 @@ static int chipSleepTime = 80000;
     [PublicHttpTool shareInstance].curupdateInfo.cp_benjin = realCashMoney;
     [PublicHttpTool shareInstance].curupdateInfo.cp_ChipUidList = self.chipUIDList;
     [PublicHttpTool shareInstance].curupdateInfo.cp_chipType = chipType;
+    self.customerInfo.xiazhu = [NSString stringWithFormat:@"%@",realCashMoney];
+    self.customerInfo.shazhu = [NSString stringWithFormat:@"%@",realCashMoney];
     self.curChipInfo.chipType = chipType;
     self.customerInfo.chipType = chipType;
     self.customerInfo.guestNumber = washNumber;
@@ -849,10 +853,14 @@ static int chipSleepTime = 80000;
     self.curChipInfo.guestWashesNumber = washNumber;
     self.customerInfo.principalMoney = realCashMoney;
     self.customerInfo.chipInfoList = self.shazhuInfoList;
-    if ([PublicHttpTool shareInstance].cowPoint==99) {
-        [PublicHttpTool shareInstance].curupdateInfo.cp_dianshu = @"0";
+    if ([PublicHttpTool shareInstance].curGameType>3) {//牛牛,三公
+        if ([PublicHttpTool shareInstance].cowPoint==99) {
+            [PublicHttpTool shareInstance].curupdateInfo.cp_dianshu = @"0";
+        }else{
+            [PublicHttpTool shareInstance].curupdateInfo.cp_dianshu = [NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint];
+        }
     }else{
-        [PublicHttpTool shareInstance].curupdateInfo.cp_dianshu = [NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint];
+        [PublicHttpTool shareInstance].curupdateInfo.cp_dianshu = @"0";
     }
     self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%.f",self.identifyValue];
     self.customerInfo.hasDashui = YES;
@@ -870,6 +878,8 @@ static int chipSleepTime = 80000;
         if ([PublicHttpTool shareInstance].winOrLose) {
             [self identifyWaterMoney];
         }else{
+            self.customerInfo.add_chipMoney = @"0";
+            [PublicHttpTool shareInstance].curupdateInfo.cp_commission = @"0";
             if ([PublicHttpTool shareInstance].curGameType==3) {
                 [PublicHttpTool shareInstance].curupdateInfo.cp_money = [NSString stringWithFormat:@"%.f",self.result_odds*[realCashMoney floatValue]];
             }else{
@@ -882,13 +892,14 @@ static int chipSleepTime = 80000;
 //识别水钱
 - (void)identifyWaterMoney{
     NSString *realCashMoney = self.curChipInfo.chipDenomination;
-    [PublicHttpTool shareInstance].curupdateInfo.cp_commission = [NSString stringWithFormat:@"%.f",self.result_yj*[realCashMoney floatValue]];
+    int yjResult = ceil(self.result_yj*[realCashMoney floatValue]);
+    [PublicHttpTool shareInstance].curupdateInfo.cp_commission = [NSString stringWithFormat:@"%d",yjResult];
     CGFloat real_beishu = self.result_odds-self.result_yj;
-    self.customerInfo.compensateMoney = [NSString stringWithFormat:@"%.f",real_beishu*[realCashMoney floatValue]+self.identifyValue];
-    self.customerInfo.compensateCode = [NSString stringWithFormat:@"%.f",real_beishu*[realCashMoney floatValue]];
-    self.customerInfo.totalMoney = [NSString stringWithFormat:@"%.f",(real_beishu+1)*[realCashMoney floatValue]+self.identifyValue];
+    self.customerInfo.compensateMoney = [NSString stringWithFormat:@"%.f",floor(real_beishu*[realCashMoney floatValue])+self.identifyValue];
+    self.customerInfo.compensateCode = [NSString stringWithFormat:@"%.f",floor(real_beishu*[realCashMoney floatValue])];
+    self.customerInfo.totalMoney = [NSString stringWithFormat:@"%.f",floor((real_beishu+1)*[realCashMoney floatValue])+self.identifyValue];
     self.customerInfo.drawWaterMoney = [NSString stringWithFormat:@"%.f",self.identifyValue];
-    [PublicHttpTool shareInstance].curupdateInfo.cp_money = [NSString stringWithFormat:@"%.f",(real_beishu+1)*[realCashMoney floatValue]];
+    [PublicHttpTool shareInstance].curupdateInfo.cp_money = [NSString stringWithFormat:@"%.f",floor((real_beishu+1)*[realCashMoney floatValue])];
     if ([PublicHttpTool shareInstance].curGameType==4) {//牛牛
         if (![PublicHttpTool shareInstance].winOrLose) {
             [self cowLoseCalucateValue];
@@ -904,7 +915,7 @@ static int chipSleepTime = 80000;
     NSString *realCashMoney = self.curChipInfo.chipDenomination;
     self.customerInfo.xiazhu = [NSString stringWithFormat:@"%@",realCashMoney];
     self.customerInfo.shazhu = [NSString stringWithFormat:@"%.f",self.result_odds*[realCashMoney floatValue]];
-    self.customerInfo.add_chipMoney = [NSString stringWithFormat:@"应加赔:%.f",(self.result_odds-1)*[realCashMoney floatValue]];
+    self.customerInfo.add_chipMoney = [NSString stringWithFormat:@"%.f",(self.result_odds-1)*[realCashMoney floatValue]];
     [PublicHttpTool shareInstance].curupdateInfo.cp_beishu = [NSString stringWithFormat:@"%.2f",self.result_odds];
     [PublicHttpTool shareInstance].curupdateInfo.cp_result = @"-1";
     [PublicHttpTool shareInstance].curupdateInfo.cp_commission = @"0";
@@ -948,14 +959,13 @@ static int chipSleepTime = 80000;
             if (killConfirmType==1) {//确认
                 if (self.customerInfo.isTiger) {//杀一半
                     [PublicHttpTool shareInstance].isShaZhuOperation = NO;
+                    [PublicHttpTool shareInstance].isZhaoHuiChip = YES;
                 }else if (self.customerInfo.isCow){//牛牛
                     [PublicHttpTool shareInstance].isShaZhuOperation = NO;
                 }else{
                     [PublicHttpTool shareInstance].isShaZhuOperation = YES;
                 }
                  [self queryDeviceChipsUID];
-//                [PublicHttpTool showWaitingView];
-//                [self commitCustomerInfoWithRealChipUIDList:self.chipUIDList];
             }else if (killConfirmType==3){//识别找回筹码
                 [PublicHttpTool shareInstance].isZhaoHuiChip = YES;
                 [self queryDeviceChipsUID];
@@ -965,27 +975,6 @@ static int chipSleepTime = 80000;
             }
         };
     }
-}
-
-- (void)createTestCustomerInfo{
-    self.chipUIDList = @[@"ec3e570d080104e0"];
-    self.payChipUIDList = @[@"52b3560d080104e0"];
-    self.curChipInfo.chipType = @"01";
-    self.customerInfo.chipType = @"01";
-    self.curChipInfo.guestWashesNumber = @"uuu-001";
-    self.curChipInfo.chipDenomination = [NSString stringWithFormat:@"%d",20000];
-    self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已赔付筹码/Amount already paid",10000];
-    NSMutableArray *realChipUIDList = [NSMutableArray array];
-    [realChipUIDList addObjectsFromArray:self.chipUIDList];
-    [realChipUIDList addObjectsFromArray:self.payChipUIDList];
-    [PublicHttpTool shareInstance].curupdateInfo.cp_ChipUidList = realChipUIDList;
-    //客人洗码号
-    self.curChipInfo.guestWashesNumber = self.washNumberList.firstObject;
-    self.customerInfo.guestNumber = self.curChipInfo.guestWashesNumber;
-    self.customerInfo.principalMoney = self.curChipInfo.chipDenomination;
-    self.customerInfo.chipInfoList = self.shazhuInfoList;
-    self.customerInfo.add_chipMoney = [NSString stringWithFormat:@"0"];
-    DLOG(@"self.customerInfo.chipType==%@",self.customerInfo.chipType);
 }
 
 #pragma mark - 更改客人洗码号
@@ -1156,14 +1145,19 @@ static int chipSleepTime = 80000;
     [PublicHttpTool commitCustomerRecord_AutoWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
         @strongify(self);
         if (success) {
-            self.zhaohuiMoney = 0;
             if ([PublicHttpTool shareInstance].winOrLose) {
                 [self writePayChipsWashNumberCommand];
             }else{
                 [self clearShazhuChipsWashNumberCommand];
             }
         }else{
-            [self showSoundMessage:msg];
+            [PublicHttpTool hideWaitingView];
+            if ([msg isEqualToString:@"筹码金额和应付金额不一致"]&&self.customerInfo.isTiger) {
+                int shoudZhaohuiValue = [[PublicHttpTool shareInstance].curupdateInfo.cp_benjin intValue]- [[PublicHttpTool shareInstance].curupdateInfo.cp_money intValue];
+                [self showSoundMessage:[NSString stringWithFormat:@"需找回筹码:%d",shoudZhaohuiValue]];
+            }else{
+                [self showSoundMessage:msg];
+            }
         }
     }];
 }
@@ -1175,7 +1169,8 @@ static int chipSleepTime = 80000;
     self.isReadChipUID = NO;
     self.isReadChipInfo = NO;
     self.operateChipCount = (int)[PublicHttpTool shareInstance].curupdateInfo.cp_ChipUidList.count;
-    if (self.customerInfo.isTiger) {
+    if (self.customerInfo.isTiger||self.customerInfo.isCow) {
+        [PublicHttpTool shareInstance].shouldZhaoHuiValue = 0;
         self.operateChipCount = (int)self.zhaoHuiChipUIDList.count+(int)self.chipUIDList.count;
         [self writeChipWashNumberList:self.zhaoHuiChipUIDList];
         usleep(chipSleepTime);
@@ -1190,7 +1185,6 @@ static int chipSleepTime = 80000;
         @strongify(self);
         if (success) {
             self.operateChipCount = (int)realChipUIDList.count;
-            self.zhaohuiMoney = 0;
             [self clearShazhuChipsWashNumberCommand];
         }else{
             [self showSoundMessage:msg];
@@ -1245,22 +1239,6 @@ static int chipSleepTime = 80000;
         return NO;
     }else{
         return YES;
-    }
-}
-
-#pragma mark - 计算赔率或者杀注金额
-- (void)caclulateMoney{
-    if ([PublicHttpTool shareInstance].winOrLose) {
-        [self identifyWaterMoney];
-    }else{
-        NSString *realCashMoney = self.curChipInfo.chipDenomination;
-        self.customerInfo.xiazhu = [NSString stringWithFormat:@"%@",realCashMoney];
-        self.customerInfo.shazhu = [NSString stringWithFormat:@"%@",realCashMoney];
-        self.customerInfo.add_chipMoney = [NSString stringWithFormat:@"0"];
-        [PublicHttpTool shareInstance].curupdateInfo.cp_beishu = [NSString stringWithFormat:@"%.2f",self.result_odds];
-        [PublicHttpTool shareInstance].curupdateInfo.cp_result = @"-1";
-        [PublicHttpTool shareInstance].curupdateInfo.cp_commission = @"0";
-        [PublicHttpTool shareInstance].curupdateInfo.cp_money = [NSString stringWithFormat:@"%@",realCashMoney];
     }
 }
 
@@ -1337,9 +1315,6 @@ static int chipSleepTime = 80000;
                         if (self.customerInfo.isCow) {
                             self.killShowView.cowHadMoneyLab.text = [NSString stringWithFormat:@"%@:0",@"已加赔"];
                             [PublicHttpTool showSoundMessage:@"未检测到加赔筹码"];
-                        }else if (self.customerInfo.isTiger){
-                            self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已识别找回筹码",0];
-                            [PublicHttpTool showSoundMessage:@"未检测到找回筹码"];
                         }else{
                             self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已赔付筹码/Amount already paid",0];
                             [PublicHttpTool showSoundMessage:@"未检测到赔付筹码"];
@@ -1421,7 +1396,6 @@ static int chipSleepTime = 80000;
                     [EPSound playWithSoundName:@"succeed_sound"];
                 }else if ([PublicHttpTool shareInstance].isZhaoHuiChip){//杀注找回筹码
                     [PublicHttpTool shareInstance].isZhaoHuiChip = NO;
-                    [self hideWaitingView];
                     if (!isPayWashNumberTrue) {
                         [PublicHttpTool showSoundMessage:@"找回筹码不正确"];
                         return;
@@ -1439,12 +1413,16 @@ static int chipSleepTime = 80000;
                         return;
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        self.zhaohuiMoney = chipAllMoney;
                         [PublicHttpTool shareInstance].curupdateInfo.cp_zhaohuiList = self.zhaoHuiChipUIDList;
                         self.curChipInfo.hasKillZhaohuiMoney = [NSString stringWithFormat:@"%d",chipAllMoney];
                         self.killShowView.havepayChipLab.text = [NSString stringWithFormat:@"%@:%d",@"已找回",chipAllMoney];
-                        //响警告声音
-                        [EPSound playWithSoundName:@"succeed_sound"];
+                        if (self.customerInfo.isTiger) {
+                            [self commitCustomerInfoWithRealChipUIDList:self.chipUIDList];
+                        }else{
+                            self.hasZhaoHuiValue = chipAllMoney;
+                            self.killShowView.cowZhaohuiMoneyLab.text = [NSString stringWithFormat:@"%@:%d",@"已找回",chipAllMoney];
+                            [PublicHttpTool showSucceedSoundMessage:@"识别找回筹码成功"];
+                        }
                     });
                 }else if ([PublicHttpTool shareInstance].exchangeMoneySecondStep){
                     if (!isPayWashNumberTrue) {
@@ -1480,8 +1458,26 @@ static int chipSleepTime = 80000;
                         int benjinMoney = [self.curChipInfo.chipDenomination intValue];
                         if (self.customerInfo.isCow) {
                             self.killShowView.cowHadMoneyLab.text = [NSString stringWithFormat:@"%@:%d",@"已加赔",chipAllMoney];
-                        }else if (self.customerInfo.isTiger){
-                            
+                            if ([PublicHttpTool shareInstance].shouldZhaoHuiValue>0) {
+                                if ([PublicHttpTool shareInstance].shouldZhaoHuiValue>self.hasZhaoHuiValue) {
+                                    [self showSoundMessage:@"请增加找回筹码金额"];
+                                    return;
+                                }
+                            }else{
+                                if ([self.killShowView calculateZhaoHuiMoneyWithRealJaiPeiMoney:chipAllMoney]==-1) {//需要找回筹码
+                                    [self showSoundMessage:@"加赔金额过大，需要找回筹码"];
+                                    return;
+                                }else if ([self.killShowView calculateZhaoHuiMoneyWithRealJaiPeiMoney:chipAllMoney]==0){
+                                    [self showSoundMessage:@"请增加加赔筹码金额"];
+                                    return;
+                                }
+                                int calu_jiapeiValue = chipAllMoney - [self.customerInfo.add_chipMoney intValue];
+                                if ([self.curChipInfo.chipType intValue]==1) {
+                                    [self.killShowView calculateTotalMoneyWithJiapei_UsdValue:0 jiaPei_rmbValue:calu_jiapeiValue];
+                                }else{
+                                    [self.killShowView calculateTotalMoneyWithJiapei_UsdValue:calu_jiapeiValue jiaPei_rmbValue:0];
+                                }
+                            }
                         }else{
                             self.curChipInfo.chipDenomination = [NSString stringWithFormat:@"%d",benjinMoney+chipAllMoney];
                             self.payShowView.havPayedAmountLab.text = [NSString stringWithFormat:@"%@:%d",@"已赔付筹码/Amount already paid",chipAllMoney];
@@ -1574,13 +1570,17 @@ static int chipSleepTime = 80000;
                 self.isOperateChip = NO;
                 NSString *showTipMsg = @"杀注成功,但是筹码数据清除异常，请检查!!!";
                 if ([PublicHttpTool shareInstance].winOrLose) {//闲家赢
+                    [self.payShowView removeFromSuperview];
                     showTipMsg = @"赔付成功,但是筹码数据写入洗码号异常，请检查!!!";
+                }else{
+                    [self.killShowView removeFromSuperview];
                 }
                 [EPPopView showInWindowWithMessage:showTipMsg handler:^(int buttonType) {
                     [self.operationInfoView _resetBtnStatus];
                 }];
                 [EPSound playWithSoundName:@"succeed_sound"];
             }else if (self.isDasanChip){//打散筹码
+                [self.daSanInfoView _hide];
                 [PublicHttpTool showSucceedSoundMessage:@"打散成功,但是筹码数据写入异常，请检查!!!"];
             }else if (self.isUpdateWashNumber){//修改洗码号
                 [PublicHttpTool showSucceedSoundMessage:@"修改成功,但是筹码数据修改异常，请检查!!!"];

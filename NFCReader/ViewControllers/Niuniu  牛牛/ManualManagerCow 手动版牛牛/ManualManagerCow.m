@@ -20,6 +20,7 @@
 #import "EPINSShowView.h"
 #import "EPHeadInfo.h"
 #import "EPHeadInfoShowView.h"
+#import "EPPayKillInfoView.h"
 
 static NSString * const reuseIdentifier = @"CustomerCell";
 static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
@@ -38,6 +39,17 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 @property (nonatomic,strong) NSMutableArray *fxz_cmtype_list;//筹码类型
 @property (nonatomic,strong) NSMutableArray *param_list;//参数
 @property (nonatomic, strong) EPHeadInfoShowView *headInfoShowView;//头部信息
+
+@property (nonatomic,strong) NSMutableArray *fxmh_list;//洗码号
+@property (nonatomic,strong) NSMutableArray *fxz_money_list;//下注本金
+@property (nonatomic,strong) NSMutableArray *fxz_name_list;//下注名称
+@property (nonatomic,strong) NSMutableArray *fsy_list;//输赢
+@property (nonatomic,strong) NSMutableArray *fdianshu_list;//点数
+@property (nonatomic,strong) NSMutableArray *fresult_list;//总码
+@property (nonatomic,strong) NSMutableArray *fyj_list;//佣金
+@property (nonatomic,strong) NSMutableArray *payKillResultInfo_list;//杀赔信息
+@property (nonatomic, assign) CGFloat payKillResultValue;//杀赔金额
+@property (nonatomic, strong) EPPayKillInfoView *payKillInfoView;
 
 @end
 
@@ -100,9 +112,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.isBeganMove = YES;
                 //获取点击的cell的indexPath
                 NSIndexPath *selectedIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
-                
-                //开始移动对应的cell
-                [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
+                if (selectedIndexPath) {
+                    //开始移动对应的cell
+                    [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
+                }
             }
             break;
         }
@@ -190,118 +203,30 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             CustomerInfo *info = self.customerInfoList[indexPath.row];
             CustomerEntryInfoCowView *custerEntryInfoV = [[[NSBundle mainBundle]loadNibNamed:@"CustomerEntryInfoCowView" owner:nil options:nil]lastObject];
             custerEntryInfoV.frame = self.bounds;
+            @weakify(self);
             custerEntryInfoV.editTapCustomer = ^(CustomerInfo * _Nonnull curCustomer, BOOL hasEntry) {
                 self.isEntryBox = NO;
                 if (hasEntry) {
-                    if (curCustomer.cowPoint!=99) {
-                        //赔率
-                        NSArray *xz_array = [PublicHttpTool shareInstance].curXz_setting;
-                        //超级翻倍
-                        NSDictionary *fplDict = xz_array[2][@"fpl"];
-                        NSDictionary *fyjDict = xz_array[2][@"fyj"];
-                        
-                        //翻倍
-                        NSDictionary *fplDict1 = xz_array[1][@"fpl"];
-                        NSDictionary *fyjDict1 = xz_array[1][@"fyj"];
-                        
-                        //平倍
-                        NSDictionary *fplDict2 = xz_array[0][@"fpl"];
-                        NSDictionary *fyjDict2 = xz_array[0][@"fyj"];
-                        int customerPoint = curCustomer.cowPoint;
-                        if ([PublicHttpTool shareInstance].cowPoint==customerPoint) {//点数相同
-                            if (curCustomer.isCow_customerWin) {
-                                CGFloat realZhuangValue = (1-[[fyjDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangValue floatValue];
-                                //翻倍
-                                CGFloat realDoubleValue = (1-[[fyjDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangDuiValue floatValue];
-                                
-                                //平倍
-                                CGFloat realNormalValue = (1-[[fyjDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.xianValue floatValue];
-                                
-                                if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                                    curCustomer.superValue = [NSString stringWithFormat:@"%d",(int)realZhuangValue];
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"%d",(int)realDoubleValue];
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"%d",(int)realNormalValue];
-                                }else{
-                                    curCustomer.superValue = [NSString stringWithFormat:@"%.2f",realZhuangValue];
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"%.2f",realDoubleValue];
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"%.2f",realNormalValue];
-                                }
-                            }else{
-                                CGFloat realZhuangValue = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangValue floatValue];
-                                if (realZhuangValue>0) {
-                                    curCustomer.superValue = [NSString stringWithFormat:@"-%.f",realZhuangValue];
-                                }else{
-                                    curCustomer.superValue = @"0";
-                                }
-                                //翻倍
-                                CGFloat realDoubleValue = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangDuiValue floatValue];
-                                if (realDoubleValue>0) {
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"-%.f",realDoubleValue];
-                                }else{
-                                    curCustomer.doubleValue = @"0";
-                                }
-                                
-                                //平倍
-                                CGFloat realNormalValue = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.xianValue floatValue];
-                                if (realNormalValue>0) {
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"-%.f",realNormalValue];
-                                }else{
-                                    curCustomer.normalValue = @"0";
-                                }
-                            }
-                        }else{
-                            if ([PublicHttpTool shareInstance].cowPoint>customerPoint) {//庄家赢
-                                CGFloat realZhuangValue = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue]*[curCustomer.zhuangValue floatValue];
-                                if (realZhuangValue>0) {
-                                    curCustomer.superValue = [NSString stringWithFormat:@"-%.f",realZhuangValue];
-                                }else{
-                                    curCustomer.superValue = @"0";
-                                }
-                            }else if ([PublicHttpTool shareInstance].cowPoint<customerPoint){//闲家赢,需要减去佣金
-                                CGFloat realZhuangValue = (1-[[fyjDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangValue floatValue];
-                                if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                                    curCustomer.superValue = [NSString stringWithFormat:@"%d",(int)realZhuangValue];
-                                }else{
-                                    curCustomer.superValue = [NSString stringWithFormat:@"%.2f",realZhuangValue];
-                                }
-                            }
-                            if ([PublicHttpTool shareInstance].cowPoint>customerPoint) {//庄家赢
-                                CGFloat realZhuangDuiValue = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue]*[curCustomer.zhuangDuiValue floatValue];
-                                if (realZhuangDuiValue>0) {
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"-%.f",realZhuangDuiValue];
-                                }else{
-                                    curCustomer.doubleValue = @"0";
-                                }
-                                
-                            }else if ([PublicHttpTool shareInstance].cowPoint<customerPoint){//闲家赢,需要减去佣金
-                                CGFloat realZhuangDuiValue = (1-[[fyjDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.zhuangDuiValue floatValue];
-                                curCustomer.doubleValue = [NSString stringWithFormat:@"%.f",realZhuangDuiValue];
-                                if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"%d",(int)realZhuangDuiValue];
-                                }else{
-                                    curCustomer.doubleValue = [NSString stringWithFormat:@"%.2f",realZhuangDuiValue];
-                                }
-                            }
-                            
-                            if ([PublicHttpTool shareInstance].cowPoint>customerPoint) {//庄家赢
-                                CGFloat realXianValue = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue]*[curCustomer.xianValue floatValue];
-                                if (realXianValue>0) {
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"-%.f",realXianValue];
-                                }else{
-                                    curCustomer.normalValue = @"0";
-                                }
-                            }else if ([PublicHttpTool shareInstance].cowPoint<customerPoint){//闲家赢,需要减去佣金
-                                CGFloat realXianValue = (1-[[fyjDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0)*[[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]*[curCustomer.xianValue floatValue];
-                                if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"%d",(int)realXianValue];
-                                }else{
-                                    curCustomer.normalValue = [NSString stringWithFormat:@"%.2f",realXianValue];
-                                }
-                            }
-                        }
-                    }
+                    self.curSelectCustomer = curCustomer;
                     [self.customerInfoList replaceObjectAtIndex:indexPath.row withObject:curCustomer];
                     [collectionView reloadData];
+                    [self fengzhuangCustomerInfo];
+                    self.payKillInfoView = [EPPayKillInfoView showInWindowWithNRCustomerInfo:self.curSelectCustomer handler:^(int buttonType) {
+                        @strongify(self);
+                        if (buttonType==1) {
+                            [self.payKillInfoView _hide];
+                            [PublicHttpTool showWaitingView];
+                            [PublicHttpTool commitCustomerRecordWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
+                                if (success) {
+                                    [self clearMoney];
+                                    [PublicHttpTool showSucceedSoundMessage:@"结果录入成功"];
+                                }else{
+                                    [PublicHttpTool showSoundMessage:@"结果录入失败"];
+                                }
+                                [PublicHttpTool hideWaitingView];
+                            }];
+                        }
+                    }];
                 }
             };
             [custerEntryInfoV editCurCustomerWithCustomerInfo:info];
@@ -613,161 +538,155 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
 
 #pragma mark - 封装参数
 - (BOOL)fengzhuangCustomerInfo{
-    //洗码号
-    NSMutableArray *fxmh_list = [NSMutableArray array];
-    //筹码类型
-    self.fxz_cmtype_list = [NSMutableArray array];
-    //下注本金
-    NSMutableArray *fxz_money_list = [NSMutableArray array];
-    //下注名称
-    NSMutableArray *fxz_name_list = [NSMutableArray array];
-    //输赢
-    NSMutableArray *fsy_list = [NSMutableArray array];
-    //总码
-    NSMutableArray *fresult_list = [NSMutableArray array];
-    //佣金
-    NSMutableArray *fyj_list = [NSMutableArray array];
-    //点数
-    NSMutableArray *fdianshu_list = [NSMutableArray array];
-    self.param_list = [NSMutableArray array];
-    
-    //赔率
-      NSArray *xz_array = [PublicHttpTool shareInstance].curXz_setting;
-      //超级翻倍
-      NSDictionary *fplDict = xz_array[2][@"fpl"];
-      NSDictionary *fyjDict = xz_array[2][@"fyj"];
+     //洗码号
+   self.fxmh_list = [NSMutableArray array];
+   //筹码类型
+   self.fxz_cmtype_list = [NSMutableArray array];
+   //下注本金
+   self.fxz_money_list = [NSMutableArray array];
+   //下注名称
+   self.fxz_name_list = [NSMutableArray array];
+   //输赢
+   self.fsy_list = [NSMutableArray array];
+   //总码
+   self.fresult_list = [NSMutableArray array];
+   //佣金
+   self.fyj_list = [NSMutableArray array];
+   //点数
+   self.fdianshu_list = [NSMutableArray array];
+   
+   self.payKillResultInfo_list = [NSMutableArray arrayWithCapacity:0];
+   self.payKillResultValue  = 0;
+   
+   //赔率
+   CGFloat odds = 0;
+   CGFloat yj = 0;
+   //赔率
+   NSArray *xz_array = [PublicHttpTool shareInstance].curXz_setting;
+   //超级翻倍
+   NSDictionary *fplDict = xz_array[2][@"fpl"];
+   NSDictionary *fyjDict = xz_array[2][@"fyj"];
+      
+   //翻倍
+   NSDictionary *fplDict1 = xz_array[1][@"fpl"];
+   NSDictionary *fyjDict1 = xz_array[1][@"fyj"];
+      
+   //平倍
+   NSDictionary *fplDict2 = xz_array[0][@"fpl"];
+   NSDictionary *fyjDict2 = xz_array[0][@"fyj"];
+   int customerPoint = self.curSelectCustomer.cowPoint;
+   if ([self.curSelectCustomer.zhuangValue integerValue]!=0) {
+       NSString *superResultValue = [NSString stringWithFormat:@"超级翻倍:%@",self.curSelectCustomer.zhuangValue];
+       [self.payKillResultInfo_list addObject:superResultValue];
+       [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+       [self.fxz_money_list addObject:self.curSelectCustomer.zhuangValue];
+       [self.fxz_name_list addObject:@"超级翻倍"];
+       [self.fdianshu_list addObject:[NSNumber numberWithInt:self.curSelectCustomer.cowPoint]];
+       if (self.curSelectCustomer.isCow_customerWin) {//闲家赢
+           [self.fsy_list addObject:[NSNumber numberWithInt:1]];
+           
+           odds = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
+           yj = [[fyjDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]/100;
+           CGFloat resultValue = (1+odds-yj*odds)*[self.curSelectCustomer.zhuangValue integerValue];
+           
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           CGFloat yjValue = yj*[self.curSelectCustomer.zhuangValue integerValue];
+           [self.fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+           
+           self.payKillResultValue += ceil(yjValue);
+       }else{
+           [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
+           
+           odds = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
+           CGFloat resultValue = odds*[self.curSelectCustomer.zhuangValue integerValue];
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           [self.fyj_list addObject:[NSNumber numberWithDouble:0]];
+           
+           self.payKillResultValue -= resultValue;
+       }
+       [self fengzhuangChipTypeWith:self.curSelectCustomer];
+   }
+   
+   if ([self.curSelectCustomer.zhuangDuiValue integerValue]!=0) {
+       NSString *doubleResultValue = [NSString stringWithFormat:@"翻倍:%@",self.curSelectCustomer.zhuangDuiValue];
+       [self.payKillResultInfo_list addObject:doubleResultValue];
+       [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+       [self.fxz_money_list addObject:self.curSelectCustomer.zhuangDuiValue];
+       [self.fxz_name_list addObject:@"翻倍"];
+       [self.fdianshu_list addObject:[NSNumber numberWithInt:self.curSelectCustomer.cowPoint]];
+       if (self.curSelectCustomer.isCow_customerWin) {//闲家赢
+           [self.fsy_list addObject:[NSNumber numberWithInt:1]];
+           
+           odds = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
+           yj = [[fyjDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]/100;
+           CGFloat resultValue = (1+odds-yj*odds)*[self.curSelectCustomer.zhuangDuiValue integerValue];
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           CGFloat yjValue = yj*[self.curSelectCustomer.zhuangDuiValue integerValue];
+           [self.fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+           self.payKillResultValue += ceil(yjValue);
+       }else{
+           [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
+           
+           odds = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
+           CGFloat resultValue = odds*[self.curSelectCustomer.zhuangDuiValue integerValue];
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           [self.fyj_list addObject:[NSNumber numberWithDouble:0]];
+           self.payKillResultValue -= resultValue;
+       }
+       [self fengzhuangChipTypeWith:self.curSelectCustomer];
+   }
+   
+   if ([self.curSelectCustomer.xianValue integerValue]!=0) {
        
-       //翻倍
-       NSDictionary *fplDict1 = xz_array[1][@"fpl"];
-       NSDictionary *fyjDict1 = xz_array[1][@"fyj"];
-       
-       //平倍
-       NSDictionary *fplDict2 = xz_array[0][@"fpl"];
-       NSDictionary *fyjDict2 = xz_array[0][@"fyj"];
-    
-    __block BOOL hasCustomerNOCalu = NO;
-    [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.xianValue integerValue]==0) {
-        }else{
-            if (curCustomer.cowPoint==99) {
-                hasCustomerNOCalu = YES;
-            }else{
-                //赔率
-                CGFloat odds = 0;
-                CGFloat yj = 0;
-                int customerPoint = curCustomer.cowPoint;
-                if ([curCustomer.zhuangValue integerValue]!=0) {
-                    
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                    [fxz_money_list addObject:curCustomer.zhuangValue];
-                    [fxz_name_list addObject:@"超级翻倍"];
-                    [fdianshu_list addObject:[NSNumber numberWithInt:curCustomer.cowPoint]];
-                    if (curCustomer.isCow_customerWin) {//闲家赢
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        
-                        odds = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
-                        yj = [[fyjDict objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0;
-                        CGFloat resultValue = (1+odds-yj*odds)*[curCustomer.zhuangValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.zhuangValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else{//庄家赢
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        
-                        odds = [[fplDict objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
-                        CGFloat resultValue = odds*[curCustomer.zhuangValue integerValue];
-                        [fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                    [self fengzhuangChipTypeWith:curCustomer];
-                }
-                
-                if ([curCustomer.zhuangDuiValue integerValue]!=0) {
-                    
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                    [fxz_money_list addObject:curCustomer.zhuangDuiValue];
-                    [fxz_name_list addObject:@"翻倍"];
-                    [fdianshu_list addObject:[NSNumber numberWithInt:curCustomer.cowPoint]];
-                    if (curCustomer.isCow_customerWin) {//闲家赢
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        
-                        odds = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
-                        yj = [[fyjDict1 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0;
-                        CGFloat resultValue = (1+odds-yj*odds)*[curCustomer.zhuangDuiValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.zhuangDuiValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else{
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        
-                        odds = [[fplDict1 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
-                        CGFloat resultValue = odds*[curCustomer.zhuangDuiValue integerValue];
-                        [fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                    [self fengzhuangChipTypeWith:curCustomer];
-                }
-                
-                if ([curCustomer.xianValue integerValue]!=0) {
-
-                    [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                    [fxz_money_list addObject:curCustomer.xianValue];
-                    [fxz_name_list addObject:@"平倍"];
-                    [fdianshu_list addObject:[NSNumber numberWithInt:curCustomer.cowPoint]];
-                    if (curCustomer.isCow_customerWin) {//闲家赢
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        
-                        odds = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
-                        yj = [[fyjDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]intValue]/100.0;
-                        CGFloat resultValue = (1+odds-yj*odds)*[curCustomer.xianValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.xianValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else{
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        
-                        odds = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
-                        CGFloat resultValue = odds*[curCustomer.xianValue integerValue];
-                        [fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                    [self fengzhuangChipTypeWith:curCustomer];
-                }
-            }
-        }
-    }];
-    if (hasCustomerNOCalu) {
-        [[EPToast makeText:@"有客人未选择点数计算结果"]showWithType:ShortTime];
-        //响警告声音
-        [EPSound playWithSoundName:@"wram_sound"];
-        return NO;
-    }
+       NSString *normalResultValue = [NSString stringWithFormat:@"平倍:%@",self.curSelectCustomer.xianValue];
+       [self.payKillResultInfo_list addObject:normalResultValue];
+       [self.fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+       [self.fxz_money_list addObject:self.curSelectCustomer.xianValue];
+       [self.fxz_name_list addObject:@"平倍"];
+       [self.fdianshu_list addObject:[NSNumber numberWithInt:self.curSelectCustomer.cowPoint]];
+       if (self.curSelectCustomer.isCow_customerWin) {//闲家赢
+           [self.fsy_list addObject:[NSNumber numberWithInt:1]];
+           
+           odds = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue];
+           yj = [[fyjDict2 objectForKey:[NSString stringWithFormat:@"%d",customerPoint]]floatValue]/100;
+           CGFloat resultValue = (1+odds-yj*odds)*[self.curSelectCustomer.xianValue integerValue];
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           CGFloat yjValue = yj*[self.curSelectCustomer.xianValue integerValue];
+           [self.fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+           self.payKillResultValue += ceil(yjValue);
+       }else{
+           [self.fsy_list addObject:[NSNumber numberWithInt:-1]];
+           odds = [[fplDict2 objectForKey:[NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint]]floatValue];
+           CGFloat resultValue = odds*[self.curSelectCustomer.xianValue integerValue];
+           [self.fresult_list addObject:[NSString stringWithFormat:@"%.f",resultValue]];
+           [self.fyj_list addObject:[NSNumber numberWithDouble:0]];
+           self.payKillResultValue -= resultValue;
+       }
+       [self fengzhuangChipTypeWith:self.curSelectCustomer];
+   }
+   self.curSelectCustomer.resultString = [self.payKillResultInfo_list componentsJoinedByString:@","];
+   self.curSelectCustomer.resultValue = self.payKillResultValue;
+   self.curSelectCustomer.kaiPaiResult = [NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].cowPoint];
+//    if (hasCustomerNOCalu) {
+//        [[EPToast makeText:@"有客人未选择点数计算结果"]showWithType:ShortTime];
+//        //响警告声音
+//        [EPSound playWithSoundName:@"wram_sound"];
+//        return NO;
+//    }
     if ([PublicHttpTool shareInstance].cowPoint==99) {
         [[EPToast makeText:@"请选择庄家点数"]showWithType:ShortTime];
         //响警告声音
         [EPSound playWithSoundName:@"wram_sound"];
         return NO;
     }
-    [self.param_list addObject:fxmh_list];
+    [self.param_list addObject:self.fxmh_list];
     [self.param_list addObject:self.fxz_cmtype_list];
-    [self.param_list addObject:fxz_money_list];
-    [self.param_list addObject:fxz_name_list];
-    [self.param_list addObject:fsy_list];
-    [self.param_list addObject:fresult_list];
-    [self.param_list addObject:fyj_list];
-    [self.param_list addObject:fdianshu_list];
+    [self.param_list addObject:self.fxz_money_list];
+    [self.param_list addObject:self.fxz_name_list];
+    [self.param_list addObject:self.fsy_list];
+    [self.param_list addObject:self.fresult_list];
+    [self.param_list addObject:self.fyj_list];
+    [self.param_list addObject:self.fdianshu_list];
     [PublicHttpTool shareInstance].paramList = self.param_list;
     return YES;
 }

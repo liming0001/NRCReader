@@ -195,6 +195,7 @@
             [PublicHttpTool shareInstance].femp_num = [NSString stringWithFormat:@"%@",self.curLoginInfo.femp_num];
             [PublicHttpTool shareInstance].cp_tableRijieDate = [NRCommand getCurrentDate];
             [PublicHttpTool shareInstance].curupdateInfo.fhg_id = self.curLoginInfo.fid;
+            [EPAppData sharedInstance].bind_ip = self.curLoginInfo.bind_ip;
             [LYKeychainTool saveKeychainValue:self.curLoginInfo.access_token key:@"login_token"];
             [LYKeychainTool saveKeychainValue:self.curLoginInfo.fid key:@"login_ID"];
             [LYKeychainTool saveKeychainValue:self.userNameTextField.text key:@"login_userName"];

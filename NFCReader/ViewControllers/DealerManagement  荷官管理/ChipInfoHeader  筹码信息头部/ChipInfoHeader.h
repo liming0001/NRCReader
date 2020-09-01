@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)_setUpChipHeaderWithType:(int)type;
 - (void)fellInfoWithDict:(NSDictionary *)dict;
+- (void)fellTakeOutMoney;
 
 @end
 

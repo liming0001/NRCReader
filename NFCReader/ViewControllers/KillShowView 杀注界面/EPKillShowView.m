@@ -17,6 +17,8 @@ static NSString * const killReuseIdentifier = @"KillCell";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NRCustomerInfo *curInfo;
 @property (nonatomic, strong) NSMutableArray *killShowList;
+@property (nonatomic, assign) __block NSInteger usdAmount;
+@property (nonatomic, assign) __block NSInteger rmbAmount;
 
 @end
 @implementation EPKillShowView
@@ -52,27 +54,32 @@ static NSString * const killReuseIdentifier = @"KillCell";
     self.curInfo = customerInfo;
     if (self.curInfo.isTiger||self.curInfo.isCow) {
         if (self.curInfo.isCow) {
-            self.havepayChipLab.hidden = YES;
-            self.cowAddMoneyView.hidden = NO;
             self.zhaoHuiBtn.hidden = YES;
+            self.cowAddMoneyView.hidden = NO;
+            self.havepayChipLab.hidden = YES;
             self.cowZhaohuiMoneyLab.hidden = YES;
-            self.cowShouldMoneylab.text = self.curInfo.add_chipMoney;
+            self.cowShouldZhaoHuiValueLab.hidden = YES;
+            self.cowShouldMoneylab.text = [NSString stringWithFormat:@"应加赔:%@",self.curInfo.add_chipMoney];
         }else{
-            self.havepayChipLab.hidden = NO;
-            self.cowAddMoneyView.hidden = YES;
             self.zhaoHuiBtn.hidden = NO;
-            self.cowZhaohuiMoneyLab.hidden = NO;
+            self.cowAddMoneyView.hidden = YES;
+            self.havepayChipLab.hidden = NO;
         }
     }else{
-        self.havepayChipLab.hidden = YES;
         self.cowAddMoneyView.hidden = YES;
+        self.havepayChipLab.hidden = YES;
         self.zhaoHuiBtn.hidden = YES;
     }
     self.winOrLostStatusLab.text = self.curInfo.winStatus;
+    [self calculateAmountValue];
+}
+
+#pragma mark -- 计算金额
+- (void)calculateAmountValue{
     NSArray *chipInfoList = self.curInfo.chipInfoList;
     DLOG(@"chipInfoList = %@",chipInfoList);
-    __block NSInteger usdAmount = 0;
-    __block NSInteger rmbAmount = 0;
+    self.usdAmount = 0;
+    self.rmbAmount = 0;
     for (int i=0; i<chipInfoList.count; i++) {
         __block NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
         __block NSInteger chipAmount = 0;
@@ -83,9 +90,9 @@ static NSString * const killReuseIdentifier = @"KillCell";
         [chipListA enumerateObjectsUsingBlock:^(NSArray *list, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString * realmoney = [NSString stringWithFormat:@"%lu",strtoul([list[2] UTF8String],0,16)];
             if ([list[1] intValue]==1) {//人民币码
-                rmbAmount += [realmoney integerValue];
+                self.rmbAmount += [realmoney integerValue];
             }else{//美金码
-                usdAmount += [realmoney integerValue];
+                self.usdAmount += [realmoney integerValue];
             }
             chipAmount += [realmoney integerValue];
         }];
@@ -97,16 +104,40 @@ static NSString * const killReuseIdentifier = @"KillCell";
         [chipInfoDict setValue:[NSString stringWithFormat:@"%d",shoudPayValue] forKey:@"shoudPayValue"];
         [self.killShowList addObject:chipInfoDict];
     }
+    [self calculateTotalMoneyWithJiapei_UsdValue:0 jiaPei_rmbValue:0];
     [self.tableView reloadData];
-    
+}
+
+#pragma mark--根据找回筹码计算总码金额
+- (void)calculateTotalMoneyWithJiapei_UsdValue:(int)Jiapei_UsdValue jiaPei_rmbValue:(int)jiaPei_rmbValue{
     if (self.curInfo.isCow) {
-        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*usdAmount];
-        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*rmbAmount];
+        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*self.usdAmount+Jiapei_UsdValue];
+        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.curInfo.odds*self.rmbAmount+jiaPei_rmbValue];
     }else{
-        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)usdAmount];
-        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)rmbAmount];
+        self.totalUSDValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.usdAmount+Jiapei_UsdValue];
+        self.totalRMBValueLab.text = [NSString stringWithFormat:@"%ld",(long)self.rmbAmount+jiaPei_rmbValue];
     }
-    
+}
+
+- (int)calculateZhaoHuiMoneyWithRealJaiPeiMoney:(int)jiaPeiMoney{
+    int zhaohuiValue = jiaPeiMoney-[self.curInfo.add_chipMoney intValue];
+    [PublicHttpTool shareInstance].shouldZhaoHuiValue = zhaohuiValue;
+    if (zhaohuiValue>0) {//需要显示找回筹码信息
+        self.zhaoHuiBtn.hidden = NO;
+        self.cowZhaohuiMoneyLab.hidden = NO;
+        self.cowShouldZhaoHuiValueLab.hidden = NO;
+        self.cowShouldZhaoHuiValueLab.text = [NSString stringWithFormat:@"应找回:%d",zhaohuiValue];
+        return -1;
+    }else{
+        self.zhaoHuiBtn.hidden = YES;
+        self.cowZhaohuiMoneyLab.hidden = YES;
+        self.cowShouldZhaoHuiValueLab.hidden = YES;
+        if (jiaPeiMoney == [self.curInfo.add_chipMoney intValue]) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }
 
 #pragma mark - Private Methods

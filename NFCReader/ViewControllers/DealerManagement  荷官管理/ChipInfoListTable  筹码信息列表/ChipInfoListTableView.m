@@ -23,7 +23,6 @@
 @property (nonatomic, assign) int curType;
 
 @property (nonatomic, strong) ChipInfoHeader *chipInfoHeader;
-@property (nonatomic, strong) CustomerInfoFooter *customerFooter;
 @property (nonatomic, strong) ChipBtnFooter *chipBtnFooter;
 
 @end
@@ -66,6 +65,10 @@
         if (self.chipTableBlock) {
             self.chipTableBlock(tag);
         }
+    };
+    self.customerFooter.refrashBlock = ^(BOOL refrash) {
+        @strongify(self);
+        [self.chipInfoHeader fellTakeOutMoney];
     };
 }
 

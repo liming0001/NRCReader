@@ -23,6 +23,7 @@
 #import "ChipNormalReadView.h"
 #import "ChipExchangeView.h"
 #import "ChipInfoListTableView.h"
+#import "CustomerInfoFooter.h"
 
 #define channelOnPeropheralView @"peripheralView"
 
@@ -194,6 +195,7 @@
             self.chipNormalReadView.hidden = YES;
             self.chipExchangeView.hidden = YES;
             if (self.chipIssueList.count!=0) {
+                self.scanChipNumberLab.hidden = NO;
                 self.chipIssueView.hidden = YES;
                 self.chipListTableView.hidden = NO;
                 self.operationButton.hidden = NO;
@@ -234,9 +236,13 @@
                 normalList = self.tipSettlementList;
                 [self.operationButton setTitle:@"  继续结算  " forState:UIControlStateNormal];
             }else if (tag==5){
+                [PublicHttpTool shareInstance].isStoreOrTakeOutChip = YES;
+                [PublicHttpTool shareInstance].userAllMoney = [NSString stringWithFormat:@"%d",[[PublicHttpTool shareInstance].userAllMoney intValue]];
                 normalList = self.storageChipList;
                 [self.operationButton setTitle:@"  继续存入  " forState:UIControlStateNormal];
             }else if (tag==6){
+                [PublicHttpTool shareInstance].isStoreOrTakeOutChip = NO;
+                [PublicHttpTool shareInstance].userAllMoney = [NSString stringWithFormat:@"%d",-[[PublicHttpTool shareInstance].userAllMoney intValue]];
                 normalList = self.takeOutChipList;
                 [self.operationButton setTitle:@"  继续取出  " forState:UIControlStateNormal];
             }
@@ -258,7 +264,13 @@
         @strongify(self);
         self.chipExchangeView.hidden = YES;
         self.chipNormalReadView.hidden = NO;
+        [PublicHttpTool shareInstance].exchangeChipType = (int)tag;
         [self.chipNormalReadView _setUpChipViewWithTag:3];
+        if (tag==0) {
+            [PublicHttpTool shareInstance].fcredit = @"0";
+        }else{
+            [PublicHttpTool shareInstance].fcredit = @"1";
+        }
     };
     //筹码发行事件
     self.chipIssueView.issueBtnBlock = ^(NSDictionary * _Nonnull issueDict) {
@@ -288,7 +300,7 @@
         }else if (tag==5){//存入筹码
             [self storageChipSoonConfirmAction];
         }else if (tag==6){//取出筹码
-            
+            [self takeOutConfirmAction];
         }
     };
 }
@@ -303,7 +315,7 @@
 
 #pragma mark -- 开启或者关闭Sockket
 - (void)openOrCloseSocket{
-    [EPAppData sharedInstance].bind_ip = @"192.168.1.192";
+//    [EPAppData sharedInstance].bind_ip = @"192.168.1.192";
     [EPAppData sharedInstance].bind_port = 6000;
     [SGSocketManager ConnectSocketWithConfigM:[SGSocketConfigM ShareInstance] complation:^(NSError *error) {
         DLOG(@"error===%@",error);
@@ -431,14 +443,22 @@
             });
             [self.viewModel cmDestoryWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
                 if (success) {
-                    dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
-                    dispatch_async(serialQueue, ^{
-                        for (int i = 0; i < self.chipUIDList.count; i++) {
-                            NSString *chipUID = self.chipUIDList[i];
-                            //向指定标签中写入数据（块1）
-                            [SGSocketManager SendDataWithData:[NRCommand destructInfoToChip1WithChipUID:chipUID]];
-                            usleep((int)self.chipUIDList.count * 10000);
-                        }
+                    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
+                    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                            //写入数据
+                            int sleepTime = (int)self.chipUIDList.count * 15000;
+                            for (int i = 0; i < self.chipUIDList.count; i++) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    self.viewModel.chipModel.guestWashesNumber= @"99";
+                                    self.viewModel.chipModel.chipUID = self.chipUIDList[i];
+                                    [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"04"]];
+                                    usleep(sleepTime);
+                                    [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"05"]];
+                                    usleep(sleepTime);
+                                });
+                            }
+                        });
                     });
                 }else{
                     self.isDestoryChip = NO;
@@ -451,47 +471,80 @@
 
 #pragma mark - 确认现金换筹码
 - (void)cashExchangeConfirmAction{
-    if ([[PublicHttpTool shareInstance].exchangeWashNumber length]==0) {
-        [PublicHttpTool showSoundMessage:@"洗码号错误"];
-        return;
-    }
-    self.viewModel.chipModel.guestWashesNumber  = [PublicHttpTool shareInstance].exchangeWashNumber;
-    [EPSound playWithSoundName:@"click_sound"];
-    [self showWaitingViewWithText:@"兑换中..."];
-    self.isExchangeChip = YES;
-    [self.viewModel CashExchangeChipWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
-        if (success) {
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
-            dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                    //写入数据
-                    int sleepTime = (int)self.chipUIDList.count * 15000;
-                    for (int i = 0; i < self.chipUIDList.count; i++) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            self.viewModel.chipModel.chipUID = self.chipUIDList[i];
-                            [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"04"]];
-                            usleep(sleepTime);
-                            [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"05"]];
-                            usleep(sleepTime);
-                        });
-                    }
-                });
-            });
-        }else{
-            [PublicHttpTool showSoundMessage:msg];
+    if ([PublicHttpTool shareInstance].exchangeChipType==0||[PublicHttpTool shareInstance].exchangeChipType==2) {//现金换筹码||信用出码
+        if ([[PublicHttpTool shareInstance].exchangeWashNumber length]==0) {
+            [PublicHttpTool showSoundMessage:@"洗码号错误"];
+            return;
         }
-    }];
+        self.viewModel.chipModel.guestWashesNumber  = [PublicHttpTool shareInstance].exchangeWashNumber;
+        [EPSound playWithSoundName:@"click_sound"];
+        if ([PublicHttpTool shareInstance].exchangeChipType==2) {
+            [self showWaitingViewWithText:@"出码中..."];
+        }else{
+            [self showWaitingViewWithText:@"兑换中..."];
+        }
+        self.isExchangeChip = YES;
+        [self.viewModel CashExchangeChipWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+            if (success) {
+            dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                        //写入数据
+                        int sleepTime = (int)self.chipUIDList.count * 15000;
+                        for (int i = 0; i < self.chipUIDList.count; i++) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                self.viewModel.chipModel.chipUID = self.chipUIDList[i];
+                                [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"04"]];
+                                usleep(sleepTime);
+                                [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"05"]];
+                                usleep(sleepTime);
+                            });
+                        }
+                    });
+                });
+            }else{
+                [PublicHttpTool showSoundMessage:msg];
+            }
+        }];
+    }else if ([PublicHttpTool shareInstance].exchangeChipType==1){//筹码换现金
+        self.viewModel.chipModel.guestWashesNumber  = @"00000000";
+        [self showWaitingViewWithText:@"兑换中..."];
+        self.isExchangeChip = YES;
+        [self.viewModel ChipExchangeCashWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
+            if (success) {
+                dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                        //写入数据
+                        int sleepTime = (int)self.chipUIDList.count * 15000;
+                        for (int i = 0; i < self.chipUIDList.count; i++) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                self.viewModel.chipModel.chipUID = self.chipUIDList[i];
+                                [SGSocketManager SendDataWithData:[NRCommand clearWashNumberWithChipInfo:self.viewModel.chipModel.chipUID WithBlockNumber:@"04"]];
+                                usleep(sleepTime);
+                                [SGSocketManager SendDataWithData:[NRCommand clearWashNumberWithChipInfo:self.viewModel.chipModel.chipUID WithBlockNumber:@"05"]];
+                                usleep(sleepTime);
+                            });
+                        }
+                    });
+                });
+            }else{
+                [PublicHttpTool showSoundMessage:msg];
+            }
+        }];
+    }
+    
 }
 
 #pragma mark -- 立即结算
 - (void)tipSettlementSoonConfirmAction{
     self.isSettlementTipChip = YES;
-    [self showWaitingView];
+    [PublicHttpTool showWaitingView];
     [self.viewModel TipSettlementWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
         if (success) {
             dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
             dispatch_async(serialQueue, ^{
-                int sleepTime = (int)self.chipUIDList.count * 10000;
+                int sleepTime = (int)self.chipUIDList.count * 15000;
                 for (int i = 0; i < self.chipUIDList.count; i++) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSString *chipUID = self.chipUIDList[i];
@@ -518,7 +571,7 @@
         if (success) {
             dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
             dispatch_async(serialQueue, ^{
-                int sleepTime = (int)self.chipUIDList.count * 10000;
+                int sleepTime = (int)self.chipUIDList.count * 15000;
                 for (int i = 0; i < self.chipUIDList.count; i++) {
                     NSString *chipUID = self.chipUIDList[i];
                     //向指定标签中写入数据（块1）
@@ -545,13 +598,15 @@
         [self showMessage:@"请输入密码"];
         return;
     }
+    self.viewModel.chipModel.guestWashesNumber  = [PublicHttpTool shareInstance].exchangeWashNumber;
+    [EPSound playWithSoundName:@"click_sound"];
     self.isTakeOutChip = YES;
     [PublicHttpTool showWaitingView];
     [self.viewModel AccessChipWithBlock:^(BOOL success, NSString *msg, EPSreviceError error) {
         if (success) {
             dispatch_queue_t serialQueue=dispatch_queue_create("myThreadQueue1", DISPATCH_QUEUE_SERIAL);//注意queue对象不是指针类型
             dispatch_async(serialQueue, ^{
-                int sleepTime = (int)self.chipUIDList.count * 10000;
+                int sleepTime = (int)self.chipUIDList.count * 15000;
                 for (int i = 0; i < self.chipUIDList.count; i++) {
                     self.viewModel.chipModel.chipUID = self.chipUIDList[i];
                     [SGSocketManager SendDataWithData:[NRCommand writeInfoToChip4WithChipInfo:self.viewModel.chipModel WithBlockNumber:@"04"]];
@@ -696,7 +751,7 @@
         int allChipCount = (int)self.chipCount;
         if (self.isIssue) {
             allChipCount = (int)(3*self.chipCount);
-        }else if (self.isExchangeChip){
+        }else {
             allChipCount = (int)(2*self.chipCount);
         }
         int statusCount = [NRCommand showBackStatusCountWithHexStatus:chipNumberdataHexStr AllChipCount:allChipCount];
@@ -718,7 +773,11 @@
                     [self.chipListTableView clearCustomerFooterInfo];
                     self.chipExchangeView.hidden = NO;
                     self.chipNormalReadView.hidden = YES;
-                    [PublicHttpTool showSucceedSoundMessage:@"兑换成功"];
+                    if ([PublicHttpTool shareInstance].exchangeChipType==2) {
+                        [PublicHttpTool showSucceedSoundMessage:@"信用出码成功"];
+                    }else{
+                        [PublicHttpTool showSucceedSoundMessage:@"兑换成功"];
+                    }
                 }else if (self.isSettlementTipChip){
                     self.isSettlementTipChip = NO;
                     [self.tipSettlementList removeAllObjects];
@@ -767,6 +826,7 @@
             NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:chipNumberdataHexStr];
             DLOG(@"chipInfo = %@",chipInfo);
             __block int chipAllMoney = 0;
+            __block BOOL  hasCompanyChip = NO;//判断是否有公司筹码
             NSMutableArray *washNumberList = [NSMutableArray array];
             [chipInfo enumerateObjectsUsingBlock:^(NSArray *infoList, NSUInteger idx, BOOL * _Nonnull stop) {
                 //序列号
@@ -779,6 +839,9 @@
                 NSString *batch = [infoList[3] NullToBlankString];
                 //洗码号
                 NSString *washNumber = [infoList[4] NullToBlankString];
+                if ([washNumber isEqualToString:@"0"]||[washNumber length]==0) {
+                    hasCompanyChip = YES;
+                }
                 if (![washNumberList containsObject:washNumber]) {
                     [washNumberList addObject:washNumber];
                 }
@@ -812,10 +875,33 @@
                     [self.takeOutChipList addObject:chipinfo];
                 }
             }];
+            if (self.chipOperationType==3&&[PublicHttpTool shareInstance].exchangeChipType==1) {//筹码换现金
+                if (hasCompanyChip) {
+                    [self.chipExchangeList removeAllObjects];
+                    [PublicHttpTool showSoundMessage:@"存在公司筹码，不能进行兑换!"];
+                    return;
+                }else{
+                    [self.chipListTableView.customerFooter showBottomInfoWithXMH:washNumberList.firstObject];
+                }
+            }else if (self.chipOperationType==4){//小费结算
+                if (hasCompanyChip) {
+                    [self.tipSettlementList removeAllObjects];
+                    [PublicHttpTool showSoundMessage:@"存在公司筹码，不能进行小费结算!"];
+                    return;
+                }
+            }else if (self.chipOperationType==5){
+                if (hasCompanyChip) {
+                    [self.storageChipList removeAllObjects];
+                    [PublicHttpTool showSoundMessage:@"存入筹码有误，请检查"];
+                    return;
+                }else{
+                    [PublicHttpTool shareInstance].exchangeWashNumber = washNumberList.firstObject;
+                }
+            }
             NSDictionary *infoDict = @{@"chipNumber":[NSString stringWithFormat:@"筹码数量:%ld",(long)self.chipCount],
                                        @"chipTotalMoney":[NSString stringWithFormat:@"筹码总额:%d",chipAllMoney]
             };
-            NSArray *tableInfoList = nil;
+            NSArray *tableInfoList = [NSArray array];
             NSString *operateTitle = @"";
             self.chipListTableView.hidden = NO;
             self.operationButton.hidden = NO;

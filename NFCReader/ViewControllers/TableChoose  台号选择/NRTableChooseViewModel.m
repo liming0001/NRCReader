@@ -134,6 +134,7 @@
                 allInfo.list = infoList;
                 [self.chipFmeList addObject:allInfo];
             }];
+            [PublicHttpTool shareInstance].chipFmeList = self.chipFmeList;
         }
         block(suc, msg,error);
     }];

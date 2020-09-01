@@ -110,7 +110,7 @@
     ModificationResultsView *modifyResultsView = [[AppDelegate shareInstance]modifyResultsView];
     [[MJPopTool sharedInstance] popView:modifyResultsView animated:YES];
     [modifyResultsView clearAllButtons];
-    [modifyResultsView updateBottomViewBtnWithTag:YES];
+    [modifyResultsView updateBottomViewBtnNiuniu];
     [modifyResultsView fellViewDataWithList:self.viewModel.realLuzhuList];
     @weakify(self);
     [AppDelegate shareInstance].updateLuzhuResultBlock = ^(int gameType) {

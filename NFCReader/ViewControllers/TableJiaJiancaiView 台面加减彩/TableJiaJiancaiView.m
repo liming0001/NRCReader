@@ -351,7 +351,7 @@
 
 #pragma mark --搜索并打印数据
 - (void)scanBlootooth{
-    [self showWaitingViewInWindow];
+    [PublicHttpTool showWaitingView];
     [self.manager startScan];
     [self.manager getBlueListArray:^(NSMutableArray *blueToothArray) {
         CBPeripheral * per = blueToothArray[0];
@@ -360,7 +360,7 @@
             if ([stateStr isEqualToString:@"SUCCESS"]) {//连接成功--SUCCESS，连接失败--ERROR，断开连接--DISCONNECT
                 [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(BlueToothPrint) userInfo:nil repeats:NO];
             }else{
-                [self hideWaitingViewInWindow];
+                [PublicHttpTool hideWaitingView];
             }
         }];
     }];
@@ -374,32 +374,13 @@
     [self.manager getBluetoothPrintWith:self.printDict andPrintType:1];
     [self.manager stopScan];
     [self.manager getPrintSuccessReturn:^(BOOL sizeValue) {
-        [self hideWaitingViewInWindow];
+        [PublicHttpTool showWaitingView];
         if (sizeValue==YES) {
             [[EPToast makeText:@"打印成功"]showWithType:ShortTime];
         }else{
             [[EPToast makeText:@"打印失败!"]showWithType:ShortTime];
         }
     }];
-}
-
-- (void)showWaitingViewInWindow {
-    UIView *window = [self findWindow];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    hud.layer.zPosition = 100;
-}
-
-- (UIView *)findWindow {
-    UIView *window = [[UIApplication sharedApplication] keyWindow];
-    if (!window) {
-        window = self;
-    }
-    return window;
-}
-
-- (void)hideWaitingViewInWindow {
-    UIView *window = [self findWindow];
-    [MBProgressHUD hideHUDForView:window animated:YES];
 }
 
 - (void)fellViewDataWithLoginID:(NSString *)loginId TableID:(NSString *)tableId ChipFmeList:(NSArray *)chipFmeList{
@@ -482,7 +463,7 @@
 }
 
 - (void)addJiacaiAction{
-    [self showWaitingViewInWindow];
+    [PublicHttpTool showWaitingView];
     NSString *fTypeS = @"1";
     if (self.bottomType==0) {//加减彩
         if (self.headType==1) {
@@ -530,7 +511,7 @@
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        [self hideWaitingViewInWindow];
+        [PublicHttpTool hideWaitingView];
         if (suc) {
             [self closeAction];
             if (self.bottomType==0) {//加减彩

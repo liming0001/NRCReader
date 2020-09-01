@@ -56,6 +56,7 @@
                     self.editTapCustomer(editCustomer,YES);
                     [self removeFromSuperview];
                 }
+                 [PublicHttpTool hideWaitingView];
                 //响警告声音
                 [EPSound playWithSoundName:@"succeed_sound"];
             }else{

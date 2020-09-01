@@ -10,11 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^customerBtnActionBlock)(NSInteger tag);
+typedef void(^refrashHeadBlock)(BOOL refrash);
 @interface CustomerInfoFooter : UIView
 @property (nonatomic, strong) customerBtnActionBlock customerBtnBlock;
+@property (nonatomic, strong) refrashHeadBlock refrashBlock;
 - (void)_setUpCustomerInfoWithType:(int)type;
 #pragma mark -- 清除代理信息
 - (void)clearCustomerInfo;
+- (void)showBottomInfoWithXMH:(NSString *)xmh;
 
 @end
 

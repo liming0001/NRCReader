@@ -23,7 +23,7 @@
 - (UIProgressView *)progressView{
     if (!_progressView) {
         _progressView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _progressView.frame = CGRectMake(0, 64, self.view.frame.size.width, 2);
+        _progressView.frame = CGRectMake(0, [[UIApplication sharedApplication] statusBarFrame].size.height + 44, self.view.frame.size.width, 2);
         //设置进度条的色彩
         [_progressView setTrackTintColor:[UIColor colorWithRed:240.0/255 green:240.0/255 blue:240.0/255 alpha:1.0]];
         _progressView.progressTintColor = [UIColor blueColor];

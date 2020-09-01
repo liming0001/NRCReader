@@ -40,7 +40,7 @@ static PublicHttpTool * _instance = nil;
             _instance.prePuciCount = 1;
             _instance.authorName = @"";
             _instance.guestName = @"";
-            _instance.fcredit = @"";
+            _instance.fcredit = @"0";
         }
     });
     return _instance;
@@ -192,7 +192,19 @@ static PublicHttpTool * _instance = nil;
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
-        block(suc, [NSDictionary changeType:responseDict],msg);
+        NSDictionary *statusDict = [NSDictionary changeType:responseDict];
+        if (suc) {
+            if ([statusDict[@"fstatus"] intValue]==1) {//未开台,不需要判断是否日结
+                [PublicHttpTool shareInstance].hasFoundingStatus = 1;
+            }else{//已开台
+                if ([statusDict[@"fsettle"] intValue]==1) {//未日结，可以进行杀赔操作
+                    [PublicHttpTool shareInstance].hasFoundingStatus = 2;
+                }else{//已经日结，不能进行杀赔操作，必须先收台
+                    [PublicHttpTool shareInstance].hasFoundingStatus = 3;
+                }
+            }
+        }
+        block(suc, statusDict,msg);
     }];
 }
 
@@ -503,7 +515,7 @@ NSDictionary * param = @{
                              @"fsy":[PublicHttpTool shareInstance].curupdateInfo.cp_result,//判断客人的输赢：1为赢，-1为输，0为不杀不赔
                              @"fresult":[PublicHttpTool shareInstance].curupdateInfo.cp_money,//应付额
                              @"fzhaohui":zhaohuiList,//找回z筹码
-                             @"fyj":@"0",//佣金
+                             @"fyj":[PublicHttpTool shareInstance].curupdateInfo.cp_commission,//佣金
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fdashui":dashuiList//打水筹码，硬件ID值数组
                              };
@@ -537,7 +549,7 @@ NSDictionary * param = @{
                              @"fxmh_list":washNumberList,//客人洗码号
                              @"fxz_name":[PublicHttpTool shareInstance].curupdateInfo.cp_Result_name,//客人下注名称，如庄、闲、庄对子…
                              @"fbeishu":[PublicHttpTool shareInstance].curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
-                             @"fdianshu":@"0",//牛牛点数，非牛牛游戏传-1
+                             @"fdianshu":[PublicHttpTool shareInstance].curupdateInfo.cp_dianshu,//牛牛点数，非牛牛游戏传-1
                              @"fhardlist":chipList,//实付筹码，硬件ID值数组
                              @"fresult":[PublicHttpTool shareInstance].curupdateInfo.cp_money,//应付额
                              @"fzhaohuilist":zhaohuiList//打水筹码，硬件ID值数组

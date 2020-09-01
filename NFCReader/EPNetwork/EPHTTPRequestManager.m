@@ -217,7 +217,7 @@
     }
     if (error) {
         if ((long)error.code==-1009) {
-            [[EPToast makeText:@"网络连接错误!"]showWithType:ShortTime];
+//            [[EPToast makeText:@"网络连接错误!"]showWithType:ShortTime];
         }
     }
 #ifdef DEBUG
@@ -226,7 +226,6 @@
     NSDictionary *paramDict = [baseRequest requestParameters];
     NSString *requestMethodName = paramDict[@"f"];
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n==============================================================\n=                           请求返回                          =\n==============================================================\n"];
-    
     NSURLRequest *request = task.originalRequest;
     [logString appendFormat:@"请求地址：%@://%@%@/%@\n\n", request.URL.scheme, request.URL.host, request.URL.path,requestMethodName];
     [logString appendFormat:@"请求状态：\n\t%ld\n\n", ((NSHTTPURLResponse *)(task.response)).statusCode];
@@ -236,7 +235,6 @@
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         [logString appendFormat:@"返回json数据：\n\n%@\n", jsonString];
     }
-    
     if (shouldLogError) {
         [logString appendFormat:@"Error Domain:\t\t\t\t\t\t\t%@\n", error.domain];
         [logString appendFormat:@"Error Domain Code:\t\t\t\t\t\t%ld\n", (long)error.code];

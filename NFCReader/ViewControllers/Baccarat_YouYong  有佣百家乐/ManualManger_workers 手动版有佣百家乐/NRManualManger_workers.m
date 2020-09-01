@@ -197,6 +197,7 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.curSelectCustomer = curCustomer;
                 [self.customerInfoList replaceObjectAtIndex:indexPath.row withObject:curCustomer];
                 [collectionView reloadData];
+                
                 [self fengzhuangCustomerInfo];
                 self.payKillInfoView = [EPPayKillInfoView showInWindowWithNRCustomerInfo:self.curSelectCustomer handler:^(int buttonType) {
                     @strongify(self);
@@ -287,6 +288,9 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
     NSMutableArray *fyj_list = [NSMutableArray array];
     self.param_list = [NSMutableArray array];
     
+    self.payKillResultInfo_list = [NSMutableArray arrayWithCapacity:0];
+    self.payKillResultValue  = 0;
+    
     NSMutableArray *reslutNameList = [NSMutableArray array];
     for (int i=0; i<[PublicHttpTool shareInstance].resultList.count; i++) {
         NSInteger tagResult = [[PublicHttpTool shareInstance].resultList[i]integerValue];
@@ -304,211 +308,244 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
             [reslutNameList addObject:@"和"];
         }
     }
+    
     [PublicHttpTool shareInstance].curupdateInfo.cp_name = [reslutNameList componentsJoinedByString:@","];
-    [self.customerInfoList enumerateObjectsUsingBlock:^(CustomerInfo *curCustomer, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([curCustomer.zhuangValue integerValue]==0&&[curCustomer.zhuangDuiValue integerValue]==0&&[curCustomer.xianValue integerValue]==0&&[curCustomer.xianDuiValue integerValue]==0&&[curCustomer.heValue integerValue]==0&&[curCustomer.sixWinValue integerValue]==0&&[curCustomer.baoxianValue integerValue]==0&&[[curCustomer.washNumberValue NullToBlankString]length]==0) {
-        }else{
-            //赔率
-            CGFloat odds = 0;
-            CGFloat yj = 0;
-            NSArray *xz_array = [PublicHttpTool shareInstance].curXz_setting;
-            if ([curCustomer.zhuangValue integerValue]!=0) {//庄
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.zhuangValue];
-                [fxz_name_list addObject:@"庄"];
-                if (xz_array.count>0) {
-                    odds = [xz_array[0][@"fpl"] intValue];
-                    yj = [xz_array[0][@"fyj"] intValue]/100.0;
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
-                    [fsy_list addObject:[NSNumber numberWithInt:0]];
-                    [fresult_list addObject:[NSNumber numberWithInt:0]];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }else{
-                    if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:1]]) {//庄
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.zhuangValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else {
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        [fresult_list addObject:curCustomer.zhuangValue];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
+    if ([self.curSelectCustomer.zhuangValue integerValue]==0&&[self.curSelectCustomer.zhuangDuiValue integerValue]==0&&[self.curSelectCustomer.xianValue integerValue]==0&&[self.curSelectCustomer.xianDuiValue integerValue]==0&&[self.curSelectCustomer.heValue integerValue]==0&&[self.curSelectCustomer.sixWinValue integerValue]==0&&[self.curSelectCustomer.baoxianValue integerValue]==0&&[[self.curSelectCustomer.washNumberValue NullToBlankString]length]==0) {
+    }else{
+        //赔率
+        CGFloat odds = 0;
+        CGFloat yj = 0;
+        NSArray *xz_array = [PublicHttpTool shareInstance].curXz_setting;
+        if ([self.curSelectCustomer.zhuangValue integerValue]!=0) {//庄
+            NSString *zhuangRealValue = [NSString stringWithFormat:@"庄:%@",self.curSelectCustomer.zhuangValue];
+            [self.payKillResultInfo_list addObject:zhuangRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.zhuangValue];
+            [fxz_name_list addObject:@"庄"];
+            if (xz_array.count>0) {
+                odds = [xz_array[0][@"fpl"] intValue];
+                yj = [xz_array[0][@"fyj"] intValue]/100.0;
             }
-            if ([curCustomer.zhuangDuiValue integerValue]!=0) {//庄对
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.zhuangDuiValue];
-                [fxz_name_list addObject:@"庄对"];
-                if (xz_array.count>2) {
-                    odds = [xz_array[2][@"fpl"] floatValue];
-                    yj = [xz_array[2][@"fyj"] intValue]/100.0;
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:2]]) {//庄对
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                [fsy_list addObject:[NSNumber numberWithInt:0]];
+                [fresult_list addObject:[NSNumber numberWithInt:0]];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+            }else{
+                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:1]]) {//庄
                     [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.zhuangDuiValue integerValue];
-                    if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
+                    CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.zhuangValue integerValue];
+                    if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
                         [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
                     }else{
                         [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
                     }
-                    CGFloat yjValue = yj*[curCustomer.zhuangDuiValue integerValue];
+                    CGFloat yjValue = yj*[self.curSelectCustomer.zhuangValue integerValue];
                     [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                    CGFloat payValue = (odds-yj)*[self.curSelectCustomer.zhuangValue integerValue];
+                    self.payKillResultValue+= payValue;
                 }else {
                     [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.zhuangDuiValue];
+                    [fresult_list addObject:self.curSelectCustomer.zhuangValue];
                     [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    self.payKillResultValue-= [self.curSelectCustomer.zhuangValue floatValue];
                 }
-                [self fengzhuangChipTypeWith:curCustomer];
             }
-            if ([curCustomer.sixWinValue integerValue]!=0) {//六点赢
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.sixWinValue];
-                [fxz_name_list addObject:@"Lucky6"];
-                if (curCustomer.sixValueType==1) {
-                    if (xz_array.count>6) {
-                        odds = [xz_array[6][@"fpl"] floatValue];
-                        yj = [xz_array[6][@"fyj"] intValue]/100.0;
-                    }
-                }else{
-                    if (xz_array.count>7) {
-                        odds = [xz_array[7][@"fpl"] floatValue];
-                        yj = [xz_array[7][@"fyj"] intValue]/100.0;
-                    }
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
-                    [fsy_list addObject:[NSNumber numberWithInt:0]];
-                    [fresult_list addObject:[NSNumber numberWithInt:0]];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }else{
-                    if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:3]]) {//6点赢
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        CGFloat resultValue = (1+odds-yj)*[curCustomer.sixWinValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.sixWinValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else {
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        [fresult_list addObject:curCustomer.sixWinValue];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-            if ([curCustomer.xianValue integerValue]!=0) {//闲
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.xianValue];
-                [fxz_name_list addObject:@"闲"];
-                if (xz_array.count>1) {
-                    odds = [xz_array[1][@"fpl"] floatValue];
-                    yj = [xz_array[1][@"fyj"] intValue]/100.0;
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
-                    [fsy_list addObject:[NSNumber numberWithInt:0]];
-                    [fresult_list addObject:[NSNumber numberWithInt:0]];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }else{
-                    if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:4]]) {//闲
-                        [fsy_list addObject:[NSNumber numberWithInt:1]];
-                        CGFloat resultValue = (1+odds-yj)*[curCustomer.xianValue integerValue];
-                        if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                            [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                        }else{
-                            [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                        }
-                        CGFloat yjValue = yj*[curCustomer.xianValue integerValue];
-                        [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                    }else {
-                        [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                        [fresult_list addObject:curCustomer.xianValue];
-                        [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                    }
-                }
-                
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-            
-            if ([curCustomer.xianDuiValue integerValue]!=0) {//闲对
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.xianDuiValue];
-                [fxz_name_list addObject:@"闲对"];
-                if (xz_array.count>3) {
-                    odds = [xz_array[3][@"fpl"] floatValue];
-                    yj = [xz_array[3][@"fyj"] intValue]/100.0;
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:5]]) {//闲对
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.xianDuiValue integerValue];
-                    if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                        [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                    }else{
-                        [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                    }
-                    CGFloat yjValue = yj*[curCustomer.xianDuiValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.xianDuiValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-            
-            if ([curCustomer.heValue integerValue]!=0) {//和
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.heValue];
-                [fxz_name_list addObject:@"和"];
-                if (xz_array.count>4) {
-                    odds = [xz_array[4][@"fpl"] floatValue];
-                    yj = [xz_array[4][@"fyj"] intValue]/100.0;
-                }
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = (1+odds-yj)*[curCustomer.heValue integerValue];
-                    if (curCustomer.cashType==0||curCustomer.cashType==2||curCustomer.cashType==4||curCustomer.cashType==5) {
-                        [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
-                    }else{
-                        [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
-                    }
-                    CGFloat yjValue = yj*[curCustomer.heValue integerValue];
-                    [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.heValue];
-                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
-            
-            if ([curCustomer.baoxianValue integerValue]!=0) {//保险
-                [fxmh_list addObject:[curCustomer.washNumberValue NullToBlankString]];
-                [fxz_money_list addObject:curCustomer.baoxianValue];
-                [fxz_name_list addObject:@"保险"];
-                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:7]]) {//和
-                    [fsy_list addObject:[NSNumber numberWithInt:1]];
-                    CGFloat resultValue = [curCustomer.baoxianValue integerValue];
-                    [fresult_list addObject:[NSNumber numberWithInt:resultValue]];
-                    [fyj_list addObject:[NSNumber numberWithInt:0]];
-                }else {
-                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
-                    [fresult_list addObject:curCustomer.baoxianValue];
-                    [fyj_list addObject:[NSNumber numberWithInt:0]];
-                }
-                [self fengzhuangChipTypeWith:curCustomer];
-            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
         }
-    }];
+        if ([self.curSelectCustomer.zhuangDuiValue integerValue]!=0) {//庄对
+            NSString *zhuangDuiRealValue = [NSString stringWithFormat:@"庄对:%@",self.curSelectCustomer.zhuangDuiValue];
+            [self.payKillResultInfo_list addObject:zhuangDuiRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.zhuangDuiValue];
+            [fxz_name_list addObject:@"庄对"];
+            if (xz_array.count>2) {
+                odds = [xz_array[2][@"fpl"] floatValue];
+                yj = [xz_array[2][@"fyj"] intValue]/100.0;
+            }
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:2]]) {//庄对
+                [fsy_list addObject:[NSNumber numberWithInt:1]];
+                CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.zhuangDuiValue integerValue];
+                if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
+                    [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
+                }else{
+                    [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
+                }
+                CGFloat yjValue = yj*[self.curSelectCustomer.zhuangDuiValue integerValue];
+                [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                CGFloat payValue = (odds-yj)*[self.curSelectCustomer.zhuangDuiValue integerValue];
+                self.payKillResultValue+= payValue;
+            }else {
+                [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                [fresult_list addObject:self.curSelectCustomer.zhuangDuiValue];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                self.payKillResultValue-= [self.curSelectCustomer.zhuangDuiValue floatValue];
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+        if ([self.curSelectCustomer.sixWinValue integerValue]!=0) {//六点赢
+            NSString *luckyRealValue = [NSString stringWithFormat:@"庄6点:%@",self.curSelectCustomer.luckyValue];
+            [self.payKillResultInfo_list addObject:luckyRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.sixWinValue];
+            [fxz_name_list addObject:@"6点赢"];
+            if (self.curSelectCustomer.sixValueType==1) {
+                if (xz_array.count>6) {
+                    odds = [xz_array[6][@"fpl"] floatValue];
+                    yj = [xz_array[6][@"fyj"] intValue]/100.0;
+                }
+            }else{
+                if (xz_array.count>7) {
+                    odds = [xz_array[7][@"fpl"] floatValue];
+                    yj = [xz_array[7][@"fyj"] intValue]/100.0;
+                }
+            }
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                [fsy_list addObject:[NSNumber numberWithInt:0]];
+                [fresult_list addObject:[NSNumber numberWithInt:0]];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+            }else{
+                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:3]]) {//6点赢
+                    [fsy_list addObject:[NSNumber numberWithInt:1]];
+                    CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.sixWinValue integerValue];
+                    if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
+                        [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
+                    }else{
+                        [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
+                    }
+                    CGFloat yjValue = yj*[self.curSelectCustomer.sixWinValue integerValue];
+                    [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                    CGFloat payValue = (odds-yj)*[self.curSelectCustomer.sixWinValue integerValue];
+                    self.payKillResultValue+= payValue;
+                }else {
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:self.curSelectCustomer.sixWinValue];
+                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    self.payKillResultValue-= [self.curSelectCustomer.sixWinValue floatValue];
+                }
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+        if ([self.curSelectCustomer.xianValue integerValue]!=0) {//闲
+            NSString *xianRealValue = [NSString stringWithFormat:@"闲:%@",self.curSelectCustomer.xianValue];
+            [self.payKillResultInfo_list addObject:xianRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.xianValue];
+            [fxz_name_list addObject:@"闲"];
+            if (xz_array.count>1) {
+                odds = [xz_array[1][@"fpl"] floatValue];
+                yj = [xz_array[1][@"fyj"] intValue]/100.0;
+            }
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                [fsy_list addObject:[NSNumber numberWithInt:0]];
+                [fresult_list addObject:[NSNumber numberWithInt:0]];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+            }else{
+                if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:4]]) {//闲
+                    [fsy_list addObject:[NSNumber numberWithInt:1]];
+                    CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.xianValue integerValue];
+                    if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
+                        [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
+                    }else{
+                        [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
+                    }
+                    CGFloat yjValue = yj*[self.curSelectCustomer.xianValue integerValue];
+                    [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                    CGFloat payValue = (odds-yj)*[self.curSelectCustomer.xianValue integerValue];
+                    self.payKillResultValue+= payValue;
+                }else {
+                    [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                    [fresult_list addObject:self.curSelectCustomer.xianValue];
+                    [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                    self.payKillResultValue-= [self.curSelectCustomer.xianValue floatValue];
+                }
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+        if ([self.curSelectCustomer.xianDuiValue integerValue]!=0) {//闲对
+            NSString *xianDuiRealValue = [NSString stringWithFormat:@"闲对:%@",self.curSelectCustomer.xianDuiValue];
+            [self.payKillResultInfo_list addObject:xianDuiRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.xianDuiValue];
+            [fxz_name_list addObject:@"闲对"];
+            if (xz_array.count>3) {
+                odds = [xz_array[3][@"fpl"] floatValue];
+                yj = [xz_array[3][@"fyj"] intValue]/100.0;
+            }
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:5]]) {//闲对
+                [fsy_list addObject:[NSNumber numberWithInt:1]];
+                CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.xianDuiValue integerValue];
+                if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
+                    [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
+                }else{
+                    [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
+                }
+                CGFloat yjValue = yj*[self.curSelectCustomer.xianDuiValue integerValue];
+                [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                CGFloat payValue = (odds-yj)*[self.curSelectCustomer.xianDuiValue integerValue];
+                self.payKillResultValue+= payValue;
+            }else {
+                [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                [fresult_list addObject:self.curSelectCustomer.xianDuiValue];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                self.payKillResultValue-= [self.curSelectCustomer.xianDuiValue floatValue];
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+        
+        if ([self.curSelectCustomer.heValue integerValue]!=0) {//和
+            NSString *heRealValue = [NSString stringWithFormat:@"和:%@",self.curSelectCustomer.heValue];
+            [self.payKillResultInfo_list addObject:heRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.heValue];
+            [fxz_name_list addObject:@"和"];
+            if (xz_array.count>4) {
+                odds = [xz_array[4][@"fpl"] floatValue];
+                yj = [xz_array[4][@"fyj"] intValue]/100.0;
+            }
+            if ([[PublicHttpTool shareInstance].resultList containsObject:[NSNumber numberWithInteger:6]]) {//和
+                [fsy_list addObject:[NSNumber numberWithInt:1]];
+                CGFloat resultValue = (1+odds-yj)*[self.curSelectCustomer.heValue integerValue];
+                if (self.curSelectCustomer.cashType==0||self.curSelectCustomer.cashType==2||self.curSelectCustomer.cashType==4||self.curSelectCustomer.cashType==5) {
+                    [fresult_list addObject:[NSString stringWithFormat:@"%d",(int)resultValue]];
+                }else{
+                    [fresult_list addObject:[NSString stringWithFormat:@"%.2f",resultValue]];
+                }
+                CGFloat yjValue = yj*[self.curSelectCustomer.heValue integerValue];
+                [fyj_list addObject:[NSNumber numberWithInt:ceil(yjValue)]];
+                CGFloat payValue = (odds-yj)*[self.curSelectCustomer.heValue integerValue];
+                self.payKillResultValue+= payValue;
+            }else {
+                [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                [fresult_list addObject:self.curSelectCustomer.heValue];
+                [fyj_list addObject:[NSNumber numberWithDouble:0]];
+                self.payKillResultValue-= [self.curSelectCustomer.heValue floatValue];
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+        
+        if ([self.curSelectCustomer.baoxianValue integerValue]!=0) {//保险
+            NSString *baoxianRealValue = [NSString stringWithFormat:@"保险:%@",self.curSelectCustomer.baoxianValue];
+            [self.payKillResultInfo_list addObject:baoxianRealValue];
+            [fxmh_list addObject:[self.curSelectCustomer.washNumberValue NullToBlankString]];
+            [fxz_money_list addObject:self.curSelectCustomer.baoxianValue];
+            [fxz_name_list addObject:@"保险"];
+            CGFloat resultValue = [self.curSelectCustomer.baoxianValue integerValue];
+            [fresult_list addObject:[NSNumber numberWithDouble:resultValue]];
+            [fyj_list addObject:[NSNumber numberWithDouble:0]];
+            if (resultValue>0) {
+                [fsy_list addObject:[NSNumber numberWithInt:1]];
+                self.payKillResultValue+= resultValue;
+            }else{
+                [fsy_list addObject:[NSNumber numberWithInt:-1]];
+                self.payKillResultValue-= resultValue;
+            }
+            [self fengzhuangChipTypeWith:self.curSelectCustomer];
+        }
+    }
+    self.curSelectCustomer.resultString = [self.payKillResultInfo_list componentsJoinedByString:@","];
+    self.curSelectCustomer.resultValue = self.payKillResultValue;
+    self.curSelectCustomer.kaiPaiResult = [PublicHttpTool shareInstance].curupdateInfo.cp_name;
+    
     [self.param_list addObject:fxmh_list];
     [self.param_list addObject:self.fxz_cmtype_list];
     [self.param_list addObject:fxz_money_list];

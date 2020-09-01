@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIView *cowAddMoneyView;
 @property (weak, nonatomic) IBOutlet UILabel *cowShouldMoneylab;
 @property (weak, nonatomic) IBOutlet UILabel *cowHadMoneyLab;
+@property (weak, nonatomic) IBOutlet UILabel *cowShouldZhaoHuiValueLab;
+
 @property (weak, nonatomic) IBOutlet UILabel *cowZhaohuiMoneyLab;
 @property (weak, nonatomic) IBOutlet UIButton *zhaoHuiBtn;
 
@@ -27,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)fellViewDataNRCustomerInfo:(NRCustomerInfo *)customerInfo;
 - (void)clearKillShowView;
+#pragma mark--根据找回筹码计算总码金额
+- (void)calculateTotalMoneyWithJiapei_UsdValue:(int)Jiapei_UsdValue jiaPei_rmbValue:(int)jiaPei_rmbValue;
+- (int)calculateZhaoHuiMoneyWithRealJaiPeiMoney:(int)jiaPeiMoney;
 @end
 
 NS_ASSUME_NONNULL_END

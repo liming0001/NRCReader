@@ -338,6 +338,9 @@
             NSString *ximahao = [NSString stringWithFormat:@"%@%@",ximahao1,ximahao2];
             if (ximahao.length!=0) {
                 ximahao = [self stringFromHexString:ximahao];
+                if (!ximahao) {//兼容老筹码
+                    ximahao = [NSString stringWithFormat:@"%@%@",ximahao1,ximahao2];
+                }
             }else{
                 ximahao = @"0";
             }

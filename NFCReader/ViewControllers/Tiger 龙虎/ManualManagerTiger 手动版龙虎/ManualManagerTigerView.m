@@ -134,9 +134,10 @@ static NSString * const moreReuseIdentifier = @"MoreCustomerCell";
                 self.isBeganMove = YES;
                 //获取点击的cell的indexPath
                 NSIndexPath *selectedIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
-                
-                //开始移动对应的cell
-                [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
+                if (selectedIndexPath) {
+                    //开始移动对应的cell
+                    [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
+                }
             }
             break;
         }

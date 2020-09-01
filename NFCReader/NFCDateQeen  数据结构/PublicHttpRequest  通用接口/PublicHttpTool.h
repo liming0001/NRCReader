@@ -39,6 +39,8 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 
 @property (nonatomic, strong) NSDictionary *updateParam;//修改露珠参数
 
+@property (nonatomic, assign) int shouldZhaoHuiValue;//需找回金额
+
 //判断是否开台
 @property (nonatomic, assign) int hasFoundingStatus;
 //判断当前台桌（1有佣百家乐，2免佣百家乐，3牛牛,4龙虎）
@@ -61,6 +63,11 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 @property (nonatomic, assign) int prePuciCount;
 @property (nonatomic, assign) int xueciCount;
 
+//兑换类型
+@property (nonatomic, assign) int exchangeChipType;
+//客人可取出金额
+@property (nonatomic, strong) NSString *customerTakeOutMoney;
+
 //输赢记录参数
 @property (nonatomic, strong) NSString *winStatus;
 @property (nonatomic, assign) BOOL hasNewGameEntry;//是否开启了新一局
@@ -74,6 +81,8 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 @property (nonatomic, assign) BOOL exchangeMoneyFirstStep;//换钱第一步
 @property (nonatomic, assign) BOOL exchangeMoneySecondStep;//换钱第二步
 @property (nonatomic, assign) BOOL detectionChip;//筹码识别
+
+@property (nonatomic, assign) BOOL isStoreOrTakeOutChip;//是否存入或者取出
 
 //@property (nonatomic, assign) int operateType;//操作类型(0普通识别，1记录小费，2识别赔付筹码，3识别水钱，4换钱，5筹码识别，6修改洗码号,7展示杀赔弹出框,8绑定筹码)
 
