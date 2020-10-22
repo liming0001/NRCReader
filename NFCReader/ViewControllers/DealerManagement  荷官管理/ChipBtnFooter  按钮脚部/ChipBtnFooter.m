@@ -41,6 +41,8 @@
         [self.footBtn setTitle:@"全部销毁" forState:UIControlStateNormal];
     }else if (type==4){
         [self.footBtn setTitle:@"立即结算" forState:UIControlStateNormal];
+    }else if (type==7){
+        [self.footBtn setTitle:@"一键清除" forState:UIControlStateNormal];
     }else{
         [self.footBtn setTitle:@"立即存入" forState:UIControlStateNormal];
     }

@@ -88,20 +88,11 @@
 #pragma mark -- 筹码检测
 - (void)_setUpChipViewWithTag:(NSInteger)tag{
     self.curTag = tag;
-    if (tag==7) {
-        self.topIconImage.image = [UIImage imageNamed:@"douhao_icon"];
-        self.adjustPowerTextField.hidden = NO;
-        self.topTipsLab.hidden = YES;
-        self.topIconImage.hidden = YES;
-        [self.comfirmBtn setTitle:@"开始设置" forState:UIControlStateNormal];
-    }else if (tag==8){
-        self.topIconImage.image = [UIImage imageNamed:@"chipSuccess_icon"];
-        self.topTipsLab.text = @"兑换成功";
-    }else{
-        self.topIconImage.image = [UIImage imageNamed:@"douhao_icon"];
-        self.adjustPowerTextField.hidden = YES;
-        self.topTipsLab.hidden = NO;
-        self.topIconImage.hidden = NO;
+    self.topIconImage.image = [UIImage imageNamed:@"douhao_icon"];
+    self.adjustPowerTextField.hidden = YES;
+    self.topTipsLab.hidden = NO;
+    self.topIconImage.hidden = NO;
+    if (![PublicHttpTool shareInstance].isBigPermissions) {
         if (tag==1) {
             self.topTipsLab.text = @"请将需要检测的筹码平整放置在感应托盘中!";
             [self.comfirmBtn setTitle:@"开始检测" forState:UIControlStateNormal];
@@ -120,9 +111,13 @@
         }else if (tag==6){
             self.topTipsLab.text = @"请将需要取出的筹码平整放置在感应托盘中!";
             [self.comfirmBtn setTitle:@"开始取出" forState:UIControlStateNormal];
-        }else if (tag==8){//成功
-            
+        }else {
+            self.topTipsLab.text = @"请将筹码平整放置在感应托盘中进行读取";
+            [self.comfirmBtn setTitle:@"开始读取" forState:UIControlStateNormal];
         }
+    }else{
+        self.topTipsLab.text = @"请将筹码平整放置在感应托盘中进行读取";
+        [self.comfirmBtn setTitle:@"开始读取" forState:UIControlStateNormal];
     }
 }
 

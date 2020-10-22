@@ -71,6 +71,10 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
 }
 
 - (void)fellChipViewWithChipList:(NSArray *)chipInfoList{
+    self.nubsLab.text = @"洗码号";
+    self.rightCloseBtn.hidden =NO;
+    self.readChipBtn.hidden = NO;
+    self.midCloseBtn.hidden = YES;
     if (!self.chipList) {
         self.chipList = [NSMutableArray arrayWithCapacity:0];
     }
@@ -89,6 +93,58 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
     
     self.totalChipMoneyLab.text = [NSString stringWithFormat:@"总金额:%d",chipAllMoney];
     self.totalChipNumbersLab.text = [NSString stringWithFormat:@"总筹码个数:%d",(int)chipInfoList.count];
+}
+
+- (void)fellChipViewDetailWithChipList:(NSArray *)chipInfoList{
+    self.nubsLab.text = @"筹码个数";
+    self.rightCloseBtn.hidden =YES;
+    self.readChipBtn.hidden = YES;
+    self.midCloseBtn.hidden = NO;
+    if (!self.chipList) {
+        self.chipList = [NSMutableArray arrayWithCapacity:0];
+    }
+    [self.chipList removeAllObjects];
+    __block int chipAllMoney = 0;
+    __block int chipAllNumbers = 0;
+    [chipInfoList enumerateObjectsUsingBlock:^(NSDictionary *chipDict, NSUInteger idx, BOOL * _Nonnull stop) {
+        if([chipDict objectForKey:@"cmdata"]) {
+            NSArray *cmdataList = chipDict[@"cmdata"];
+            [cmdataList enumerateObjectsUsingBlock:^(NSDictionary *cmdataDict, NSUInteger chipIdx, BOOL * _Nonnull stop) {
+                NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
+                [chipInfoDict setValue:chipDict[@"fcmtype"] forKey:@"chipType"];
+                [chipInfoDict setValue:cmdataDict[@"fnums"] forKey:@"chipNumber"];
+                [chipInfoDict setValue:cmdataDict[@"fme"] forKey:@"chipAmount"];
+                [self.chipList addObject:chipInfoDict];
+                chipAllNumbers += [cmdataDict[@"fnums"]intValue];
+            }];
+            NSString * realmoney = chipDict[@"totalmoney"];
+            chipAllMoney += [realmoney intValue];
+        }else if ([chipDict objectForKey:@"applyinfodata"]){
+            NSArray *cmdataList = chipDict[@"applyinfodata"];
+            [cmdataList enumerateObjectsUsingBlock:^(NSDictionary *cmdataDict, NSUInteger chipIdx, BOOL * _Nonnull stop) {
+                NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
+                [chipInfoDict setValue:chipDict[@"fcmtype"] forKey:@"chipType"];
+                [chipInfoDict setValue:cmdataDict[@"fnum"] forKey:@"chipNumber"];
+                [chipInfoDict setValue:cmdataDict[@"fme"] forKey:@"chipAmount"];
+                [self.chipList addObject:chipInfoDict];
+                chipAllNumbers += [cmdataDict[@"fnum"]intValue];
+            }];
+            NSString * realmoney = chipDict[@"totalmoney"];
+            chipAllMoney += [realmoney intValue];
+        }else{
+            NSMutableDictionary *chipInfoDict = [NSMutableDictionary dictionary];
+            [chipInfoDict setValue:chipDict[@"fcmtype_id"] forKey:@"chipType"];
+            [chipInfoDict setValue:chipDict[@"fnums"] forKey:@"chipNumber"];
+            [chipInfoDict setValue:chipDict[@"fme"] forKey:@"chipAmount"];
+            [self.chipList addObject:chipInfoDict];
+            chipAllNumbers += [chipDict[@"fnums"]intValue];
+            NSString * realmoney = chipDict[@"fme"];
+            chipAllMoney += [realmoney intValue];
+        }
+    }];
+    [self.tableView reloadData];
+    self.totalChipMoneyLab.text = [NSString stringWithFormat:@"总金额:%d",chipAllMoney];
+    self.totalChipNumbersLab.text = [NSString stringWithFormat:@"总筹码个数:%d",chipAllNumbers];
 }
 
 #pragma mark - Private Methods
@@ -158,6 +214,10 @@ static NSString * const chipInfoReuseIdentifier = @"chipInfo";
     self.totalChipNumbersLab.text = @"总筹码个数:0";
     [self.chipList removeAllObjects];
     [self.tableView reloadData];
+}
+- (IBAction)closeBtnAction:(id)sender {
+    [EPSound playWithSoundName:@"click_sound"];
+    [self removeFromSuperview];
 }
 
 @end

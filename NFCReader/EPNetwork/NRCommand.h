@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSMutableArray *)convertDataToHexStr:(NSData *)data;
 + (NSString *)hexStringFromData:(NSData *)data;
++ (NSString*)getCurrentTimes_other;
 /**
  *  设备给蓝牙传输数据 必须以十六进制数据传给蓝牙 蓝牙设备才会执行
  因为iOS 蓝牙库中方法 传输书记是以NSData形式 这个方法 字符串 ---> 十六进制数据 ---> NSData数据

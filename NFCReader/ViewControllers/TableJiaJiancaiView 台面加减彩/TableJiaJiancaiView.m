@@ -481,38 +481,84 @@
         }
     }
     
-    NSMutableArray *fme_list = [NSMutableArray array];
-    [fme_list addObject:self.RMBChipMoneyList];
-    [fme_list addObject:self.USDChipMoneyList];
-    [fme_list addObject:self.RMBMoneyList];
-    [fme_list addObject:self.USDMoneyList];
-    [fme_list addObject:self.RMBVIPChipMoneyList];
-    [fme_list addObject:self.USDVIPChipMoneyList];
-    
-    NSMutableArray *fnums_list = [NSMutableArray array];
-    [fnums_list addObject:self.RMBChipNumberList];
-    [fnums_list addObject:self.USDChipNumberList];
-    [fnums_list addObject:self.RMBNumberList];
-    [fnums_list addObject:self.USDNumberList];
-    [fnums_list addObject:self.RMBVIPChipNumberList];
-    [fnums_list addObject:self.USDVIPChipNumberList];
-    
+    NSMutableArray *fme_num_list_all = [NSMutableArray array];
+    NSMutableArray *fme_num_list1 = [NSMutableArray array];
+    for (int i=0; i<self.RMBChipMoneyList.count; i++) {
+        [fme_num_list1 addObject:[NSString stringWithFormat:@"%@,%@",self.RMBChipMoneyList[i],self.RMBChipNumberList[i]]];
+    }
+    NSMutableArray *fme_num_list2 = [NSMutableArray array];
+    for (int i=0; i<self.USDChipMoneyList.count; i++) {
+        [fme_num_list2 addObject:[NSString stringWithFormat:@"%@,%@",self.USDChipMoneyList[i],self.USDChipNumberList[i]]];
+    }
+    NSMutableArray *fme_num_list3 = [NSMutableArray array];
+    for (int i=0; i<self.RMBMoneyList.count; i++) {
+        [fme_num_list3 addObject:[NSString stringWithFormat:@"%@,%@",self.RMBMoneyList[i],self.RMBNumberList[i]]];
+    }
+    NSMutableArray *fme_num_list4 = [NSMutableArray array];
+    for (int i=0; i<self.USDMoneyList.count; i++) {
+        [fme_num_list4 addObject:[NSString stringWithFormat:@"%@,%@",self.USDMoneyList[i],self.USDNumberList[i]]];
+    }
+    NSMutableArray *fme_num_list5 = [NSMutableArray array];
+    for (int i=0; i<self.RMBVIPChipMoneyList.count; i++) {
+        [fme_num_list5 addObject:[NSString stringWithFormat:@"%@,%@",self.RMBVIPChipMoneyList[i],self.RMBVIPChipNumberList[i]]];
+    }
+    NSMutableArray *fme_num_list6 = [NSMutableArray array];
+    for (int i=0; i<self.RMBVIPChipMoneyList.count; i++) {
+        [fme_num_list6 addObject:[NSString stringWithFormat:@"%@,%@",self.USDVIPChipMoneyList[i],self.USDVIPChipNumberList[i]]];
+    }
+    [fme_num_list_all addObject:[fme_num_list1 componentsJoinedByString:@";"]];
+    [fme_num_list_all addObject:[fme_num_list2 componentsJoinedByString:@";"]];
+    [fme_num_list_all addObject:[fme_num_list3 componentsJoinedByString:@";"]];
+    [fme_num_list_all addObject:[fme_num_list4 componentsJoinedByString:@";"]];
+    [fme_num_list_all addObject:[fme_num_list5 componentsJoinedByString:@";"]];
+    [fme_num_list_all addObject:[fme_num_list6 componentsJoinedByString:@";"]];
+    NSMutableArray *coinList = [NSMutableArray arrayWithCapacity:0];
+    NSArray *chipTypeList = [NSArray arrayWithObjects:@"1",@"2",@"6",@"7",@"8",@"9", nil];
+    for (int i=0; i<chipTypeList.count; i++) {
+        [coinList addObject:[NSString stringWithFormat:@"%@:%@",chipTypeList[i],fme_num_list_all[i]]];
+    }
     NSDictionary * param = @{
                              @"access_token":self.curLoginToken,
                              @"ftable_id":self.curTableID,
                              @"ftype":fTypeS,
-                             @"fcmtype_list":[NSArray arrayWithObjects:@"1",@"2",@"6",@"7",@"8",@"9", nil],
-                             @"fme_list":fme_list,//面额
-                             @"fnums_list":fnums_list,//数量
+                             @"coinlist":coinList
                              };
-    NSArray *paramList = @[param];
-    NSDictionary * Realparam = @{
-                                 @"f":@"Table_operate",
-                                 @"p":[paramList JSONString]
-                                 };
-    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+    if ([fTypeS isEqualToString:@"4"]) {
+        param = @{
+                    @"access_token":self.curLoginToken,
+                    @"ftable_id":self.curTableID,
+                    @"ftype":fTypeS,
+                    @"fcmtype_list":coinList
+                };
+    }else if ([fTypeS isEqualToString:@"3"]||[fTypeS isEqualToString:@"5"]){
+        NSMutableArray *fme_list = [NSMutableArray array];
+        [fme_list addObject:self.RMBChipMoneyList];
+        [fme_list addObject:self.USDChipMoneyList];
+        [fme_list addObject:self.RMBMoneyList];
+        [fme_list addObject:self.USDMoneyList];
+        [fme_list addObject:self.RMBVIPChipMoneyList];
+        [fme_list addObject:self.USDVIPChipMoneyList];
+        
+        NSMutableArray *fnums_list = [NSMutableArray array];
+        [fnums_list addObject:self.RMBChipNumberList];
+        [fnums_list addObject:self.USDChipNumberList];
+        [fnums_list addObject:self.RMBNumberList];
+        [fnums_list addObject:self.USDNumberList];
+        [fnums_list addObject:self.RMBVIPChipNumberList];
+        [fnums_list addObject:self.USDVIPChipNumberList];
+        
+        param = @{
+                     @"access_token":self.curLoginToken,
+                     @"ftable_id":self.curTableID,
+                     @"ftype":fTypeS,
+                     @"fcmtype_list":[NSArray arrayWithObjects:@"1",@"2",@"6",@"7",@"8",@"9", nil],
+                     @"fme_list":fme_list,//面额
+                     @"fnums_list":fnums_list,//数量
+                 };
+    }
+    [PublicHttpTool Table_operateChipWithParams:param Block:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
         [PublicHttpTool hideWaitingView];
-        if (suc) {
+        if (success) {
             [self closeAction];
             if (self.bottomType==0) {//加减彩
                 if (self.headType==1) {
@@ -535,7 +581,6 @@
                     }
                 }
             }
-
             //响警告声音
             [EPSound playWithSoundName:@"succeed_sound"];
             self.RMBChipMoneyList = nil;
@@ -552,13 +597,7 @@
             self.RMBVIPChipNumberList = nil;
             self.USDVIPChipNumberList = nil;
         }else{
-            NSString *messgae = [msg NullToBlankString];
-            if (messgae.length == 0) {
-                messgae = @"网络异常";
-            }
-            [[EPToast makeText:messgae WithError:YES]showWithType:ShortTime];
-            //响警告声音
-            [EPSound playWithSoundName:@"wram_sound"];
+            [PublicHttpTool showSoundMessage:msg];
         }
     }];
 }

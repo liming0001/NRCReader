@@ -7,9 +7,6 @@
 //
 
 #import "DealerManagementViewController.h"
-#import "NRChipManagerTableViewCell.h"
-#import "NRChipDestrutTableViewCell.h"
-#import "NRCashExchangeTableViewCell.h"
 #import "NRChipManagerInfo.h"
 #import "NRDealerManagerViewModel.h"
 #import "NRChipCodeItem.h"
@@ -48,12 +45,13 @@
 @property (nonatomic, strong) ChipNormalReadView *chipNormalReadView;
 @property (nonatomic, strong) NSMutableArray *chipCheckList;//筹码检测
 @property (nonatomic, strong) NSMutableArray *chipDestroyList;//筹码销毁
-@property (nonatomic, strong) NSMutableArray *tipSettlementList;//小费结算
-@property (nonatomic, strong) NSMutableArray *storageChipList;//存入筹码
-@property (nonatomic, strong) NSMutableArray *takeOutChipList;//取出筹码
 //筹码兑换
 @property (nonatomic, strong) ChipExchangeView *chipExchangeView;
 @property (nonatomic, strong) NSMutableArray *chipExchangeList;
+@property (nonatomic, strong) NSMutableArray *tipSettlementList;//小费结算
+@property (nonatomic, strong) NSMutableArray *storageChipList;//存入筹码
+@property (nonatomic, strong) NSMutableArray *takeOutChipList;//取出筹码
+@property (nonatomic, strong) NSMutableArray *clearAllChipList;//清除所有筹码的洗码号
 
 @property (nonatomic, assign) NSInteger chipCount;
 @property (nonatomic, strong) NSArray *chipUIDList;
@@ -66,9 +64,11 @@
 @property (nonatomic, assign) BOOL isSettlementTipChip;//是否结算筹码
 @property (nonatomic, assign) BOOL isStorageChip;//是否存入筹码
 @property (nonatomic, assign) BOOL isTakeOutChip;//是否取出筹码
+@property (nonatomic, assign) BOOL isClearErrorWashNumberhip;//是否清除洗码后
 @property (nonatomic, assign) BOOL readChipCount;//检测是否有筹码
 @property (nonatomic, assign) BOOL isSetUpDeviceModel;//设置读写器模式
 @property (nonatomic, strong) NSMutableData *chipUIDData;
+@property (nonatomic, strong) NSString *readChipType;
 
 @end
 
@@ -84,6 +84,7 @@
     self.tipSettlementList = [NSMutableArray arrayWithCapacity:0];
     self.storageChipList = [NSMutableArray arrayWithCapacity:0];
     self.takeOutChipList = [NSMutableArray arrayWithCapacity:0];
+    self.clearAllChipList = [NSMutableArray arrayWithCapacity:0];
     
     self.view.backgroundColor = [UIColor colorWithHexString:@"#393939"];
     CGFloat fontSize = 16;
@@ -182,6 +183,9 @@
     self.chipExchangeView = [[ChipExchangeView alloc]initWithFrame:allView_frame];
     self.chipExchangeView.hidden = YES;
     [self.view addSubview:self.chipExchangeView];
+    
+    self.chipIssueView.hidden = NO;
+    self.chipNormalReadView.hidden = YES;
     
     //连接Socket
     [self openOrCloseSocket];
@@ -301,6 +305,8 @@
             [self storageChipSoonConfirmAction];
         }else if (tag==6){//取出筹码
             [self takeOutConfirmAction];
+        }else if (tag==7){
+            [self clearChipErrorWashNumber];
         }
     };
 }
@@ -315,7 +321,7 @@
 
 #pragma mark -- 开启或者关闭Sockket
 - (void)openOrCloseSocket{
-//    [EPAppData sharedInstance].bind_ip = @"192.168.1.192";
+    [EPAppData sharedInstance].bind_ip = @"192.168.1.192";
     [EPAppData sharedInstance].bind_port = 6000;
     [SGSocketManager ConnectSocketWithConfigM:[SGSocketConfigM ShareInstance] complation:^(NSError *error) {
         DLOG(@"error===%@",error);
@@ -352,6 +358,29 @@
     self.isReadChip = YES;
     //查询筹码个数
     [SGSocketManager SendDataWithData:[NRCommand nextQueryChipNumbers]];
+}
+
+#pragma mark -- 清除筹码错误的洗码号
+- (void)clearChipErrorWashNumber{
+    self.viewModel.chipModel.guestWashesNumber  = @"00000000";
+    [self showWaitingViewWithText:@"清除中..."];
+    self.isClearErrorWashNumberhip = YES;
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            //写入数据
+            int sleepTime = (int)self.chipUIDList.count * 15000;
+            for (int i = 0; i < self.chipUIDList.count; i++) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.viewModel.chipModel.chipUID = self.chipUIDList[i];
+                    [SGSocketManager SendDataWithData:[NRCommand clearWashNumberWithChipInfo:self.viewModel.chipModel.chipUID WithBlockNumber:@"04"]];
+                    usleep(sleepTime);
+                    [SGSocketManager SendDataWithData:[NRCommand clearWashNumberWithChipInfo:self.viewModel.chipModel.chipUID WithBlockNumber:@"05"]];
+                    usleep(sleepTime);
+                });
+            }
+        });
+    });
 }
 
 #pragma mark - 立即发行
@@ -746,7 +775,7 @@
                 [self readAllChipsInfo];
             }
         }
-    }else if (self.isIssue||self.isDestoryChip||self.isExchangeChip||self.isSettlementTipChip||self.isStorageChip||self.isTakeOutChip) {
+    }else if (self.isIssue||self.isDestoryChip||self.isExchangeChip||self.isSettlementTipChip||self.isStorageChip||self.isTakeOutChip||self.isClearErrorWashNumberhip) {
         NSString *chipNumberdataHexStr = [NRCommand hexStringFromData:self.chipUIDData];
         int allChipCount = (int)self.chipCount;
         if (self.isIssue) {
@@ -791,6 +820,11 @@
                     [self.takeOutChipList removeAllObjects];
                     [self.chipListTableView clearCustomerFooterInfo];
                     [PublicHttpTool showSucceedSoundMessage:@"取出成功"];
+                }else if (self.isClearErrorWashNumberhip){
+                    self.isClearErrorWashNumberhip = NO;
+                    [self.clearAllChipList removeAllObjects];
+                    [self.chipListTableView clearCustomerFooterInfo];
+                    [PublicHttpTool showSucceedSoundMessage:@"清除成功"];
                 }
             }
         }
@@ -821,6 +855,10 @@
                 [self.takeOutChipList removeAllObjects];
                 //初始化现金兑换筹码的数据
                 [self.takeOutChipList addObject:[self managerModel]];
+            }else if (self.chipOperationType==7){//清除筹码
+                [self.clearAllChipList removeAllObjects];
+                //初始化现金兑换筹码的数据
+                [self.clearAllChipList addObject:[self managerModel]];
             }
             //解析筹码
             NSArray *chipInfo = [itool chipInfoBaccrarWithBLEString:chipNumberdataHexStr];
@@ -858,6 +896,7 @@
                 chipinfo.batch = batch;
                 chipinfo.status = statusString;
                 chipinfo.washNumber = washNumber;
+                self.readChipType = chipType;
                 if (self.chipOperationType==0) {//筹码发行
                     [self.chipIssueList addObject:chipinfo];
                 }else if (self.chipOperationType==2){//筹码销毁
@@ -873,6 +912,8 @@
                     [self.storageChipList addObject:chipinfo];
                 }else if (self.chipOperationType==6){//取出筹码
                     [self.takeOutChipList addObject:chipinfo];
+                }else if (self.chipOperationType==7){//清除筹码
+                    [self.clearAllChipList addObject:chipinfo];
                 }
             }];
             if (self.chipOperationType==3&&[PublicHttpTool shareInstance].exchangeChipType==1) {//筹码换现金
@@ -886,7 +927,8 @@
             }else if (self.chipOperationType==4){//小费结算
                 if (hasCompanyChip) {
                     [self.tipSettlementList removeAllObjects];
-                    [PublicHttpTool showSoundMessage:@"存在公司筹码，不能进行小费结算!"];
+                    NSString *messageInfo = @"存在公司筹码，不能进行小费结算!";
+                    [PublicHttpTool showSoundMessage:messageInfo];
                     return;
                 }
             }else if (self.chipOperationType==5){
@@ -899,7 +941,8 @@
                 }
             }
             NSDictionary *infoDict = @{@"chipNumber":[NSString stringWithFormat:@"筹码数量:%ld",(long)self.chipCount],
-                                       @"chipTotalMoney":[NSString stringWithFormat:@"筹码总额:%d",chipAllMoney]
+                                       @"chipTotalMoney":[NSString stringWithFormat:@"筹码总额:%d",chipAllMoney],
+                                       @"chipTotalValueMoney":[NSString stringWithFormat:@"%d",chipAllMoney]
             };
             NSArray *tableInfoList = [NSArray array];
             NSString *operateTitle = @"";
@@ -936,7 +979,12 @@
                 tableInfoList = self.takeOutChipList;
                 [PublicHttpTool shareInstance].userAllMoney = [NSString stringWithFormat:@"-%d",chipAllMoney];
                 [self.chipListTableView clearCustomerFooterInfo];
+            }else if (self.chipOperationType==7){//清除筹码
+                self.chipNormalReadView.hidden = YES;
+                operateTitle = @"  继续识别  ";
+                tableInfoList = self.clearAllChipList;
             }
+            
             [self.operationButton setTitle:operateTitle forState:UIControlStateNormal];
             [self.chipListTableView fellHeaderInfoWithDict:infoDict];
             [self.chipListTableView fellWithInfoList:tableInfoList WithType:self.chipOperationType];

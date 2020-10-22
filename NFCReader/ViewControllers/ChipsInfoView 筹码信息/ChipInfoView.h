@@ -13,8 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ChipInfoView : UIView
 
 @property(nonatomic,copy)void (^sureActionBlock)(NSInteger killConfirmType);
+@property (weak, nonatomic) IBOutlet UILabel *nubsLab;
+@property (weak, nonatomic) IBOutlet UIButton *readChipBtn;
+@property (weak, nonatomic) IBOutlet UIButton *rightCloseBtn;
+@property (weak, nonatomic) IBOutlet UIButton *midCloseBtn;
 
 - (void)fellChipViewWithChipList:(NSArray *)chipInfoList;
+- (void)fellChipViewDetailWithChipList:(NSArray *)chipInfoList;
 - (void)clearCurChipInfos;
 
 @end

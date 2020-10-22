@@ -252,12 +252,21 @@
             [self.cashExchangeConfirmButton setTitle:@"确认信用出码" forState:UIControlStateNormal];
         }
     }else{
-        self.authorizationTextField.secureTextEntry = YES;
-        self.codeLinesLab.hidden = YES;
-        self.curCodeLinesLab.hidden = YES;
-        self.noteTextField.hidden = YES;
-        self.authorizationTextField.placeholder = @"请输入客人密码";
-        [self.cashExchangeConfirmButton setTitle:@"确认取出" forState:UIControlStateNormal];
+        if (type==7) {
+            self.authorizationTextField.hidden = YES;
+            self.codeLinesLab.hidden = YES;
+            self.curCodeLinesLab.hidden = YES;
+            self.noteTextField.hidden = YES;
+            self.authorizationTextField.placeholder = @"请输入客人密码";
+            [self.cashExchangeConfirmButton setTitle:@"确认取出" forState:UIControlStateNormal];
+        }else{
+            self.authorizationTextField.secureTextEntry = YES;
+            self.codeLinesLab.hidden = YES;
+            self.curCodeLinesLab.hidden = YES;
+            self.noteTextField.hidden = YES;
+            self.authorizationTextField.placeholder = @"请输入客人密码";
+            [self.cashExchangeConfirmButton setTitle:@"确认取出" forState:UIControlStateNormal];
+        }
     }
 }
 

@@ -14,6 +14,7 @@
 #import "CustomerInfoFooter.h"
 #import "ChipInfoHeader.h"
 #import "ChipBtnFooter.h"
+#import "NRAddOrMinusFooter.h"
 
 @interface ChipInfoListTableView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -24,6 +25,7 @@
 
 @property (nonatomic, strong) ChipInfoHeader *chipInfoHeader;
 @property (nonatomic, strong) ChipBtnFooter *chipBtnFooter;
+@property (nonatomic, strong) NRAddOrMinusFooter *chipAddBtnFooter;
 
 @end
 
@@ -38,7 +40,7 @@
 - (void)_setUpBaseView{
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor colorWithHexString:@"#393939"];
     [self addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(self).offset(0);
@@ -52,6 +54,7 @@
     self.chipInfoHeader = [[ChipInfoHeader alloc]initWithFrame:CGRectMake(5, 0, kScreenWidth-210, 110)];
     self.customerFooter = [[CustomerInfoFooter alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-200, 600)];
     self.chipBtnFooter = [[ChipBtnFooter alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-200, 120)];
+    self.chipAddBtnFooter = [[NRAddOrMinusFooter alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-200, 120)];
     
     @weakify(self);
     self.chipBtnFooter.footerBtnBlock = ^(NSInteger tag) {
@@ -70,37 +73,54 @@
         @strongify(self);
         [self.chipInfoHeader fellTakeOutMoney];
     };
+    self.chipAddBtnFooter.footerBtnBlock = ^(NSInteger tag) {
+        @strongify(self);
+        if (self.chipTableFooterBlock) {
+            self.chipTableFooterBlock(tag);
+        }
+    };
 }
 
 - (void)fellWithInfoList:(NSArray *)infoList WithType:(int)type{
-    if (type==2) {
-        self.tableView.tableHeaderView = [UIView new];
-        self.tableView.tableFooterView = self.chipBtnFooter;
-        [self.chipInfoHeader _setUpChipHeaderWithType:2];
-        [self.chipBtnFooter _setUpFooterBtnWithType:2];
-    }else if (type==3) {
-        self.tableView.tableHeaderView = self.chipInfoHeader;
-        self.tableView.tableFooterView = self.customerFooter;
-        [self.chipInfoHeader _setUpChipHeaderWithType:3];
-        [self.customerFooter _setUpCustomerInfoWithType:3];
-    }else if (type==4){
-        self.tableView.tableHeaderView = self.chipInfoHeader;
-        self.tableView.tableFooterView = self.chipBtnFooter;
-        [self.chipInfoHeader _setUpChipHeaderWithType:4];
-        [self.chipBtnFooter _setUpFooterBtnWithType:4];
-    }else if (type==5){
-        self.tableView.tableHeaderView = self.chipInfoHeader;
-        self.tableView.tableFooterView = self.chipBtnFooter;
-        [self.chipInfoHeader _setUpChipHeaderWithType:5];
-        [self.chipBtnFooter _setUpFooterBtnWithType:5];
-    }else if (type==6){
-        self.tableView.tableHeaderView = self.chipInfoHeader;
-        self.tableView.tableFooterView = self.customerFooter;
-        [self.chipInfoHeader _setUpChipHeaderWithType:6];
-        [self.customerFooter _setUpCustomerInfoWithType:6];
+    if (![PublicHttpTool shareInstance].isBigPermissions) {
+        if (type==2) {
+            self.tableView.tableHeaderView = [UIView new];
+            self.tableView.tableFooterView = self.chipBtnFooter;
+            [self.chipInfoHeader _setUpChipHeaderWithType:2];
+            [self.chipBtnFooter _setUpFooterBtnWithType:2];
+        }else if (type==3) {
+            self.tableView.tableHeaderView = self.chipInfoHeader;
+            self.tableView.tableFooterView = self.customerFooter;
+            [self.chipInfoHeader _setUpChipHeaderWithType:3];
+            [self.customerFooter _setUpCustomerInfoWithType:3];
+        }else if (type==4){
+            self.tableView.tableHeaderView = self.chipInfoHeader;
+            self.tableView.tableFooterView = self.chipBtnFooter;
+            [self.chipInfoHeader _setUpChipHeaderWithType:4];
+            [self.chipBtnFooter _setUpFooterBtnWithType:4];
+        }else if (type==5){
+            self.tableView.tableHeaderView = self.chipInfoHeader;
+            self.tableView.tableFooterView = self.chipBtnFooter;
+            [self.chipInfoHeader _setUpChipHeaderWithType:5];
+            [self.chipBtnFooter _setUpFooterBtnWithType:5];
+        }else if (type==6){
+            self.tableView.tableHeaderView = self.chipInfoHeader;
+            self.tableView.tableFooterView = self.customerFooter;
+            [self.chipInfoHeader _setUpChipHeaderWithType:6];
+            [self.customerFooter _setUpCustomerInfoWithType:6];
+        }else if (type==7){
+            self.tableView.tableHeaderView = [UIView new];
+            self.tableView.tableFooterView = self.chipBtnFooter;
+            [self.chipBtnFooter _setUpFooterBtnWithType:7];
+        }else{
+            self.tableView.tableFooterView = [UIView new];
+            self.tableView.tableHeaderView = [UIView new];
+        }
     }else{
-        self.tableView.tableFooterView = [UIView new];
-        self.tableView.tableHeaderView = [UIView new];
+        self.tableView.tableHeaderView = self.chipInfoHeader;
+        self.tableView.tableFooterView = self.chipAddBtnFooter;
+        [self.chipInfoHeader _setUpChipHeaderWithType:11];
+        [self.chipAddBtnFooter _setUpFooterBtnWithType:type];
     }
     self.chipList = infoList;
     self.curType = type;
@@ -114,6 +134,10 @@
 
 - (void)fellHeaderInfoWithDict:(NSDictionary *)dict{
     [self.chipInfoHeader fellInfoWithDict:dict];
+}
+
+- (void)fellHeaderInfoWithBigAccountDict:(NSDictionary *)dict WithTag:(int)tag{
+    [self.chipInfoHeader fellInfoWithBigAccountDict:dict WithType:tag];
 }
 
 #pragma mark - Private Methods
@@ -138,6 +162,7 @@
                                  chipTypeList:self.chipInfoList];
     }else{
         NRCashExchangeTableViewCell *newCell = (NRCashExchangeTableViewCell *)cell;
+        DLOG(@"managerInfo.batch==%@",managerInfo.batch);
         [newCell configureWithBatchText:managerInfo.batch
                     SerialNumberText:managerInfo.serialNumber
                         ChipTypeText:managerInfo.chipType

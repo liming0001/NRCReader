@@ -31,6 +31,7 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 //当前台桌赔率
 @property (nonatomic, strong) NSArray *curXz_setting;
 
+@property (nonatomic, strong) NSArray *chipUIDList;//筹码uid
 @property (nonatomic, strong) NSArray *chipFmeList;//筹码面额
 @property (nonatomic, strong) NSArray *chipTypeList;//筹码类型
 @property (nonatomic, strong) NSArray *paramList;//统一参数
@@ -65,6 +66,7 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 
 //兑换类型
 @property (nonatomic, assign) int exchangeChipType;
+@property (nonatomic, assign) int operationType;
 //客人可取出金额
 @property (nonatomic, strong) NSString *customerTakeOutMoney;
 
@@ -81,6 +83,8 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 @property (nonatomic, assign) BOOL exchangeMoneyFirstStep;//换钱第一步
 @property (nonatomic, assign) BOOL exchangeMoneySecondStep;//换钱第二步
 @property (nonatomic, assign) BOOL detectionChip;//筹码识别
+
+@property (nonatomic, assign) BOOL isBigPermissions;//是否大账房权限
 
 @property (nonatomic, assign) BOOL isStoreOrTakeOutChip;//是否存入或者取出
 
@@ -151,9 +155,27 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 + (void)getInfoByXmh:(NSString *)washNumber WithBlock:(PublicHttpResponseBlock)block;
 #pragma mark - 修改露珠
 + (void)updateLuzhuInfoRecordWithBlock:(PublicHttpResponseBlock)block;
-
 #pragma mark -- 获取筹码面额
 + (void)getChipTypeWithBlock:(PublicHttpResponseBlock)block;
+
+#pragma mark - 开台列表
++ (void)queryKaitaiApplyListWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 台桌操作
++ (void)Table_operateChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 获取账房加减彩列表
++ (void)Customer_getapplyinfoWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 账房加减彩
++ (void)addOrMinusChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 获取台面减彩请求
++ (void)Table_getMinuschipdataWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 获取台面加彩请求
++ (void)Table_getaddchipdataWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark -- 台桌加减彩
++ (void)tableAddOrMinusChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark - 筹码详情
++ (void)queryTable_operate_detailWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
+#pragma mark - 柜台筹码详情
++ (void)account_operate_detailWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block;
 
 @end
 

@@ -49,8 +49,13 @@
         make.height.mas_offset(1);
     }];
     
-    NSArray *leftTitleItems = @[@"  筹码发行",@"  筹码检测",@"  筹码销毁",@"  筹码兑换",@"  小费结算",@"  存入筹码",@"  取出筹码",@"  设置功率"];
-    NSArray *leftImgItems = @[@"chipIssue_icon",@"chipCheck_icon",@"chip_descruct_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon"];
+    NSArray *leftTitleItems = @[@"  筹码发行",@"  筹码检测",@"  筹码销毁",@"  筹码兑换",@"  小费结算",@"  存入筹码",@"  取出筹码",@"  一键清除"];
+    NSArray *leftImgItems = @[@"chipIssue_icon",@"chipCheck_icon",@"chip_descruct_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon"];
+    if ([PublicHttpTool shareInstance].isBigPermissions) {//大账房
+        leftTitleItems = @[@"  开台申请",@"  柜台加彩",@"  柜台减彩",@"  台桌加彩",@"  台桌减彩"];
+        leftImgItems = @[@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon",@"chipExchange_icon"];
+    }
+    
     for (int i=0; i<leftTitleItems.count; i++) {
         UIButton *itemBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [itemBtn setTitle:leftTitleItems[i] forState:UIControlStateNormal];
@@ -64,7 +69,7 @@
         [itemBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.chipManagerlineView.mas_bottom).offset(i*90);
             make.left.equalTo(self);
-            make.height.mas_equalTo(90);
+            make.height.mas_equalTo(80);
             make.right.equalTo(self);
         }];
         if (i==0) {

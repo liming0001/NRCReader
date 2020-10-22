@@ -282,7 +282,7 @@ static PublicHttpTool * _instance = nil;
 
 #pragma mark - 提交开牌结果
 + (void)commitkpResultWithBlock:(PublicHttpResponseBlock)block{
-    
+    DLOG(@"=====%@,%@,%@,%@,%@",[PublicHttpTool shareInstance].access_token,[PublicHttpTool shareInstance].fid,[PublicHttpTool shareInstance].cp_Serialnumber,[PublicHttpTool shareInstance].curupdateInfo.cp_name,[PublicHttpTool shareInstance].cp_tableRijieDate);
     NSDictionary * param = @{
                              @"access_token":[PublicHttpTool shareInstance].access_token,
                              @"ftable_id":[PublicHttpTool shareInstance].fid,//桌子ID
@@ -505,7 +505,7 @@ NSDictionary * param = @{
     }
     NSDictionary * param = @{
                              @"access_token":[PublicHttpTool shareInstance].access_token,
-                             @"ftbrec_id":[PublicHttpTool shareInstance].fid,//桌子ID
+                             @"ftbrec_id":[PublicHttpTool shareInstance].cp_tableIDString,//桌子ID
                              @"fxmh":[PublicHttpTool shareInstance].curupdateInfo.cp_washNumber,//客人洗码号
                              @"fxz_cmtype":[PublicHttpTool shareInstance].curupdateInfo.cp_chipType,//客人下注的筹码类型
                              @"fxz_money":[PublicHttpTool shareInstance].curupdateInfo.cp_benjin,//客人下注的本金
@@ -545,7 +545,7 @@ NSDictionary * param = @{
     }
     NSDictionary * param = @{
                              @"access_token":[PublicHttpTool shareInstance].access_token,
-                             @"ftbrec_id":[PublicHttpTool shareInstance].fid,//桌子ID
+                             @"ftbrec_id":[PublicHttpTool shareInstance].cp_tableIDString,//桌子ID
                              @"fxmh_list":washNumberList,//客人洗码号
                              @"fxz_name":[PublicHttpTool shareInstance].curupdateInfo.cp_Result_name,//客人下注名称，如庄、闲、庄对子…
                              @"fbeishu":[PublicHttpTool shareInstance].curupdateInfo.cp_beishu,//倍数，如果杀注50%填0.5
@@ -598,6 +598,114 @@ NSDictionary * param = @{
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
                                  @"f":@"Cmtypeme_getAllMe",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark - 开台列表
++ (void)queryKaitaiApplyListWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_operate_list",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 台桌操作
++ (void)Table_operateChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Table_operate",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 获取账房加减彩列表
++ (void)Customer_getapplyinfoWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Customer_getapplyinfo",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 账房加减彩
++ (void)addOrMinusChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Customer_ensurecoins",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 台桌加减彩
++ (void)tableAddOrMinusChipWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Table_confirm",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 获取台面加彩请求
++ (void)Table_getaddchipdataWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Table_add_chip_data",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark -- 获取台面减彩请求
++ (void)Table_getMinuschipdataWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Table_less_chip_data",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark - 筹码详情
++ (void)queryTable_operate_detailWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Table_operate_detail",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
+#pragma mark - 柜台筹码详情
++ (void)account_operate_detailWithParams:(NSDictionary *)params Block:(PublicHttpResponseBlock)block{
+    NSArray *paramList = @[params];
+    NSDictionary * Realparam = @{
+                                 @"f":@"Customer_getapplyinfodetail",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {

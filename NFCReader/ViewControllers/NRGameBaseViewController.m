@@ -455,6 +455,8 @@ static int chipSleepTime = 150000;
     self.customerInfo = [[NRCustomerInfo alloc]init];
     [self fellCustomerInfo];
     self.customerInfo.chipType = @"01";
+    [PublicHttpTool shareInstance].curupdateInfo.cp_xueci = [NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].xueciCount];
+    [PublicHttpTool shareInstance].curupdateInfo.cp_puci = [NSString stringWithFormat:@"%d",[PublicHttpTool shareInstance].puciCount];
    
 }
 
@@ -570,7 +572,7 @@ static int chipSleepTime = 150000;
                         realResult = cp_result;
                         [PublicHttpTool shareInstance].hasNewGameEntry = YES;
                         [PublicHttpTool shareInstance].curupdateInfo.cp_name = cp_result;
-                        [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fqpid"]];
+                        [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fid"]];
                         [PublicHttpTool shareInstance].cp_Serialnumber = CurtableInfo[@"fpcls"];
                         if ([PublicHttpTool shareInstance].curGameType>3) {
                             [self.tableInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];
@@ -588,7 +590,7 @@ static int chipSleepTime = 150000;
                         realResult = cp_result;
                         [PublicHttpTool shareInstance].hasNewGameEntry = YES;
                         [PublicHttpTool shareInstance].curupdateInfo.cp_name = cp_result;
-                        [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fqpid"]];
+                        [PublicHttpTool shareInstance].cp_tableIDString = [NSString stringWithFormat:@"%@",CurtableInfo[@"fid"]];
                         [PublicHttpTool shareInstance].cp_Serialnumber = CurtableInfo[@"fpcls"];
                         if ([PublicHttpTool shareInstance].curGameType>3) {
                             [self.tableInfoView _setPlatFormBtnNormalStatusWithResult:cp_result];

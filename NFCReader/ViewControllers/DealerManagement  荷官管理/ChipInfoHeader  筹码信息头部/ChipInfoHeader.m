@@ -36,7 +36,7 @@
     self.exchangNumberLab.text = @"筹码数量:0枚";
     [self addSubview:self.exchangNumberLab];
     
-    self.exchangTotalMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangNumberLab.frame), 20, 200, 20)];
+    self.exchangTotalMoneyLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.exchangNumberLab.frame), 20, 400, 20)];
     self.exchangTotalMoneyLab.font = [UIFont fontWithName:@"PingFang SC" size:30];
     self.exchangTotalMoneyLab.textColor = [UIColor colorWithHexString:@"#ffffff"];
     self.exchangTotalMoneyLab.numberOfLines = 0;
@@ -71,6 +71,10 @@
         self.exchangMoneyLab.hidden = YES;
         self.takeOutChipMoneyValueLab.hidden = NO;
         self.takeOutChipMoneyLab.hidden = NO;
+    }else if (type>10){
+        self.takeOutChipMoneyLab.hidden = YES;
+        self.takeOutChipMoneyValueLab.hidden = YES;
+        self.exchangMoneyLab.hidden = YES;
     }else{
         self.exchangMoneyLab.hidden = NO;
         self.takeOutChipMoneyValueLab.hidden = YES;
@@ -87,6 +91,18 @@
 - (void)fellInfoWithDict:(NSDictionary *)dict{
     self.exchangNumberLab.text = dict[@"chipNumber"];
     self.exchangTotalMoneyLab.text = dict[@"chipTotalMoney"];
+}
+
+- (void)fellInfoWithBigAccountDict:(NSDictionary *)dict WithType:(int)type{
+    if (type==1||type==3) {
+        self.exchangTotalMoneyLab.text = [NSString stringWithFormat:@"当前加彩总金额：%@",dict[@"chipTotalValueMoney"]];
+    }else if (type==2||type==4){
+        self.exchangTotalMoneyLab.text = [NSString stringWithFormat:@"当前减彩总金额：%@",dict[@"chipTotalValueMoney"]];
+    }else{
+        
+    }self.exchangTotalMoneyLab.text = [NSString stringWithFormat:@"当前开台总金额：%@",dict[@"chipTotalValueMoney"]];
+    self.exchangNumberLab.text = dict[@"chipNumber"];
+    
 }
 
 @end

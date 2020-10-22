@@ -13,6 +13,7 @@
 #import "DealerManagementViewController.h"
 #import "BLEIToll.h"
 #import "NRUpdateInfo.h"
+#import "NRAddOrMinusChipViewController.h"
 
 @interface NRLoginViewController ()
 
@@ -202,8 +203,16 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[PublicHttpTool shareInstance]startPingTimer];
             });
-            if ([self.curLoginInfo.femp_role intValue]==1) {
-                [self managerLoginAction];
+            if ([self.curLoginInfo.femp_role intValue]==1||[self.curLoginInfo.femp_role intValue]==8) {
+                if ([self.curLoginInfo.femp_role intValue]==8) {
+                    [PublicHttpTool shareInstance].isBigPermissions = YES;
+                    NRAddOrMinusChipViewController *vc = [NRAddOrMinusChipViewController new];
+                    vc.curLoginInfo = self.curLoginInfo;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    [PublicHttpTool shareInstance].isBigPermissions = NO;
+                    [self managerLoginAction];
+                }
             }else{
                 [self tableChoose];
             }
@@ -220,6 +229,7 @@
 }
 
 - (void)managerLoginAction{
+    
     DealerManagementViewController *vc = [DealerManagementViewController new];
     vc.viewModel = [self.viewModel managerViewModelWithChipInfo:self.curLoginInfo];
     [self.navigationController pushViewController:vc animated:YES];

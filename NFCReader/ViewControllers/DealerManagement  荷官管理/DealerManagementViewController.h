@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NRDealerManagerViewModel,NRLoginInfo;
+@class NRDealerManagerViewModel;
 @interface DealerManagementViewController : NRBaseViewController
 @property (nonatomic, strong) NRDealerManagerViewModel *viewModel;
 

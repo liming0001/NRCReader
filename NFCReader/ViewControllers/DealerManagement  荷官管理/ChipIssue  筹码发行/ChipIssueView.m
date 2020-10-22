@@ -48,7 +48,9 @@
     self = [super initWithFrame:frame];
     self.chipInfoList = [NSMutableArray arrayWithCapacity:0];
     self.chooseChipInfoDict = [NSMutableDictionary dictionary];
-    [self _setUpBaseView];
+    if (![PublicHttpTool shareInstance].isBigPermissions) {
+        [self _setUpBaseView];
+    }
     return self;
 }
 
