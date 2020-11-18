@@ -772,20 +772,25 @@ static int chipSleepTime = 150000;
 - (void)logOutTableWithTag:(int)tag{
     [EPSound playWithSoundName:@"click_sound"];
     [self showWaitingView];
-    [PublicHttpTool otherTableWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
-        [self hideWaitingView];
-        if (success) {
-            //重新选桌要把开牌结果置空
-            [PublicHttpTool shareInstance].cp_tableIDString = @"";
-            if (tag==1) {
+    if (tag==1) {//换班
+        [PublicHttpTool changeOtherTableWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
+            [self hideWaitingView];
+            if (success) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }else{
-                [self.navigationController popViewControllerAnimated:YES];
+                [self showSoundMessage:msg];
             }
-        }else{
-            [self showSoundMessage:msg];
-        }
-    }];
+        }];
+    }else{
+        [PublicHttpTool otherTableWithBlock:^(BOOL success, id  _Nonnull data, NSString * _Nonnull msg) {
+            [self hideWaitingView];
+            if (success) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [self showSoundMessage:msg];
+            }
+        }];
+    }
 }
 
 #pragma mark -- 中英文切换

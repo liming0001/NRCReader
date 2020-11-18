@@ -164,6 +164,22 @@ static PublicHttpTool * _instance = nil;
     }
 }
 
+#pragma mark - 换班
++ (void)changeOtherTableWithBlock:(PublicHttpResponseBlock)block{
+    NSDictionary * param = @{
+                             @"access_token":[PublicHttpTool shareInstance].access_token,
+                             @"fid":[PublicHttpTool shareInstance].fid//桌子ID
+                             };
+    NSArray *paramList = @[param];
+    NSDictionary * Realparam = @{
+                                 @"f":@"table_hb",
+                                 @"p":[paramList JSONString]
+                                 };
+    [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {
+        block(suc, [NSDictionary changeType:responseDict],msg);
+    }];
+}
+
 #pragma mark - 换桌
 + (void)otherTableWithBlock:(PublicHttpResponseBlock)block{
     NSDictionary * param = @{
@@ -172,7 +188,7 @@ static PublicHttpTool * _instance = nil;
                              };
     NSArray *paramList = @[param];
     NSDictionary * Realparam = @{
-                                 @"f":@"Table_hbhz",
+                                 @"f":@"table_hz",
                                  @"p":[paramList JSONString]
                                  };
     [EPService nr_PublicWithParamter:Realparam block:^(NSDictionary *responseDict, NSString *msg, EPSreviceError error, BOOL suc) {

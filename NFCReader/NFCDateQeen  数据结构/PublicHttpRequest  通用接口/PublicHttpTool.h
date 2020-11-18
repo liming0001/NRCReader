@@ -113,6 +113,8 @@ typedef void(^PublicHttpResponseBlock)(BOOL success,id data,NSString *msg);
 - (void)startPingTimer;
 - (void)stopPingTimer;
 
+#pragma mark - 换班
++ (void)changeOtherTableWithBlock:(PublicHttpResponseBlock)block;
 #pragma mark - 换桌
 + (void)otherTableWithBlock:(PublicHttpResponseBlock)block;
 #pragma mark - 获取当前台桌状态

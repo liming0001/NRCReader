@@ -64,8 +64,8 @@
 #define kBaseURL @"http://192.168.1.120/api/service/index.html"
 #define kHTTPCookieDomain @"192.168.1.120"
 
-//#define kBaseURL @"http://www.vm.com/api/service/index.html"
-//#define kHTTPCookieDomain @"www.vm.com"
+//#define kBaseURL @"http://auto.feeefooo.com/api/service/index.html"
+//#define kHTTPCookieDomain @"auto.feeefooo.com"
 
 
 typedef void(^EPFeedbackBlock)(BOOL success);
